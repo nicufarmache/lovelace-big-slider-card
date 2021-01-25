@@ -13,7 +13,6 @@ import {
 import {
   HomeAssistant,
   hasConfigOrEntityChanged,
-  forwardHaptic,
   handleClick,
   LovelaceCardEditor,
   getLovelace,
@@ -21,12 +20,14 @@ import {
 } from 'custom-card-helpers'; // This is a community maintained npm module with common helper functions/types
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import * as Gestures from '@polymer/polymer/lib/utils/gestures.js';
+import throttle from './throttle';
 
 import './editor';
 
 import type { BigSliderCardConfig, MousePos } from './types';
 import { CARD_VERSION } from './const';
 import { localize } from './localize/localize';
+
 
 /* eslint no-console: 0 */
 console.info(
@@ -53,6 +54,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
   holdTimer: number;
   isHold: boolean
   stateObj: any | null;
+  _setValueThrottled: Function;
 
   public static async getConfigElement(): Promise<LovelaceCardEditor> {
     return document.createElement('big-slider-card-editor');
@@ -77,6 +79,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     this.stateObj = null;
     this.isHold = false;
     this.holdTimer = 0;
+    this._setValueThrottled = throttle(this._setValue.bind(this), 200);
   }
 
   connectedCallback(): void {
@@ -86,6 +89,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     Gestures.addListener(this, 'up', this._handleUp.bind(this));
     Gestures.addListener(this, 'tap', this._handleTap.bind(this));
     Gestures.addListener(this, 'track', this._handleTrack.bind(this));
+    this.addEventListener('contextmenu', this._handleContextMenu.bind(this));
   }
 
   disconnectedCallback(): void {
@@ -93,19 +97,33 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     Gestures.removeListener(this, 'up', this._handleUp.bind(this));
     Gestures.removeListener(this, 'tap', this._handleTap.bind(this));
     Gestures.removeListener(this, 'track', this._handleTrack.bind(this));
+    this.removeEventListener('contextmenu', this._handleContextMenu.bind(this));
     super.disconnectedCallback();
+  }
+
+  _handleContextMenu(ev: Event): boolean {
+    const e = ev || window.event;
+    if (e.preventDefault) {
+      e.preventDefault();
+    }
+    if (e.stopPropagation) {
+      e.stopPropagation();
+    }
+    e.cancelBubble = true;
+    e.returnValue = false;
+    return false;
   }
 
   _handleDown(): void {
     this._press();
     this.isHold = false;
-    this.holdTimer = window.setTimeout(this._setHold.bind(this), this.config?.hold_time || 500);
+    this.holdTimer = window.setTimeout(this._setHold.bind(this), this.config?.hold_time || 600);
   }
 
   _setHold(): void {
     this.isHold = true;
-    forwardHaptic('light');
-    console.log('held');
+    console.log('held!');
+    handleClick(this, this.hass, this.config, true, false);
   }
 
   _handleUp(): void {
@@ -116,7 +134,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     clearTimeout(this.holdTimer);
     if (this.config?.tap_action) {
       if (this.isHold) {
-        handleClick(this, this.hass, this.config, true, false);
+        // handleClick(this, this.hass, this.config, true, false);
       } else {
         handleClick(this, this.hass, this.config, false, false);
       }
@@ -125,6 +143,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
 
   _handleTrack(e): void {
     this.mousePos = { x: e.detail.x, y: e.detail.y };
+    clearTimeout(this.holdTimer);
 
     switch(e.detail.state) {
       case 'start':
@@ -147,11 +166,13 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
 
   _track(): void {
     this._updateValue();
+    this._setValueThrottled();
   }
 
   _endTrack(): void {
     this._updateValue();
     this._unpress();
+    this._setValue();
   }
 
   _press(): void {
@@ -164,7 +185,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
 
   _updateValue(): void {
     const width = this.containerWidth;
-    const x = this.mouseStartPos.x - this.mousePos.x;
+    const x = this.mousePos.x - this.mouseStartPos.x;
 
     const percentage = Math.round( 100 * x / width );
 
@@ -185,11 +206,95 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
   }
 
   _updateSlider(): void {
-    this.style.setProperty('--bsc-percent', ( 100 - this.currentValue ) + "%");
+    this.style.setProperty('--bsc-percent', this.currentValue + '%');
+  }
+
+  _getValue(): void {
+    if (!this.stateObj) return;
+
+    const attr = this.config?.attribute || 'brightness';
+    //let on = true;
+    let _value;
+
+    if (this.stateObj.state == 'off') {
+      _value = 0
+    } else {
+      switch (attr) {
+        case 'brightness':
+          _value = Math.ceil(100 * this.stateObj.attributes.brightness/255)
+          break;
+        case 'red':
+        case 'green':
+        case 'blue':
+          const rgb = this.stateObj.attributes.rgb_color || [0,0,0];
+          if (attr === 'red') _value = rgb[0];
+          if (attr === 'green') _value = rgb[1];
+          if (attr === 'blue') _value = rgb[2];
+          _value = Math.ceil(100 * _value / 255);
+          break;
+        case 'hue':
+        case 'saturation':
+          const hs = this.stateObj.attributes.hs_color || [0,0];
+          if (attr === 'hue') _value = hs[0];
+          if (attr === 'saturation') _value = hs[1];
+          break;
+      }
+    }
+
+    console.log('get ' + _value);
+    this.currentValue = _value;
+    this._updateSlider();
+  }
+
+  _setValue(): void {
+
+    let value = this.currentValue;
+    console.log('set ' + value);
+    let attr = this.config?.attribute || 'brightness';
+    let on = true;
+    let _value;
+    switch (attr) {
+      case 'brightness':
+        value = Math.ceil(value/100.0*255);
+        if (!value) on = false;
+        break;
+      case 'red':
+      case 'green':
+      case 'blue':
+        _value = this.stateObj.attributes.rgb_color || [0,0,0];
+        if (attr === 'red') _value[0] = value;
+        if (attr === 'green') _value[1] = value;
+        if (attr === 'blue') _value[2] = value;
+        value = _value;
+        attr = 'rgb_color';
+        break;
+      case 'hue':
+      case 'saturation':
+        _value = this.stateObj.attributes.hs_color || [0,0];
+        if (attr === 'hue') _value[0] = value;
+        if (attr === 'saturation') _value[1] = value;
+        value = _value;
+        attr = 'hs_color';
+        break;
+    }
+
+    if (on) {
+      this.hass.callService("light", "turn_on", {
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        entity_id: this.stateObj.entity_id,
+        [attr]: value,
+      });
+    } else {
+      this.hass.callService("light", "turn_off", {
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        entity_id: this.stateObj.entity_id,
+      });
+    }
   }
 
   protected updated(): void {
     this.containerWidth = this.shadowRoot?.getElementById('container')?.clientWidth || 0;
+    this._getValue();
   }
 
   // https://lit-element.polymer-project.org/guide/properties#accessors-custom
@@ -238,7 +343,6 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
       <ha-card
         id="container"
         tabindex="0"
-        .label=${`BigSlider: ${this.config.entity || 'No Entity Defined'}`}
         >
         <div id="slider" ></div>
         <div id="content">
