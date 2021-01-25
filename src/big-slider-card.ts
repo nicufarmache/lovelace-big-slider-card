@@ -147,7 +147,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
 
   _updateValue(): void {
     const width = this.containerWidth;
-    const x = this.mousePos.x - this.mouseStartPos.x;
+    const x = this.mouseStartPos.x - this.mousePos.x;
 
     const percentage = Math.round( 100 * x / width );
 
@@ -215,7 +215,6 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     return html`
       <ha-card
         id="container"
-        .header=${this.config.name}
         @action=${this._handleAction}
         .actionHandler=${actionHandler({
           hasHold: hasAction(this.config.hold_action),
@@ -226,7 +225,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
         >
         <div id="slider" ></div>
         <div id="content">
-          <p>Hello World</p>
+          <p>${this.config.name}</p>
         </div>
       </ha-card>
     `;
@@ -277,7 +276,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
       }
 
       #container {
-        height: 100%;
+        height: 60px;
         width: 100%;
         position: relative;
         border-radius: 5px;
@@ -291,7 +290,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
         background: var(--bsc-slider-background);
         left: 0;
         top: 0;
-        right: var(--bsc-percent);
+        right: calc(100% - var(--bsc-percent));
       }
 
       #content {

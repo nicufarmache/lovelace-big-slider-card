@@ -114,7 +114,7 @@ export class BigSliderCardEditor extends LitElement implements LovelaceCardEdito
     this._helpers.importMoreInfoControl('climate');
 
     // You can restrict on domain type
-    const entities = Object.keys(this.hass.states).filter(eid => eid.substr(0, eid.indexOf('.')) === 'sun');
+    const entities = Object.keys(this.hass.states).filter(eid => eid.substr(0, eid.indexOf('.')) === 'light');
 
     return html`
       <div class="card-config">
