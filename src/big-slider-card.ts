@@ -101,6 +101,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
 
   _handleTap(): void {
     console.log('tap');
+    console.log(this);
     if (this.config?.tap_action) {
       handleAction(this, this.hass, this.config, this.config.tap_action.action);
     }
@@ -216,8 +217,6 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     const name = this.stateObj.attributes && this.stateObj.attributes.friendly_name
           ? this.stateObj.attributes.friendly_name
           : computeEntity(this.stateObj.entity_id);
-
-    console.log(this);
 
     return html`
       <ha-card
