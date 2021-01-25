@@ -14,7 +14,7 @@ import {
   HomeAssistant,
   hasConfigOrEntityChanged,
   forwardHaptic,
-  handleAction,
+  handleClick,
   LovelaceCardEditor,
   getLovelace,
   computeEntity,
@@ -114,10 +114,12 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
 
   _handleTap(): void {
     clearTimeout(this.holdTimer);
-    const event = this.isHold ? 'tap_hold' : 'tap';
-    console.log(event);
     if (this.config?.tap_action) {
-      handleAction(this, this.hass, this.config, event);
+      if (this.isHold) {
+        handleClick(this, this.hass, this.config, true, false);
+      } else {
+        handleClick(this, this.hass, this.config, false, false);
+      }
     }
   }
 
