@@ -105,6 +105,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
   _setHold(): void {
     this.isHold = true;
     fireEvent(this, 'action', {action: 'hold'});
+    console.log('held');
   }
 
   _handleUp(): void {
