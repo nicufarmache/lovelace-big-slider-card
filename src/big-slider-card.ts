@@ -49,6 +49,8 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
   containerWidth: number;
   oldValue: number;
   currentValue: number;
+  holdTimer: number;
+  isHold: boolean
   stateObj: any | null;
 
   public static async getConfigElement(): Promise<LovelaceCardEditor> {
@@ -72,6 +74,8 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     this.oldValue = 0;
     this.currentValue = 30;
     this.stateObj = null;
+    this.isHold = false;
+    this.holdTimer = 0;
   }
 
   connectedCallback(): void {
@@ -93,6 +97,12 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
 
   _handleDown(): void {
     this._press();
+    this.isHold = false;
+    this.holdTimer = window.setTimeout(this._setHold.bind(this), 400);
+  }
+
+  _setHold(): void {
+    this.isHold = true;
   }
 
   _handleUp(): void {
@@ -100,9 +110,11 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
   }
 
   _handleTap(): void {
-    console.log('tap');
+    clearTimeout(this.holdTimer);
+    const event = this.isHold ? 'tap_hold' : 'tap';
+    console.log(event);
     if (this.config?.tap_action) {
-      handleAction(this, this.hass, this.config, 'tap');
+      handleAction(this, this.hass, this.config, event);
     }
   }
 
