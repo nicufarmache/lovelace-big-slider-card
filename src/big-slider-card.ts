@@ -16,6 +16,7 @@ import {
   handleAction,
   LovelaceCardEditor,
   getLovelace,
+  computeEntity,
 } from 'custom-card-helpers'; // This is a community maintained npm module with common helper functions/types
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import * as Gestures from '@polymer/polymer/lib/utils/gestures.js';
@@ -48,6 +49,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
   containerWidth: number;
   oldValue: number;
   currentValue: number;
+  stateObj: any | null;
 
   public static async getConfigElement(): Promise<LovelaceCardEditor> {
     return document.createElement('big-slider-card-editor');
@@ -69,6 +71,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     this.containerWidth = 0;
     this.oldValue = 0;
     this.currentValue = 30;
+    this.stateObj = null;
   }
 
   connectedCallback(): void {
@@ -200,14 +203,19 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
 
   // https://lit-element.polymer-project.org/guide/templates
   protected render(): TemplateResult | void {
-    // TODO Check for stateObj or other necessary things and render a warning if missing
-    if (this.config.show_warning) {
-      return this._showWarning(localize('common.show_warning'));
+    if (this.config?.entity && this.config?.entity in this.hass.states) {
+      this.stateObj = this.hass.states[this.config.entity];
+    } else {
+      this.stateObj = null;
     }
 
-    if (this.config.show_error) {
+    if (this.stateObj == null) {
       return this._showError(localize('common.show_error'));
     }
+
+    const name = this.stateObj.attributes && this.stateObj.attributes.friendly_name
+          ? this.stateObj.attributes.friendly_name
+          : computeEntity(this.stateObj.entity_id);
 
     return html`
       <ha-card
@@ -217,7 +225,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
         >
         <div id="slider" ></div>
         <div id="content">
-          <p>${this.config.entity}</p>
+          <p>${name}</p>
         </div>
       </ha-card>
     `;
