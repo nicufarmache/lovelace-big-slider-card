@@ -17,6 +17,7 @@ import {
   LovelaceCardEditor,
   getLovelace,
   computeEntity,
+  fireEvent,
 } from 'custom-card-helpers'; // This is a community maintained npm module with common helper functions/types
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import * as Gestures from '@polymer/polymer/lib/utils/gestures.js';
@@ -98,11 +99,12 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
   _handleDown(): void {
     this._press();
     this.isHold = false;
-    this.holdTimer = window.setTimeout(this._setHold.bind(this), 400);
+    this.holdTimer = window.setTimeout(this._setHold.bind(this), this.config?.hold_time || 500);
   }
 
   _setHold(): void {
     this.isHold = true;
+    fireEvent(this, 'haptic', 'light');
   }
 
   _handleUp(): void {
