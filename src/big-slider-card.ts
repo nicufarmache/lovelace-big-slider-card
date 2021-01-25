@@ -72,6 +72,10 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     this.containerWidth = 0;
     this.oldValue = 0;
     this.currentValue = 30;
+  }
+
+  connectedCallback(): void {
+    super.connectedCallback();
     this._updateSlider();
     Gestures.addListener(this, 'down', this._handleDown.bind(this));
     Gestures.addListener(this, 'up', this._handleUp.bind(this));
@@ -79,20 +83,28 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     Gestures.addListener(this, 'track', this._handleTrack.bind(this));
   }
 
-  _handleDown() {
+  disconnectedCallback(): void {
+    Gestures.removeListener(this, 'down', this._handleDown.bind(this));
+    Gestures.removeListener(this, 'up', this._handleUp.bind(this));
+    Gestures.removeListener(this, 'tap', this._handleTap.bind(this));
+    Gestures.removeListener(this, 'track', this._handleTrack.bind(this));
+    super.disconnectedCallback();
+  }
+
+  _handleDown(): void {
     this._press();
   }
 
-  _handleUp() {
+  _handleUp(): void {
     this._unpress();
   }
 
-  _handleTap() {
+  _handleTap(): void {
     console.log('tap');
     window.navigator.vibrate(40);
   }
 
-  _handleTrack(e) {
+  _handleTrack(e): void {
     this.mousePos = { x: e.detail.x, y: e.detail.y };
 
     switch(e.detail.state) {
@@ -108,43 +120,43 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     }
   }
 
-  _startTrack() {
+  _startTrack(): void {
     this.mouseStartPos = { x: this.mousePos.x, y: this.mousePos.y };
     this.oldValue = this.currentValue;
     this._press();
   }
 
-  _track() {
+  _track(): void {
     this._updateValue();
   }
 
-  _endTrack() {
+  _endTrack(): void {
     this._updateValue();
     this._unpress();
   }
 
-  _press() {
+  _press(): void {
     this.setAttribute('pressed', '');
     window.navigator.vibrate(20);
   }
 
-  _unpress() {
+  _unpress(): void {
     this.removeAttribute('pressed');
     window.navigator.vibrate(20);
   }
 
-  _updateValue() {
+  _updateValue(): void {
     const width = this.containerWidth;
     const x = this.mousePos.x - this.mouseStartPos.x;
 
-    const percentage = Math.round( 100 * x / this.containerWidth );
+    const percentage = Math.round( 100 * x / width );
 
     this.currentValue = this.oldValue + percentage;
     this._checklimits();
     this._updateSlider();
   }
 
-  _checklimits() {
+  _checklimits(): void {
     if (this.currentValue < 0){
       this.currentValue = 0;
       this._startTrack();
@@ -155,11 +167,11 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     }
   }
 
-  _updateSlider() {
+  _updateSlider(): void {
     this.style.setProperty('--bsc-percent', ( 100 - this.currentValue ) + "%");
   }
 
-  protected updated() {
+  protected updated(): void {
     this.containerWidth = this.shadowRoot?.getElementById('container')?.clientWidth || 0;
   }
 
