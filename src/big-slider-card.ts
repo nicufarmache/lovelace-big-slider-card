@@ -13,8 +13,6 @@ import {
 import {
   HomeAssistant,
   hasConfigOrEntityChanged,
-  hasAction,
-  ActionHandlerEvent,
   handleAction,
   LovelaceCardEditor,
   getLovelace,
@@ -25,7 +23,6 @@ import * as Gestures from '@polymer/polymer/lib/utils/gestures.js';
 import './editor';
 
 import type { BigSliderCardConfig, MousePos } from './types';
-import { actionHandler } from './action-handler-directive';
 import { CARD_VERSION } from './const';
 import { localize } from './localize/localize';
 
@@ -101,7 +98,9 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
 
   _handleTap(): void {
     console.log('tap');
-    window.navigator.vibrate(40);
+    if (this.config?.tap_action) {
+      handleAction(this, this.hass, this.config, this.config.tap_action.action);
+    }
   }
 
   _handleTrack(e): void {
@@ -137,12 +136,10 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
 
   _press(): void {
     this.setAttribute('pressed', '');
-    window.navigator.vibrate(20);
   }
 
   _unpress(): void {
     this.removeAttribute('pressed');
-    window.navigator.vibrate(20);
   }
 
   _updateValue(): void {
@@ -215,26 +212,15 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     return html`
       <ha-card
         id="container"
-        @action=${this._handleAction}
-        .actionHandler=${actionHandler({
-          hasHold: hasAction(this.config.hold_action),
-          hasDoubleClick: hasAction(this.config.double_tap_action),
-        })}
         tabindex="0"
         .label=${`BigSlider: ${this.config.entity || 'No Entity Defined'}`}
         >
         <div id="slider" ></div>
         <div id="content">
-          <p>${this.config.name}</p>
+          <p>${this.config.entity}</p>
         </div>
       </ha-card>
     `;
-  }
-
-  private _handleAction(ev: ActionHandlerEvent): void {
-    if (this.hass && this.config && ev.detail.action) {
-      handleAction(this, this.hass, this.config, ev.detail.action);
-    }
   }
 
   private _showWarning(warning: string): TemplateResult {
