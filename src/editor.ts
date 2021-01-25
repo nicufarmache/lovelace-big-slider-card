@@ -94,7 +94,7 @@ export class BigSliderCardEditor extends LitElement implements LovelaceCardEdito
   }
 
   get _tap_action(): ActionConfig {
-    return this._config?.tap_action || { action: 'more-info' };
+    return this._config?.tap_action || { action: 'toggle' };
   }
 
   get _hold_action(): ActionConfig {
