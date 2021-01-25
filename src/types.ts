@@ -2,13 +2,16 @@ import { ActionConfig, LovelaceCard, LovelaceCardConfig, LovelaceCardEditor } fr
 
 declare global {
   interface HTMLElementTagNameMap {
-    'boilerplate-card-editor': LovelaceCardEditor;
+    'big-slider-card-editor': LovelaceCardEditor;
     'hui-error-card': LovelaceCard;
   }
 }
 
-// TODO Add your configuration elements here for type-checking
-export interface BoilerplateCardConfig extends LovelaceCardConfig {
+export interface MousePos {
+  x: number;
+  y: number;
+}
+export interface BigSliderCardConfig extends LovelaceCardConfig {
   type: string;
   name?: string;
   show_warning?: boolean;
