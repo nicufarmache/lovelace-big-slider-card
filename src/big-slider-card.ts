@@ -217,6 +217,8 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
           ? this.stateObj.attributes.friendly_name
           : computeEntity(this.stateObj.entity_id);
 
+    console.log(this);
+
     return html`
       <ha-card
         id="container"
