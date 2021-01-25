@@ -284,6 +284,10 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
         background: var(--bsc-background);
       }
 
+      #container:focus {
+        outline: 0;
+      }
+
       #slider {
         height: 100%;
         position: absolute;

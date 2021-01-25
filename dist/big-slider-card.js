@@ -445,6 +445,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         background: var(--bsc-background);
       }
 
+      #container:focus {
+        outline: 0;
+      }
+
       #slider {
         height: 100%;
         position: absolute;
