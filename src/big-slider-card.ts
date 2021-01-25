@@ -246,13 +246,11 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
   static get styles(): CSSResult {
     return css`
       :host {
-        --bsc-background: #aaaaaa;
-        --bsc-slider-background: #f9d2b0;
+        --bsc-background: var(--card-background-color, #aaaaaa);
+        --bsc-slider-background: var(--paper-slider-active-color, #f9d2b0);
         --bsc-percent: 0%;
 
         display: flex;
-        width: 100%;
-        height: 100%;
         transition: transform 0.1s ease-out;
         user-select: none;
       }
@@ -263,11 +261,10 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
 
       #container {
         height: 60px;
-        width: 100%;
         position: relative;
-        border-radius: 5px;
+        border-radius: var(--ha-card-border-radius);
         overflow: hidden;
-        background: var(--bsc-background);
+        background: var(--card-background-color);
       }
 
       #container:focus {
@@ -278,6 +275,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
         height: 100%;
         position: absolute;
         background: var(--bsc-slider-background);
+        opacity: 0.5;
         left: 0;
         top: 0;
         right: calc(100% - var(--bsc-percent));
