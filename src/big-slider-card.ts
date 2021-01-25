@@ -101,9 +101,8 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
 
   _handleTap(): void {
     console.log('tap');
-    console.log(this);
     if (this.config?.tap_action) {
-      handleAction(this, this.hass, this.config, this.config.tap_action.action);
+      handleAction(this, this.hass, this.config, 'tap');
     }
   }
 
