@@ -212,7 +212,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     if (this.stateObj == null) {
       return this._showError(localize('common.show_error'));
     }
-console.log(this)
+
     const name = this.stateObj.attributes && this.stateObj.attributes.friendly_name
           ? this.stateObj.attributes.friendly_name
           : computeEntity(this.stateObj.entity_id);
