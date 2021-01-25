@@ -423,6 +423,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         --bsc-slider-background: var(--paper-slider-active-color, #f9d2b0);
         --bsc-percent: 0%;
 
+        display: flex;
         transition: transform 0.1s ease-out;
         user-select: none;
       }
@@ -433,6 +434,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       #container {
         height: 60px;
+        width: 100%;
         position: relative;
         border-radius: var(--ha-card-border-radius);
         overflow: hidden;

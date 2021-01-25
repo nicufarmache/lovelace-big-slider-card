@@ -250,6 +250,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
         --bsc-slider-background: var(--paper-slider-active-color, #f9d2b0);
         --bsc-percent: 0%;
 
+        display: flex;
         transition: transform 0.1s ease-out;
         user-select: none;
       }
@@ -260,6 +261,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
 
       #container {
         height: 60px;
+        width: 100%;
         position: relative;
         border-radius: var(--ha-card-border-radius);
         overflow: hidden;
