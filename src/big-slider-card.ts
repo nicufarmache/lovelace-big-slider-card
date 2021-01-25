@@ -13,11 +13,11 @@ import {
 import {
   HomeAssistant,
   hasConfigOrEntityChanged,
+  forwardHaptic,
   handleAction,
   LovelaceCardEditor,
   getLovelace,
   computeEntity,
-  fireEvent,
 } from 'custom-card-helpers'; // This is a community maintained npm module with common helper functions/types
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import * as Gestures from '@polymer/polymer/lib/utils/gestures.js';
@@ -104,7 +104,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
 
   _setHold(): void {
     this.isHold = true;
-    fireEvent(this, 'action', {action: 'hold'});
+    forwardHaptic('light');
     console.log('held');
   }
 
