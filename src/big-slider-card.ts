@@ -28,7 +28,7 @@ import { throttle } from './helpers';
 import './editor';
 
 import type { BigSliderCardConfig, MousePos } from './types';
-import { CARD_VERSION } from './const';
+import { CARD_VERSION, DEFAULT_ATTRIBUTE } from './const';
 import { localize } from './localize/localize';
 
 
@@ -129,7 +129,6 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
 
   _setHold(): void {
     this.isHold = true;
-    console.log('held!');
     handleClick(this, this.hass, this.config, true, false);
   }
 
@@ -249,7 +248,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     if (!this._shouldUpdate) return;
     if (!this.stateObj) return;
 
-    const attr = this.config?.attribute || 'brightness';
+    const attr = this.config?.attribute || DEFAULT_ATTRIBUTE;
     //let on = true;
     let _value;
 
@@ -278,7 +277,6 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
       }
     }
 
-    console.log('get ' + _value);
     this.currentValue = _value;
     this._updateSlider();
   }
@@ -286,8 +284,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
   _setValue(): void {
 
     let value = this.currentValue;
-    console.log('set ' + value);
-    let attr = this.config?.attribute || 'brightness';
+    let attr = this.config.attribute || DEFAULT_ATTRIBUTE;
     let on = true;
     let _value;
     switch (attr) {
@@ -341,7 +338,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     }
 
     this.config = {
-      name: 'Big Slider',
+      attribute: DEFAULT_ATTRIBUTE,
       ...config,
     };
   }
@@ -349,13 +346,11 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
   _stopUpdates(): void {
     this._shouldUpdate = false;
     this.shadowRoot?.getElementById('slider')?.classList?.remove('animate')
-    console.log(`Should Update: ${this._shouldUpdate}`)
   }
 
   _startUpdates(): void {
     this._shouldUpdate = true;
     this.shadowRoot?.getElementById('slider')?.classList?.add('animate')
-    console.log(`Should Update: ${this._shouldUpdate}`)
     this.requestUpdate();
   }
 
@@ -389,8 +384,6 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
 
     const icon = stateIcon(this.stateObj);
 
-    console.log(`Render!`)
-
     return html`
       <ha-card
         id="container"
@@ -399,7 +392,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
         <div id="slider" class="animate"></div>
         <ha-icon .icon="${icon}" id="icon"></ha-icon>
         <div id="content">
-          <p>${name}</p>
+          <p>${this.config.name || name}</p>
         </div>
       </ha-card>
     `;
