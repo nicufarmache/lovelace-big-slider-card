@@ -482,7 +482,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        padding: 0px 0px 0px 72px;
+        padding: 0 24px 0 72px;
         box-sizing: border-box;
       }
     `}};t([G({attribute:!1})],Ye.prototype,"hass",void 0),t([Z()],Ye.prototype,"config",void 0),Ye=t([J("big-slider-card")],Ye);export{Ye as BigSliderCard};
