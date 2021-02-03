@@ -155,9 +155,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
   _handleTap(): void {
     clearTimeout(this.holdTimer);
     if (this.config?.tap_action) {
-      if (this.isHold) {
-        // handleClick(this, this.hass, this.config, true, false);
-      } else {
+      if (!this.isHold) {
         handleClick(this, this.hass, this.config, false, false);
       }
     }
@@ -359,6 +357,10 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
 
     this.config = {
       attribute: DEFAULT_ATTRIBUTE,
+      tap_action: { // eslint-disable-line @typescript-eslint/camelcase
+        action: 'toggle',
+        haptic: 'light',
+      },
       ...config,
     };
   }
