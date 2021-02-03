@@ -112,7 +112,16 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     super.disconnectedCallback();
   }
 
+  _log(text): void{
+    console.log(
+      `%c  BIG-SLIDER-CARD ${this._getName()} %c ${text} `,
+      'color: orange; font-weight: bold; background: black',
+      '',
+    );
+  }
+
   _handleContextMenu(ev: Event): boolean {
+    this._log('_handleContextMenu');
     const e = ev || window.event;
     if (e.preventDefault) {
       e.preventDefault();
@@ -126,21 +135,25 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
   }
 
   _handleDown(): void {
+    this._log('_handleDown');
     this._press();
     this.isHold = false;
     this.holdTimer = window.setTimeout(this._setHold.bind(this), this.config?.hold_time || 600);
   }
 
   _setHold(): void {
+    this._log('_setHold');
     this.isHold = true;
     handleClick(this, this.hass, this.config, true, false);
   }
 
   _handleUp(): void {
+    this._log('_handleUp');
     this._unpress();
   }
 
   _handleTap(): void {
+    this._log('_handleTap');
     clearTimeout(this.holdTimer);
     if (this.config?.tap_action) {
       if (this.isHold) {
@@ -173,6 +186,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     this.oldValue = this.currentValue;
     this._press();
     this._stopUpdates()
+    if(this.updateTimeout) clearTimeout(this.updateTimeout)
   }
 
   _track(): void {
@@ -323,7 +337,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     }
 
     if (on) {
-      console.log(`${this.stateObj.attributes.friendly_name} set: ${value}`);
+      this._log(`Set ${attr}: ${value}`);
       params[attr] = value;
       if (this.config.transition) {
         params.transition = this.config.transition;
@@ -386,9 +400,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
       return this._showError(localize('common.show_error'));
     }
 
-    const name = this.stateObj.attributes && this.stateObj.attributes.friendly_name
-          ? this.stateObj.attributes.friendly_name
-      : computeEntity(this.stateObj.entity_id);
+    const name = this._getName();
 
     const icon = stateIcon(this.stateObj);
 
@@ -404,6 +416,14 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
         </div>
       </ha-card>
     `;
+  }
+
+  _getName(): string {
+    if (this.stateObj?.attributes?.friendly_name) {
+      return this.stateObj.attributes.friendly_name
+    } else {
+      return computeEntity(this.stateObj.entity_id);
+    }
   }
 
   private _showWarning(warning: string): TemplateResult {
