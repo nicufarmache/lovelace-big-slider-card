@@ -91,24 +91,28 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     this._shouldUpdate = true;
     this.updateTimeout = 0;
     this._setValueThrottled = throttle(this._setValue.bind(this), 200);
+    this._handleDown = this._handleDown.bind(this);
+    this._handleUp = this._handleUp.bind(this);
+    this._handleTap = this._handleTap.bind(this);
+    this._handleTrack = this._handleTrack.bind(this);
+    this._handleContextMenu = this._handleContextMenu.bind(this);
   }
 
   connectedCallback(): void {
     super.connectedCallback();
-    this._updateSlider();
-    Gestures.addListener(this, 'down', this._handleDown.bind(this));
-    Gestures.addListener(this, 'up', this._handleUp.bind(this));
-    Gestures.addListener(this, 'tap', this._handleTap.bind(this));
-    Gestures.addListener(this, 'track', this._handleTrack.bind(this));
-    this.addEventListener('contextmenu', this._handleContextMenu.bind(this));
+    Gestures.addListener(this, 'down', this._handleDown);
+    Gestures.addListener(this, 'up', this._handleUp);
+    Gestures.addListener(this, 'tap', this._handleTap);
+    Gestures.addListener(this, 'track', this._handleTrack);
+    this.addEventListener('contextmenu', this._handleContextMenu);
   }
 
   disconnectedCallback(): void {
-    Gestures.removeListener(this, 'down', this._handleDown.bind(this));
-    Gestures.removeListener(this, 'up', this._handleUp.bind(this));
-    Gestures.removeListener(this, 'tap', this._handleTap.bind(this));
-    Gestures.removeListener(this, 'track', this._handleTrack.bind(this));
-    this.removeEventListener('contextmenu', this._handleContextMenu.bind(this));
+    Gestures.removeListener(this, 'down', this._handleDown);
+    Gestures.removeListener(this, 'up', this._handleUp);
+    Gestures.removeListener(this, 'tap', this._handleTap);
+    Gestures.removeListener(this, 'track', this._handleTrack);
+    this.removeEventListener('contextmenu', this._handleContextMenu);
     super.disconnectedCallback();
   }
 
@@ -121,7 +125,6 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
   }
 
   _handleContextMenu(ev: Event): boolean {
-    this._log('_handleContextMenu');
     const e = ev || window.event;
     if (e.preventDefault) {
       e.preventDefault();
@@ -421,8 +424,10 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
   _getName(): string {
     if (this.stateObj?.attributes?.friendly_name) {
       return this.stateObj.attributes.friendly_name
-    } else {
+    } else if (this.stateObj?.entity_id) {
       return computeEntity(this.stateObj.entity_id);
+    } else {
+      return '???';
     }
   }
 
