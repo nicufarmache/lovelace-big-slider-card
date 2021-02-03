@@ -10,6 +10,7 @@ Big slider card inspired by the google home app cards
 | name              | string | **Optional** | Card name                    | entity name         |
 | entity            | string | **Optional** | Home Assistant entity ID.    | `none`              |
 | attribute         | string | **Optional** | Attribute to control         | `brightness`        |
+| transition        | number | **Optional** | Transition time              | not used if unset   |
 | tap_action        | object | **Optional** | Action to take on tap        | `action: more-info` |
 | hold_action       | object | **Optional** | Action to take on hold       | `none`              |
 | double_tap_action | object | **Optional** | Action to take on double tap | `none`              |

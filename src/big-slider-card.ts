@@ -28,7 +28,11 @@ import { throttle } from './helpers';
 import './editor';
 
 import type { BigSliderCardConfig, MousePos } from './types';
-import { CARD_VERSION, DEFAULT_ATTRIBUTE } from './const';
+import {
+  CARD_VERSION,
+  DEFAULT_ATTRIBUTE,
+  SETTLE_TIME,
+} from './const';
 import { localize } from './localize/localize';
 
 
@@ -173,7 +177,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
 
   _track(): void {
     this._updateValue();
-    this._setValueThrottled();
+    //this._setValueThrottled();
   }
 
   _endTrack(): void {
@@ -182,7 +186,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     this._setValue();
 
     if(this.updateTimeout) clearTimeout(this.updateTimeout)
-    this.updateTimeout = window.setTimeout(this._startUpdates.bind(this), 2000)
+    this.updateTimeout = window.setTimeout(this._startUpdates.bind(this), SETTLE_TIME)
   }
 
   _press(): void {
@@ -285,6 +289,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
 
     let value = this.currentValue;
     let attr = this.config.attribute || DEFAULT_ATTRIBUTE;
+
     let on = true;
     let _value;
     switch (attr) {
@@ -312,17 +317,20 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
         break;
     }
 
+    const params: Record<string,any> = {
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      entity_id: this.stateObj.entity_id,
+    }
+
     if (on) {
-      this.hass.callService("light", "turn_on", {
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        entity_id: this.stateObj.entity_id,
-        [attr]: value,
-      });
+      console.log(`${this.stateObj.attributes.friendly_name} set: ${value}`);
+      params[attr] = value;
+      if (this.config.transition) {
+        params.transition = this.config.transition;
+      }
+      this.hass.callService('light', 'turn_on', params);
     } else {
-      this.hass.callService("light", "turn_off", {
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        entity_id: this.stateObj.entity_id,
-      });
+      this.hass.callService('light', 'turn_off', params);
     }
   }
 
@@ -462,7 +470,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
       }
 
       #slider.animate {
-        transition: right .3s ease;
+        transition: right 1s ease;
       }
 
       #icon {

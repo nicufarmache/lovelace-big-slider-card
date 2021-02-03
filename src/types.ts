@@ -14,11 +14,9 @@ export interface MousePos {
 export interface BigSliderCardConfig extends LovelaceCardConfig {
   type: string;
   name?: string;
-  show_warning?: boolean;
-  show_error?: boolean;
-  test_gui?: boolean;
   entity?: string;
   attribute?: string;
+  transition?: number;
   hold_time?: number;
   tap_action?: ActionConfig;
   hold_action?: ActionConfig;
