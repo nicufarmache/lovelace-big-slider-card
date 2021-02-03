@@ -218,10 +218,35 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
 
   _updateSlider(): void {
     this.style.setProperty('--bsc-percent', this.currentValue + '%');
-    this.style.setProperty('--bsc-icon-color', this._calculateColor());
+  }
+
+  _updateColors(): void {
+    let color = 'var(--bsc-color)';
+    let brightness = '0%';
+
+    const state = this.stateObj;
+    if (state) {
+      if (state.state == 'on') {
+        const stateColor = state.attributes?.rgb_color;
+        const stateBrightness = state.attributes?.brightness;
+        if (stateColor) {
+          color = `rgb(${stateColor.join(',')})`;
+        }
+        if (stateBrightness) {
+          brightness = `${Math.ceil(100 * stateBrightness / 255)}%`
+        }
+      }
+      if (state.state == 'off') {
+        color = 'var(--bsc-off-color)';
+      }
+    }
+
+    this.style.setProperty('--bsc-icon-color', color);
+    this.style.setProperty('--bsc-brightness', brightness);
   }
 
   _getValue(): void {
+    if (!this._shouldUpdate) return;
     if (!this.stateObj) return;
 
     const attr = this.config?.attribute || 'brightness';
@@ -334,36 +359,19 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     this.requestUpdate();
   }
 
-  _calculateColor(): string {
-    let color = 'var(--bsc-color)';
-    const state = this.stateObj;
-    if (state) {
-      if (state.state == 'on') {
-        const stateColor = state.attributes.rgb_color
-        if (stateColor) {
-          color = `rgb(${stateColor.join(',')})`;
-        }
-      }
-      if (state.state == 'off') {
-        color = 'var(--bsc-off-color)';
-      }
-    }
-
-    return color;
-  }
-
   // https://lit-element.polymer-project.org/guide/lifecycle#shouldupdate
   protected shouldUpdate(changedProps: PropertyValues): boolean {
     if (!this.config) {
       return false;
     }
 
-    return this._shouldUpdate && hasConfigOrEntityChanged(this, changedProps, false);
+    return hasConfigOrEntityChanged(this, changedProps, false);
   }
 
   protected updated(): void {
     this.containerWidth = this.shadowRoot?.getElementById('container')?.clientWidth || 0;
     this._getValue();
+    this._updateColors();
   }
 
   // https://lit-element.polymer-project.org/guide/templates
@@ -423,8 +431,9 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
         --bsc-background: var(--card-background-color, #aaaaaa);
         --bsc-slider-background: var(--paper-slider-active-color, #f9d2b0);
         --bsc-percent: 0%;
-        --bsc-color: #ffffff;
-        --bsc-off-color: #666666;
+        --bsc-brightness: 50%;
+        --bsc-color: --paper-item-icon-color;
+        --bsc-off-color: --paper-item-icon-color;
         --bsc-icon-color: var(--bsc-color);
 
         display: flex;
@@ -472,7 +481,8 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
         justify-content: center;
         align-items: center;
         color: var(--bsc-icon-color);
-        filter: brightness(70%);
+        filter: brightness(calc(50% + var(--bsc-brightness) / 2));
+        transition: color 0.3s ease-out;
       }
 
       #content {
