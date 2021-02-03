@@ -10,6 +10,7 @@ import {
   PropertyValues,
   internalProperty,
 } from 'lit-element';
+
 import {
   HomeAssistant,
   hasConfigOrEntityChanged,
@@ -17,7 +18,9 @@ import {
   LovelaceCardEditor,
   getLovelace,
   computeEntity,
+  stateIcon,
 } from 'custom-card-helpers'; // This is a community maintained npm module with common helper functions/types
+
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import * as Gestures from '@polymer/polymer/lib/utils/gestures.js';
 import throttle from './throttle';
@@ -55,6 +58,8 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
   isHold: boolean
   stateObj: any | null;
   _setValueThrottled: Function;
+  _shouldUpdate: boolean;
+  updateTimeout: number;
 
   public static async getConfigElement(): Promise<LovelaceCardEditor> {
     return document.createElement('big-slider-card-editor');
@@ -79,6 +84,8 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     this.stateObj = null;
     this.isHold = false;
     this.holdTimer = 0;
+    this._shouldUpdate = true;
+    this.updateTimeout = 0;
     this._setValueThrottled = throttle(this._setValue.bind(this), 200);
   }
 
@@ -162,6 +169,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     this.mouseStartPos = { x: this.mousePos.x, y: this.mousePos.y };
     this.oldValue = this.currentValue;
     this._press();
+    this._stopUpdates()
   }
 
   _track(): void {
@@ -173,6 +181,9 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     this._updateValue();
     this._unpress();
     this._setValue();
+
+    if(this.updateTimeout) clearTimeout(this.updateTimeout)
+    this.updateTimeout = window.setTimeout(this._startUpdates.bind(this), 2000)
   }
 
   _press(): void {
@@ -292,11 +303,6 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     }
   }
 
-  protected updated(): void {
-    this.containerWidth = this.shadowRoot?.getElementById('container')?.clientWidth || 0;
-    this._getValue();
-  }
-
   // https://lit-element.polymer-project.org/guide/properties#accessors-custom
   public setConfig(config: BigSliderCardConfig): void {
     // TODO Check for required fields and that they are of the proper format
@@ -314,13 +320,31 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     };
   }
 
+  _stopUpdates(): void {
+    this._shouldUpdate = false;
+    this.shadowRoot?.getElementById('slider')?.classList?.remove('animate')
+    console.log(`Should Update: ${this._shouldUpdate}`)
+  }
+
+  _startUpdates(): void {
+    this._shouldUpdate = true;
+    this.shadowRoot?.getElementById('slider')?.classList?.add('animate')
+    console.log(`Should Update: ${this._shouldUpdate}`)
+    this.requestUpdate();
+  }
+
   // https://lit-element.polymer-project.org/guide/lifecycle#shouldupdate
   protected shouldUpdate(changedProps: PropertyValues): boolean {
     if (!this.config) {
       return false;
     }
 
-    return hasConfigOrEntityChanged(this, changedProps, false);
+    return this._shouldUpdate && hasConfigOrEntityChanged(this, changedProps, false);
+  }
+
+  protected updated(): void {
+    this.containerWidth = this.shadowRoot?.getElementById('container')?.clientWidth || 0;
+    this._getValue();
   }
 
   // https://lit-element.polymer-project.org/guide/templates
@@ -329,22 +353,24 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
       this.stateObj = this.hass.states[this.config.entity];
     } else {
       this.stateObj = null;
-    }
-
-    if (this.stateObj == null) {
       return this._showError(localize('common.show_error'));
     }
 
     const name = this.stateObj.attributes && this.stateObj.attributes.friendly_name
           ? this.stateObj.attributes.friendly_name
-          : computeEntity(this.stateObj.entity_id);
+      : computeEntity(this.stateObj.entity_id);
+
+    const icon = stateIcon(this.stateObj);
+
+    console.log(`Render!`)
 
     return html`
       <ha-card
         id="container"
         tabindex="0"
         >
-        <div id="slider" ></div>
+        <div id="slider" class="animate"></div>
+        <ha-icon .icon="${icon}" id="icon"></ha-icon>
         <div id="content">
           <p>${name}</p>
         </div>
@@ -409,6 +435,20 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
         left: 0;
         top: 0;
         right: calc(100% - var(--bsc-percent));
+      }
+
+      #slider.animate {
+        transition: right .3s ease;
+      }
+
+      #icon {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
 
       #content {
