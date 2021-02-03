@@ -23,7 +23,7 @@ import {
 
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import * as Gestures from '@polymer/polymer/lib/utils/gestures.js';
-import throttle from './throttle';
+import { throttle } from './helpers';
 
 import './editor';
 
@@ -218,6 +218,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
 
   _updateSlider(): void {
     this.style.setProperty('--bsc-percent', this.currentValue + '%');
+    this.style.setProperty('--bsc-icon-color', this._calculateColor());
   }
 
   _getValue(): void {
@@ -333,6 +334,24 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     this.requestUpdate();
   }
 
+  _calculateColor(): string {
+    let color = 'var(--bsc-color)';
+    const state = this.stateObj;
+    if (state) {
+      if (state.state == 'on') {
+        const stateColor = state.attributes.rgb_color
+        if (stateColor) {
+          color = `rgb(${stateColor.join(',')})`;
+        }
+      }
+      if (state.state == 'off') {
+        color = 'var(--bsc-off-color)';
+      }
+    }
+
+    return color;
+  }
+
   // https://lit-element.polymer-project.org/guide/lifecycle#shouldupdate
   protected shouldUpdate(changedProps: PropertyValues): boolean {
     if (!this.config) {
@@ -404,6 +423,9 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
         --bsc-background: var(--card-background-color, #aaaaaa);
         --bsc-slider-background: var(--paper-slider-active-color, #f9d2b0);
         --bsc-percent: 0%;
+        --bsc-color: #ffffff;
+        --bsc-off-color: #666666;
+        --bsc-icon-color: var(--bsc-color);
 
         display: flex;
         transition: transform 0.1s ease-out;
@@ -449,6 +471,8 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
         display: flex;
         justify-content: center;
         align-items: center;
+        color: var(--bsc-icon-color);
+        filter: brightness(70%);
       }
 
       #content {
