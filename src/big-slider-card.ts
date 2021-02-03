@@ -91,11 +91,6 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     this._shouldUpdate = true;
     this.updateTimeout = 0;
     this._setValueThrottled = throttle(this._setValue.bind(this), 200);
-    this._handleDown = this._handleDown.bind(this);
-    this._handleUp = this._handleUp.bind(this);
-    this._handleTap = this._handleTap.bind(this);
-    this._handleTrack = this._handleTrack.bind(this);
-    this._handleContextMenu = this._handleContextMenu.bind(this);
   }
 
   connectedCallback(): void {
@@ -124,7 +119,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     );
   }
 
-  _handleContextMenu(ev: Event): boolean {
+  _handleContextMenu = (ev: Event): boolean => {
     const e = ev || window.event;
     if (e.preventDefault) {
       e.preventDefault();
@@ -137,22 +132,22 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     return false;
   }
 
-  _handleDown(): void {
+  _handleDown = (): void => {
     this._press();
     this.isHold = false;
     this.holdTimer = window.setTimeout(this._setHold.bind(this), this.config?.hold_time || 600);
   }
 
-  _setHold(): void {
+  _setHold = (): void => {
     this.isHold = true;
     handleClick(this, this.hass, this.config, true, false);
   }
 
-  _handleUp(): void {
+  _handleUp = (): void => {
     this._unpress();
   }
 
-  _handleTap(): void {
+  _handleTap = (): void => {
     clearTimeout(this.holdTimer);
     if (this.config?.tap_action) {
       if (!this.isHold) {
@@ -161,7 +156,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     }
   }
 
-  _handleTrack(e): void {
+  _handleTrack = (e): void => {
     this.mousePos = { x: e.detail.x, y: e.detail.y };
     clearTimeout(this.holdTimer);
 
