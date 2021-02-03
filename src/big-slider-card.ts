@@ -512,8 +512,10 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
         width: 100%;
         position: absolute;
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
+        padding: 0px 0px 0px 72px;
+        box-sizing: border-box;
       }
     `;
   }
