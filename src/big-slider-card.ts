@@ -32,6 +32,7 @@ import {
   CARD_VERSION,
   DEFAULT_ATTRIBUTE,
   SETTLE_TIME,
+  HOLD_TIME,
 } from './const';
 import { localize } from './localize/localize';
 
@@ -135,7 +136,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
   _handleDown = (): void => {
     this._press();
     this.isHold = false;
-    this.holdTimer = window.setTimeout(this._setHold, this.config?.hold_time || 600);
+    this.holdTimer = window.setTimeout(this._setHold, this.config.hold_time);
   }
 
   _setHold = (): void => {
@@ -192,7 +193,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     this._setValue();
 
     if(this.updateTimeout) clearTimeout(this.updateTimeout)
-    this.updateTimeout = window.setTimeout(this._startUpdates.bind(this), SETTLE_TIME)
+    this.updateTimeout = window.setTimeout(this._startUpdates.bind(this), this.config.settle_time)
   }
 
   _press(): void {
@@ -341,7 +342,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
 
   // https://lit-element.polymer-project.org/guide/properties#accessors-custom
   public setConfig(config: BigSliderCardConfig): void {
-    // TODO Check for required fields and that they are of the proper format
+    /* eslint-disable @typescript-eslint/camelcase */
     if (!config) {
       throw new Error(localize('common.invalid_configuration'));
     }
@@ -352,12 +353,15 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
 
     this.config = {
       attribute: DEFAULT_ATTRIBUTE,
-      tap_action: { // eslint-disable-line @typescript-eslint/camelcase
+      tap_action: {
         action: 'toggle',
         haptic: 'light',
       },
+      hold_time: HOLD_TIME,
+      settle_time: SETTLE_TIME,
       ...config,
     };
+    /* eslint-enable @typescript-eslint/camelcase */
   }
 
   _stopUpdates(): void {

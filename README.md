@@ -4,16 +4,18 @@ Big slider card inspired by the google home app cards
 
 ## Options
 
-| Name              | Type   | Requirement  | Description                  | Default             |
-| ----------------- | ------ | ------------ | ---------------------------- | ------------------- |
-| type              | string | **Required** | `custom:big-slider-card`     |                     |
-| name              | string | **Optional** | Card name                    | entity name         |
-| entity            | string | **Optional** | Home Assistant entity ID.    | `none`              |
-| attribute         | string | **Optional** | Attribute to control         | `brightness`        |
-| transition        | number | **Optional** | Transition time              | not used if unset   |
-| tap_action        | object | **Optional** | Action to take on tap        | `action: more-info` |
-| hold_action       | object | **Optional** | Action to take on hold       | `none`              |
-| double_tap_action | object | **Optional** | Action to take on double tap | `none`              |
+| Name              | Type   | Requirement  | Description                                 | Default             |
+| ----------------- | ------ | ------------ | ------------------------------------------- | ------------------- |
+| type              | string | **Required** | `custom:big-slider-card`                    |                     |
+| name              | string | **Optional** | Card name                                   | entity name         |
+| entity            | string | **Optional** | Home Assistant entity ID.                   | `none`              |
+| attribute         | string | **Optional** | Attribute to control                        | `brightness`        |
+| transition        | number | **Optional** | Transition time (seonds)                    | not used if unset   |
+| hold_time         | number | **Optional** | Hold gesture time (ms)                      | `600`               |
+| settle_time       | number | **Optional** | Ignore updates after changig the value (ms) | `3000`              |
+| tap_action        | object | **Optional** | Action to take on tap                       | `action: more-info` |
+| hold_action       | object | **Optional** | Action to take on hold                      | `none`              |
+| double_tap_action | object | **Optional** | Action to take on double tap                | `none`              |
 
 ## Action Options
 
