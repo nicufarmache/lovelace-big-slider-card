@@ -135,7 +135,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
   _handleDown = (): void => {
     this._press();
     this.isHold = false;
-    this.holdTimer = window.setTimeout(this._setHold.bind(this), this.config?.hold_time || 600);
+    this.holdTimer = window.setTimeout(this._setHold, this.config?.hold_time || 600);
   }
 
   _setHold = (): void => {
