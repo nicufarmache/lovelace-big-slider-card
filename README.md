@@ -1,6 +1,7 @@
 # Big Slider Card
 [![GitHub Release][releases-shield]][releases]
 <!-- [![hacs_badge](https://img.shields.io/badge/HACS-default-orange.svg?style=for-the-badge)](https://github.com/custom-components/hacs) -->
+[![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg?style=for-the-badge)](https://github.com/hacs/integration)
 
 Big slider card inspired by the google home app cards for `light` entities.
 
