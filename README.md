@@ -26,7 +26,7 @@ Just search for `Slider Button Card` in Frontend tab.
 ### Sample Configuration
 ```yaml
 type: custom:big-slider-card
-entity: light.wled_lamp
+entity: light.lamp
 transition: 0.3
 ```
 ### Options
