@@ -47,7 +47,7 @@ transition: 0.3
 
 <!-- References -->
 [hacs]: https://hacs.xyz
-[preview]: https://raw.githubusercontent.com/nicufarmache/lovelace-big-slider-card/preview.png
+[preview]: https://raw.githubusercontent.com/nicufarmache/lovelace-big-slider-card/blob/master/preview.png
 [latest-release]: https://github.com/nicufarmache/lovelace-big-slider-card/releases/latest
 [releases-shield]: https://img.shields.io/github/release/custom-cards/big-slider-card.svg?style=for-the-badge
 [releases]: https://github.com/nicufarmache/lovelace-big-slider-card/releases
