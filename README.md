@@ -4,7 +4,10 @@
 
 Big slider card inspired by the google home app cards for `light` entities.
 
-![Preview][preview]
+<picture width="300">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nicufarmache/lovelace-big-slider-card/master/preview.png">
+  <img width="465" alt="Preview" src="https://raw.githubusercontent.com/nicufarmache/lovelace-big-slider-card/master/preview-light.png">
+</picture>
 
 #### Please ⭐️ this repo if you find it useful
 
@@ -47,7 +50,6 @@ transition: 0.3
 
 <!-- References -->
 [hacs]: https://hacs.xyz
-[preview]: https://raw.githubusercontent.com/nicufarmache/lovelace-big-slider-card/master/preview.png
 [latest-release]: https://github.com/nicufarmache/lovelace-big-slider-card/releases/latest
 [releases-shield]: https://img.shields.io/github/v/release/nicufarmache/lovelace-big-slider-card.svg?style=for-the-badge
 [releases]: https://github.com/nicufarmache/lovelace-big-slider-card/releases
