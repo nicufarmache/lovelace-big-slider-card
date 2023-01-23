@@ -15,7 +15,6 @@ import {
   HomeAssistant,
   hasConfigOrEntityChanged,
   handleClick,
-  LovelaceCardEditor,
   getLovelace,
   computeEntity,
   stateIcon,
@@ -24,9 +23,6 @@ import {
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import * as Gestures from '@polymer/polymer/lib/utils/gestures.js';
 import { throttle } from './helpers';
-
-import './editor';
-
 import type { BigSliderCardConfig, MousePos } from './types';
 import {
   CARD_VERSION,
@@ -65,10 +61,6 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
   _setValueThrottled: Function;
   _shouldUpdate: boolean;
   updateTimeout: number;
-
-  public static async getConfigElement(): Promise<LovelaceCardEditor> {
-    return document.createElement('big-slider-card-editor');
-  }
 
   public static getStubConfig(): object {
     return {};
@@ -471,7 +463,6 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
         height: 60px;
         width: 100%;
         position: relative;
-        border-radius: var(--ha-card-border-radius);
         overflow: hidden;
         background: var(--card-background-color);
       }
