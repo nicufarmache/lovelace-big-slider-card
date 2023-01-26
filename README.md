@@ -42,6 +42,7 @@ transition: 0.3
 | entity            | string | **Required** | Home Assistant entity ID.                   | `none`              |
 | attribute         | string | **Optional** | Attribute to control                        | `brightness`        |
 | transition        | number | **Optional** | Transition time (seonds)                    | not used if unset   |
+| color             | string | **Optional** | Slider color (CSS color)                    | theme color         |
 | hold_time         | number | **Optional** | Hold gesture time (ms)                      | `600`               |
 | settle_time       | number | **Optional** | Ignore updates after changig the value (ms) | `3000`              |
 | tap_action        | object | **Optional** | Action to take on tap                       | `action: more-info` |

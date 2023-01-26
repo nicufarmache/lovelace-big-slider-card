@@ -245,6 +245,9 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
 
     this.style.setProperty('--bsc-icon-color', color);
     this.style.setProperty('--bsc-brightness', brightness);
+    if(this.config.color) {
+      this.style.setProperty('--bsc-slider-background', this.config.color);
+    }
   }
 
   _getValue(): void {
