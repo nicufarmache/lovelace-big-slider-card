@@ -17,7 +17,7 @@ Big slider card inspired by the google home app cards for `light` entities.
 
 ### HACS
 This card is available in [HACS][hacs] (Home Assistant Community Store).
-Just add `nicufarmache/lovelace-big-slider-card` as a custom Lovelace respository and search for `Slider Button Card` in Frontend tab.
+Just add `nicufarmache/lovelace-big-slider-card` as a custom Lovelace respository and search for `Slider Button Card`.
 
 ### Manual
 
