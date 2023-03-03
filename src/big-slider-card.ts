@@ -467,8 +467,8 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
         --bsc-percent: 0%;
         --bsc-brightness: 50%;
         --bsc-brightness-ui: 50%;
-        --bsc-color: --paper-item-icon-color;
-        --bsc-off-color: --paper-item-icon-color;
+        --bsc-color: var(--paper-item-icon-color);
+        --bsc-off-color: var(--paper-item-icon-color);
         --bsc-icon-color: var(--bsc-color);
 
         display: flex;
