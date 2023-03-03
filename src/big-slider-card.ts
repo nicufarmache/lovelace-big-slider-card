@@ -256,7 +256,9 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
 
     const attr = this.config?.attribute || DEFAULT_ATTRIBUTE;
     //let on = true;
-    let _value;
+    let _value = 0;
+
+    console.log(this.stateObj);
 
     if (this.stateObj.state == 'off') {
       _value = 0
@@ -408,12 +410,14 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
 
     const icon = this.config.icon ?? stateIcon(this.stateObj);
 
+    const colorize = (this.config.colorize && true) ?? false;
+
     return html`
       <ha-card
         id="container"
         tabindex="0"
         >
-        <div id="slider" class="animate"></div>
+        <div id="slider" class="animate ${colorize ? 'colorize' : ''}"></div>
         <ha-icon .icon="${icon}" id="icon"></ha-icon>
         <div id="content">
           <p>A${this.config.name || name}</p>
@@ -496,6 +500,11 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
 
       #slider.animate {
         transition: right 1s ease;
+      }
+
+      #slider.colorize {
+        background: var(--bsc-icon-color);
+        filter: brightness(calc(50% + var(--bsc-brightness) / 2));
       }
 
       #icon {
