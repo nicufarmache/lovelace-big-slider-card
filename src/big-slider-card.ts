@@ -225,6 +225,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
   _updateColors(): void {
     let color = 'var(--bsc-color)';
     let brightness = '0%';
+    let brightnessUI = '0%';
 
     const state = this.stateObj;
     if (state) {
@@ -236,6 +237,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
         }
         if (stateBrightness) {
           brightness = `${Math.ceil(100 * stateBrightness / 255)}%`
+          brightnessUI = `${Math.ceil(100 * stateBrightness / 510 + 50)}%`
         }
       }
       if (state.state == 'off') {
@@ -245,6 +247,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
 
     this.style.setProperty('--bsc-icon-color', color);
     this.style.setProperty('--bsc-brightness', brightness);
+    this.style.setProperty('--bsc-brightness-ui', brightnessUI);
     if(this.config.color) {
       this.style.setProperty('--bsc-slider-background', this.config.color);
     }
@@ -420,7 +423,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
         <div id="slider" class="animate ${colorize ? 'colorize' : ''}"></div>
         <ha-icon .icon="${icon}" id="icon"></ha-icon>
         <div id="content">
-          <p>A${this.config.name || name}</p>
+          <p>${this.config.name || name}</p>
         </div>
       </ha-card>
     `;
@@ -463,6 +466,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
         --bsc-slider-background: var(--paper-slider-active-color, #f9d2b0);
         --bsc-percent: 0%;
         --bsc-brightness: 50%;
+        --bsc-brightness-ui: 50%;
         --bsc-color: --paper-item-icon-color;
         --bsc-off-color: --paper-item-icon-color;
         --bsc-icon-color: var(--bsc-color);
@@ -491,20 +495,21 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
       #slider {
         height: 100%;
         position: absolute;
-        background: var(--bsc-slider-background);
+        background-color: var(--bsc-slider-background);
         opacity: 0.3;
         left: 0;
         top: 0;
         right: calc(100% - var(--bsc-percent));
       }
 
-      #slider.animate {
-        transition: right 1s ease;
+      #slider.colorize {
+        background-color: var(--bsc-icon-color);
+        filter: brightness(var(--bsc-brightness-ui));
+        transition: background-color 1s ease, filter 1s ease;
       }
 
-      #slider.colorize {
-        background: var(--bsc-icon-color);
-        filter: brightness(calc(50% + var(--bsc-brightness) / 2));
+      #slider.animate {
+        transition: right 1s ease, background-color 1s ease, filter 1s ease;
       }
 
       #icon {
