@@ -225,7 +225,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
   _updateColors(): void {
     let color = 'var(--bsc-color)';
     let brightness = '0%';
-    let brightnessUI = '0%';
+    let brightnessUI = '50%';
 
     const state = this.stateObj;
     if (state) {
