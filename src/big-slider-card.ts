@@ -406,7 +406,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
 
     const name = this._getName();
 
-    const icon = stateIcon(this.stateObj);
+    const icon = this.config.icon ?? stateIcon(this.stateObj);
 
     return html`
       <ha-card

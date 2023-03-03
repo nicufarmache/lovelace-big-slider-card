@@ -38,11 +38,12 @@ transition: 0.3
 | Name              | Type   | Requirement  | Description                                 | Default             |
 | ----------------- | ------ | ------------ | ------------------------------------------- | ------------------- |
 | type              | string | **Required** | `custom:big-slider-card`                    |                     |
+| entity            | string | **Required** | Home Assistant entity ID.                   |                     |
 | name              | string | **Optional** | Name to show on card                        | entity name         |
-| entity            | string | **Required** | Home Assistant entity ID.                   | `none`              |
 | attribute         | string | **Optional** | Attribute to control                        | `brightness`        |
 | transition        | number | **Optional** | Transition time (seonds)                    | not used if unset   |
 | color             | string | **Optional** | Slider color (CSS color)                    | theme color         |
+| icon              | string | **Optional** | Sets custom icon                            | entity icon         |
 | hold_time         | number | **Optional** | Hold gesture time (ms)                      | `600`               |
 | settle_time       | number | **Optional** | Ignore updates after changig the value (ms) | `3000`              |
 | tap_action        | object | **Optional** | Action to take on tap                       | `action: more-info` |
