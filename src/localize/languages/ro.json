@@ -1,0 +1,9 @@
+{
+  "common": {
+    "version": "Versiunea",
+    "invalid_configuration": "Configurație invalidă",
+    "show_warning": "Show Warning",
+    "no_entity_set": "Entitatea nu e setată",
+    "no_entity": "Entitatea nu e disponibilă"
+  }
+}

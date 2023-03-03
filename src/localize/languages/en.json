@@ -3,6 +3,7 @@
     "version": "Version",
     "invalid_configuration": "Invalid configuration",
     "show_warning": "Show Warning",
-    "show_error": "Show Error"
+    "no_entity_set": "Entity not set",
+    "no_entity": "Entity not available"
   }
 }

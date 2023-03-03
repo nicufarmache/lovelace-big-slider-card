@@ -45,7 +45,7 @@ console.info(
 (window as any).customCards.push({
   type: 'big-slider-card',
   name: 'Big Slider Card',
-  description: 'A template custom card for you to create something awesome',
+  description: 'Big slider card for light entities.',
 });
 
 @customElement('big-slider-card')
@@ -342,6 +342,10 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
       throw new Error(localize('common.invalid_configuration'));
     }
 
+    if (!config.entity) {
+      throw new Error(localize('common.no_entity_set'));
+    }
+
     if (config.test_gui) {
       getLovelace().setEditMode(true);
     }
@@ -387,12 +391,18 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
 
   // https://lit-element.polymer-project.org/guide/templates
   protected render(): TemplateResult | void {
-    if (this.config?.entity && this.config?.entity in this.hass.states) {
-      this.stateObj = this.hass.states[this.config.entity];
-    } else {
+    if (!(this.config)) {
       this.stateObj = null;
-      return this._showError(localize('common.show_error'));
     }
+    if (!(this.config.entity)) {
+      this.stateObj = null;
+    }
+    if (!(this.config.entity && (this.config.entity in this.hass.states))) {
+      this.stateObj = null;
+      return this._showError(`${localize('common.no_entity')}: ${this.config.entity}`);
+    }
+      
+    this.stateObj = this.config.entity && this.hass.states[this.config.entity];
 
     const name = this._getName();
 
@@ -406,7 +416,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
         <div id="slider" class="animate"></div>
         <ha-icon .icon="${icon}" id="icon"></ha-icon>
         <div id="content">
-          <p>${this.config.name || name}</p>
+          <p>A${this.config.name || name}</p>
         </div>
       </ha-card>
     `;
@@ -433,7 +443,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     errorCard.setConfig({
       type: 'error',
       error,
-      origConfig: this.config,
+      // origConfig: this.config,
     });
 
     return html`
