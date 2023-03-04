@@ -45,9 +45,10 @@ show_percentage: true
 bold_text: true
 hold_time: 600
 settle_time: 3000
-tap_actio: 'action: more-info'
-hold_action: none
-double_tap_action: none
+tap_action:
+  action: toggle
+hold_action:
+  action: more-info
 ```
 
 ### Options
@@ -66,10 +67,10 @@ double_tap_action: none
 | bold_text         | boolean | **Optional** | Make taxt font bold                         | false               |
 | hold_time         | number  | **Optional** | Hold gesture time (ms)                      | `600`               |
 | settle_time       | number  | **Optional** | Ignore updates after changig the value (ms) | `3000`              |
-| tap_action        | object  | **Optional** | Action to take on tap                       | `action: more-info` |
-| hold_action       | object  | **Optional** | Action to take on hold                      | `none`              |
-| double_tap_action | object  | **Optional** | Action to take on double tap                | `none`              |
+| tap_action        | object  | **Optional** | Action to take on tap                       | `action: toggle`    |
+| hold_action       | object  | **Optional** | Action to take on hold                      | `action: more-info` |
 
+For more action info see this page : [Actions - Home Assistant][actions]
 
 <!-- References -->
 [hacs]: https://hacs.xyz
@@ -77,3 +78,4 @@ double_tap_action: none
 [releases-shield]: https://img.shields.io/github/v/release/nicufarmache/lovelace-big-slider-card.svg?style=for-the-badge
 [releases]: https://github.com/nicufarmache/lovelace-big-slider-card/releases
 [icon-minimal]: https://raw.githubusercontent.com/nicufarmache/lovelace-big-slider-card/main/assets/grid-full-width.png
+[actions]: https://www.home-assistant.io/dashboards/actions/
