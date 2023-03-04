@@ -27,12 +27,29 @@ Just search for `Big Slider Card` in the Frontend section.
 4. Add `custom:big-slider-card` to Lovelace UI as any other card (using either editor or YAML configuration).
 
 ## Configuration
-### Sample Configuration
+### Sample Minimal Configuration
 ```yaml
 type: custom:big-slider-card
 entity: light.lamp
-transition: 0.3
 ```
+### Sample Full Configuration
+```yaml
+type: custom:big-slider-card
+entity: light.lamp
+name: Bedroom Lamp
+attribute: brightness
+transition: 0.3
+colorize: true
+icon: mdi:lamp
+show_percentage: true
+bold_text: true
+hold_time: 600
+settle_time: 3000
+tap_actio: 'action: more-info'
+hold_action: none
+double_tap_action: none
+```
+
 ### Options
 
 | Name              | Type    | Requirement  | Description                                 | Default             |
@@ -45,6 +62,8 @@ transition: 0.3
 | color             | string  | **Optional** | Slider color (CSS color)                    | theme color         |
 | colorize          | boolean | **Optional** | Colorize slider using entity color          | false               |
 | icon              | string  | **Optional** | Sets custom icon                            | entity icon         |
+| show_percentage   | boolean | **Optional** | Show percentage under entity name           | false               |
+| bold_text         | boolean | **Optional** | Make taxt font bold                         | false               |
 | hold_time         | number  | **Optional** | Hold gesture time (ms)                      | `600`               |
 | settle_time       | number  | **Optional** | Ignore updates after changig the value (ms) | `3000`              |
 | tap_action        | object  | **Optional** | Action to take on tap                       | `action: more-info` |
