@@ -4,6 +4,8 @@
     "invalid_configuration": "Invalid configuration",
     "show_warning": "Show Warning",
     "no_entity_set": "Entity not set",
-    "no_entity": "Entity not available"
+    "no_entity": "Entity not available",
+    "on": "On",
+    "off": "Off"
   }
 }

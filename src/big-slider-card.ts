@@ -220,18 +220,22 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
 
   _updateSlider(): void {
     this.style.setProperty('--bsc-percent', this.currentValue + '%');
+    const percentage = this?.shadowRoot?.getElementById('percentage');
+    percentage && (percentage.innerText = Math.round(this.currentValue) + '%');
   }
 
   _updateColors(): void {
     let color = 'var(--bsc-color)';
     let brightness = '0%';
     let brightnessUI = '50%';
+    let isOn = false;
 
     const state = this.stateObj;
     if (state) {
       if (state.state == 'on') {
         const stateColor = state.attributes?.rgb_color;
         const stateBrightness = state.attributes?.brightness;
+        isOn = true;
         if (stateColor) {
           color = `rgb(${stateColor.join(',')})`;
         }
@@ -245,6 +249,10 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
       }
     }
 
+    const percentage = this?.shadowRoot?.getElementById('percentage');
+    if (!isOn) {
+      percentage && (percentage.innerText = localize('common.off'));
+    }
     this.style.setProperty('--bsc-icon-color', color);
     this.style.setProperty('--bsc-brightness', brightness);
     this.style.setProperty('--bsc-brightness-ui', brightnessUI);
@@ -260,8 +268,6 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     const attr = this.config?.attribute || DEFAULT_ATTRIBUTE;
     //let on = true;
     let _value = 0;
-
-    console.log(this.stateObj);
 
     if (this.stateObj.state == 'off') {
       _value = 0
@@ -415,6 +421,10 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
 
     const colorize = (this.config.colorize && true) ?? false;
 
+    const showPercentage = (this.config.show_percentage && true) ?? false;
+
+    const boldText = (this.config.bold_text && true) ?? false;
+
     return html`
       <ha-card
         id="container"
@@ -423,7 +433,10 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
         <div id="slider" class="animate ${colorize ? 'colorize' : ''}"></div>
         <ha-icon .icon="${icon}" id="icon"></ha-icon>
         <div id="content">
-          <p>${this.config.name || name}</p>
+          <p id="label" class="${boldText ? 'bold' : ''}">
+            <span id="name">${this.config.name || name}</span>
+            <span id="percentage" class="${showPercentage ? '' : 'hide'}"></span>
+          </p>
         </div>
       </ha-card>
     `;
@@ -470,6 +483,9 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
         --bsc-color: var(--paper-item-icon-color);
         --bsc-off-color: var(--paper-item-icon-color);
         --bsc-icon-color: var(--bsc-color);
+        --bsc-primary-text-color: var(--primary-text-color);
+        --bsc-secondary-text-color: var(--secondary-text-color);
+
 
         display: flex;
         transition: transform 0.1s ease-out;
@@ -486,6 +502,10 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
         position: relative;
         overflow: hidden;
         background: var(--card-background-color);
+      }
+
+      .hide {
+        display: none
       }
 
       #container:focus {
@@ -534,6 +554,23 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
         align-items: center;
         padding: 0 24px 0 72px;
         box-sizing: border-box;
+      }
+
+      #label {
+        display: flex;
+        flex-direction: column;
+      }
+
+      #label.bold {
+        font-weight: bold;
+      }
+
+      #name {
+        color: var(--bsc-primary-text-color)
+      }
+
+      #percentage {
+        color: var(--bsc-secondary-text-color)
       }
     `;
   }
