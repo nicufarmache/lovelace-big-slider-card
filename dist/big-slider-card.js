@@ -303,6 +303,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         position: relative;
         overflow: hidden;
         background: var(--card-background-color);
+        z-index: 1; //fix safari bug with filter transition https://stackoverflow.com/a/27935035
       }
 
       .hide {
