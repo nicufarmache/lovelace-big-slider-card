@@ -39,6 +39,7 @@ entity: light.lamp
 name: Bedroom Lamp
 attribute: brightness
 transition: 0.3
+icon_color: '#ff00ff'
 colorize: true
 icon: mdi:lamp
 show_percentage: true
@@ -61,6 +62,7 @@ hold_action:
 | attribute         | string  | **Optional** | Attribute to control                        | `brightness`        |
 | transition        | number  | **Optional** | Transition time (seonds)                    | not used if unset   |
 | color             | string  | **Optional** | Slider color (CSS color)                    | theme color         |
+| icon_color        | string  | **Optional** | Icon color (CSS color)                      | entity color        |
 | colorize          | boolean | **Optional** | Colorize slider using entity color          | false               |
 | icon              | string  | **Optional** | Sets custom icon                            | entity icon         |
 | show_percentage   | boolean | **Optional** | Show percentage under entity name           | false               |
