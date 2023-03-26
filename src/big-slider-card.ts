@@ -208,12 +208,12 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
   }
 
   _checklimits(): void {
-    if (this.currentValue < 0){
-      this.currentValue = 0;
+    if (this.currentValue < this.config.min){
+      this.currentValue = this.config.min;
       this._startTrack();
     }
-    if (this.currentValue > 100){
-      this.currentValue = 100;
+    if (this.currentValue > this.config.max){
+      this.currentValue = this.config.max;
       this._startTrack();
     }
   }
@@ -377,6 +377,8 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
       },
       hold_time: HOLD_TIME,
       settle_time: SETTLE_TIME,
+      min: 0,
+      max: 100,
       ...config,
     };
     /* eslint-enable @typescript-eslint/camelcase */
