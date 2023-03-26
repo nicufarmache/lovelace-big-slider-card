@@ -233,8 +233,9 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     const state = this.stateObj;
     if (state) {
       if (state.state == 'on') {
-        const stateColor = state.attributes?.rgb_color;
-        const stateBrightness = state.attributes?.brightness;
+        const stateColor = state.attributes?.rgb_color || [255, 255, 255];
+        const stateBrightness = state.attributes?.brightness || 255;
+        console.log('DEBUG: state.attributes: ', state.attributes);
         isOn = true;
         if (stateColor) {
           color = `rgb(${stateColor.join(',')})`;
@@ -245,6 +246,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
         }
       }
       if (state.state == 'off') {
+        console.log('DEBUG: OFF state.attributes: ', state.attributes);
         color = 'var(--bsc-off-color)';
       }
     }
@@ -253,11 +255,17 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     if (!isOn) {
       percentage && (percentage.innerText = localize('common.off'));
     }
-    this.style.setProperty('--bsc-icon-color', color);
+    this.style.setProperty('--bsc-entity-color', color);
     this.style.setProperty('--bsc-brightness', brightness);
     this.style.setProperty('--bsc-brightness-ui', brightnessUI);
+    if(this.config.icon_color && isOn) {
+      this.style.setProperty('--bsc-icon-color', this.config.icon_color);
+    }
+    if(this.config.icon_color && !isOn) {
+      this.style.removeProperty('--bsc-icon-color');
+    }
     if(this.config.color) {
-      this.style.setProperty('--bsc-slider-background', this.config.color);
+      this.style.setProperty('--bsc-slider-color', this.config.color);
     }
   }
 
@@ -274,12 +282,12 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     } else {
       switch (attr) {
         case 'brightness':
-          _value = Math.ceil(100 * this.stateObj.attributes.brightness/255)
+          _value = Math.ceil(100 * (this.stateObj.attributes.brightness || 255)/255)
           break;
         case 'red':
         case 'green':
         case 'blue':
-          const rgb = this.stateObj.attributes.rgb_color || [0,0,0];
+          const rgb = this.stateObj.attributes.rgb_color || [255, 255, 255];
           if (attr === 'red') _value = rgb[0];
           if (attr === 'green') _value = rgb[1];
           if (attr === 'blue') _value = rgb[2];
@@ -287,7 +295,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
           break;
         case 'hue':
         case 'saturation':
-          const hs = this.stateObj.attributes.hs_color || [0,0];
+          const hs = this.stateObj.attributes.hs_color || [100, 100];
           if (attr === 'hue') _value = hs[0];
           if (attr === 'saturation') _value = hs[1];
           break;
@@ -313,7 +321,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
       case 'red':
       case 'green':
       case 'blue':
-        _value = this.stateObj.attributes.rgb_color || [0,0,0];
+        _value = this.stateObj.attributes.rgb_color || [255, 255, 255];
         if (attr === 'red') _value[0] = value;
         if (attr === 'green') _value[1] = value;
         if (attr === 'blue') _value[2] = value;
@@ -322,7 +330,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
         break;
       case 'hue':
       case 'saturation':
-        _value = this.stateObj.attributes.hs_color || [0,0];
+        _value = this.stateObj.attributes.hs_color || [100, 100];
         if (attr === 'hue') _value[0] = value;
         if (attr === 'saturation') _value[1] = value;
         value = _value;
@@ -476,13 +484,13 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     return css`
       :host {
         --bsc-background: var(--card-background-color, #aaaaaa);
-        --bsc-slider-background: var(--paper-slider-active-color, #f9d2b0);
+        --bsc-slider-color: var(--paper-slider-active-color, #f9d2b0);
         --bsc-percent: 0%;
         --bsc-brightness: 50%;
         --bsc-brightness-ui: 50%;
         --bsc-color: var(--paper-item-icon-color);
         --bsc-off-color: var(--paper-item-icon-color);
-        --bsc-icon-color: var(--bsc-color);
+        --bsc-entity-color: var(--bsc-color);
         --bsc-primary-text-color: var(--primary-text-color);
         --bsc-secondary-text-color: var(--secondary-text-color);
 
@@ -516,7 +524,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
       #slider {
         height: 100%;
         position: absolute;
-        background-color: var(--bsc-slider-background);
+        background-color: var(--bsc-slider-color);
         opacity: 0.3;
         left: 0;
         top: 0;
@@ -524,7 +532,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
       }
 
       #slider.colorize {
-        background-color: var(--bsc-icon-color);
+        background-color: var(--bsc-entity-color);
         filter: brightness(var(--bsc-brightness-ui));
         transition: background-color 1s ease, filter 1s ease;
       }
@@ -541,8 +549,8 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
         display: flex;
         justify-content: center;
         align-items: center;
-        color: var(--bsc-icon-color);
-        filter: brightness(calc(50% + var(--bsc-brightness) / 2));
+        color: var(--bsc-icon-color, var(--bsc-entity-color));
+        filter: brightness(var(--bsc-brightness-ui));
         transition: color 0.3s ease-out;
       }
 
