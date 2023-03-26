@@ -44,6 +44,8 @@ colorize: true
 icon: mdi:lamp
 show_percentage: true
 bold_text: true
+min: 1
+max: 80
 hold_time: 600
 settle_time: 3000
 tap_action:
@@ -67,6 +69,8 @@ hold_action:
 | icon              | string  | **Optional** | Sets custom icon                            | entity icon         |
 | show_percentage   | boolean | **Optional** | Show percentage under entity name           | false               |
 | bold_text         | boolean | **Optional** | Make taxt font bold                         | false               |
+| min               | number  | **Optional** | Maximum value for slider                    | `0`                 |
+| max               | number  | **Optional** | minimum value for slider                    | `100`               |
 | hold_time         | number  | **Optional** | Hold gesture time (ms)                      | `600`               |
 | settle_time       | number  | **Optional** | Ignore updates after changig the value (ms) | `3000`              |
 | tap_action        | object  | **Optional** | Action to take on tap                       | `action: toggle`    |
