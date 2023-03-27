@@ -267,11 +267,10 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     let brightnessUI = '50%';
     let isOn = false;
 
-    const state = this.stateObj;
-    if (state) {
-      if (state.state == 'on') {
-        const stateColor = state.attributes?.rgb_color || [255, 255, 255];
-        const stateBrightness = state.attributes?.brightness || 255;
+    if (this.stateObj) {
+      if (this.stateObj.state == 'on') {
+        const stateColor = this.stateObj.attributes?.rgb_color || [255, 255, 255];
+        const stateBrightness = this.stateObj.attributes?.brightness || 255;
         isOn = true;
         if (stateColor) {
           color = `rgb(${stateColor.join(',')})`;
@@ -280,8 +279,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
           brightness = `${Math.ceil(100 * stateBrightness / 255)}%`
           brightnessUI = `${Math.ceil(100 * stateBrightness / 510 + 50)}%`
         }
-      }
-      if (state.state == 'off') {
+      } else {
         color = 'var(--bsc-off-color)';
       }
     }
@@ -309,10 +307,9 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     if (!this.stateObj) return;
 
     const attr = this.config?.attribute || DEFAULT_ATTRIBUTE;
-    //let on = true;
     let _value = 0;
 
-    if (this.stateObj.state == 'off') {
+    if (this.stateObj.state != 'on') {
       _value = 0
     } else {
       switch (attr) {
