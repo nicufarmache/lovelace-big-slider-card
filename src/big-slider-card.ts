@@ -22,6 +22,7 @@ import {
 
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import * as Gestures from '@polymer/polymer/lib/utils/gestures.js';
+import {setPassiveTouchGestures} from '@polymer/polymer/lib/utils/settings.js';
 import { throttle } from './helpers';
 import type { BigSliderCardConfig, MousePos } from './types';
 import {
@@ -29,6 +30,8 @@ import {
   DEFAULT_ATTRIBUTE,
   SETTLE_TIME,
   HOLD_TIME,
+  MIN_SLIDE_TIME,
+  SCROLL_THRESHOLD,
 } from './const';
 import { localize } from './localize/localize';
 
@@ -61,6 +64,9 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
   _setValueThrottled: Function;
   _shouldUpdate: boolean;
   updateTimeout: number;
+  pressTimeout: number;
+  trackingStartTime: number;
+  trackingStartRect: DOMRect | undefined;
 
   public static getStubConfig(): object {
     return {};
@@ -83,15 +89,19 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
     this.holdTimer = 0;
     this._shouldUpdate = true;
     this.updateTimeout = 0;
+    this.pressTimeout = 0;
+    this.trackingStartTime = 0;
     this._setValueThrottled = throttle(this._setValue.bind(this), 200);
   }
 
   connectedCallback(): void {
     super.connectedCallback();
+    setPassiveTouchGestures(true);
     Gestures.addListener(this, 'down', this._handleDown);
     Gestures.addListener(this, 'up', this._handleUp);
     Gestures.addListener(this, 'tap', this._handleTap);
     Gestures.addListener(this, 'track', this._handleTrack);
+    Gestures.setTouchAction(this, 'pan-y pinch-zoom'); // Let browser handle vertical scrolling and zoom
     this.addEventListener('contextmenu', this._handleContextMenu);
   }
 
@@ -167,33 +177,53 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
   }
 
   _startTrack(): void {
+    this.trackingStartTime = Date.now();
+    this.trackingStartRect = this.getBoundingClientRect();
+    this._restartTrack();
+  }
+
+  _restartTrack(): void {
     this.mouseStartPos = { x: this.mousePos.x, y: this.mousePos.y };
     this.oldValue = this.currentValue;
     this._press();
-    this._stopUpdates()
-    if(this.updateTimeout) clearTimeout(this.updateTimeout)
+    this._stopUpdates();
+    if(this.updateTimeout) clearTimeout(this.updateTimeout);
   }
 
   _track(): void {
     this._updateValue();
     //this._setValueThrottled();
+    if (this._hasScrolled()) {
+      this._endTrack();
+    }
   }
 
   _endTrack(): void {
     this._updateValue();
     this._unpress();
-    this._setValue();
+    if(this.updateTimeout) clearTimeout(this.updateTimeout);
 
-    if(this.updateTimeout) clearTimeout(this.updateTimeout)
+    const isTooShort = (Date.now() - this.trackingStartTime) < this.config.min_slide_time;
+
+    if(isTooShort || this._hasScrolled()) {
+      this.updateTimeout = window.setTimeout(this._startUpdates.bind(this), 0);
+      return;
+    }
+
+    this._setValue();
     this.updateTimeout = window.setTimeout(this._startUpdates.bind(this), this.config.settle_time)
   }
 
   _press(): void {
-    this.setAttribute('pressed', '');
+    if(this.pressTimeout) clearTimeout(this.pressTimeout);
+    this.pressTimeout = window.setTimeout(() => this.setAttribute('pressed', ''), this.config.min_slide_time)
+    this.setAttribute('half-pressed', '')
   }
 
   _unpress(): void {
+    if(this.pressTimeout) clearTimeout(this.pressTimeout);
     this.removeAttribute('pressed');
+    this.removeAttribute('half-pressed');
   }
 
   _updateValue(): void {
@@ -210,12 +240,19 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
   _checklimits(): void {
     if (this.currentValue < this.config.min){
       this.currentValue = this.config.min;
-      this._startTrack();
+      this._restartTrack();
     }
     if (this.currentValue > this.config.max){
       this.currentValue = this.config.max;
-      this._startTrack();
+      this._restartTrack();
     }
+  }
+
+  _hasScrolled(): boolean {
+    // Check for scrolling
+    const currentTop = this.getBoundingClientRect().top;
+    const startTop = this.trackingStartRect?.top || 0;
+    return Math.abs(currentTop - startTop) > SCROLL_THRESHOLD;
   }
 
   _updateSlider(): void {
@@ -235,7 +272,6 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
       if (state.state == 'on') {
         const stateColor = state.attributes?.rgb_color || [255, 255, 255];
         const stateBrightness = state.attributes?.brightness || 255;
-        console.log('DEBUG: state.attributes: ', state.attributes);
         isOn = true;
         if (stateColor) {
           color = `rgb(${stateColor.join(',')})`;
@@ -246,7 +282,6 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
         }
       }
       if (state.state == 'off') {
-        console.log('DEBUG: OFF state.attributes: ', state.attributes);
         color = 'var(--bsc-off-color)';
       }
     }
@@ -375,6 +410,7 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
         action: 'toggle',
         haptic: 'light',
       },
+      min_slide_time: MIN_SLIDE_TIME,
       hold_time: HOLD_TIME,
       settle_time: SETTLE_TIME,
       min: 0,
@@ -500,6 +536,10 @@ export class BigSliderCard extends GestureEventListeners(LitElement) {
         display: flex;
         transition: transform 0.1s ease-out;
         user-select: none;
+      }
+
+      :host([half-pressed]) {
+        transform: scale(0.99);
       }
 
       :host([pressed]) {
