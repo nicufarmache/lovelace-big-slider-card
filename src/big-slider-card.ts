@@ -140,14 +140,16 @@ export class BigSliderCard extends LitElement {
       this._resetTrack();
     }
 
-    this._updateValue();
+    if ([ 'pointerdown', 'pointermove', 'pointerup'].includes(evt.type)) {
+      this._updateValue();
+    }
   
     if (evt.type === 'pointermove') {
-      if(this.isTap && (Math.abs(extra.relativeX) > TAP_THRESHOLD || Math.abs(extra.relativeY) > TAP_THRESHOLD)) {
-        this._stopUpdates();
-        this.isTap = false;
-        clearTimeout(this.holdTimer);
-      }
+      if(this.isTap && (Math.abs(extra.relativeX) < TAP_THRESHOLD && Math.abs(extra.relativeY) < TAP_THRESHOLD)) 
+        return;
+      this.isTap = false; 
+      clearTimeout(this.holdTimer);
+      this._stopUpdates();
     }
 
     if (evt.type === 'pointercancel') {
@@ -390,8 +392,8 @@ export class BigSliderCard extends LitElement {
   }
 
   _stopUpdates(): void {
-    if(!this._shouldUpdate) return;
     if(this.updateTimeout) clearTimeout(this.updateTimeout);
+    if(!this._shouldUpdate) return;
     this.shadowRoot?.getElementById('slider')?.classList?.remove('animate')
     this._shouldUpdate = false;
   }
