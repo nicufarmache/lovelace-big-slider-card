@@ -288,7 +288,7 @@ export class BigSliderCard extends LitElement {
     } else {
       switch (attr) {
         case 'brightness':
-          _value = Math.ceil(100 * (this.stateObj.attributes.brightness || 255)/255)
+          _value = Math.round(100 * (this.stateObj.attributes.brightness || 255)/255)
           break;
         case 'red':
         case 'green':
