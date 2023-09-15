@@ -39,6 +39,12 @@ entity: light.lamp
 name: Bedroom Lamp
 attribute: brightness
 transition: 0.3
+background_color: '#345634'
+text_color: '#ffffff'
+border_color: 'ff00ff'
+border_radius: '4px'
+border_style: 'dashed'
+border_width: '5px'
 icon_color: '#ff00ff'
 colorize: true
 icon: mdi:lamp
