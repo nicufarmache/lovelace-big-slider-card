@@ -63,8 +63,14 @@ hold_action:
 | name              | string  | **Optional** | Name to show on card                           | entity name         |
 | attribute         | string  | **Optional** | Attribute to control                           | `brightness`        |
 | transition        | number  | **Optional** | Transition time (seonds)                       | not used if unset   |
-| color             | string  | **Optional** | Slider color (CSS color)                       | theme color         |
-| icon_color        | string  | **Optional** | Icon color (CSS color)                         | entity color        |
+| color             | string  | **Optional** | Slider color (CSS format)                      | form theme          |
+| background_color  | string  | **Optional** | Background color (CSS format)                  | form theme          |
+| text_color        | string  | **Optional** | Text color (CSS format)                        | form theme          |
+| icon_color        | string  | **Optional** | Icon color (CSS format)                        | entity color        |
+| border_color      | string  | **Optional** | Border color (CSS format)                      | form theme          |
+| border_radius     | string  | **Optional** | Border radius including units (CSS format)     | form theme          |
+| border_style      | string  | **Optional** | Border style (CSS format)                      | form theme          |
+| border_width      | string  | **Optional** | Border width (CSS format)                      | form theme          |
 | colorize          | boolean | **Optional** | Colorize slider using entity color             | false               |
 | icon              | string  | **Optional** | Sets custom icon                               | entity icon         |
 | show_percentage   | boolean | **Optional** | Show percentage under entity name              | false               |
@@ -76,6 +82,24 @@ hold_action:
 | settle_time       | number  | **Optional** | Ignore updates after changig the value (ms)    | `3000`              |
 | tap_action        | object  | **Optional** | Action to take on tap                          | `action: toggle`    |
 | hold_action       | object  | **Optional** | Action to take on hold                         | `action: more-info` |
+
+
+
+### The card uses the following css variables for configuring the look and feel:
+
+```css
+--bsc-background: var(--card-background-color, #aaaaaa);
+--bsc-slider-color: var(--paper-slider-active-color, #f9d2b0);
+--bsc-color: var(--paper-item-icon-color);
+--bsc-off-color: var(--paper-item-icon-color);
+--bsc-entity-color: var(--bsc-color);
+--bsc-primary-text-color: var(--primary-text-color);
+--bsc-secondary-text-color: var(--secondary-text-color);
+--bsc-border-color: var(--ha-card-border-color);
+--bsc-border-radius: var(--ha-card-border-radius);
+--bsc-border-style: var(--ha-card-border-style);
+--bsc-border-width: var(--ha-card-border-width);
+```
 
 For more action info see this page : [Actions - Home Assistant][actions]
 

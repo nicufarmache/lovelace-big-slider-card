@@ -265,6 +265,12 @@ export class BigSliderCard extends LitElement {
     this.style.setProperty('--bsc-entity-color', color);
     this.style.setProperty('--bsc-brightness', brightness);
     this.style.setProperty('--bsc-brightness-ui', brightnessUI);
+    if(this.config.background_color) {
+      this.style.setProperty('--bsc-background', this.config.background_color);
+    }
+    if(this.config.text_color) {
+      this.style.setProperty('--bsc-primary-text-color', this.config.text_color);
+    }
     if(this.config.icon_color && isOn) {
       this.style.setProperty('--bsc-icon-color', this.config.icon_color);
     }
@@ -273,6 +279,18 @@ export class BigSliderCard extends LitElement {
     }
     if(this.config.color) {
       this.style.setProperty('--bsc-slider-color', this.config.color);
+    }
+    if(this.config.border_color) {
+      this.style.setProperty('--bsc-border-color', this.config.border_color);
+    }
+    if(this.config.border_radius) {
+      this.style.setProperty('--bsc-border-radius', this.config.border_radius);
+    }
+    if(this.config.border_style) {
+      this.style.setProperty('--bsc-border-style', this.config.border_style);
+    }
+    if(this.config.border_width) {
+      this.style.setProperty('--bsc-border-width', this.config.border_width);
     }
   }
 
@@ -508,6 +526,10 @@ export class BigSliderCard extends LitElement {
         --bsc-entity-color: var(--bsc-color);
         --bsc-primary-text-color: var(--primary-text-color);
         --bsc-secondary-text-color: var(--secondary-text-color);
+        --bsc-border-color: var(--ha-card-border-color);
+        --bsc-border-radius: var(--ha-card-border-radius);
+        --bsc-border-style: var(--ha-card-border-style);
+        --bsc-border-width: var(--ha-card-border-width);
 
 
         display: flex;
@@ -528,7 +550,11 @@ export class BigSliderCard extends LitElement {
         width: 100%;
         position: relative;
         overflow: hidden;
-        background: var(--card-background-color);
+        background: var(--bsc-background);
+        border-color: var(--bsc-border-color, rgba(0 0 0 / 14%));
+        border-radius: var(--bsc-border-radius, 4px);
+        border-style: var(--bsc-border-style, solid);
+        border-width: var(--bsc-border-width, 1px);
         z-index: 1; //fix safari bug with filter transition https://stackoverflow.com/a/27935035
       }
 
