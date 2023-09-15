@@ -39,7 +39,7 @@ entity: light.lamp
 name: Bedroom Lamp
 attribute: brightness
 transition: 0.3
-background_color: '#345634'
+background_color: '#a45634'
 text_color: '#ffffff'
 border_color: 'ff00ff'
 border_radius: '4px'
