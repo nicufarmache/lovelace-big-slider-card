@@ -301,8 +301,18 @@ export class BigSliderCard extends LitElement {
     const attr = this.config?.attribute || DEFAULT_ATTRIBUTE;
     let _value = 0;
 
+    if(this.stateObj.state == 'unavailable'){
+      this.config.min = 0;
+      this.config.max = 0;
+      this.style.setProperty('--bsc-opacity', '0.5');
+    } else {
+      this.config.min = this.config.original_min;
+      this.config.max = this.config.original_max;
+      this.style.removeProperty('--bsc-opacity');
+    }
+
     if (this.stateObj.state != 'on') {
-      _value = 0
+      _value = this.config.min;
     } else {
       switch (attr) {
         case 'brightness':
@@ -406,6 +416,8 @@ export class BigSliderCard extends LitElement {
       max: 100,
       ...config,
     };
+    this.config.original_min = this.config.min;
+    this.config.original_max = this.config.max;
     /* eslint-enable @typescript-eslint/camelcase */
   }
 
@@ -530,6 +542,7 @@ export class BigSliderCard extends LitElement {
         --bsc-border-radius: var(--ha-card-border-radius);
         --bsc-border-style: var(--ha-card-border-style);
         --bsc-border-width: var(--ha-card-border-width);
+        --bsc-opacity: 1;
 
 
         display: flex;
@@ -550,6 +563,7 @@ export class BigSliderCard extends LitElement {
         width: 100%;
         position: relative;
         overflow: hidden;
+        opacity: var(--bsc-opacity);
         background: var(--bsc-background);
         border-color: var(--bsc-border-color, rgba(0 0 0 / 14%));
         border-radius: var(--bsc-border-radius, 4px);

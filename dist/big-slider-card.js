@@ -3095,8 +3095,18 @@ let BigSliderCard = class BigSliderCard extends LitElement {
             return;
         const attr = ((_a = this.config) === null || _a === void 0 ? void 0 : _a.attribute) || DEFAULT_ATTRIBUTE;
         let _value = 0;
+        if (this.stateObj.state == 'unavailable') {
+            this.config.min = 0;
+            this.config.max = 0;
+            this.style.setProperty('--bsc-opacity', '0.5');
+        }
+        else {
+            this.config.min = this.config.original_min;
+            this.config.max = this.config.original_max;
+            this.style.removeProperty('--bsc-opacity');
+        }
         if (this.stateObj.state != 'on') {
-            _value = 0;
+            _value = this.config.min;
         }
         else {
             switch (attr) {
@@ -3194,6 +3204,8 @@ let BigSliderCard = class BigSliderCard extends LitElement {
                 action: 'toggle',
                 haptic: 'light',
             }, min_slide_time: MIN_SLIDE_TIME, hold_time: HOLD_TIME, settle_time: SETTLE_TIME, min: 0, max: 100 }, config);
+        this.config.original_min = this.config.min;
+        this.config.original_max = this.config.max;
         /* eslint-enable @typescript-eslint/camelcase */
     }
     _stopUpdates() {
@@ -3308,6 +3320,7 @@ let BigSliderCard = class BigSliderCard extends LitElement {
         --bsc-border-radius: var(--ha-card-border-radius);
         --bsc-border-style: var(--ha-card-border-style);
         --bsc-border-width: var(--ha-card-border-width);
+        --bsc-opacity: 1;
 
 
         display: flex;
@@ -3328,6 +3341,7 @@ let BigSliderCard = class BigSliderCard extends LitElement {
         width: 100%;
         position: relative;
         overflow: hidden;
+        opacity: var(--bsc-opacity);
         background: var(--bsc-background);
         border-color: var(--bsc-border-color, rgba(0 0 0 / 14%));
         border-radius: var(--bsc-border-radius, 4px);
