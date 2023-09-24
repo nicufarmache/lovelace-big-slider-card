@@ -17,6 +17,7 @@ export interface BigSliderCardConfig extends LovelaceCardConfig {
   entity: string;
   attribute?: string;
   transition?: number;
+  height?: number;
   color?: string;
   background_color?: string;
   text_color?: string;

@@ -39,6 +39,7 @@ entity: light.lamp
 name: Bedroom Lamp
 attribute: brightness
 transition: 0.3
+height: 80
 background_color: '#a45634'
 text_color: '#ffffff'
 border_color: 'ff00ff'
@@ -69,6 +70,7 @@ hold_action:
 | name              | string  | **Optional** | Name to show on card                           | entity name         |
 | attribute         | string  | **Optional** | Attribute to control                           | `brightness`        |
 | transition        | number  | **Optional** | Transition time (seonds)                       | not used if unset   |
+| height            | number  | **Optional** | Card height in px                              | form theme          |
 | color             | string  | **Optional** | Slider color (CSS format)                      | form theme          |
 | background_color  | string  | **Optional** | Background color (CSS format)                  | form theme          |
 | text_color        | string  | **Optional** | Text color (CSS format)                        | form theme          |

@@ -30,6 +30,8 @@ import {
   HOLD_TIME,
   MIN_SLIDE_TIME,
   TAP_THRESHOLD,
+  MIN,
+  MAX,
 } from './const';
 import { localize } from './localize/localize';
 
@@ -42,7 +44,7 @@ console.info(
 );
 
 // This puts your card into the UI card picker dialog
-(window as any).customCards = (window as any).customCards || [];
+(window as any).customCards = (window as any).customCards ?? [];
 (window as any).customCards.push({
   type: 'big-slider-card',
   name: 'Big Slider Card',
@@ -116,7 +118,7 @@ export class BigSliderCard extends LitElement {
   }
 
   _handleContextMenu = (ev: Event): boolean => {
-    const e = ev || window.event;
+    const e = ev ?? window.event;
     if (e.preventDefault) {
       e.preventDefault();
     }
@@ -130,6 +132,7 @@ export class BigSliderCard extends LitElement {
 
   _handlePointer = (evt, extra): void => {
     this.mousePos = { x: evt.pageX, y: evt.pageY };
+    const minSlideTime = this.config.min_slide_time ?? MIN_SLIDE_TIME;
 
     if (evt.type === 'pointerdown') {
       this._press();
@@ -168,7 +171,7 @@ export class BigSliderCard extends LitElement {
         return;
       }
 
-      if((Date.now() - this.trackingStartTime) > this.config.min_slide_time) {
+      if((Date.now() - this.trackingStartTime) > minSlideTime) {
         this._setValue();
         this._startUpdates(true);
       }
@@ -208,7 +211,7 @@ export class BigSliderCard extends LitElement {
 
   _press(): void {
     if(this.pressTimeout) clearTimeout(this.pressTimeout);
-    this.pressTimeout = window.setTimeout(() => this.setAttribute('pressed', ''), this.config.min_slide_time)
+    this.pressTimeout = window.setTimeout(() => this.setAttribute('pressed', ''), this.config.min_slide_time ?? MIN_SLIDE_TIME)
     this.setAttribute('half-pressed', '')
   }
 
@@ -219,12 +222,14 @@ export class BigSliderCard extends LitElement {
   }
 
   _checklimits(): void {
-    if (this.currentValue < this.config.min){
-      this.currentValue = this.config.min;
+    const min = this.config.min ?? MIN;
+    const max = this.config.max ?? MAX;
+    if (this.currentValue < min){
+      this.currentValue = min;
       this._resetTrack();
     }
-    if (this.currentValue > this.config.max){
-      this.currentValue = this.config.max;
+    if (this.currentValue > max){
+      this.currentValue = max;
       this._resetTrack();
     }
   }
@@ -243,8 +248,8 @@ export class BigSliderCard extends LitElement {
 
     if (this.stateObj) {
       if (this.stateObj.state == 'on') {
-        const stateColor = this.stateObj.attributes?.rgb_color || [255, 255, 255];
-        const stateBrightness = this.stateObj.attributes?.brightness || 255;
+        const stateColor = this.stateObj.attributes?.rgb_color ?? [255, 255, 255];
+        const stateBrightness = this.stateObj.attributes?.brightness ?? 255;
         isOn = true;
         if (stateColor) {
           color = `rgb(${stateColor.join(',')})`;
@@ -277,7 +282,7 @@ export class BigSliderCard extends LitElement {
     if (!this._shouldUpdate) return;
     if (!this.stateObj) return;
 
-    const attr = this.config?.attribute || DEFAULT_ATTRIBUTE;
+    const attr = this.config?.attribute ?? DEFAULT_ATTRIBUTE;
     let _value = 0;
 
     if(this.stateObj.state == 'unavailable'){
@@ -291,16 +296,16 @@ export class BigSliderCard extends LitElement {
     }
 
     if (this.stateObj.state != 'on') {
-      _value = this.config.min;
+      _value = this.config.min ?? MIN;
     } else {
       switch (attr) {
         case 'brightness':
-          _value = Math.round(100 * (this.stateObj.attributes.brightness || 255)/255)
+          _value = Math.round(100 * (this.stateObj.attributes.brightness ?? 255)/255)
           break;
         case 'red':
         case 'green':
         case 'blue':
-          const rgb = this.stateObj.attributes.rgb_color || [255, 255, 255];
+          const rgb = this.stateObj.attributes.rgb_color ?? [255, 255, 255];
           if (attr === 'red') _value = rgb[0];
           if (attr === 'green') _value = rgb[1];
           if (attr === 'blue') _value = rgb[2];
@@ -308,7 +313,7 @@ export class BigSliderCard extends LitElement {
           break;
         case 'hue':
         case 'saturation':
-          const hs = this.stateObj.attributes.hs_color || [100, 100];
+          const hs = this.stateObj.attributes.hs_color ?? [100, 100];
           if (attr === 'hue') _value = hs[0];
           if (attr === 'saturation') _value = hs[1];
           break;
@@ -322,7 +327,7 @@ export class BigSliderCard extends LitElement {
   _setValue(): void {
 
     let value = this.currentValue;
-    let attr = this.config.attribute || DEFAULT_ATTRIBUTE;
+    let attr = this.config.attribute ?? DEFAULT_ATTRIBUTE;
 
     let on = true;
     let _value;
@@ -334,7 +339,7 @@ export class BigSliderCard extends LitElement {
       case 'red':
       case 'green':
       case 'blue':
-        _value = this.stateObj.attributes.rgb_color || [255, 255, 255];
+        _value = this.stateObj.attributes.rgb_color ?? [255, 255, 255];
         if (attr === 'red') _value[0] = value;
         if (attr === 'green') _value[1] = value;
         if (attr === 'blue') _value[2] = value;
@@ -343,7 +348,7 @@ export class BigSliderCard extends LitElement {
         break;
       case 'hue':
       case 'saturation':
-        _value = this.stateObj.attributes.hs_color || [100, 100];
+        _value = this.stateObj.attributes.hs_color ?? [100, 100];
         if (attr === 'hue') _value[0] = value;
         if (attr === 'saturation') _value[1] = value;
         value = _value;
@@ -388,11 +393,10 @@ export class BigSliderCard extends LitElement {
         action: 'toggle',
         haptic: 'light',
       },
-      min_slide_time: MIN_SLIDE_TIME,
       hold_time: HOLD_TIME,
       settle_time: SETTLE_TIME,
-      min: 0,
-      max: 100,
+      min: MIN,
+      max: MAX,
       ...config,
     };
     this.config.original_min = this.config.min;
@@ -427,7 +431,7 @@ export class BigSliderCard extends LitElement {
   }
 
   protected updated(): void {
-    this.containerWidth = this.shadowRoot?.getElementById('container')?.clientWidth || 0;
+    this.containerWidth = this.shadowRoot?.getElementById('container')?.clientWidth ?? 0;
     this._getValue();
     this._updateColors();
   }
@@ -475,7 +479,7 @@ export class BigSliderCard extends LitElement {
         <ha-icon .icon="${icon}" id="icon"></ha-icon>
         <div id="content">
           <p id="label" class="${boldText ? 'bold' : ''}">
-            <span id="name">${this.config.name || name}</span>
+            <span id="name">${this.config.name ?? name}</span>
             <span id="percentage" class="${showPercentage ? '' : 'hide'}"></span>
           </p>
         </div>
