@@ -1,4 +1,4 @@
-export const CARD_VERSION = '1.1.2';
+export const CARD_VERSION = '1.1.3';
 export const DEFAULT_ATTRIBUTE = 'brightness';
 export const SETTLE_TIME = 3000;
 export const HOLD_TIME = 600;
