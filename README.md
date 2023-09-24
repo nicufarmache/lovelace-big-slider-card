@@ -56,9 +56,12 @@ max: 80
 hold_time: 600
 settle_time: 3000
 tap_action:
-  action: toggle
-hold_action:
   action: more-info
+hold_action:
+  action: call-service
+  service: light.turn_on
+  service_data:
+    entity_id: light.test_light_1
 ```
 
 ### Options
