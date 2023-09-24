@@ -265,32 +265,11 @@ export class BigSliderCard extends LitElement {
     this.style.setProperty('--bsc-entity-color', color);
     this.style.setProperty('--bsc-brightness', brightness);
     this.style.setProperty('--bsc-brightness-ui', brightnessUI);
-    if(this.config.background_color) {
-      this.style.setProperty('--bsc-background', this.config.background_color);
-    }
-    if(this.config.text_color) {
-      this.style.setProperty('--bsc-primary-text-color', this.config.text_color);
-    }
     if(this.config.icon_color && isOn) {
       this.style.setProperty('--bsc-icon-color', this.config.icon_color);
     }
     if(this.config.icon_color && !isOn) {
       this.style.removeProperty('--bsc-icon-color');
-    }
-    if(this.config.color) {
-      this.style.setProperty('--bsc-slider-color', this.config.color);
-    }
-    if(this.config.border_color) {
-      this.style.setProperty('--bsc-border-color', this.config.border_color);
-    }
-    if(this.config.border_radius) {
-      this.style.setProperty('--bsc-border-radius', this.config.border_radius);
-    }
-    if(this.config.border_style) {
-      this.style.setProperty('--bsc-border-style', this.config.border_style);
-    }
-    if(this.config.border_width) {
-      this.style.setProperty('--bsc-border-width', this.config.border_width);
     }
   }
 
@@ -478,6 +457,15 @@ export class BigSliderCard extends LitElement {
 
     const boldText = (this.config.bold_text && true) ?? false;
 
+    this._setStyleProperty('--bsc-background', this.config.background_color);
+    this._setStyleProperty('--bsc-primary-text-color', this.config.text_color);
+    this._setStyleProperty('--bsc-slider-color', this.config.color);
+    this._setStyleProperty('--bsc-border-color', this.config.border_color);
+    this._setStyleProperty('--bsc-border-radius',  this.config.border_radius);
+    this._setStyleProperty('--bsc-border-style', this.config.border_style);
+    this._setStyleProperty('--bsc-border-width', this.config.border_width);
+    this._setStyleProperty('--bsc-height', this.config.height, (height) => `${height}px`);
+
     return html`
       <ha-card
         id="container"
@@ -493,6 +481,12 @@ export class BigSliderCard extends LitElement {
         </div>
       </ha-card>
     `;
+  }
+
+  _setStyleProperty(name: string, value: any, transform = (value: any): string => value): void {
+    if (value !== undefined && value !== null && value !== '') {
+      this.style.setProperty(name, transform(value));
+    }
   }
 
   _getName(): string {
@@ -542,6 +536,7 @@ export class BigSliderCard extends LitElement {
         --bsc-border-radius: var(--ha-card-border-radius);
         --bsc-border-style: var(--ha-card-border-style);
         --bsc-border-width: var(--ha-card-border-width);
+        --bsc-height: var(--ha-card-height, 60px);
         --bsc-opacity: 1;
 
 
@@ -559,7 +554,7 @@ export class BigSliderCard extends LitElement {
       }
 
       #container {
-        height: 60px;
+        height: var(--bsc-height);
         width: 100%;
         position: relative;
         overflow: hidden;
