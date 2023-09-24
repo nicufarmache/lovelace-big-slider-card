@@ -357,7 +357,6 @@ export class BigSliderCard extends LitElement {
     }
 
     const params: Record<string,any> = {
-      // eslint-disable-next-line @typescript-eslint/camelcase
       entity_id: this.stateObj.entity_id,
     }
 
@@ -374,7 +373,6 @@ export class BigSliderCard extends LitElement {
 
   // https://lit-element.polymer-project.org/guide/properties#accessors-custom
   public setConfig(config: BigSliderCardConfig): void {
-    /* eslint-disable @typescript-eslint/camelcase */
     if (!config) {
       throw new Error(localize('common.invalid_configuration'));
     }
@@ -401,7 +399,6 @@ export class BigSliderCard extends LitElement {
     };
     this.config.original_min = this.config.min;
     this.config.original_max = this.config.max;
-    /* eslint-enable @typescript-eslint/camelcase */
   }
 
   _stopUpdates(): void {
