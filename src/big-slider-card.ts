@@ -8,7 +8,7 @@ import {
   TemplateResult,
   css,
   PropertyValues,
-  internalProperty,
+  state,
 } from 'lit-element';
 
 import {
@@ -75,7 +75,7 @@ export class BigSliderCard extends LitElement {
   // TODO Add any properities that should cause your element to re-render here
   // https://lit-element.polymer-project.org/guide/properties
   @property({ attribute: false }) public hass!: HomeAssistant;
-  @internalProperty() private config!: BigSliderCardConfig;
+  @state() private config!: BigSliderCardConfig;
 
   constructor() {
     super();
