@@ -2,14 +2,13 @@
 import {
   LitElement,
   html,
-  customElement,
-  property,
   CSSResult,
   TemplateResult,
   css,
   PropertyValues,
-  state,
-} from 'lit-element';
+} from 'lit';
+
+import { property, customElement, state } from 'lit/decorators.js';
 
 import {
   HomeAssistant,
