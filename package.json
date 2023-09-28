@@ -12,8 +12,8 @@
   ],
   "module": "big-slider-card.js",
   "type": "module",
-  "repository": "git@github.com:custom_cards/big-slider-card.git",
-  "author": "Ian Richardson <iantrich@gmail.com>",
+  "repository": "git@github.com:nicufarmache/lovelace-big-slider-card.git",
+  "author": "Nicu Far,ache <github@nicu.ro>",
   "license": "MIT",
   "dependencies": {
     "@nicufarmache/slide-gesture": "^1.1.2",
@@ -45,7 +45,7 @@
     "typescript": "^5.2.2"
   },
   "scripts": {
-    "start": "rollup -c rollup.config.js --watch",
+    "start": "rollup -c --watch",
     "build": "npm run lint && npm run rollup",
     "lint": "eslint src/*.ts",
     "rollup": "rollup -c"
