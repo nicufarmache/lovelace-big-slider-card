@@ -13,7 +13,7 @@
   "module": "big-slider-card.js",
   "type": "module",
   "repository": "git@github.com:nicufarmache/lovelace-big-slider-card.git",
-  "author": "Nicu Far,ache <github@nicu.ro>",
+  "author": "Nicu Farmache <github@nicu.ro>",
   "license": "MIT",
   "dependencies": {
     "@nicufarmache/slide-gesture": "^1.1.2",

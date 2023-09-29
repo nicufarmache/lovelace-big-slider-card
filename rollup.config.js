@@ -33,9 +33,9 @@ const plugins = [
 
 export default [
   {
-    input: 'src/big-slider-card.ts',
+    input: 'src/index.ts',
     output: {
-      dir: 'dist',
+      file: 'dist/big-slider-card.js',
       format: 'es',
     },
     plugins: [...plugins],

@@ -14,8 +14,8 @@ export interface MousePos {
 export interface BigSliderCardConfig extends LovelaceCardConfig {
   type: string;
   name?: string;
-  entity: string;
-  attribute?: string;
+  entity?: string;
+  attribute: string;
   transition?: number;
   height?: number;
   color?: string;
@@ -30,11 +30,11 @@ export interface BigSliderCardConfig extends LovelaceCardConfig {
   icon?: string;
   show_percentage?: boolean;
   bold_text?: boolean;
-  min?: number;
-  max?: number;
-  min_slide_time?: number;
-  hold_time?: number;
-  settle_time?: number;
-  tap_action?: ActionConfig;
+  min: number;
+  max: number;
+  min_slide_time: number;
+  hold_time: number;
+  settle_time: number;
+  tap_action: ActionConfig;
   hold_action?: ActionConfig;
 }
