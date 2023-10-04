@@ -60,7 +60,7 @@ tap_action:
 hold_action:
   action: call-service
   service: light.turn_on
-  service_data:
+  data:
     entity_id: light.test_light_1
 ```
 
