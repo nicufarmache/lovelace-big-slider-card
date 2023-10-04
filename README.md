@@ -17,7 +17,10 @@ Big slider card inspired by the google home app cards for `light` entities.
 
 ### HACS
 This card is available in [HACS][hacs] (Home Assistant Community Store).
-Just search for `Big Slider Card` in the Frontend section.
+Search for `Big Slider Card` in the Frontend section.
+Or try this link to go directly there: 
+
+<a href="https://my.home-assistant.io/redirect/hacs_repository/?owner=nicufarmache&repository=lovelace-big-slider-card&category=plugin" target="_blank" rel="noreferrer noopener"><img src="https://my.home-assistant.io/badges/hacs_repository.svg" alt="Open your Home Assistant instance and open a repository inside the Home Assistant Community Store." height="32"/></a>
 
 ### Manual
 
