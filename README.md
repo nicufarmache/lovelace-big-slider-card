@@ -91,10 +91,9 @@ hold_action:
 | min_slide_time    | number  | **Optional** | Mimimum time to prevent accidental changes (ms)| `0`                 |
 | hold_time         | number  | **Optional** | Hold gesture time (ms)                         | `600`               |
 | settle_time       | number  | **Optional** | Ignore updates after changig the value (ms)    | `3000`              |
-| tap_action        | object  | **Optional** | Action¹ to take on tap                         | `action: toggle`    |
-| hold_action       | object  | **Optional** | Action¹ to take on hold                        | `action: more-info` |
+| tap_action        | object  | **Optional** | Action to take on tap                          | `action: toggle`    |
+| hold_action       | object  | **Optional** | Action to take on hold                         | `action: more-info` |
 
-¹ For the `tap_action` and `hold_action` options the old syntax with `service_data` instead of `data` is still used. (see bug [#34](https://github.com/nicufarmache/lovelace-big-slider-card/issues/34))
 For more info about the rest of the action options see this page: [Actions - Home Assistant][actions]
 
 ### The card uses the following css variables for configuring the look and feel:
