@@ -555,7 +555,7 @@ export class BigSliderCard extends LitElement {
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        padding: 0 24px 0 72px;
+        padding: 0 24px 0 64px;
         box-sizing: border-box;
       }
 
