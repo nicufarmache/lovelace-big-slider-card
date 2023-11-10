@@ -472,13 +472,12 @@ export class BigSliderCard extends LitElement {
         --bsc-entity-color: var(--bsc-color);
         --bsc-primary-text-color: var(--primary-text-color);
         --bsc-secondary-text-color: var(--secondary-text-color);
-        --bsc-border-color: var(--ha-card-border-color);
-        --bsc-border-radius: var(--ha-card-border-radius);
-        --bsc-border-style: var(--ha-card-border-style);
-        --bsc-border-width: var(--ha-card-border-width);
+        --bsc-border-color: var(--ha-card-border-color, var(--divider-color,#e0e0e0));
+        --bsc-border-radius: var(--ha-card-border-radius, 12px);
+        --bsc-border-style: var(--ha-card-border-style, solid);
+        --bsc-border-width: var(--ha-card-border-width, 1px);
         --bsc-height: var(--ha-card-height, 60px);
         --bsc-opacity: 1;
-
 
         display: flex;
         transition: transform 0.1s ease-out;
@@ -500,10 +499,10 @@ export class BigSliderCard extends LitElement {
         overflow: hidden;
         opacity: var(--bsc-opacity);
         background: var(--bsc-background);
-        border-color: var(--bsc-border-color, rgba(0 0 0 / 14%));
-        border-radius: var(--bsc-border-radius, 4px);
-        border-style: var(--bsc-border-style, solid);
-        border-width: var(--bsc-border-width, 1px);
+        border-color: var(--bsc-border-color);
+        border-radius: var(--bsc-border-radius);
+        border-style: var(--bsc-border-style);
+        border-width: var(--bsc-border-width);
         z-index: 1; //fix safari bug with filter transition https://stackoverflow.com/a/27935035
       }
 
