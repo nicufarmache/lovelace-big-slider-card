@@ -8,7 +8,11 @@
     "hass",
     "automation",
     "lovelace",
-    "custom-cards"
+    "custom-cards",
+    "slider",
+    "big-slider",
+    "big-slider-card",
+    "big-slider-card"
   ],
   "module": "big-slider-card.js",
   "type": "module",
@@ -16,9 +20,9 @@
   "author": "Nicu Farmache <github@nicu.ro>",
   "license": "MIT",
   "dependencies": {
-    "@nicufarmache/slide-gesture": "^1.1.2",
+    "@nicufarmache/slide-gesture": "^1.2.4",
     "custom-card-helpers": "^1.9.0",
-    "home-assistant-js-websocket": "^8.2.0",
+    "home-assistant-js-websocket": "^9.1.0",
     "lit": "^2.8.0"
   },
   "devDependencies": {
@@ -42,7 +46,7 @@
     "typescript": "^5.2.2"
   },
   "scripts": {
-    "start": "rollup -c --watch",
+    "dev": "rollup -c --watch",
     "build": "npm run lint && npm run rollup",
     "lint": "eslint src/*.ts",
     "rollup": "rollup -c"
