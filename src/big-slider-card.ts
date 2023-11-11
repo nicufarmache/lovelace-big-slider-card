@@ -68,6 +68,7 @@ export class BigSliderCard extends LitElement {
 
   set hass(hass: HomeAssistant) {
     if (!this._entity) return;
+    console.log('hass', hass);
     this._hass = hass;
     this._state = hass.states[this._entity];
     this._status = this._state?.state;
@@ -230,8 +231,6 @@ export class BigSliderCard extends LitElement {
 
   _updateSlider() {
     this.style.setProperty('--bsc-percent', this.currentValue + '%');
-    const percentage = this?.shadowRoot?.getElementById('percentage');
-    percentage && (percentage.innerText = Math.round(this.currentValue) + '%');
   }
 
   _updateColors() {
@@ -257,10 +256,6 @@ export class BigSliderCard extends LitElement {
       }
     }
 
-    const percentage = this?.shadowRoot?.getElementById('percentage');
-    if (!isOn) {
-      percentage && (percentage.innerText = localize('common.off'));
-    }
     this.style.setProperty('--bsc-entity-color', color);
     this.style.setProperty('--bsc-brightness', brightness);
     this.style.setProperty('--bsc-brightness-ui', brightnessUI);
@@ -269,6 +264,21 @@ export class BigSliderCard extends LitElement {
     }
     if(this._config.icon_color && !isOn) {
       this.style.removeProperty('--bsc-icon-color');
+    }
+  }
+
+  _updateLables() {
+    if (!this._config.show_percentage) return;
+    const percentage = this.shadowRoot?.getElementById('percentage');
+    if (!percentage) return;
+    if (!this._hass) return;
+    if (!this._state) return;
+
+    if (this._status == 'on') {
+      percentage.innerText = `${Math.round(this.currentValue)}%`;
+    } else {
+      //off or unavailable
+      percentage.innerText = this._hass.formatEntityState(this._state);
     }
   }
 
@@ -315,7 +325,6 @@ export class BigSliderCard extends LitElement {
     }
 
     this.currentValue = _value;
-    this._updateSlider();
   }
 
   _setValue() {
@@ -386,7 +395,9 @@ export class BigSliderCard extends LitElement {
   protected updated() {
     this.containerWidth = this.shadowRoot?.getElementById('container')?.clientWidth ?? 0;
     this._getValue();
+    this._updateSlider();
     this._updateColors();
+    this._updateLables();
   }
 
   protected render(): TemplateResult | void {
