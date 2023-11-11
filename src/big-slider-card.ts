@@ -1,5 +1,5 @@
 
-import { SlideGesture } from '@nicufarmache/slide-gesture';
+import { SlideGesture, SlideGestureCallbackFn } from '@nicufarmache/slide-gesture';
 import { HassEntity } from "home-assistant-js-websocket";
 import { HomeAssistant } from './ha-types';
 import type { BigSliderCardConfig, MousePos } from './types';
@@ -16,7 +16,6 @@ import {
 } from 'lit';
 
 export class BigSliderCard extends LitElement {
-  // @property({ attribute: false }) public hass!: HomeAssistant;
   @state() private _config: BigSliderCardConfig = DEFAULT_CONFIG;
   @state() private _entity?: string;
   @state() private _state?: HassEntity;
@@ -34,10 +33,10 @@ export class BigSliderCard extends LitElement {
   private updateTimeout: number = 0;
   private pressTimeout: number = 0;
   private trackingStartTime: number = 0;
-  private slideGesture: any;
+  private slideGesture?: SlideGesture;
   private isTap: boolean = false;
 
-  public static getStubConfig(
+  static getStubConfig(
     _hass: HomeAssistant,
     entities: string[],
   ): Partial<BigSliderCardConfig> {
@@ -48,7 +47,7 @@ export class BigSliderCard extends LitElement {
 
   // life cycle
 
-  public setConfig(config: Partial<BigSliderCardConfig>): void {
+  setConfig(config: Partial<BigSliderCardConfig>) {
     if (!config) {
       throw new Error(localize('common.invalid_configuration'));
     }
@@ -79,7 +78,7 @@ export class BigSliderCard extends LitElement {
       '';
   }
 
-  _log(text): void{
+  _log(text: string): void{
     console.log(
       `%c  BIG-SLIDER-CARD ${this._name} %c ${text} `,
       'color: orange; font-weight: bold; background: black',
@@ -87,7 +86,7 @@ export class BigSliderCard extends LitElement {
     );
   }
 
-  connectedCallback(): void {
+  connectedCallback() {
     super.connectedCallback();
     this.addEventListener('contextmenu', this._handleContextMenu);
     this.slideGesture = new SlideGesture(this, this._handlePointer.bind(this), { 
@@ -96,13 +95,13 @@ export class BigSliderCard extends LitElement {
     });
   }
 
-  disconnectedCallback(): void {
+  disconnectedCallback() {
     this.removeEventListener('contextmenu', this._handleContextMenu);
-    this.slideGesture.removeListeners();
+    this.slideGesture?.removeListeners();
     super.disconnectedCallback();
   }
 
-  _handleContextMenu = (e: Event): boolean => {
+  _handleContextMenu(e: Event): boolean {
     if (e.preventDefault) {
       e.preventDefault();
     }
@@ -112,7 +111,7 @@ export class BigSliderCard extends LitElement {
     return false;
   }
 
-  _handlePointer = (evt, extra): void => {
+  _handlePointer: SlideGestureCallbackFn = (evt, extra): void => {
     this.mousePos = { x: evt.pageX, y: evt.pageY };
     const minSlideTime = this._config.min_slide_time;
 
@@ -160,7 +159,7 @@ export class BigSliderCard extends LitElement {
     }
   }
 
-  _updateValue(): void {
+  _updateValue() {
     const width = this.containerWidth;
     const dx = this.mousePos.x - this.mouseStartPos.x;
 
@@ -171,7 +170,7 @@ export class BigSliderCard extends LitElement {
     this._updateSlider();
   }
 
-  private _handleAction(action: any): void {
+  private _handleAction(action: any) {
     const event = new Event('hass-action', {
       bubbles: true,
       cancelable: false,
@@ -184,13 +183,13 @@ export class BigSliderCard extends LitElement {
     this.dispatchEvent(event);
   }
 
-  _setHold = (): void => {
+  _setHold() {
     this.isTap = false;
     this.isHold = true;
     this._handleAction('hold');
   }
 
-  _handleTap = (): void => {
+  _handleTap() {
     clearTimeout(this.holdTimer);
     if (this._config?.tap_action) {
       if (!this.isHold) {
@@ -199,43 +198,43 @@ export class BigSliderCard extends LitElement {
     }
   }
 
-  _resetTrack(): void {
+  _resetTrack() {
     this.mouseStartPos = { x: this.mousePos.x, y: this.mousePos.y };
     this.oldValue = this.currentValue;
   }
 
-  _press(): void {
+  _press() {
     if(this.pressTimeout) clearTimeout(this.pressTimeout);
     this.pressTimeout = window.setTimeout(() => this.setAttribute('pressed', ''), this._config.min_slide_time)
     this.setAttribute('half-pressed', '')
   }
 
-  _unpress(): void {
+  _unpress() {
     if(this.pressTimeout) clearTimeout(this.pressTimeout);
     this.removeAttribute('pressed');
     this.removeAttribute('half-pressed');
   }
 
-  _checklimits(): void {
+  _checklimits() {
     const min = this._config.min ?? 0;
     const max = this._config.max ?? 100;
-    if (this.currentValue < min){
+    if (this.currentValue < min) {
       this.currentValue = min;
       this._resetTrack();
     }
-    if (this.currentValue > max){
+    if (this.currentValue > max) {
       this.currentValue = max;
       this._resetTrack();
     }
   }
 
-  _updateSlider(): void {
+  _updateSlider() {
     this.style.setProperty('--bsc-percent', this.currentValue + '%');
     const percentage = this?.shadowRoot?.getElementById('percentage');
     percentage && (percentage.innerText = Math.round(this.currentValue) + '%');
   }
 
-  _updateColors(): void {
+  _updateColors() {
     let color = 'var(--bsc-color)';
     let brightness = '0%';
     let brightnessUI = '50%';
@@ -273,14 +272,14 @@ export class BigSliderCard extends LitElement {
     }
   }
 
-  _getValue(): void {
+  _getValue() {
     if (!this._shouldUpdate) return;
     if (!this._state) return;
 
     const attr = this._config?.attribute;
     let _value = 0;
 
-    if(this._status == 'unavailable'){
+    if(this._status == 'unavailable') {
       this._config.min = 0;
       this._config.max = 0;
       this.style.setProperty('--bsc-opacity', '0.5');
@@ -319,7 +318,7 @@ export class BigSliderCard extends LitElement {
     this._updateSlider();
   }
 
-  _setValue(): void {
+  _setValue() {
     if (!this._state) return;
 
     let value = this.currentValue;
@@ -367,14 +366,14 @@ export class BigSliderCard extends LitElement {
     }
   }
 
-  _stopUpdates(): void {
+  _stopUpdates() {
     if(this.updateTimeout) clearTimeout(this.updateTimeout);
     if(!this._shouldUpdate) return;
     this.shadowRoot?.getElementById('slider')?.classList?.remove('animate')
     this._shouldUpdate = false;
   }
 
-  _startUpdates(settle = false): void {
+  _startUpdates(settle = false) {
     if(this.updateTimeout) clearTimeout(this.updateTimeout);
     this.updateTimeout = window.setTimeout(() => {
       this._shouldUpdate = true;
@@ -384,7 +383,7 @@ export class BigSliderCard extends LitElement {
 
   }
 
-  protected updated(): void {
+  protected updated() {
     this.containerWidth = this.shadowRoot?.getElementById('container')?.clientWidth ?? 0;
     this._getValue();
     this._updateColors();
@@ -433,16 +432,10 @@ export class BigSliderCard extends LitElement {
     `;
   }
 
-  _setStyleProperty(name: string, value: any, transform = (value: any): string => value): void {
+  _setStyleProperty(name: string, value: any, transform = (value: any): string => value) {
     if (value !== undefined && value !== null && value !== '') {
       this.style.setProperty(name, transform(value));
     }
-  }
-
-  private _showWarning(warning: string): TemplateResult {
-    return html`
-      <hui-warning>${warning}</hui-warning>
-    `;
   }
 
   private _showError(error: string): TemplateResult {
