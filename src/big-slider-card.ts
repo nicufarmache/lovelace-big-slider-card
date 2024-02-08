@@ -420,6 +420,8 @@ export class BigSliderCard extends LitElement {
         id="icon"
               .icon=${this._config.icon}
               .state=${this._state}
+              .hass=${this._hass}
+              .stateObj=${this._state}
               data-domain=${this._entity.split(".")[0]}
               data-state=${ifDefined(this._status)}
             ></ha-state-icon>
