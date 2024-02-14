@@ -409,6 +409,7 @@ export class BigSliderCard extends LitElement {
     this._setStyleProperty('--bsc-border-style', this._config.border_style);
     this._setStyleProperty('--bsc-border-width', this._config.border_width);
     this._setStyleProperty('--bsc-height', this._config.height, (height) => `${height}px`);
+    this._setStyleProperty('--bsc-slider-opacity', this._config.slider_opacity);
 
     return html`
       <ha-card
@@ -480,6 +481,7 @@ export class BigSliderCard extends LitElement {
         --bsc-border-width: var(--ha-card-border-width);
         --bsc-height: var(--ha-card-height, 60px);
         --bsc-opacity: 1;
+        --bsc-slider-opacity: 0.3;
 
 
         display: flex;
@@ -521,7 +523,7 @@ export class BigSliderCard extends LitElement {
         height: 100%;
         position: absolute;
         background-color: var(--bsc-slider-color);
-        opacity: 0.3;
+        opacity: var(--bsc-slider-opacity);
         left: 0;
         top: 0;
         right: calc(100% - var(--bsc-percent));
