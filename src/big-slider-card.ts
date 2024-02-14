@@ -46,6 +46,10 @@ export class BigSliderCard extends LitElement {
     return { type: 'custom:big-slider-card', entity: randomLight };
   }
 
+  static getConfigElement() {
+    return document.createElement("big-slider-card-editor");
+  }
+
   // life cycle
 
   public setConfig(config: Partial<BigSliderCardConfig>): void {
