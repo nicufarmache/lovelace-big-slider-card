@@ -1,5 +1,6 @@
 import { BigSliderCard } from './big-slider-card';
 import { CARD_VERSION } from './const';
+import { BigSliderCardEditor } from './editor';
 import { localize } from './localize/localize';
 
 /* eslint no-console: 0 */
@@ -10,6 +11,7 @@ console.info(
 );
 
 customElements.define("big-slider-card", BigSliderCard);
+customElements.define("big-slider-card-editor", BigSliderCardEditor);
 
 (window as any).customCards = (window as any).customCards ?? [];
 (window as any).customCards.push({
