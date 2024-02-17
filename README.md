@@ -82,7 +82,8 @@ hold_action:
 | border_radius     | string  | **Optional** | Border radius including units (CSS format)     | form theme          |
 | border_style      | string  | **Optional** | Border style (CSS format)                      | form theme          |
 | border_width      | string  | **Optional** | Border width (CSS format)                      | form theme          |
-| slider_opacity    | string  | **Optional** | Slider opacity (CSS format)                  | form theme          |
+| slider_opacity    | string  | **Optional** | Slider opacity (CSS format)                    | form theme          |
+| icon_padding      | string  | **Optional** | Padding around the icon (CSS format)           | form theme          |
 | colorize          | boolean | **Optional** | Colorize slider using entity color             | false               |
 | icon              | string  | **Optional** | Sets custom icon                               | entity icon         |
 | show_percentage   | boolean | **Optional** | Show percentage under entity name              | false               |
@@ -112,6 +113,7 @@ For more info about the rest of the action options see this page: [Actions - Hom
 --bsc-border-style: var(--ha-card-border-style);
 --bsc-border-width: var(--ha-card-border-width);
 --bsc-slider-opacity: 1;
+--bsc-icon-padding: 24px;
 ```
 
 
