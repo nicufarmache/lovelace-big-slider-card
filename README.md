@@ -57,6 +57,8 @@ hold_time: 600
 settle_time: 3000
 tap_action:
   action: more-info
+double_tap_action:
+  action: toggle
 hold_action:
   action: call-service
   service: light.turn_on
@@ -92,6 +94,7 @@ hold_action:
 | hold_time         | number  | **Optional** | Hold gesture time (ms)                         | `600`               |
 | settle_time       | number  | **Optional** | Ignore updates after changig the value (ms)    | `3000`              |
 | tap_action        | object  | **Optional** | Action to take on tap                          | `action: toggle`    |
+| double_tap_action | object  | **Optional** | Action to take on double tap                   | `action: none`      |
 | hold_action       | object  | **Optional** | Action to take on hold                         | `action: more-info` |
 
 For more info about the rest of the action options see this page: [Actions - Home Assistant][actions]

@@ -33,6 +33,9 @@ export class BigSliderCard extends LitElement {
   private _shouldUpdate: boolean = true;
   private updateTimeout: number = 0;
   private pressTimeout: number = 0;
+  private doubleTapTimer: number = 0;
+  private doubleTapTimeout: number = 300;
+  private lastTap: number = 0;
   private trackingStartTime: number = 0;
   private slideGesture: any;
   private isTap: boolean = false;
@@ -149,7 +152,16 @@ export class BigSliderCard extends LitElement {
       this._startUpdates();
 
       if (this.isTap) {
-        this._handleTap();
+        const now = Date.now();
+        if (now - this.lastTap < this.doubleTapTimeout) {
+          clearTimeout(this.doubleTapTimer);
+          this._handleDoubleTap();
+        } else {
+          this.doubleTapTimer = setTimeout(() => {
+            this._handleTap();
+          }, this.doubleTapTimeout);
+        }
+        this.lastTap = now;
         return;
       }
 
@@ -195,6 +207,15 @@ export class BigSliderCard extends LitElement {
     if (this._config?.tap_action) {
       if (!this.isHold) {
         this._handleAction('tap');
+      }
+    }
+  }
+
+  _handleDoubleTap = (): void => {
+    clearTimeout(this.holdTimer);
+    if (this._config?.double_tap_action) {
+      if (!this.isHold) {
+        this._handleAction('double_tap');
       }
     }
   }

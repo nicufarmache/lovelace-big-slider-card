@@ -36,5 +36,6 @@ export interface BigSliderCardConfig extends LovelaceCardConfig {
   hold_time: number;
   settle_time: number;
   tap_action: ActionConfig;
+  double_tap_action?: ActionConfig;
   hold_action?: ActionConfig;
 }
