@@ -79,7 +79,7 @@ export class BigSliderCard extends LitElement {
       '';
   }
 
-  _log(text): void{
+  _log(text: string): void{
     console.log(
       `%c  BIG-SLIDER-CARD ${this._name} %c ${text} `,
       'color: orange; font-weight: bold; background: black',
@@ -112,7 +112,7 @@ export class BigSliderCard extends LitElement {
     return false;
   }
 
-  _handlePointer = (evt, extra): void => {
+  _handlePointer = (evt: PointerEvent, extra: any): void => {
     this.mousePos = { x: evt.pageX, y: evt.pageY };
     const minSlideTime = this._config.min_slide_time;
 
@@ -441,11 +441,11 @@ export class BigSliderCard extends LitElement {
     }
   }
 
-  private _showWarning(warning: string): TemplateResult {
-    return html`
-      <hui-warning>${warning}</hui-warning>
-    `;
-  }
+  // private _showWarning(warning: string): TemplateResult {
+  //   return html`
+  //     <hui-warning>${warning}</hui-warning>
+  //   `;
+  // }
 
   private _showError(error: string): TemplateResult {
     const errorCard = document.createElement('hui-error-card');
