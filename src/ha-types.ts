@@ -17,51 +17,51 @@ import {
 // import { Themes } from "./data/ws-themes";
 // import { ExternalMessaging } from "./external_app/external_messaging";
 
-declare global {
-  /* eslint-disable no-var, no-redeclare */
-  var __DEV__: boolean;
-  var __DEMO__: boolean;
-  var __BUILD__: "latest" | "es5";
-  var __VERSION__: string;
-  var __STATIC_PATH__: string;
-  var __BACKWARDS_COMPAT__: boolean;
-  var __SUPERVISOR__: boolean;
-  /* eslint-enable no-var, no-redeclare */
+// declare global {
+//   /* eslint-disable no-var, no-redeclare */
+//   var __DEV__: boolean;
+//   var __DEMO__: boolean;
+//   var __BUILD__: "latest" | "es5";
+//   var __VERSION__: string;
+//   var __STATIC_PATH__: string;
+//   var __BACKWARDS_COMPAT__: boolean;
+//   var __SUPERVISOR__: boolean;
+//   /* eslint-enable no-var, no-redeclare */
 
-  interface Window {
-    // Custom panel entry point url
-    customPanelJS: string;
-    ShadyCSS: {
-      nativeCss: boolean;
-      nativeShadow: boolean;
-      prepareTemplate(templateElement, elementName, elementExtension);
-      styleElement(element);
-      styleSubtree(element, overrideProperties);
-      styleDocument(overrideProperties);
-      getComputedStyleValue(element, propertyName);
-    };
-  }
+//   interface Window {
+//     // Custom panel entry point url
+//     customPanelJS: string;
+//     ShadyCSS: {
+//       nativeCss: boolean;
+//       nativeShadow: boolean;
+//       prepareTemplate(templateElement, elementName, elementExtension);
+//       styleElement(element);
+//       styleSubtree(element, overrideProperties);
+//       styleDocument(overrideProperties);
+//       getComputedStyleValue(element, propertyName);
+//     };
+//   }
 
-  // for fire event
-  interface HASSDomEvents {
-    "value-changed": {
-      value: unknown;
-    };
-    change: undefined;
-    "hass-logout": undefined;
-    "iron-resize": undefined;
-    "config-refresh": undefined;
-    "hass-api-called": {
-      success: boolean;
-      response: unknown;
-    };
-  }
+//   // for fire event
+//   interface HASSDomEvents {
+//     "value-changed": {
+//       value: unknown;
+//     };
+//     change: undefined;
+//     "hass-logout": undefined;
+//     "iron-resize": undefined;
+//     "config-refresh": undefined;
+//     "hass-api-called": {
+//       success: boolean;
+//       response: unknown;
+//     };
+//   }
 
-  // For loading workers in webpack
-  interface ImportMeta {
-    url: string;
-  }
-}
+//   // For loading workers in webpack
+//   interface ImportMeta {
+//     url: string;
+//   }
+// }
 
 export interface ValueChangedEvent<T> extends CustomEvent {
   detail: {
@@ -75,7 +75,7 @@ export interface ClassElement {
   kind: "field" | "method";
   key: PropertyKey;
   placement: "static" | "prototype" | "own";
-  initializer?: (...args) => unknown;
+  initializer?: (...args: any[]) => unknown;
   extras?: ClassElement[];
   finisher?: <T>(cls: Constructor<T>) => undefined | Constructor<T>;
   descriptor?: PropertyDescriptor;
@@ -236,7 +236,7 @@ export interface HomeAssistant {
   moreInfoEntityId: string | null;
   user?: CurrentUser;
   userData?: any | null;
-  hassUrl(path?): string;
+  hassUrl(path?: string): string;
   callService(
     domain: ServiceCallRequest["domain"],
     service: ServiceCallRequest["service"],
