@@ -506,6 +506,7 @@ export class BigSliderCard extends LitElement {
         border-radius: var(--bsc-border-radius, 4px);
         border-style: var(--bsc-border-style, solid);
         border-width: var(--bsc-border-width, 1px);
+        transition: none;
         z-index: 1; //fix safari bug with filter transition https://stackoverflow.com/a/27935035
       }
 
