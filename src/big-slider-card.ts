@@ -96,6 +96,22 @@ export class BigSliderCard extends LitElement {
               },
             },
             {
+              name: 'colorize',
+              selector: { boolean: {} },
+            },
+            {
+              name: 'show_percentage',
+              selector: { boolean: {} },
+            },
+          ],
+        },
+        {
+          type: 'expandable',
+          name: 'styling',
+          title: 'Custom Styling',
+          flatten: true,
+          schema: [
+            {
               name: 'height',
               selector: {
                 number: {
@@ -107,29 +123,35 @@ export class BigSliderCard extends LitElement {
               },
             },
             {
-              name: 'colorize',
-              selector: { boolean: {} },
+              name: 'icon_size',
+              selector: {
+                number: {
+                  mode: 'box',
+                  min: 8,
+                  max: 96,
+                  unit_of_measurement: 'px',
+                },
+              },
             },
             {
-              name: 'show_percentage',
-              selector: { boolean: {} },
+              name: 'text_size',
+              selector: {
+                number: {
+                  mode: 'box',
+                  min: 8,
+                  max: 48,
+                  unit_of_measurement: 'px',
+                },
+              },
             },
-            {
-              name: 'bold_text',
-              selector: { boolean: {} },
-            },
-          ],
-        },
-        {
-          type: 'expandable',
-          name: 'styling',
-          title: 'Custom Styling',
-          flatten: true,
-          schema: [
             { name: 'color', selector: { text: {} } },
             { name: 'background_color', selector: { text: {} } },
             { name: 'text_color', selector: { text: {} } },
             { name: 'icon_color', selector: { text: {} } },
+            {
+              name: 'bold_text',
+              selector: { boolean: {} },
+            },
             { name: 'border_color', selector: { text: {} } },
             { name: 'border_radius', selector: { text: {} } },
             { name: 'border_style', selector: { text: {} } },
@@ -198,6 +220,8 @@ export class BigSliderCard extends LitElement {
           background_color: 'Background color',
           text_color: 'Text color',
           icon_color: 'Icon color',
+          icon_size: 'Icon size',
+          text_size: 'Text size',
           border_color: 'Border color',
           border_radius: 'Border radius',
           border_style: 'Border style',
@@ -612,6 +636,8 @@ export class BigSliderCard extends LitElement {
     this._setStyleProperty('--bsc-border-style', this._config.border_style);
     this._setStyleProperty('--bsc-border-width', this._config.border_width);
     this._setStyleProperty('--bsc-height', this._config.height, (height) => `${height}px`);
+    this._setStyleProperty('--bsc-icon-size', this._config.icon_size, (iconSize) => `${iconSize}px`);
+    this._setStyleProperty('--bsc-text-size', this._config.text_size, (textSize) => `${textSize}px`);
 
     return html`
       <ha-card
@@ -682,6 +708,8 @@ export class BigSliderCard extends LitElement {
         --bsc-border-style: var(--ha-card-border-style);
         --bsc-border-width: var(--ha-card-border-width);
         --bsc-height: var(--ha-card-height, 60px);
+        --bsc-icon-size: 24px;
+        --bsc-text-size: inherit;
         --bsc-opacity: 1;
 
 
@@ -746,12 +774,14 @@ export class BigSliderCard extends LitElement {
         top: 0;
         bottom: 0;
         left: 24px;
+        width: var(--bsc-icon-size);
         display: flex;
         justify-content: center;
         align-items: center;
         color: var(--bsc-icon-color, var(--bsc-entity-color));
         filter: brightness(var(--bsc-brightness-ui));
         transition: color 0.3s ease-out;
+        --mdc-icon-size: var(--bsc-icon-size);
       }
 
       #content {
@@ -761,13 +791,14 @@ export class BigSliderCard extends LitElement {
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        padding: 0 24px 0 72px;
+        padding: 0 24px 0 calc(48px + var(--bsc-icon-size));
         box-sizing: border-box;
       }
 
       #label {
         display: flex;
         flex-direction: column;
+        font-size: var(--bsc-text-size);
       }
 
       #label.bold {

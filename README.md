@@ -47,6 +47,8 @@ border_radius: '4px'
 border_style: 'dashed'
 border_width: '5px'
 icon_color: '#ff00ff'
+icon_size: 24
+text_size: 14
 colorize: true
 icon: mdi:lamp
 show_percentage: true
@@ -78,6 +80,8 @@ hold_action:
 | background_color  | string  | **Optional** | Background color (CSS format)                  | form theme          |
 | text_color        | string  | **Optional** | Text color (CSS format)                        | form theme          |
 | icon_color        | string  | **Optional** | Icon color (CSS format)                        | entity color        |
+| icon_size         | number  | **Optional** | Icon size in px                                | `24`                |
+| text_size         | number  | **Optional** | Text size in px                                | theme default       |
 | border_color      | string  | **Optional** | Border color (CSS format)                      | form theme          |
 | border_radius     | string  | **Optional** | Border radius including units (CSS format)     | form theme          |
 | border_style      | string  | **Optional** | Border style (CSS format)                      | form theme          |
@@ -110,6 +114,8 @@ For more info about the rest of the action options see this page: [Actions - Hom
 --bsc-border-radius: var(--ha-card-border-radius);
 --bsc-border-style: var(--ha-card-border-style);
 --bsc-border-width: var(--ha-card-border-width);
+--bsc-icon-size: 24px;
+--bsc-text-size: inherit;
 ```
 
 
