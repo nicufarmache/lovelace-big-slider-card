@@ -340,11 +340,12 @@ export class BigSliderCard extends LitElement {
       this._resetTrack();
     }
 
-    if (['pointerdown', 'pointermove', 'pointerup'].includes(evt.type)) {
+    if (!this.isHold && ['pointerdown', 'pointermove', 'pointerup'].includes(evt.type)) {
       this._updateValue();
     }
 
     if (evt.type === 'pointermove') {
+      if (this.isHold) return;
       if (this.isTap && (Math.abs(extra.relativeX) < TAP_THRESHOLD && Math.abs(extra.relativeY) < TAP_THRESHOLD))
         return;
       this.isTap = false;
@@ -362,6 +363,8 @@ export class BigSliderCard extends LitElement {
       clearTimeout(this.holdTimer);
       this._unpress();
       this._startUpdates();
+
+      if (this.isHold) return;
 
       if (this.isTap) {
         this._handleTap();
@@ -402,6 +405,8 @@ export class BigSliderCard extends LitElement {
   _setHold = (): void => {
     this.isTap = false;
     this.isHold = true;
+    this._shouldUpdate = true;
+    this.requestUpdate();
     this._handleAction('hold');
   }
 

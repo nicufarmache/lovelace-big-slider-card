@@ -3,7 +3,7 @@ var _t = (o) => {
 };
 var st = (o, t, e) => t.has(o) || _t("Cannot " + e);
 var a = (o, t, e) => (st(o, t, "read from private field"), e ? e.call(o) : t.get(o)), m = (o, t, e) => t.has(o) ? _t("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(o) : t.set(o, e), g = (o, t, e, i) => (st(o, t, "write to private field"), i ? i.call(o, e) : t.set(o, e), e), $ = (o, t, e) => (st(o, t, "access private method"), e);
-var _, P, S, w, C, O, M, L, U, H, y, b, F, lt, Ot, Mt, Pt;
+var _, P, S, w, C, O, U, H, M, L, y, b, F, lt, Ot, Ut, Pt;
 let Yt = (Pt = class {
   constructor(t, e, { touchActions: i, stopScrollDirection: s = "both" } = {}) {
     m(this, b);
@@ -13,29 +13,29 @@ let Yt = (Pt = class {
     m(this, w, 0);
     m(this, C, 0);
     m(this, O, 0);
-    m(this, M);
-    m(this, L, !1);
     m(this, U);
-    m(this, H);
+    m(this, H, !1);
+    m(this, M);
+    m(this, L);
     m(this, y);
-    g(this, _, t), g(this, P, i), g(this, M, e), g(this, U, s), g(this, H, $(this, b, Ot).bind(this)), g(this, y, $(this, b, Mt).bind(this)), this.addListeners();
+    g(this, _, t), g(this, P, i), g(this, U, e), g(this, M, s), g(this, L, $(this, b, Ot).bind(this)), g(this, y, $(this, b, Ut).bind(this)), this.addListeners();
   }
   addListeners() {
-    a(this, _).addEventListener("pointerdown", a(this, y)), a(this, _).addEventListener("pointermove", a(this, y)), a(this, _).addEventListener("pointerup", a(this, y)), a(this, _).addEventListener("pointercancel", a(this, y)), window.addEventListener("touchmove", a(this, H), { passive: !1 }), a(this, P) && (a(this, _).style.touchAction = a(this, P));
+    a(this, _).addEventListener("pointerdown", a(this, y)), a(this, _).addEventListener("pointermove", a(this, y)), a(this, _).addEventListener("pointerup", a(this, y)), a(this, _).addEventListener("pointercancel", a(this, y)), window.addEventListener("touchmove", a(this, L), { passive: !1 }), a(this, P) && (a(this, _).style.touchAction = a(this, P));
   }
   removeListeners() {
-    a(this, _).removeEventListener("pointerdown", a(this, y)), a(this, _).removeEventListener("pointermove", a(this, y)), a(this, _).removeEventListener("pointerup", a(this, y)), a(this, _).removeEventListener("pointercancel", a(this, y)), window.removeEventListener("touchmove", a(this, H)), a(this, P) && a(this, _).style.removeProperty("touch-action");
+    a(this, _).removeEventListener("pointerdown", a(this, y)), a(this, _).removeEventListener("pointermove", a(this, y)), a(this, _).removeEventListener("pointerup", a(this, y)), a(this, _).removeEventListener("pointercancel", a(this, y)), window.removeEventListener("touchmove", a(this, L)), a(this, P) && a(this, _).style.removeProperty("touch-action");
   }
-}, _ = new WeakMap(), P = new WeakMap(), S = new WeakMap(), w = new WeakMap(), C = new WeakMap(), O = new WeakMap(), M = new WeakMap(), L = new WeakMap(), U = new WeakMap(), H = new WeakMap(), y = new WeakMap(), b = new WeakSet(), F = function() {
-  g(this, L, !0);
+}, _ = new WeakMap(), P = new WeakMap(), S = new WeakMap(), w = new WeakMap(), C = new WeakMap(), O = new WeakMap(), U = new WeakMap(), H = new WeakMap(), M = new WeakMap(), L = new WeakMap(), y = new WeakMap(), b = new WeakSet(), F = function() {
+  g(this, H, !0);
 }, lt = function() {
-  g(this, L, !1);
+  g(this, H, !1);
 }, Ot = function(t) {
-  a(this, L) && t.preventDefault();
-}, Mt = function(t) {
-  if (t.type === "pointerdown" && (a(this, _).setPointerCapture(t.pointerId), g(this, S, t.pageX), g(this, w, t.pageY)), a(this, _).hasPointerCapture(t.pointerId) && t.type !== "pointercancel" && typeof a(this, M) == "function") {
+  a(this, H) && t.preventDefault();
+}, Ut = function(t) {
+  if (t.type === "pointerdown" && (a(this, _).setPointerCapture(t.pointerId), g(this, S, t.pageX), g(this, w, t.pageY)), a(this, _).hasPointerCapture(t.pointerId) && t.type !== "pointercancel" && typeof a(this, U) == "function") {
     const e = t.pageX - a(this, S), i = t.pageY - a(this, w), s = Math.abs(e / i) > 1, n = Math.abs(e / i) < 1;
-    a(this, U) === "horizontal" && s && $(this, b, F).call(this), a(this, U) === "vertical" && n && $(this, b, F).call(this), a(this, U) === "both" && $(this, b, F).call(this), a(this, M).call(this, t, {
+    a(this, M) === "horizontal" && s && $(this, b, F).call(this), a(this, M) === "vertical" && n && $(this, b, F).call(this), a(this, M) === "both" && $(this, b, F).call(this), a(this, U).call(this, t, {
       startX: a(this, S),
       startY: a(this, w),
       relativeX: e,
@@ -44,7 +44,7 @@ let Yt = (Pt = class {
       totalY: i + a(this, O)
     });
   }
-  t.type === "pointerup" && (g(this, C, +a(this, C) + t.pageX - a(this, S)), g(this, O, +a(this, O) + t.pageY - a(this, w)), a(this, _).releasePointerCapture(t.pointerId), $(this, b, lt).call(this)), t.type === "pointercancel" && (a(this, M).call(this, t, {
+  t.type === "pointerup" && (g(this, C, +a(this, C) + t.pageX - a(this, S)), g(this, O, +a(this, O) + t.pageY - a(this, w)), a(this, _).releasePointerCapture(t.pointerId), $(this, b, lt).call(this)), t.type === "pointercancel" && (a(this, U).call(this, t, {
     startX: a(this, S),
     startY: a(this, w),
     relativeX: 0,
@@ -68,11 +68,11 @@ const qt = "1.2.0", Gt = "brightness", Ft = 3e3, Kt = 600, Jt = 0, ft = 5, Zt = 
   min_slide_time: Jt,
   min: Zt,
   max: Qt
-}, Ut = { version: "Version", invalid_configuration: "Invalid configuration", show_warning: "Show Warning", no_entity_set: "Entity not set", no_entity: "Entity not available", on: "On", off: "Off" }, te = {
-  common: Ut
+}, Mt = { version: "Version", invalid_configuration: "Invalid configuration", show_warning: "Show Warning", no_entity_set: "Entity not set", no_entity: "Entity not available", on: "On", off: "Off" }, te = {
+  common: Mt
 }, ee = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  common: Ut,
+  common: Mt,
   default: te
 }, Symbol.toStringTag, { value: "Module" })), kt = { version: "Version", invalid_configuration: "Ungültige Konfiguration", show_warning: "Warnung anzeigen", no_entity_set: "Entität nicht gesetzt", no_entity: "Entität nicht verfügbar", on: "An", off: "Aus" }, ie = {
   common: kt
@@ -86,17 +86,17 @@ const qt = "1.2.0", Gt = "brightness", Ft = 3e3, Kt = 600, Jt = 0, ft = 5, Zt = 
   __proto__: null,
   common: zt,
   default: oe
-}, Symbol.toStringTag, { value: "Module" })), Lt = { version: "Version", invalid_configuration: "Configuration invalide", show_warning: "Afficher l'avertissement", no_entity_set: "Entité non définie", no_entity: "Entité non disponible", on: "Allumé", off: "Éteint" }, re = {
-  common: Lt
+}, Symbol.toStringTag, { value: "Module" })), Ht = { version: "Version", invalid_configuration: "Configuration invalide", show_warning: "Afficher l'avertissement", no_entity_set: "Entité non définie", no_entity: "Entité non disponible", on: "Allumé", off: "Éteint" }, re = {
+  common: Ht
 }, ae = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  common: Lt,
+  common: Ht,
   default: re
-}, Symbol.toStringTag, { value: "Module" })), Ht = { version: "Versione", invalid_configuration: "Configurazione non valida", show_warning: "Mostra avviso", no_entity_set: "Entità non impostata", no_entity: "Entità non disponibile", on: "Acceso", off: "Spento" }, ce = {
-  common: Ht
+}, Symbol.toStringTag, { value: "Module" })), Lt = { version: "Versione", invalid_configuration: "Configurazione non valida", show_warning: "Mostra avviso", no_entity_set: "Entità non impostata", no_entity: "Entità non disponibile", on: "Acceso", off: "Spento" }, ce = {
+  common: Lt
 }, le = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  common: Ht,
+  common: Lt,
   default: ce
 }, Symbol.toStringTag, { value: "Module" })), Rt = { version: "Versie", invalid_configuration: "Ongeldige configuratie", show_warning: "Waarschuwing tonen", no_entity_set: "Entiteit niet ingesteld", no_entity: "Entiteit niet beschikbaar", on: "Aan", off: "Uit" }, he = {
   common: Rt
@@ -464,7 +464,7 @@ function tt(o) {
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const V = globalThis, Q = V.trustedTypes, $t = Q ? Q.createPolicy("lit-html", { createHTML: (o) => o }) : void 0, Bt = "$lit$", A = `lit$${Math.random().toFixed(9).slice(2)}$`, Dt = "?" + A, Me = `<${Dt}>`, k = document, D = () => k.createComment(""), W = (o) => o === null || typeof o != "object" && typeof o != "function", pt = Array.isArray, Ue = (o) => pt(o) || typeof (o == null ? void 0 : o[Symbol.iterator]) == "function", rt = `[ 	
+const V = globalThis, Q = V.trustedTypes, $t = Q ? Q.createPolicy("lit-html", { createHTML: (o) => o }) : void 0, Bt = "$lit$", A = `lit$${Math.random().toFixed(9).slice(2)}$`, Dt = "?" + A, Ue = `<${Dt}>`, k = document, D = () => k.createComment(""), W = (o) => o === null || typeof o != "object" && typeof o != "function", pt = Array.isArray, Me = (o) => pt(o) || typeof (o == null ? void 0 : o[Symbol.iterator]) == "function", rt = `[ 	
 \f\r]`, N = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, At = /-->/g, St = />/g, E = RegExp(`>|${rt}(?:([^\\s"'>=/]+)(${rt}*=${rt}*(?:[^ 	
 \f\r"'\`<>=]|("|')|))|$)`, "g"), wt = /'/g, xt = /"/g, Wt = /^(?:script|style|textarea|title)$/i, ke = (o) => (t, ...e) => ({ _$litType$: o, strings: t, values: e }), Et = ke(1), R = Symbol.for("lit-noChange"), p = Symbol.for("lit-nothing"), Tt = /* @__PURE__ */ new WeakMap(), T = k.createTreeWalker(k, 129);
 function Xt(o, t) {
@@ -479,7 +479,7 @@ const ze = (o, t) => {
     let d, u, h = -1, f = 0;
     for (; f < c.length && (r.lastIndex = f, u = r.exec(c), u !== null); ) f = r.lastIndex, r === N ? u[1] === "!--" ? r = At : u[1] !== void 0 ? r = St : u[2] !== void 0 ? (Wt.test(u[2]) && (s = RegExp("</" + u[2], "g")), r = E) : u[3] !== void 0 && (r = E) : r === E ? u[0] === ">" ? (r = s ?? N, h = -1) : u[1] === void 0 ? h = -2 : (h = r.lastIndex - u[2].length, d = u[1], r = u[3] === void 0 ? E : u[3] === '"' ? xt : wt) : r === xt || r === wt ? r = E : r === At || r === St ? r = N : (r = E, s = void 0);
     const v = r === E && o[l + 1].startsWith("/>") ? " " : "";
-    n += r === N ? c + Me : h >= 0 ? (i.push(d), c.slice(0, h) + Bt + c.slice(h) + A + v) : c + A + (h === -2 ? l : v);
+    n += r === N ? c + Ue : h >= 0 ? (i.push(d), c.slice(0, h) + Bt + c.slice(h) + A + v) : c + A + (h === -2 ? l : v);
   }
   return [Xt(o, n + (o[e] || "<?>") + (t === 2 ? "</svg>" : t === 3 ? "</math>" : "")), i];
 };
@@ -497,7 +497,7 @@ class X {
       if (s.nodeType === 1) {
         if (s.hasAttributes()) for (const h of s.getAttributeNames()) if (h.endsWith(Bt)) {
           const f = u[r++], v = s.getAttribute(h).split(A), G = /([.?@])?(.*)/.exec(f);
-          c.push({ type: 1, index: n, name: G[2], strings: v, ctor: G[1] === "." ? He : G[1] === "?" ? Re : G[1] === "@" ? je : et }), s.removeAttribute(h);
+          c.push({ type: 1, index: n, name: G[2], strings: v, ctor: G[1] === "." ? Le : G[1] === "?" ? Re : G[1] === "@" ? je : et }), s.removeAttribute(h);
         } else h.startsWith(A) && (c.push({ type: 6, index: n }), s.removeAttribute(h));
         if (Wt.test(s.tagName)) {
           const h = s.textContent.split(A), f = h.length - 1;
@@ -527,7 +527,7 @@ function j(o, t, e = o, i) {
   const n = W(t) ? void 0 : t._$litDirective$;
   return (s == null ? void 0 : s.constructor) !== n && ((l = s == null ? void 0 : s._$AO) == null || l.call(s, !1), n === void 0 ? s = void 0 : (s = new n(o), s._$AT(o, e, i)), i !== void 0 ? (e._$Co ?? (e._$Co = []))[i] = s : e._$Cl = s), s !== void 0 && (t = j(o, s._$AS(o, t.values), s, i)), t;
 }
-class Le {
+class He {
   constructor(t, e) {
     this._$AV = [], this._$AN = void 0, this._$AD = t, this._$AM = e;
   }
@@ -575,7 +575,7 @@ class Y {
     return this._$AB;
   }
   _$AI(t, e = this) {
-    t = j(this, t, e), W(t) ? t === p || t == null || t === "" ? (this._$AH !== p && this._$AR(), this._$AH = p) : t !== this._$AH && t !== R && this._(t) : t._$litType$ !== void 0 ? this.$(t) : t.nodeType !== void 0 ? this.T(t) : Ue(t) ? this.k(t) : this._(t);
+    t = j(this, t, e), W(t) ? t === p || t == null || t === "" ? (this._$AH !== p && this._$AR(), this._$AH = p) : t !== this._$AH && t !== R && this._(t) : t._$litType$ !== void 0 ? this.$(t) : t.nodeType !== void 0 ? this.T(t) : Me(t) ? this.k(t) : this._(t);
   }
   O(t) {
     return this._$AA.parentNode.insertBefore(t, this._$AB);
@@ -591,7 +591,7 @@ class Y {
     const { values: e, _$litType$: i } = t, s = typeof i == "number" ? this._$AC(t) : (i.el === void 0 && (i.el = X.createElement(Xt(i.h, i.h[0]), this.options)), i);
     if (((n = this._$AH) == null ? void 0 : n._$AD) === s) this._$AH.p(e);
     else {
-      const r = new Le(s, this), l = r.u(this.options);
+      const r = new He(s, this), l = r.u(this.options);
       r.p(e), this.T(l), this._$AH = r;
     }
   }
@@ -643,7 +643,7 @@ class et {
     t === p ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, t ?? "");
   }
 }
-class He extends et {
+class Le extends et {
   constructor() {
     super(...arguments), this.type = 3;
   }
@@ -746,20 +746,21 @@ class q extends B {
     super(...arguments), this._config = mt, this._name = "", this.mouseStartPos = { x: 0, y: 0 }, this.mousePos = { x: 0, y: 0 }, this.containerWidth = 0, this.oldValue = 0, this.currentValue = 0, this.holdTimer = 0, this.isHold = !1, this._shouldUpdate = !0, this.updateTimeout = 0, this.pressTimeout = 0, this.trackingStartTime = 0, this.isTap = !1, this._handleContextMenu = (t) => (t.preventDefault && t.preventDefault(), t.stopPropagation && t.stopPropagation(), !1), this._handlePointer = (t, e) => {
       this.mousePos = { x: t.pageX, y: t.pageY };
       const i = this._config.min_slide_time;
-      if (t.type === "pointerdown" && (this._press(), this.isTap = !0, this.isHold = !1, this.holdTimer = window.setTimeout(this._setHold, this._config.hold_time), this.trackingStartTime = Date.now(), this._resetTrack()), ["pointerdown", "pointermove", "pointerup"].includes(t.type) && this._updateValue(), t.type === "pointermove") {
-        if (this.isTap && Math.abs(e.relativeX) < ft && Math.abs(e.relativeY) < ft)
+      if (t.type === "pointerdown" && (this._press(), this.isTap = !0, this.isHold = !1, this.holdTimer = window.setTimeout(this._setHold, this._config.hold_time), this.trackingStartTime = Date.now(), this._resetTrack()), !this.isHold && ["pointerdown", "pointermove", "pointerup"].includes(t.type) && this._updateValue(), t.type === "pointermove") {
+        if (this.isHold || this.isTap && Math.abs(e.relativeX) < ft && Math.abs(e.relativeY) < ft)
           return;
         this.isTap = !1, clearTimeout(this.holdTimer), this._stopUpdates();
       }
       if (t.type === "pointercancel" && (clearTimeout(this.holdTimer), this._unpress(), this._startUpdates()), t.type === "pointerup") {
-        if (clearTimeout(this.holdTimer), this._unpress(), this._startUpdates(), this.isTap) {
+        if (clearTimeout(this.holdTimer), this._unpress(), this._startUpdates(), this.isHold) return;
+        if (this.isTap) {
           this._handleTap();
           return;
         }
         Date.now() - this.trackingStartTime > i && (this._setValue(), this._startUpdates(!0));
       }
     }, this._setHold = () => {
-      this.isTap = !1, this.isHold = !0, this._handleAction("hold");
+      this.isTap = !1, this.isHold = !0, this._shouldUpdate = !0, this.requestUpdate(), this._handleAction("hold");
     }, this._handleTap = () => {
       var t;
       clearTimeout(this.holdTimer), (t = this._config) != null && t.tap_action && (this.isHold || this._handleAction("tap"));
