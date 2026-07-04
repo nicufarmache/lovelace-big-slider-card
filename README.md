@@ -43,9 +43,9 @@ height: 80
 background_color: '#a45634'
 text_color: '#ffffff'
 border_color: 'ff00ff'
-border_radius: '4px'
+border_radius: 4
 border_style: 'dashed'
-border_width: '5px'
+border_width: 5
 icon_color: '#ff00ff'
 icon_size: 24
 text_size: 14
@@ -77,17 +77,17 @@ hold_action:
 | name              | string  | **Optional** | Name to show on card                           | entity name         |
 | attribute         | string  | **Optional** | Attribute to control                           | `brightness`        |
 | transition        | number  | **Optional** | Transition time (seonds)                       | not used if unset   |
-| height            | number  | **Optional** | Card height in px                              | form theme          |
+| height            | number/string | **Optional** | Card height in px or CSS length                | form theme          |
 | color             | string  | **Optional** | Slider color (CSS format)                      | form theme          |
 | background_color  | string  | **Optional** | Background color (CSS format)                  | form theme          |
 | text_color        | string  | **Optional** | Text color (CSS format)                        | form theme          |
 | icon_color        | string  | **Optional** | Icon color (CSS format)                        | entity color        |
-| icon_size         | number  | **Optional** | Icon size in px                                | `24`                |
-| text_size         | number  | **Optional** | Text size in px                                | theme default       |
+| icon_size         | number/string | **Optional** | Icon size in px or CSS length                  | `24`                |
+| text_size         | number/string | **Optional** | Text size in px or CSS length                  | theme default       |
 | border_color      | string  | **Optional** | Border color (CSS format)                      | form theme          |
-| border_radius     | string  | **Optional** | Border radius including units (CSS format)     | form theme          |
+| border_radius     | number/string | **Optional** | Border radius in px or CSS length              | form theme          |
 | border_style      | string  | **Optional** | Border style (CSS format)                      | form theme          |
-| border_width      | string  | **Optional** | Border width (CSS format)                      | form theme          |
+| border_width      | number/string | **Optional** | Border width in px or CSS length               | form theme          |
 | colorize          | boolean | **Optional** | Colorize slider using entity color             | false               |
 | icon              | string  | **Optional** | Sets custom icon                               | entity icon         |
 | show_percentage   | boolean | **Optional** | Show percentage under entity name              | false               |
