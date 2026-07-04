@@ -161,9 +161,27 @@ export class BigSliderCard extends LitElement {
               selector: { boolean: {} },
             },
             { name: 'border_color', selector: { text: {} } },
-            { name: 'border_radius', selector: { text: {} } },
+            {
+              name: 'border_radius',
+              selector: {
+                number: {
+                  mode: 'box',
+                  min: 0,
+                  unit_of_measurement: 'px',
+                },
+              },
+            },
             { name: 'border_style', selector: { text: {} } },
-            { name: 'border_width', selector: { text: {} } },
+            {
+              name: 'border_width',
+              selector: {
+                number: {
+                  mode: 'box',
+                  min: 0,
+                  unit_of_measurement: 'px',
+                },
+              },
+            },
           ],
         },
         {
@@ -651,12 +669,12 @@ export class BigSliderCard extends LitElement {
     this._setStyleProperty('--bsc-primary-text-color', this._config.text_color);
     this._setStyleProperty('--bsc-slider-color', this._config.color);
     this._setStyleProperty('--bsc-border-color', this._config.border_color);
-    this._setStyleProperty('--bsc-border-radius', this._config.border_radius);
+    this._setStyleProperty('--bsc-border-radius', this._config.border_radius, this._normalizeCssLength);
     this._setStyleProperty('--bsc-border-style', this._config.border_style);
-    this._setStyleProperty('--bsc-border-width', this._config.border_width);
-    this._setStyleProperty('--bsc-height', this._config.height, (height) => `${height}px`);
-    this._setStyleProperty('--bsc-icon-size', this._config.icon_size, (iconSize) => `${iconSize}px`);
-    this._setStyleProperty('--bsc-text-size', this._config.text_size, (textSize) => `${textSize}px`);
+    this._setStyleProperty('--bsc-border-width', this._config.border_width, this._normalizeCssLength);
+    this._setStyleProperty('--bsc-height', this._config.height, this._normalizeCssLength);
+    this._setStyleProperty('--bsc-icon-size', this._config.icon_size, this._normalizeCssLength);
+    this._setStyleProperty('--bsc-text-size', this._config.text_size, this._normalizeCssLength);
     this.style.setProperty('--bsc-press-transition', scale ? 'transform 0.1s ease-out' : 'none');
     this.style.setProperty('--bsc-half-pressed-transform', scale ? 'scale(0.99)' : 'none');
     this.style.setProperty('--bsc-pressed-transform', scale ? 'scale(0.98)' : 'none');
@@ -693,6 +711,10 @@ export class BigSliderCard extends LitElement {
     if (value !== undefined && value !== null && value !== '') {
       this.style.setProperty(name, transform(value));
     }
+  }
+
+  _normalizeCssLength(value: string | number): string {
+    return typeof value === 'number' ? `${value}px` : value;
   }
 
   // private _showWarning(warning: string): TemplateResult {
