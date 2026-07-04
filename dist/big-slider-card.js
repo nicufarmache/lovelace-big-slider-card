@@ -979,7 +979,7 @@ class q extends z {
     const t = this._effectiveState, e = this._effectiveStatus, s = (o = this._config) == null ? void 0 : o.attribute;
     let i = 0;
     if (e == "unavailable" ? (this._config.min = 0, this._config.max = 0, this.style.setProperty("--bsc-opacity", "0.5")) : (this._config.min = this._config.original_min, this._config.max = this._config.original_max, this.style.removeProperty("--bsc-opacity")), e != "on")
-      i = this._config.min ?? 0;
+      i = 0;
     else
       switch (s) {
         case "brightness":
@@ -1151,7 +1151,7 @@ class q extends z {
       }
 
       #slider.colorize {
-        background-color: var(--bsc-entity-color);
+        background-color: var(--bsc-entity-color, var(--bsc-slider-color));
         filter: brightness(var(--bsc-brightness-ui));
         transition: background-color 1s ease, filter 1s ease;
       }
