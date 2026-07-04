@@ -20,11 +20,10 @@ export class BigSliderCard extends LitElement {
   @state() private _config: BigSliderCardConfig = DEFAULT_CONFIG;
   @state() private _entity?: string;
   @state() private _state?: HassEntity;
-  @state() private _status?: string;
   @state() private _name: string = '';
   private _hass?: HomeAssistant;
-  private mouseStartPos: MousePos = { x:0, y:0 };
-  private mousePos: MousePos = { x:0, y:0 };
+  private mouseStartPos: MousePos = { x: 0, y: 0 };
+  private mousePos: MousePos = { x: 0, y: 0 };
   private containerWidth: number = 0;
   private oldValue: number = 0;
   private currentValue: number = 0;
@@ -41,9 +40,176 @@ export class BigSliderCard extends LitElement {
     _hass: HomeAssistant,
     entities: string[],
   ): Partial<BigSliderCardConfig> {
-    const lights = entities.filter(entity => entity.split('.')[0]==='light').sort();
+    const lights = entities.filter(entity => entity.split('.')[0] === 'light').sort();
     const randomLight = lights[Math.floor(Math.random() * lights.length)];
     return { type: 'custom:big-slider-card', entity: randomLight };
+  }
+
+  public getGridOptions() {
+    return {
+      columns: 6,
+      rows: 1,
+      min_columns: 3,
+      min_rows: 1,
+    };
+  }
+
+  public getCardSize(): number {
+    return 1;
+  }
+
+  public static getConfigForm() {
+    return {
+      schema: [
+        {
+          name: 'entity',
+          required: true,
+          selector: { entity: { domain: 'light' } },
+        },
+        {
+          name: 'name',
+          selector: { text: {} },
+        },
+        {
+          name: 'icon',
+          selector: { icon: {} },
+        },
+        {
+          type: 'expandable',
+          name: 'display',
+          title: 'Display Options',
+          flatten: true,
+          schema: [
+            {
+              name: 'attribute',
+              selector: {
+                select: {
+                  options: [
+                    { value: 'brightness', label: 'Brightness' },
+                    { value: 'red', label: 'Red' },
+                    { value: 'green', label: 'Green' },
+                    { value: 'blue', label: 'Blue' },
+                    { value: 'hue', label: 'Hue' },
+                    { value: 'saturation', label: 'Saturation' },
+                  ],
+                },
+              },
+            },
+            {
+              name: 'height',
+              selector: {
+                number: {
+                  mode: 'box',
+                  min: 10,
+                  max: 200,
+                  unit_of_measurement: 'px',
+                },
+              },
+            },
+            {
+              name: 'colorize',
+              selector: { boolean: {} },
+            },
+            {
+              name: 'show_percentage',
+              selector: { boolean: {} },
+            },
+            {
+              name: 'bold_text',
+              selector: { boolean: {} },
+            },
+          ],
+        },
+        {
+          type: 'expandable',
+          name: 'styling',
+          title: 'Custom Styling',
+          flatten: true,
+          schema: [
+            { name: 'color', selector: { text: {} } },
+            { name: 'background_color', selector: { text: {} } },
+            { name: 'text_color', selector: { text: {} } },
+            { name: 'icon_color', selector: { text: {} } },
+            { name: 'border_color', selector: { text: {} } },
+            { name: 'border_radius', selector: { text: {} } },
+            { name: 'border_style', selector: { text: {} } },
+            { name: 'border_width', selector: { text: {} } },
+          ],
+        },
+        {
+          type: 'expandable',
+          name: 'behavior',
+          title: 'Behavior / Actions',
+          flatten: true,
+          schema: [
+            {
+              name: 'transition',
+              selector: {
+                number: {
+                  mode: 'box',
+                  min: 0,
+                  step: 0.1,
+                  unit_of_measurement: 's',
+                },
+              },
+            },
+            { name: 'min', selector: { number: { mode: 'box' } } },
+            { name: 'max', selector: { number: { mode: 'box' } } },
+            {
+              name: 'min_slide_time',
+              selector: {
+                number: {
+                  mode: 'box',
+                  unit_of_measurement: 'ms',
+                },
+              },
+            },
+            {
+              name: 'hold_time',
+              selector: {
+                number: {
+                  mode: 'box',
+                  unit_of_measurement: 'ms',
+                },
+              },
+            },
+            {
+              name: 'settle_time',
+              selector: {
+                number: {
+                  mode: 'box',
+                  unit_of_measurement: 'ms',
+                },
+              },
+            },
+            { name: 'tap_action', selector: { ui_action: {} } },
+            { name: 'hold_action', selector: { ui_action: {} } },
+          ],
+        },
+      ],
+      computeLabel: (schema: any, hassLocalize: any) => {
+        const customLabels: Record<string, string> = {
+          colorize: 'Colorize based on state',
+          show_percentage: 'Show percentage text',
+          bold_text: 'Bold text',
+          min_slide_time: 'Min slide time',
+          hold_time: 'Hold time',
+          settle_time: 'Settle time',
+          background_color: 'Background color',
+          text_color: 'Text color',
+          icon_color: 'Icon color',
+          border_color: 'Border color',
+          border_radius: 'Border radius',
+          border_style: 'Border style',
+          border_width: 'Border width',
+        };
+        return (
+          customLabels[schema.name] ||
+          hassLocalize(`ui.panel.lovelace.editor.card.generic.${schema.name}`) ||
+          schema.name
+        );
+      },
+    };
   }
 
   // life cycle
@@ -53,11 +219,7 @@ export class BigSliderCard extends LitElement {
       throw new Error(localize('common.invalid_configuration'));
     }
 
-    if (!config.entity) {
-      throw new Error(localize('common.no_entity_set'));
-    }
-
-    if (!config.entity || config.entity.split(".")[0] !== "light") {
+    if (config.entity && config.entity.split(".")[0] !== "light") {
       throw new Error("Specify an entity from within the light domain");
     }
 
@@ -68,18 +230,47 @@ export class BigSliderCard extends LitElement {
   }
 
   set hass(hass: HomeAssistant) {
-    if (!this._entity) return;
     this._hass = hass;
+    if (!this._entity) return;
     this._state = hass.states[this._entity];
-    this._status = this._state?.state;
-    this._name = 
+    this._name =
       this._config.name ??
-      this._state?.attributes?.friendly_name ?? 
+      this._state?.attributes?.friendly_name ??
       this._entity.split('.')[1] ??
       '';
   }
 
-  _log(text: string): void{
+  private get _effectiveState(): HassEntity {
+    if (this._state) {
+      return this._state;
+    }
+    return {
+      entity_id: this._entity || 'light.example_light',
+      state: this._effectiveStatus,
+      attributes: {
+        friendly_name: this._effectiveName,
+        brightness: 153, // 60%
+        rgb_color: [255, 165, 0],
+      },
+      last_changed: '',
+      last_updated: '',
+      context: { id: '', parent_id: null, user_id: null }
+    };
+  }
+
+  private get _effectiveName(): string {
+    if (this._config.name) return this._config.name;
+    if (this._state) {
+      return this._state.attributes?.friendly_name ?? this._entity?.split('.')[1] ?? '';
+    }
+    return 'Example Light';
+  }
+
+  private get _effectiveStatus(): string {
+    return this._state ? this._state.state : 'on';
+  }
+
+  _log(text: string): void {
     console.log(
       `%c  BIG-SLIDER-CARD ${this._name} %c ${text} `,
       'color: orange; font-weight: bold; background: black',
@@ -90,7 +281,7 @@ export class BigSliderCard extends LitElement {
   connectedCallback(): void {
     super.connectedCallback();
     this.addEventListener('contextmenu', this._handleContextMenu);
-    this.slideGesture = new SlideGesture(this, this._handlePointer.bind(this), { 
+    this.slideGesture = new SlideGesture(this, this._handlePointer.bind(this), {
       touchActions: 'pan-y',
       stopScrollDirection: 'horizontal'
     });
@@ -125,14 +316,14 @@ export class BigSliderCard extends LitElement {
       this._resetTrack();
     }
 
-    if ([ 'pointerdown', 'pointermove', 'pointerup'].includes(evt.type)) {
+    if (['pointerdown', 'pointermove', 'pointerup'].includes(evt.type)) {
       this._updateValue();
     }
-  
+
     if (evt.type === 'pointermove') {
-      if(this.isTap && (Math.abs(extra.relativeX) < TAP_THRESHOLD && Math.abs(extra.relativeY) < TAP_THRESHOLD)) 
+      if (this.isTap && (Math.abs(extra.relativeX) < TAP_THRESHOLD && Math.abs(extra.relativeY) < TAP_THRESHOLD))
         return;
-      this.isTap = false; 
+      this.isTap = false;
       clearTimeout(this.holdTimer);
       this._stopUpdates();
     }
@@ -142,7 +333,7 @@ export class BigSliderCard extends LitElement {
       this._unpress();
       this._startUpdates();
     }
-  
+
     if (evt.type === 'pointerup') {
       clearTimeout(this.holdTimer);
       this._unpress();
@@ -153,7 +344,7 @@ export class BigSliderCard extends LitElement {
         return;
       }
 
-      if((Date.now() - this.trackingStartTime) > minSlideTime) {
+      if ((Date.now() - this.trackingStartTime) > minSlideTime) {
         this._setValue();
         this._startUpdates(true);
       }
@@ -164,7 +355,7 @@ export class BigSliderCard extends LitElement {
     const width = this.containerWidth;
     const dx = this.mousePos.x - this.mouseStartPos.x;
 
-    const percentage = Math.round( 100 * dx / width );
+    const percentage = Math.round(100 * dx / width);
 
     this.currentValue = this.oldValue + percentage;
     this._checklimits();
@@ -205,13 +396,13 @@ export class BigSliderCard extends LitElement {
   }
 
   _press(): void {
-    if(this.pressTimeout) clearTimeout(this.pressTimeout);
+    if (this.pressTimeout) clearTimeout(this.pressTimeout);
     this.pressTimeout = window.setTimeout(() => this.setAttribute('pressed', ''), this._config.min_slide_time)
     this.setAttribute('half-pressed', '')
   }
 
   _unpress(): void {
-    if(this.pressTimeout) clearTimeout(this.pressTimeout);
+    if (this.pressTimeout) clearTimeout(this.pressTimeout);
     this.removeAttribute('pressed');
     this.removeAttribute('half-pressed');
   }
@@ -219,11 +410,11 @@ export class BigSliderCard extends LitElement {
   _checklimits(): void {
     const min = this._config.min ?? 0;
     const max = this._config.max ?? 100;
-    if (this.currentValue < min){
+    if (this.currentValue < min) {
       this.currentValue = min;
       this._resetTrack();
     }
-    if (this.currentValue > max){
+    if (this.currentValue > max) {
       this.currentValue = max;
       this._resetTrack();
     }
@@ -241,21 +432,22 @@ export class BigSliderCard extends LitElement {
     let brightnessUI = '50%';
     let isOn = false;
 
-    if (this._state) {
-      if (this._status == 'on') {
-        const stateColor = this._state.attributes?.rgb_color ?? [255, 255, 255];
-        const stateBrightness = this._state.attributes?.brightness ?? 255;
-        isOn = true;
-        if (stateColor) {
-          color = `rgb(${stateColor.join(',')})`;
-        }
-        if (stateBrightness) {
-          brightness = `${Math.ceil(100 * stateBrightness / 255)}%`
-          brightnessUI = `${Math.ceil(100 * stateBrightness / 510 + 50)}%`
-        }
-      } else {
-        color = 'var(--bsc-off-color)';
+    const stateObj = this._effectiveState;
+    const status = this._effectiveStatus;
+
+    if (status == 'on') {
+      const stateColor = stateObj.attributes?.rgb_color ?? [255, 255, 255];
+      const stateBrightness = stateObj.attributes?.brightness ?? 255;
+      isOn = true;
+      if (stateColor) {
+        color = `rgb(${stateColor.join(',')})`;
       }
+      if (stateBrightness) {
+        brightness = `${Math.ceil(100 * stateBrightness / 255)}%`
+        brightnessUI = `${Math.ceil(100 * stateBrightness / 510 + 50)}%`
+      }
+    } else {
+      color = 'var(--bsc-off-color)';
     }
 
     const percentage = this?.shadowRoot?.getElementById('percentage');
@@ -265,22 +457,23 @@ export class BigSliderCard extends LitElement {
     this.style.setProperty('--bsc-entity-color', color);
     this.style.setProperty('--bsc-brightness', brightness);
     this.style.setProperty('--bsc-brightness-ui', brightnessUI);
-    if(this._config.icon_color && isOn) {
+    if (this._config.icon_color && isOn) {
       this.style.setProperty('--bsc-icon-color', this._config.icon_color);
     }
-    if(this._config.icon_color && !isOn) {
+    if (this._config.icon_color && !isOn) {
       this.style.removeProperty('--bsc-icon-color');
     }
   }
 
   _getValue(): void {
     if (!this._shouldUpdate) return;
-    if (!this._state) return;
 
+    const stateObj = this._effectiveState;
+    const status = this._effectiveStatus;
     const attr = this._config?.attribute;
     let _value = 0;
 
-    if(this._status == 'unavailable'){
+    if (status == 'unavailable') {
       this._config.min = 0;
       this._config.max = 0;
       this.style.setProperty('--bsc-opacity', '0.5');
@@ -290,17 +483,17 @@ export class BigSliderCard extends LitElement {
       this.style.removeProperty('--bsc-opacity');
     }
 
-    if (this._status != 'on') {
+    if (status != 'on') {
       _value = this._config.min ?? 0;
     } else {
       switch (attr) {
         case 'brightness':
-          _value = Math.round(100 * (this._state.attributes.brightness ?? 255)/255)
+          _value = Math.round(100 * (stateObj.attributes.brightness ?? 255) / 255)
           break;
         case 'red':
         case 'green':
         case 'blue':
-          const rgb = this._state.attributes.rgb_color ?? [255, 255, 255];
+          const rgb = stateObj.attributes.rgb_color ?? [255, 255, 255];
           if (attr === 'red') _value = rgb[0];
           if (attr === 'green') _value = rgb[1];
           if (attr === 'blue') _value = rgb[2];
@@ -308,7 +501,7 @@ export class BigSliderCard extends LitElement {
           break;
         case 'hue':
         case 'saturation':
-          const hs = this._state.attributes.hs_color ?? [100, 100];
+          const hs = stateObj.attributes.hs_color ?? [100, 100];
           if (attr === 'hue') _value = hs[0];
           if (attr === 'saturation') _value = hs[1];
           break;
@@ -329,7 +522,7 @@ export class BigSliderCard extends LitElement {
     let _value;
     switch (attr) {
       case 'brightness':
-        value = Math.ceil(value/100.0*255);
+        value = Math.ceil(value / 100.0 * 255);
         if (!value) on = false;
         break;
       case 'red':
@@ -352,7 +545,7 @@ export class BigSliderCard extends LitElement {
         break;
     }
 
-    const params: Record<string,any> = {
+    const params: Record<string, any> = {
       entity_id: this._state.entity_id,
     }
 
@@ -368,14 +561,14 @@ export class BigSliderCard extends LitElement {
   }
 
   _stopUpdates(): void {
-    if(this.updateTimeout) clearTimeout(this.updateTimeout);
-    if(!this._shouldUpdate) return;
+    if (this.updateTimeout) clearTimeout(this.updateTimeout);
+    if (!this._shouldUpdate) return;
     this.shadowRoot?.getElementById('slider')?.classList?.remove('animate')
     this._shouldUpdate = false;
   }
 
   _startUpdates(settle = false): void {
-    if(this.updateTimeout) clearTimeout(this.updateTimeout);
+    if (this.updateTimeout) clearTimeout(this.updateTimeout);
     this.updateTimeout = window.setTimeout(() => {
       this._shouldUpdate = true;
       this.shadowRoot?.getElementById('slider')?.classList?.add('animate')
@@ -391,9 +584,14 @@ export class BigSliderCard extends LitElement {
   }
 
   protected render(): TemplateResult | void {
-    if (!(this._entity && (this._entity in (this._hass?.states ?? {})))) {
+    if (this._entity && !(this._entity in (this._hass?.states ?? {}))) {
       return this._showError(`${localize('common.no_entity')}: ${this._entity}`);
     }
+
+    const stateObj = this._effectiveState;
+    const status = this._effectiveStatus;
+    const name = this._effectiveName;
+    const entity = this._entity || 'light.example_light';
 
     const colorize = (this._config.colorize && true) ?? false;
 
@@ -405,7 +603,7 @@ export class BigSliderCard extends LitElement {
     this._setStyleProperty('--bsc-primary-text-color', this._config.text_color);
     this._setStyleProperty('--bsc-slider-color', this._config.color);
     this._setStyleProperty('--bsc-border-color', this._config.border_color);
-    this._setStyleProperty('--bsc-border-radius',  this._config.border_radius);
+    this._setStyleProperty('--bsc-border-radius', this._config.border_radius);
     this._setStyleProperty('--bsc-border-style', this._config.border_style);
     this._setStyleProperty('--bsc-border-width', this._config.border_width);
     this._setStyleProperty('--bsc-height', this._config.height, (height) => `${height}px`);
@@ -417,17 +615,17 @@ export class BigSliderCard extends LitElement {
         >
         <div id="slider" class="animate ${colorize ? 'colorize' : ''}"></div>
         <ha-state-icon
-        id="icon"
-              .icon=${this._config.icon}
-              .state=${this._state}
-              .hass=${this._hass}
-              .stateObj=${this._state}
-              data-domain=${this._entity.split(".")[0]}
-              data-state=${ifDefined(this._status)}
-            ></ha-state-icon>
+          id="icon"
+          .icon=${this._config.icon}
+          .state=${stateObj}
+          .hass=${this._hass}
+          .stateObj=${stateObj}
+          data-domain=${entity.split(".")[0]}
+          data-state=${ifDefined(status)}
+        ></ha-state-icon>
         <div id="content">
           <p id="label" class="${boldText ? 'bold' : ''}">
-            <span id="name">${this._name}</span>
+            <span id="name">${name}</span>
             <span id="percentage" class="${showPercentage ? '' : 'hide'}"></span>
           </p>
         </div>
@@ -529,7 +727,7 @@ export class BigSliderCard extends LitElement {
       }
 
       #slider.colorize {
-        background-color: var(--bsc-entity-color);
+        background-color: var(--bsc-entity-color, var(--bsc-slider-color));
         filter: brightness(var(--bsc-brightness-ui));
         transition: background-color 1s ease, filter 1s ease;
       }

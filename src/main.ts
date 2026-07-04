@@ -16,4 +16,17 @@ customElements.define("big-slider-card", BigSliderCard);
   type: 'big-slider-card',
   name: 'Big Slider Card',
   description: 'Big slider card for light entities.',
+  preview: true,
+  getEntitySuggestion: (_hass: any, entityId: string) => {
+    if (!entityId.startsWith('light.')) {
+      return null;
+    }
+    return {
+      type: 'custom:big-slider-card',
+      config: {
+        type: 'custom:big-slider-card',
+        entity: entityId,
+      },
+    };
+  },
 });
