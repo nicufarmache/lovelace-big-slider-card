@@ -1,0 +1,11 @@
+{
+  "common": {
+    "version": "Versie",
+    "invalid_configuration": "Ongeldige configuratie",
+    "show_warning": "Waarschuwing tonen",
+    "no_entity_set": "Entiteit niet ingesteld",
+    "no_entity": "Entiteit niet beschikbaar",
+    "on": "Aan",
+    "off": "Uit"
+  }
+}

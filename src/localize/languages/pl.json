@@ -1,0 +1,11 @@
+{
+  "common": {
+    "version": "Wersja",
+    "invalid_configuration": "Nieprawidłowa konfiguracja",
+    "show_warning": "Pokaż ostrzeżenie",
+    "no_entity_set": "Encja nie ustawiona",
+    "no_entity": "Encja niedostępna",
+    "on": "Włączone",
+    "off": "Wyłączone"
+  }
+}

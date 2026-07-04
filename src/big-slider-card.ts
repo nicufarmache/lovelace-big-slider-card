@@ -452,7 +452,12 @@ export class BigSliderCard extends LitElement {
 
     const percentage = this?.shadowRoot?.getElementById('percentage');
     if (!isOn) {
-      percentage && (percentage.innerText = localize('common.off'));
+      const stateText = stateObj
+        ? (this._hass && typeof this._hass.formatEntityState === 'function'
+            ? this._hass.formatEntityState(stateObj)
+            : stateObj.state)
+        : localize('common.off');
+      percentage && (percentage.innerText = stateText);
     }
     this.style.setProperty('--bsc-entity-color', color);
     this.style.setProperty('--bsc-brightness', brightness);
