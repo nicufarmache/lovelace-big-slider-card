@@ -32,6 +32,7 @@ export class BigSliderCard extends LitElement {
   private _shouldUpdate: boolean = true;
   private updateTimeout: number = 0;
   private pressTimeout: number = 0;
+  private immediateUpdateTimeout: number = 0;
   private trackingStartTime: number = 0;
   private slideGesture: any;
   private isTap: boolean = false;
@@ -230,6 +231,10 @@ export class BigSliderCard extends LitElement {
                 },
               },
             },
+            {
+              name: 'immediate_update',
+              selector: { boolean: {} },
+            },
             { name: 'tap_action', selector: { ui_action: {} } },
             { name: 'hold_action', selector: { ui_action: {} } },
           ],
@@ -245,6 +250,7 @@ export class BigSliderCard extends LitElement {
           min_slide_time: 'Min slide time',
           hold_time: 'Hold time',
           settle_time: 'Settle time',
+          immediate_update: 'Update while sliding',
           background_color: 'Background color',
           text_color: 'Text color',
           icon_color: 'Icon color',
@@ -341,6 +347,7 @@ export class BigSliderCard extends LitElement {
 
   disconnectedCallback(): void {
     this.removeEventListener('contextmenu', this._handleContextMenu);
+    this._clearImmediateUpdate();
     this.slideGesture.removeListeners();
     super.disconnectedCallback();
   }
@@ -363,6 +370,7 @@ export class BigSliderCard extends LitElement {
       this._press();
       this.isTap = true;
       this.isHold = false;
+      this._clearImmediateUpdate();
       this.holdTimer = window.setTimeout(this._setHold, this._config.hold_time);
       this.trackingStartTime = Date.now();
       this._resetTrack();
@@ -379,16 +387,19 @@ export class BigSliderCard extends LitElement {
       this.isTap = false;
       clearTimeout(this.holdTimer);
       this._stopUpdates();
+      this._scheduleImmediateUpdate();
     }
 
     if (evt.type === 'pointercancel') {
       clearTimeout(this.holdTimer);
+      this._clearImmediateUpdate();
       this._unpress();
       this._startUpdates();
     }
 
     if (evt.type === 'pointerup') {
       clearTimeout(this.holdTimer);
+      this._clearImmediateUpdate();
       this._unpress();
       this._startUpdates();
 
@@ -433,6 +444,7 @@ export class BigSliderCard extends LitElement {
   _setHold = (): void => {
     this.isTap = false;
     this.isHold = true;
+    this._clearImmediateUpdate();
     this._shouldUpdate = true;
     this.requestUpdate();
     this._handleAction('hold');
@@ -627,6 +639,24 @@ export class BigSliderCard extends LitElement {
     if (!this._shouldUpdate) return;
     this.shadowRoot?.getElementById('slider')?.classList?.remove('animate')
     this._shouldUpdate = false;
+  }
+
+  _scheduleImmediateUpdate(): void {
+    if (!this._config.immediate_update || this.immediateUpdateTimeout) return;
+
+    this.immediateUpdateTimeout = window.setTimeout(() => {
+      this.immediateUpdateTimeout = 0;
+      if (!this.isHold && (Date.now() - this.trackingStartTime) > this._config.min_slide_time) {
+        this._setValue();
+      }
+    }, 300);
+  }
+
+  _clearImmediateUpdate(): void {
+    if (this.immediateUpdateTimeout) {
+      clearTimeout(this.immediateUpdateTimeout);
+      this.immediateUpdateTimeout = 0;
+    }
   }
 
   _startUpdates(settle = false): void {

@@ -57,6 +57,7 @@ no_scale: true
 no_transition_animation: true
 min: 1
 max: 80
+immediate_update: true
 hold_time: 600
 settle_time: 3000
 tap_action:
@@ -96,6 +97,7 @@ hold_action:
 | no_transition_animation | boolean | **Optional** | Disable slider, color, and icon transitions | false               |
 | min               | number  | **Optional** | Maximum value for slider                       | `0`                 |
 | max               | number  | **Optional** | Minimum value for slider                       | `100`               |
+| immediate_update  | boolean | **Optional** | Update value while sliding every 300ms         | false               |
 | min_slide_time    | number  | **Optional** | Mimimum time to prevent accidental changes (ms)| `0`                 |
 | hold_time         | number  | **Optional** | Hold gesture time (ms)                         | `600`               |
 | settle_time       | number  | **Optional** | Ignore updates after changig the value (ms)    | `3000`              |
