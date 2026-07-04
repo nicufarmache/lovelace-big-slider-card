@@ -152,6 +152,14 @@ export class BigSliderCard extends LitElement {
               name: 'bold_text',
               selector: { boolean: {} },
             },
+            {
+              name: 'no_scale',
+              selector: { boolean: {} },
+            },
+            {
+              name: 'no_transition_animation',
+              selector: { boolean: {} },
+            },
             { name: 'border_color', selector: { text: {} } },
             { name: 'border_radius', selector: { text: {} } },
             { name: 'border_style', selector: { text: {} } },
@@ -214,6 +222,8 @@ export class BigSliderCard extends LitElement {
           colorize: 'Colorize based on state',
           show_percentage: 'Show percentage text',
           bold_text: 'Bold text',
+          no_scale: 'Disable scale on press',
+          no_transition_animation: 'Disable transition animation',
           min_slide_time: 'Min slide time',
           hold_time: 'Hold time',
           settle_time: 'Settle time',
@@ -633,6 +643,10 @@ export class BigSliderCard extends LitElement {
 
     const boldText = (this._config.bold_text && true) ?? false;
 
+    const scale = this._config.no_scale !== true;
+
+    const transitionAnimation = this._config.no_transition_animation !== true;
+
     this._setStyleProperty('--bsc-background', this._config.background_color);
     this._setStyleProperty('--bsc-primary-text-color', this._config.text_color);
     this._setStyleProperty('--bsc-slider-color', this._config.color);
@@ -643,6 +657,12 @@ export class BigSliderCard extends LitElement {
     this._setStyleProperty('--bsc-height', this._config.height, (height) => `${height}px`);
     this._setStyleProperty('--bsc-icon-size', this._config.icon_size, (iconSize) => `${iconSize}px`);
     this._setStyleProperty('--bsc-text-size', this._config.text_size, (textSize) => `${textSize}px`);
+    this.style.setProperty('--bsc-press-transition', scale ? 'transform 0.1s ease-out' : 'none');
+    this.style.setProperty('--bsc-half-pressed-transform', scale ? 'scale(0.99)' : 'none');
+    this.style.setProperty('--bsc-pressed-transform', scale ? 'scale(0.98)' : 'none');
+    this.style.setProperty('--bsc-color-transition', transitionAnimation ? 'background-color 1s ease, filter 1s ease' : 'none');
+    this.style.setProperty('--bsc-slider-transition', transitionAnimation ? 'right 1s ease, background-color 1s ease, filter 1s ease' : 'none');
+    this.style.setProperty('--bsc-icon-transition', transitionAnimation ? 'color 0.3s ease-out' : 'none');
 
     return html`
       <ha-card
@@ -715,20 +735,26 @@ export class BigSliderCard extends LitElement {
         --bsc-height: var(--ha-card-height, 60px);
         --bsc-icon-size: 24px;
         --bsc-text-size: inherit;
+        --bsc-press-transition: transform 0.1s ease-out;
+        --bsc-half-pressed-transform: scale(0.99);
+        --bsc-pressed-transform: scale(0.98);
+        --bsc-color-transition: background-color 1s ease, filter 1s ease;
+        --bsc-slider-transition: right 1s ease, background-color 1s ease, filter 1s ease;
+        --bsc-icon-transition: color 0.3s ease-out;
         --bsc-opacity: 1;
 
 
         display: flex;
-        transition: transform 0.1s ease-out;
+        transition: var(--bsc-press-transition);
         user-select: none;
       }
 
       :host([half-pressed]) {
-        transform: scale(0.99);
+        transform: var(--bsc-half-pressed-transform);
       }
 
       :host([pressed]) {
-        transform: scale(0.98);
+        transform: var(--bsc-pressed-transform);
       }
 
       #container {
@@ -767,11 +793,11 @@ export class BigSliderCard extends LitElement {
       #slider.colorize {
         background-color: var(--bsc-entity-color, var(--bsc-slider-color));
         filter: brightness(var(--bsc-brightness-ui));
-        transition: background-color 1s ease, filter 1s ease;
+        transition: var(--bsc-color-transition);
       }
 
       #slider.animate {
-        transition: right 1s ease, background-color 1s ease, filter 1s ease;
+        transition: var(--bsc-slider-transition);
       }
 
       #icon {
@@ -785,7 +811,7 @@ export class BigSliderCard extends LitElement {
         align-items: center;
         color: var(--bsc-icon-color, var(--bsc-entity-color));
         filter: brightness(var(--bsc-brightness-ui));
-        transition: color 0.3s ease-out;
+        transition: var(--bsc-icon-transition);
         --mdc-icon-size: var(--bsc-icon-size);
       }
 
