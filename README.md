@@ -53,6 +53,8 @@ colorize: true
 icon: mdi:lamp
 show_percentage: true
 bold_text: true
+no_scale: true
+no_transition_animation: true
 min: 1
 max: 80
 hold_time: 600
@@ -90,6 +92,8 @@ hold_action:
 | icon              | string  | **Optional** | Sets custom icon                               | entity icon         |
 | show_percentage   | boolean | **Optional** | Show percentage under entity name              | false               |
 | bold_text         | boolean | **Optional** | Make taxt font bold                            | false               |
+| no_scale         | boolean | **Optional** | Disable scaling the card while pressing        | false               |
+| no_transition_animation | boolean | **Optional** | Disable slider, color, and icon transitions | false               |
 | min               | number  | **Optional** | Maximum value for slider                       | `0`                 |
 | max               | number  | **Optional** | Minimum value for slider                       | `100`               |
 | min_slide_time    | number  | **Optional** | Mimimum time to prevent accidental changes (ms)| `0`                 |
