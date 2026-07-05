@@ -893,6 +893,11 @@ class q extends D {
             { name: "background_color", selector: { text: {} } },
             { name: "text_color", selector: { text: {} } },
             { name: "icon_color", selector: { text: {} } },
+            { name: "icon_off_color", selector: { text: {} } },
+            {
+              name: "constant_icon_color",
+              selector: { boolean: {} }
+            },
             {
               name: "bold_text",
               selector: { boolean: {} }
@@ -1000,6 +1005,8 @@ class q extends D {
         width: "Width",
         text_color: "Text color",
         icon_color: "Icon color",
+        icon_off_color: "Icon off color",
+        constant_icon_color: "Constant icon color",
         icon_size: "Icon size",
         text_size: "Text size",
         border_color: "Border color",
@@ -1135,7 +1142,7 @@ class q extends D {
       const h = n ? this._hass && typeof this._hass.formatEntityState == "function" ? this._hass.formatEntityState(n) : n.state : K("common.off");
       l && (l.innerText = h);
     }
-    this.style.setProperty("--bsc-entity-color", t), this.style.setProperty("--bsc-brightness", e), this.style.setProperty("--bsc-brightness-ui", i), this._config.icon_color && s && this.style.setProperty("--bsc-icon-color", this._config.icon_color), this._config.icon_color && !s && this.style.removeProperty("--bsc-icon-color");
+    this.style.setProperty("--bsc-entity-color", t), this.style.setProperty("--bsc-brightness", e), this.style.setProperty("--bsc-brightness-ui", i), this.style.setProperty("--bsc-icon-brightness", this._config.constant_icon_color === !0 ? "100%" : i), s && this._config.icon_color ? this.style.setProperty("--bsc-icon-color", this._config.icon_color) : !s && this._config.icon_off_color ? this.style.setProperty("--bsc-icon-color", this._config.icon_off_color) : this.style.removeProperty("--bsc-icon-color");
   }
   _getValue() {
     var n;
@@ -1278,6 +1285,7 @@ class q extends D {
         --bsc-percent: 0%;
         --bsc-brightness: 50%;
         --bsc-brightness-ui: 50%;
+        --bsc-icon-brightness: var(--bsc-brightness-ui);
         --bsc-color: var(--paper-item-icon-color);
         --bsc-off-color: var(--paper-item-icon-color);
         --bsc-entity-color: var(--bsc-color);
@@ -1324,10 +1332,10 @@ class q extends D {
         overflow: hidden;
         opacity: var(--bsc-opacity);
         background: var(--bsc-background);
-        border-color: var(--bsc-border-color, rgba(0 0 0 / 14%));
-        border-radius: var(--bsc-border-radius, 4px);
-        border-style: var(--bsc-border-style, solid);
-        border-width: var(--bsc-border-width, 1px);
+        border-color: var(--bsc-border-color);
+        border-radius: var(--bsc-border-radius);
+        border-style: var(--bsc-border-style);
+        border-width: var(--bsc-border-width);
         transition: none;
         z-index: 1; //fix safari bug with filter transition https://stackoverflow.com/a/27935035
       }
@@ -1386,7 +1394,7 @@ class q extends D {
         justify-content: center;
         align-items: center;
         color: var(--bsc-icon-color, var(--bsc-entity-color));
-        filter: brightness(var(--bsc-brightness-ui));
+        filter: brightness(var(--bsc-icon-brightness));
         transition: var(--bsc-icon-transition);
         --mdc-icon-size: var(--bsc-icon-size);
       }

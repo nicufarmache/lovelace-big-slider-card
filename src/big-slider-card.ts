@@ -178,6 +178,11 @@ export class BigSliderCard extends LitElement {
             { name: 'background_color', selector: { text: {} } },
             { name: 'text_color', selector: { text: {} } },
             { name: 'icon_color', selector: { text: {} } },
+            { name: 'icon_off_color', selector: { text: {} } },
+            {
+              name: 'constant_icon_color',
+              selector: { boolean: {} },
+            },
             {
               name: 'bold_text',
               selector: { boolean: {} },
@@ -286,6 +291,8 @@ export class BigSliderCard extends LitElement {
           width: 'Width',
           text_color: 'Text color',
           icon_color: 'Icon color',
+          icon_off_color: 'Icon off color',
+          constant_icon_color: 'Constant icon color',
           icon_size: 'Icon size',
           text_size: 'Text size',
           border_color: 'Border color',
@@ -617,10 +624,12 @@ export class BigSliderCard extends LitElement {
     this.style.setProperty('--bsc-entity-color', color);
     this.style.setProperty('--bsc-brightness', brightness);
     this.style.setProperty('--bsc-brightness-ui', brightnessUI);
-    if (this._config.icon_color && isOn) {
+    this.style.setProperty('--bsc-icon-brightness', this._config.constant_icon_color === true ? '100%' : brightnessUI);
+    if (isOn && this._config.icon_color) {
       this.style.setProperty('--bsc-icon-color', this._config.icon_color);
-    }
-    if (this._config.icon_color && !isOn) {
+    } else if (!isOn && this._config.icon_off_color) {
+      this.style.setProperty('--bsc-icon-color', this._config.icon_off_color);
+    } else {
       this.style.removeProperty('--bsc-icon-color');
     }
   }
@@ -880,6 +889,7 @@ export class BigSliderCard extends LitElement {
         --bsc-percent: 0%;
         --bsc-brightness: 50%;
         --bsc-brightness-ui: 50%;
+        --bsc-icon-brightness: var(--bsc-brightness-ui);
         --bsc-color: var(--paper-item-icon-color);
         --bsc-off-color: var(--paper-item-icon-color);
         --bsc-entity-color: var(--bsc-color);
@@ -988,7 +998,7 @@ export class BigSliderCard extends LitElement {
         justify-content: center;
         align-items: center;
         color: var(--bsc-icon-color, var(--bsc-entity-color));
-        filter: brightness(var(--bsc-brightness-ui));
+        filter: brightness(var(--bsc-icon-brightness));
         transition: var(--bsc-icon-transition);
         --mdc-icon-size: var(--bsc-icon-size);
       }

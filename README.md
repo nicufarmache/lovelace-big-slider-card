@@ -48,6 +48,8 @@ border_radius: 4
 border_style: 'dashed'
 border_width: 5
 icon_color: '#ff00ff'
+icon_off_color: '#777777'
+constant_icon_color: true
 icon_size: 24
 text_size: 14
 colorize: true
@@ -86,6 +88,8 @@ hold_action:
 | background_color  | string  | **Optional** | Background color (CSS format)                  | form theme          |
 | text_color        | string  | **Optional** | Text color (CSS format)                        | form theme          |
 | icon_color        | string  | **Optional** | Icon color (CSS format)                        | entity color        |
+| icon_off_color    | string  | **Optional** | Icon color when entity is off (CSS format)     | entity off color    |
+| constant_icon_color | boolean | **Optional** | Keep icon color from dimming with brightness | false               |
 | icon_size         | number/string | **Optional** | Icon size in px or CSS length                  | `24`                |
 | text_size         | number/string | **Optional** | Text size in px or CSS length                  | theme default       |
 | border_color      | string  | **Optional** | Border color (CSS format)                      | form theme          |
