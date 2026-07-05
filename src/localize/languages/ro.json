@@ -48,6 +48,8 @@
       "icon_color": "Culoare pictogramă",
       "icon_off_color": "Culoare pictogramă oprită",
       "constant_icon_color": "Culoare constantă pictogramă",
+      "show_icon_halo": "Afișează haloul pictogramei",
+      "use_alternative_slider_color": "Folosește culoarea alternativă a glisorului",
       "icon_size": "Dimensiune pictogramă",
       "text_size": "Dimensiune text",
       "border_color": "Culoare chenar",

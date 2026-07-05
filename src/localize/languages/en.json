@@ -48,6 +48,8 @@
       "icon_color": "Icon color",
       "icon_off_color": "Icon off color",
       "constant_icon_color": "Constant icon color",
+      "show_icon_halo": "Show icon halo",
+      "use_alternative_slider_color": "Use alternative slider color",
       "icon_size": "Icon size",
       "text_size": "Text size",
       "border_color": "Border color",

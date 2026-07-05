@@ -74,7 +74,7 @@ export class BigSliderCard extends LitElement {
   }
 
   public getCardSize(): number {
-    const defaultHeight = this._config.vertical ? 180 : 60;
+    const defaultHeight = this._config.vertical ? 180 : 56;
     const height = this._getNumericCssLength(this._config.height ?? defaultHeight);
     return Math.max(1, Math.ceil((height ?? defaultHeight) / 50));
   }
@@ -130,6 +130,14 @@ export class BigSliderCard extends LitElement {
             },
             {
               name: 'show_percentage',
+              selector: { boolean: {} },
+            },
+            {
+              name: 'show_icon_halo',
+              selector: { boolean: {} },
+            },
+            {
+              name: 'use_alternative_slider_color',
               selector: { boolean: {} },
             },
             {
@@ -292,6 +300,7 @@ export class BigSliderCard extends LitElement {
         const customLabels: Record<string, string> = {
           colorize: localize('editor.labels.colorize'),
           show_percentage: localize('editor.labels.show_percentage'),
+          show_icon_halo: localize('editor.labels.show_icon_halo'),
           bold_text: localize('editor.labels.bold_text'),
           no_scale: localize('editor.labels.no_scale'),
           no_transition_animation: localize('editor.labels.no_transition_animation'),
@@ -308,6 +317,7 @@ export class BigSliderCard extends LitElement {
           icon_off_color: localize('editor.labels.icon_off_color'),
           constant_icon_color: localize('editor.labels.constant_icon_color'),
           icon_size: localize('editor.labels.icon_size'),
+          use_alternative_slider_color: localize('editor.labels.use_alternative_slider_color'),
           text_size: localize('editor.labels.text_size'),
           border_color: localize('editor.labels.border_color'),
           border_radius: localize('editor.labels.border_radius'),
@@ -678,18 +688,20 @@ export class BigSliderCard extends LitElement {
     let color = 'var(--bsc-color)';
     let brightness = '0%';
     let brightnessUI = '50%';
-    let isOn = false;
+    let isActive = false;
 
     const stateObj = this._effectiveState;
     const status = this._effectiveStatus;
     const domain = this._getDomain(stateObj.entity_id);
 
-    if (domain === 'light' && status == 'on') {
-      const stateColor = stateObj.attributes?.rgb_color ?? [255, 255, 255];
+    if (this._isActiveState(status)) {
+      const stateColor = domain === 'light' ? stateObj.attributes?.rgb_color : undefined;
       const stateBrightness = stateObj.attributes?.brightness ?? 255;
-      isOn = true;
+      isActive = true;
       if (stateColor) {
         color = `rgb(${stateColor.join(',')})`;
+      } else {
+        color = 'var(--bsc-active-color)';
       }
       if (stateBrightness) {
         brightness = `${Math.ceil(100 * stateBrightness / 255)}%`
@@ -700,7 +712,7 @@ export class BigSliderCard extends LitElement {
     }
 
     const percentage = this?.shadowRoot?.getElementById('percentage');
-    if (domain === 'light' && !isOn) {
+    if (domain === 'light' && !isActive) {
       const stateText = stateObj
         ? (this._hass && typeof this._hass.formatEntityState === 'function'
             ? this._hass.formatEntityState(stateObj)
@@ -712,9 +724,17 @@ export class BigSliderCard extends LitElement {
     this.style.setProperty('--bsc-brightness', brightness);
     this.style.setProperty('--bsc-brightness-ui', brightnessUI);
     this.style.setProperty('--bsc-icon-brightness', this._config.constant_icon_color === true ? '100%' : brightnessUI);
-    if (isOn && this._config.icon_color) {
+    this.style.setProperty('--bsc-icon-background', this._config.show_icon_halo === true
+      ? 'color-mix(in srgb, var(--bsc-icon-color, var(--bsc-entity-color)) 20%, transparent)'
+      : 'transparent'
+    );
+    this.style.setProperty('--bsc-icon-off-background', this._config.show_icon_halo === true
+      ? 'color-mix(in srgb, var(--bsc-off-color) 20%, transparent)'
+      : 'transparent'
+    );
+    if (isActive && this._config.icon_color) {
       this.style.setProperty('--bsc-icon-color', this._config.icon_color);
-    } else if (!isOn && this._config.icon_off_color) {
+    } else if (!isActive && this._config.icon_off_color) {
       this.style.setProperty('--bsc-icon-color', this._config.icon_off_color);
     } else {
       this.style.removeProperty('--bsc-icon-color');
@@ -953,6 +973,10 @@ export class BigSliderCard extends LitElement {
     return status === 'unavailable' || status === 'unknown';
   }
 
+  _isActiveState(status: string): boolean {
+    return !['off', 'unavailable', 'unknown'].includes(status);
+  }
+
   _stopUpdates(): void {
     if (this.updateTimeout) clearTimeout(this.updateTimeout);
     if (!this._shouldUpdate) return;
@@ -992,6 +1016,13 @@ export class BigSliderCard extends LitElement {
     this._updateContainerSize();
     this._getValue();
     this._updateColors();
+    this._updateHostAttributes();
+  }
+
+  _updateHostAttributes(): void {
+    const stateObj = this._effectiveState;
+    this.dataset.domain = this._getDomain(stateObj.entity_id);
+    this.dataset.state = this._effectiveStatus;
   }
 
   protected render(): TemplateResult | void {
@@ -1003,6 +1034,7 @@ export class BigSliderCard extends LitElement {
     const status = this._effectiveStatus;
     const name = this._effectiveName;
     const entity = this._entity || 'light.example_light';
+    const domain = entity.split(".")[0];
 
     const colorize = (this._config.colorize && true) ?? false;
 
@@ -1015,7 +1047,11 @@ export class BigSliderCard extends LitElement {
     const transitionAnimation = this._config.no_transition_animation !== true;
 
     const vertical = this._config.vertical === true;
+    const defaultSliderColor = this._config.use_alternative_slider_color === true
+      ? 'var(--paper-slider-active-color, #f9d2b0)'
+      : 'var(--bsc-active-color)';
 
+    this.style.setProperty('--bsc-default-slider-color', defaultSliderColor);
     this._setStyleProperty('--bsc-background', this._config.background_color);
     this._setStyleProperty('--bsc-primary-text-color', this._config.text_color);
     this._setStyleProperty('--bsc-slider-color', this._config.color);
@@ -1030,15 +1066,17 @@ export class BigSliderCard extends LitElement {
     this.style.setProperty('--bsc-press-transition', scale ? 'transform 0.1s ease-out' : 'none');
     this.style.setProperty('--bsc-half-pressed-transform', scale ? 'scale(0.99)' : 'none');
     this.style.setProperty('--bsc-pressed-transform', scale ? 'scale(0.98)' : 'none');
-    this.style.setProperty('--bsc-color-transition', transitionAnimation ? 'background-color 1s ease, filter 1s ease' : 'none');
-    this.style.setProperty('--bsc-slider-transition', transitionAnimation ? 'right 1s ease, background-color 1s ease, filter 1s ease' : 'none');
-    this.style.setProperty('--bsc-vertical-slider-transition', transitionAnimation ? 'top 1s ease, background-color 1s ease, filter 1s ease' : 'none');
-    this.style.setProperty('--bsc-icon-transition', transitionAnimation ? 'color 0.3s ease-out' : 'none');
+    this.style.setProperty('--bsc-color-transition', transitionAnimation ? 'background-color 180ms ease-in-out, filter 180ms ease-in-out' : 'none');
+    this.style.setProperty('--bsc-slider-transition', transitionAnimation ? 'right 180ms ease-in-out, background-color 180ms ease-in-out, filter 180ms ease-in-out' : 'none');
+    this.style.setProperty('--bsc-vertical-slider-transition', transitionAnimation ? 'top 180ms ease-in-out, background-color 180ms ease-in-out, filter 180ms ease-in-out' : 'none');
+    this.style.setProperty('--bsc-icon-transition', transitionAnimation ? 'color 180ms ease-in-out, background-color 180ms ease-in-out, filter 180ms ease-in-out' : 'none');
 
     return html`
       <ha-card
         id="container"
         class="${vertical ? 'vertical' : ''}"
+        data-domain=${ifDefined(domain)}
+        data-state=${ifDefined(status)}
         tabindex="0"
         >
         <div id="slider" class="animate ${colorize ? 'colorize' : ''}"></div>
@@ -1048,7 +1086,7 @@ export class BigSliderCard extends LitElement {
           .state=${stateObj}
           .hass=${this._hass}
           .stateObj=${stateObj}
-          data-domain=${entity.split(".")[0]}
+          data-domain=${ifDefined(domain)}
           data-state=${ifDefined(status)}
         ></ha-state-icon>
         <div id="content">
@@ -1102,30 +1140,36 @@ export class BigSliderCard extends LitElement {
   static get styles(): CSSResult {
     return css`
       :host {
-        --bsc-background: var(--card-background-color, #aaaaaa);
-        --bsc-slider-color: var(--paper-slider-active-color, #f9d2b0);
+        --bsc-background: var(--card-background-color);
+        --bsc-active-color: var(--state-light-on-color, var(--state-light-active-color, var(--state-active-color)));
+        --bsc-default-slider-color: var(--bsc-active-color);
+        --bsc-slider-color: var(--bsc-default-slider-color);
         --bsc-percent: 0%;
         --bsc-brightness: 50%;
         --bsc-brightness-ui: 50%;
         --bsc-icon-brightness: var(--bsc-brightness-ui);
-        --bsc-color: var(--paper-item-icon-color);
-        --bsc-off-color: var(--paper-item-icon-color);
+        --bsc-color: var(--bsc-active-color);
+        --bsc-off-color: var(--state-inactive-color);
         --bsc-entity-color: var(--bsc-color);
         --bsc-primary-text-color: var(--primary-text-color);
         --bsc-secondary-text-color: var(--secondary-text-color);
-        --bsc-border-color: var(--ha-card-border-color);
-        --bsc-border-radius: var(--ha-card-border-radius);
-        --bsc-border-style: var(--ha-card-border-style);
-        --bsc-border-width: var(--ha-card-border-width);
+        --bsc-border-color: var(--ha-card-border-color, var(--divider-color, #e0e0e0));
+        --bsc-border-radius: var(--ha-card-border-radius, var(--ha-border-radius-lg));
+        --bsc-border-style: var(--ha-card-border-style, solid);
+        --bsc-border-width: var(--ha-card-border-width, 1px);
+        --bsc-icon-box-size: 36px;
         --bsc-icon-size: 24px;
-        --bsc-text-size: inherit;
+        --bsc-icon-background: transparent;
+        --bsc-icon-off-background: transparent;
+        --bsc-text-size: var(--ha-font-size-m, 14px);
+        --bsc-secondary-text-size: var(--ha-font-size-s, 12px);
         --bsc-press-transition: transform 0.1s ease-out;
         --bsc-half-pressed-transform: scale(0.99);
         --bsc-pressed-transform: scale(0.98);
-        --bsc-color-transition: background-color 1s ease, filter 1s ease;
-        --bsc-slider-transition: right 1s ease, background-color 1s ease, filter 1s ease;
-        --bsc-vertical-slider-transition: top 1s ease, background-color 1s ease, filter 1s ease;
-        --bsc-icon-transition: color 0.3s ease-out;
+        --bsc-color-transition: background-color 180ms ease-in-out, filter 180ms ease-in-out;
+        --bsc-slider-transition: right 180ms ease-in-out, background-color 180ms ease-in-out, filter 180ms ease-in-out;
+        --bsc-vertical-slider-transition: top 180ms ease-in-out, background-color 180ms ease-in-out, filter 180ms ease-in-out;
+        --bsc-icon-transition: color 180ms ease-in-out, background-color 180ms ease-in-out, filter 180ms ease-in-out;
         --bsc-opacity: 1;
 
         width: 100%;
@@ -1146,8 +1190,8 @@ export class BigSliderCard extends LitElement {
       #container {
         width: var(--bsc-width, 100%);
         height: var(--bsc-height, 100%);
-        min-height: var(--bsc-height, 60px);
-        min-width: var(--bsc-width, 180px);
+        min-height: var(--bsc-height, 56px);
+        min-width: var(--bsc-width, 0);
         position: relative;
         overflow: hidden;
         opacity: var(--bsc-opacity);
@@ -1157,7 +1201,8 @@ export class BigSliderCard extends LitElement {
         border-style: var(--bsc-border-style);
         border-width: var(--bsc-border-width);
         transition: none;
-        z-index: 1; //fix safari bug with filter transition https://stackoverflow.com/a/27935035
+        box-sizing: border-box;
+        z-index: 1; /* fix safari bug with filter transition https://stackoverflow.com/a/27935035 */
       }
 
       #container.vertical {
@@ -1181,6 +1226,7 @@ export class BigSliderCard extends LitElement {
         left: 0;
         top: 0;
         right: calc(100% - var(--bsc-percent));
+        border-radius: var(--bsc-border-radius);
       }
 
       #container.vertical #slider {
@@ -1208,15 +1254,26 @@ export class BigSliderCard extends LitElement {
         position: absolute;
         top: 0;
         bottom: 0;
-        left: 24px;
-        width: var(--bsc-icon-size);
+        left: 10px;
+        width: var(--bsc-icon-box-size);
+        height: var(--bsc-icon-box-size);
+        margin: auto 0;
         display: flex;
         justify-content: center;
         align-items: center;
         color: var(--bsc-icon-color, var(--bsc-entity-color));
+        background: var(--bsc-icon-background);
+        border-radius: var(--ha-tile-icon-border-radius, var(--ha-border-radius-pill, 999px));
+        box-sizing: border-box;
         filter: brightness(var(--bsc-icon-brightness));
         transition: var(--bsc-icon-transition);
         --mdc-icon-size: var(--bsc-icon-size);
+      }
+
+      #icon[data-state="off"],
+      #icon[data-state="unavailable"],
+      #icon[data-state="unknown"] {
+        background: var(--bsc-icon-off-background);
       }
 
       #content {
@@ -1226,8 +1283,9 @@ export class BigSliderCard extends LitElement {
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        padding: 0 24px 0 calc(48px + var(--bsc-icon-size));
+        padding: 0 10px 0 calc(20px + var(--bsc-icon-box-size));
         box-sizing: border-box;
+        min-width: 0;
       }
 
       #container.vertical #icon {
@@ -1235,7 +1293,9 @@ export class BigSliderCard extends LitElement {
         right: 0;
         bottom: auto;
         left: 0;
-        width: 100%;
+        width: var(--bsc-icon-box-size);
+        height: var(--bsc-icon-box-size);
+        margin: 0 auto;
       }
 
       #container.vertical #content {
@@ -1249,6 +1309,10 @@ export class BigSliderCard extends LitElement {
         display: flex;
         flex-direction: column;
         font-size: var(--bsc-text-size);
+        line-height: var(--ha-line-height-normal, 20px);
+        margin: 0;
+        min-width: 0;
+        width: 100%;
       }
 
       #label.bold {
@@ -1256,11 +1320,22 @@ export class BigSliderCard extends LitElement {
       }
 
       #name {
-        color: var(--bsc-primary-text-color)
+        color: var(--bsc-primary-text-color);
+        line-height: var(--ha-line-height-normal, 20px);
+        letter-spacing: 0.1px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
 
       #percentage {
-        color: var(--bsc-secondary-text-color)
+        color: var(--bsc-secondary-text-color);
+        font-size: var(--bsc-secondary-text-size);
+        line-height: var(--ha-line-height-condensed, 16px);
+        letter-spacing: 0.4px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
     `;
   }

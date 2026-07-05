@@ -48,6 +48,8 @@
       "icon_color": "Symbolfarbe",
       "icon_off_color": "Symbolfarbe aus",
       "constant_icon_color": "Konstante Symbolfarbe",
+      "show_icon_halo": "Symbol-Halo anzeigen",
+      "use_alternative_slider_color": "Alternative Schiebereglerfarbe verwenden",
       "icon_size": "Symbolgröße",
       "text_size": "Textgröße",
       "border_color": "Rahmenfarbe",

@@ -48,6 +48,8 @@
       "icon_color": "Colore icona",
       "icon_off_color": "Colore icona spenta",
       "constant_icon_color": "Colore icona costante",
+      "show_icon_halo": "Mostra alone icona",
+      "use_alternative_slider_color": "Usa colore alternativo del cursore",
       "icon_size": "Dimensione icona",
       "text_size": "Dimensione testo",
       "border_color": "Colore bordo",

@@ -48,6 +48,8 @@
       "icon_color": "Pictogramkleur",
       "icon_off_color": "Pictogramkleur uit",
       "constant_icon_color": "Constante pictogramkleur",
+      "show_icon_halo": "Pictogramhalo tonen",
+      "use_alternative_slider_color": "Alternatieve schuifkleur gebruiken",
       "icon_size": "Pictogramgrootte",
       "text_size": "Tekstgrootte",
       "border_color": "Randkleur",

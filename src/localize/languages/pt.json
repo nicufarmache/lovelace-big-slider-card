@@ -48,6 +48,8 @@
       "icon_color": "Cor do ícone",
       "icon_off_color": "Cor do ícone desligado",
       "constant_icon_color": "Cor constante do ícone",
+      "show_icon_halo": "Mostrar halo do ícone",
+      "use_alternative_slider_color": "Usar cor alternativa do controle deslizante",
       "icon_size": "Tamanho do ícone",
       "text_size": "Tamanho do texto",
       "border_color": "Cor da borda",

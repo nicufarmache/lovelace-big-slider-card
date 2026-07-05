@@ -48,6 +48,8 @@
       "icon_color": "Kolor ikony",
       "icon_off_color": "Kolor ikony wyłączonej",
       "constant_icon_color": "Stały kolor ikony",
+      "show_icon_halo": "Pokaż poświatę ikony",
+      "use_alternative_slider_color": "Użyj alternatywnego koloru suwaka",
       "icon_size": "Rozmiar ikony",
       "text_size": "Rozmiar tekstu",
       "border_color": "Kolor obramowania",

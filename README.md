@@ -58,6 +58,8 @@ border_width: 5
 icon_color: '#ff00ff'
 icon_off_color: '#777777'
 constant_icon_color: true
+show_icon_halo: true
+use_alternative_slider_color: true
 icon_size: 24
 text_size: 14
 colorize: true
@@ -98,6 +100,8 @@ hold_action:
 | icon_color        | string  | **Optional** | Icon color (CSS format)                        | entity color        |
 | icon_off_color    | string  | **Optional** | Icon color when entity is off (CSS format)     | entity off color    |
 | constant_icon_color | boolean | **Optional** | Keep icon color from dimming with brightness | false               |
+| show_icon_halo    | boolean | **Optional** | Show a Tile-like background halo behind the icon | false               |
+| use_alternative_slider_color | boolean | **Optional** | Use the old slider color fallback instead of Home Assistant's active color | false               |
 | icon_size         | number/string | **Optional** | Icon size in px or CSS length                  | `24`                |
 | text_size         | number/string | **Optional** | Text size in px or CSS length                  | theme default       |
 | border_color      | string  | **Optional** | Border color (CSS format)                      | form theme          |
@@ -145,10 +149,12 @@ Use `attribute: tilt_position` for covers that support tilt, or `attribute: humi
 ### The card uses the following css variables for configuring the look and feel:
 
 ```css
---bsc-background: var(--card-background-color, #aaaaaa);
---bsc-slider-color: var(--paper-slider-active-color, #f9d2b0);
---bsc-color: var(--paper-item-icon-color);
---bsc-off-color: var(--paper-item-icon-color);
+--bsc-background: var(--card-background-color);
+--bsc-active-color: var(--state-light-on-color, var(--state-light-active-color, var(--state-active-color)));
+--bsc-default-slider-color: var(--bsc-active-color);
+--bsc-slider-color: var(--bsc-default-slider-color);
+--bsc-color: var(--bsc-active-color);
+--bsc-off-color: var(--state-inactive-color);
 --bsc-entity-color: var(--bsc-color);
 --bsc-primary-text-color: var(--primary-text-color);
 --bsc-secondary-text-color: var(--secondary-text-color);
@@ -156,8 +162,12 @@ Use `attribute: tilt_position` for covers that support tilt, or `attribute: humi
 --bsc-border-radius: var(--ha-card-border-radius);
 --bsc-border-style: var(--ha-card-border-style);
 --bsc-border-width: var(--ha-card-border-width);
+--bsc-icon-box-size: 36px;
 --bsc-icon-size: 24px;
---bsc-text-size: inherit;
+--bsc-icon-background: transparent;
+--bsc-icon-off-background: transparent;
+--bsc-text-size: var(--ha-font-size-m, 14px);
+--bsc-secondary-text-size: var(--ha-font-size-s, 12px);
 ```
 
 
