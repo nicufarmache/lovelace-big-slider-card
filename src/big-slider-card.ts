@@ -899,8 +899,6 @@ export class BigSliderCard extends LitElement {
         --bsc-border-radius: var(--ha-card-border-radius);
         --bsc-border-style: var(--ha-card-border-style);
         --bsc-border-width: var(--ha-card-border-width);
-        --bsc-height: 100%;
-        --bsc-width: 100%;
         --bsc-icon-size: 24px;
         --bsc-text-size: inherit;
         --bsc-press-transition: transform 0.1s ease-out;
@@ -930,8 +928,8 @@ export class BigSliderCard extends LitElement {
       #container {
         width: var(--bsc-width, 100%);
         height: var(--bsc-height, 100%);
-        min-height: 60px;
-        min-width: 180px;
+        min-height: var(--bsc-height, 60px);
+        min-width: var(--bsc-width, 180px);
         position: relative;
         overflow: hidden;
         opacity: var(--bsc-opacity);
@@ -945,8 +943,8 @@ export class BigSliderCard extends LitElement {
       }
 
       #container.vertical {
-        min-height: 180px;
-        min-width: 60px;
+        min-height: var(--bsc-height, 180px);
+        min-width: var(--bsc-width, 60px);
       }
 
       .hide {
