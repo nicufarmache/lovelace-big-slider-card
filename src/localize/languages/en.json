@@ -7,5 +7,56 @@
     "no_entity": "Entity not available",
     "on": "On",
     "off": "Off"
+  },
+  "editor": {
+    "sections": {
+      "display": "Display Options",
+      "styling": "Custom Styling",
+      "behavior": "Behavior / Actions"
+    },
+    "attributes": {
+      "brightness": "Brightness",
+      "red": "Red",
+      "green": "Green",
+      "blue": "Blue",
+      "hue": "Hue",
+      "saturation": "Saturation",
+      "color_temp_kelvin": "Color Temperature Kelvin"
+    },
+    "labels": {
+      "colorize": "Colorize based on state",
+      "show_percentage": "Show percentage text",
+      "bold_text": "Bold text",
+      "no_scale": "Disable scale on press",
+      "no_transition_animation": "Disable transition animation",
+      "vertical": "Vertical slider",
+      "min_slide_time": "Min slide time",
+      "hold_time": "Hold time",
+      "settle_time": "Settle time",
+      "immediate_update": "Update while sliding",
+      "background_color": "Background color",
+      "height": "Height",
+      "width": "Width",
+      "text_color": "Text color",
+      "icon_color": "Icon color",
+      "icon_off_color": "Icon off color",
+      "constant_icon_color": "Constant icon color",
+      "icon_size": "Icon size",
+      "text_size": "Text size",
+      "border_color": "Border color",
+      "border_radius": "Border radius",
+      "border_style": "Border style",
+      "border_width": "Border width"
+    }
+  },
+  "errors": {
+    "light_domain_only": "Specify an entity from within the light domain"
+  },
+  "preview": {
+    "example_light": "Example Light"
+  },
+  "card": {
+    "name": "Big Slider Card",
+    "description": "Big slider card for light entities."
   }
 }

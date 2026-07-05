@@ -7,5 +7,56 @@
     "no_entity": "Entidade não disponível",
     "on": "Ligado",
     "off": "Desligado"
+  },
+  "editor": {
+    "sections": {
+      "display": "Opções de exibição",
+      "styling": "Estilo personalizado",
+      "behavior": "Comportamento / Ações"
+    },
+    "attributes": {
+      "brightness": "Brilho",
+      "red": "Vermelho",
+      "green": "Verde",
+      "blue": "Azul",
+      "hue": "Matiz",
+      "saturation": "Saturação",
+      "color_temp_kelvin": "Temperatura de cor Kelvin"
+    },
+    "labels": {
+      "colorize": "Colorir com base no estado",
+      "show_percentage": "Mostrar texto de porcentagem",
+      "bold_text": "Texto em negrito",
+      "no_scale": "Desativar escala ao pressionar",
+      "no_transition_animation": "Desativar animação de transição",
+      "vertical": "Controle deslizante vertical",
+      "min_slide_time": "Tempo mínimo de deslizamento",
+      "hold_time": "Tempo de pressionar e segurar",
+      "settle_time": "Tempo de estabilização",
+      "immediate_update": "Atualizar durante o deslizamento",
+      "background_color": "Cor de fundo",
+      "height": "Altura",
+      "width": "Largura",
+      "text_color": "Cor do texto",
+      "icon_color": "Cor do ícone",
+      "icon_off_color": "Cor do ícone desligado",
+      "constant_icon_color": "Cor constante do ícone",
+      "icon_size": "Tamanho do ícone",
+      "text_size": "Tamanho do texto",
+      "border_color": "Cor da borda",
+      "border_radius": "Raio da borda",
+      "border_style": "Estilo da borda",
+      "border_width": "Largura da borda"
+    }
+  },
+  "errors": {
+    "light_domain_only": "Especifique uma entidade do domínio light"
+  },
+  "preview": {
+    "example_light": "Luz de exemplo"
+  },
+  "card": {
+    "name": "Big Slider Card",
+    "description": "Cartão deslizante grande para entidades de luz."
   }
 }

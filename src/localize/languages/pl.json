@@ -7,5 +7,56 @@
     "no_entity": "Encja niedostępna",
     "on": "Włączone",
     "off": "Wyłączone"
+  },
+  "editor": {
+    "sections": {
+      "display": "Opcje wyświetlania",
+      "styling": "Niestandardowy styl",
+      "behavior": "Zachowanie / Akcje"
+    },
+    "attributes": {
+      "brightness": "Jasność",
+      "red": "Czerwony",
+      "green": "Zielony",
+      "blue": "Niebieski",
+      "hue": "Odcień",
+      "saturation": "Nasycenie",
+      "color_temp_kelvin": "Temperatura barwowa Kelvin"
+    },
+    "labels": {
+      "colorize": "Koloruj na podstawie stanu",
+      "show_percentage": "Pokaż tekst procentowy",
+      "bold_text": "Pogrubiony tekst",
+      "no_scale": "Wyłącz skalowanie po naciśnięciu",
+      "no_transition_animation": "Wyłącz animację przejścia",
+      "vertical": "Suwak pionowy",
+      "min_slide_time": "Minimalny czas przesuwania",
+      "hold_time": "Czas przytrzymania",
+      "settle_time": "Czas stabilizacji",
+      "immediate_update": "Aktualizuj podczas przesuwania",
+      "background_color": "Kolor tła",
+      "height": "Wysokość",
+      "width": "Szerokość",
+      "text_color": "Kolor tekstu",
+      "icon_color": "Kolor ikony",
+      "icon_off_color": "Kolor ikony wyłączonej",
+      "constant_icon_color": "Stały kolor ikony",
+      "icon_size": "Rozmiar ikony",
+      "text_size": "Rozmiar tekstu",
+      "border_color": "Kolor obramowania",
+      "border_radius": "Promień obramowania",
+      "border_style": "Styl obramowania",
+      "border_width": "Szerokość obramowania"
+    }
+  },
+  "errors": {
+    "light_domain_only": "Podaj encję z domeny light"
+  },
+  "preview": {
+    "example_light": "Przykładowe światło"
+  },
+  "card": {
+    "name": "Big Slider Card",
+    "description": "Duża karta suwaka dla encji światła."
   }
 }

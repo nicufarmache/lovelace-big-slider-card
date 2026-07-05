@@ -91,7 +91,7 @@ export class BigSliderCard extends LitElement {
         {
           type: 'expandable',
           name: 'display',
-          title: 'Display Options',
+          title: localize('editor.sections.display'),
           flatten: true,
           schema: [
             {
@@ -99,13 +99,13 @@ export class BigSliderCard extends LitElement {
               selector: {
                 select: {
                   options: [
-                    { value: 'brightness', label: 'Brightness' },
-                    { value: 'red', label: 'Red' },
-                    { value: 'green', label: 'Green' },
-                    { value: 'blue', label: 'Blue' },
-                    { value: 'hue', label: 'Hue' },
-                    { value: 'saturation', label: 'Saturation' },
-                    { value: 'color_temp_kelvin', label: 'Color Temperature Kelvin' },
+                    { value: 'brightness', label: localize('editor.attributes.brightness') },
+                    { value: 'red', label: localize('editor.attributes.red') },
+                    { value: 'green', label: localize('editor.attributes.green') },
+                    { value: 'blue', label: localize('editor.attributes.blue') },
+                    { value: 'hue', label: localize('editor.attributes.hue') },
+                    { value: 'saturation', label: localize('editor.attributes.saturation') },
+                    { value: 'color_temp_kelvin', label: localize('editor.attributes.color_temp_kelvin') },
                   ],
                 },
               },
@@ -127,7 +127,7 @@ export class BigSliderCard extends LitElement {
         {
           type: 'expandable',
           name: 'styling',
-          title: 'Custom Styling',
+          title: localize('editor.sections.styling'),
           flatten: true,
           schema: [
             {
@@ -222,7 +222,7 @@ export class BigSliderCard extends LitElement {
         {
           type: 'expandable',
           name: 'behavior',
-          title: 'Behavior / Actions',
+          title: localize('editor.sections.behavior'),
           flatten: true,
           schema: [
             {
@@ -276,29 +276,29 @@ export class BigSliderCard extends LitElement {
       ],
       computeLabel: (schema: any, hassLocalize: any) => {
         const customLabels: Record<string, string> = {
-          colorize: 'Colorize based on state',
-          show_percentage: 'Show percentage text',
-          bold_text: 'Bold text',
-          no_scale: 'Disable scale on press',
-          no_transition_animation: 'Disable transition animation',
-          vertical: 'Vertical slider',
-          min_slide_time: 'Min slide time',
-          hold_time: 'Hold time',
-          settle_time: 'Settle time',
-          immediate_update: 'Update while sliding',
-          background_color: 'Background color',
-          height: 'Height',
-          width: 'Width',
-          text_color: 'Text color',
-          icon_color: 'Icon color',
-          icon_off_color: 'Icon off color',
-          constant_icon_color: 'Constant icon color',
-          icon_size: 'Icon size',
-          text_size: 'Text size',
-          border_color: 'Border color',
-          border_radius: 'Border radius',
-          border_style: 'Border style',
-          border_width: 'Border width',
+          colorize: localize('editor.labels.colorize'),
+          show_percentage: localize('editor.labels.show_percentage'),
+          bold_text: localize('editor.labels.bold_text'),
+          no_scale: localize('editor.labels.no_scale'),
+          no_transition_animation: localize('editor.labels.no_transition_animation'),
+          vertical: localize('editor.labels.vertical'),
+          min_slide_time: localize('editor.labels.min_slide_time'),
+          hold_time: localize('editor.labels.hold_time'),
+          settle_time: localize('editor.labels.settle_time'),
+          immediate_update: localize('editor.labels.immediate_update'),
+          background_color: localize('editor.labels.background_color'),
+          height: localize('editor.labels.height'),
+          width: localize('editor.labels.width'),
+          text_color: localize('editor.labels.text_color'),
+          icon_color: localize('editor.labels.icon_color'),
+          icon_off_color: localize('editor.labels.icon_off_color'),
+          constant_icon_color: localize('editor.labels.constant_icon_color'),
+          icon_size: localize('editor.labels.icon_size'),
+          text_size: localize('editor.labels.text_size'),
+          border_color: localize('editor.labels.border_color'),
+          border_radius: localize('editor.labels.border_radius'),
+          border_style: localize('editor.labels.border_style'),
+          border_width: localize('editor.labels.border_width'),
         };
         return (
           customLabels[schema.name] ||
@@ -317,7 +317,7 @@ export class BigSliderCard extends LitElement {
     }
 
     if (config.entity && config.entity.split(".")[0] !== "light") {
-      throw new Error("Specify an entity from within the light domain");
+      throw new Error(localize('errors.light_domain_only'));
     }
 
     const attributeDefaults = this._getAttributeDefaults(config.attribute ?? DEFAULT_CONFIG.attribute);
@@ -371,7 +371,7 @@ export class BigSliderCard extends LitElement {
     if (this._state) {
       return this._state.attributes?.friendly_name ?? this._entity?.split('.')[1] ?? '';
     }
-    return 'Example Light';
+    return localize('preview.example_light');
   }
 
   private get _effectiveStatus(): string {

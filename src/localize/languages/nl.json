@@ -7,5 +7,56 @@
     "no_entity": "Entiteit niet beschikbaar",
     "on": "Aan",
     "off": "Uit"
+  },
+  "editor": {
+    "sections": {
+      "display": "Weergaveopties",
+      "styling": "Aangepaste stijl",
+      "behavior": "Gedrag / Acties"
+    },
+    "attributes": {
+      "brightness": "Helderheid",
+      "red": "Rood",
+      "green": "Groen",
+      "blue": "Blauw",
+      "hue": "Tint",
+      "saturation": "Verzadiging",
+      "color_temp_kelvin": "Kleurtemperatuur Kelvin"
+    },
+    "labels": {
+      "colorize": "Kleuren op basis van status",
+      "show_percentage": "Percentagetekst tonen",
+      "bold_text": "Vetgedrukte tekst",
+      "no_scale": "Schalen bij indrukken uitschakelen",
+      "no_transition_animation": "Overgangsanimatie uitschakelen",
+      "vertical": "Verticale schuifregelaar",
+      "min_slide_time": "Minimale schuiftijd",
+      "hold_time": "Tijd voor ingedrukt houden",
+      "settle_time": "Stabilisatietijd",
+      "immediate_update": "Bijwerken tijdens schuiven",
+      "background_color": "Achtergrondkleur",
+      "height": "Hoogte",
+      "width": "Breedte",
+      "text_color": "Tekstkleur",
+      "icon_color": "Pictogramkleur",
+      "icon_off_color": "Pictogramkleur uit",
+      "constant_icon_color": "Constante pictogramkleur",
+      "icon_size": "Pictogramgrootte",
+      "text_size": "Tekstgrootte",
+      "border_color": "Randkleur",
+      "border_radius": "Randradius",
+      "border_style": "Randstijl",
+      "border_width": "Randbreedte"
+    }
+  },
+  "errors": {
+    "light_domain_only": "Geef een entiteit uit het light-domein op"
+  },
+  "preview": {
+    "example_light": "Voorbeeldlamp"
+  },
+  "card": {
+    "name": "Big Slider Card",
+    "description": "Grote schuifregelaar-kaart voor lichtentiteiten."
   }
 }

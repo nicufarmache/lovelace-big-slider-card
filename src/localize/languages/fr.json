@@ -7,5 +7,56 @@
     "no_entity": "Entité non disponible",
     "on": "Allumé",
     "off": "Éteint"
+  },
+  "editor": {
+    "sections": {
+      "display": "Options d'affichage",
+      "styling": "Style personnalisé",
+      "behavior": "Comportement / Actions"
+    },
+    "attributes": {
+      "brightness": "Luminosité",
+      "red": "Rouge",
+      "green": "Vert",
+      "blue": "Bleu",
+      "hue": "Teinte",
+      "saturation": "Saturation",
+      "color_temp_kelvin": "Température de couleur Kelvin"
+    },
+    "labels": {
+      "colorize": "Colorer selon l'état",
+      "show_percentage": "Afficher le pourcentage",
+      "bold_text": "Texte en gras",
+      "no_scale": "Désactiver l'échelle à l'appui",
+      "no_transition_animation": "Désactiver l'animation de transition",
+      "vertical": "Curseur vertical",
+      "min_slide_time": "Temps de glissement minimal",
+      "hold_time": "Durée d'appui long",
+      "settle_time": "Temps de stabilisation",
+      "immediate_update": "Mettre à jour pendant le glissement",
+      "background_color": "Couleur d'arrière-plan",
+      "height": "Hauteur",
+      "width": "Largeur",
+      "text_color": "Couleur du texte",
+      "icon_color": "Couleur de l'icône",
+      "icon_off_color": "Couleur de l'icône éteinte",
+      "constant_icon_color": "Couleur constante de l'icône",
+      "icon_size": "Taille de l'icône",
+      "text_size": "Taille du texte",
+      "border_color": "Couleur de bordure",
+      "border_radius": "Rayon de bordure",
+      "border_style": "Style de bordure",
+      "border_width": "Largeur de bordure"
+    }
+  },
+  "errors": {
+    "light_domain_only": "Spécifiez une entité du domaine light"
+  },
+  "preview": {
+    "example_light": "Lumière d'exemple"
+  },
+  "card": {
+    "name": "Big Slider Card",
+    "description": "Grande carte de curseur pour les entités lumière."
   }
 }

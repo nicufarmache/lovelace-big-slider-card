@@ -7,5 +7,56 @@
     "no_entity": "Entitatea nu e disponibilă",
     "on": "Pornit",
     "off": "Oprit"
+  },
+  "editor": {
+    "sections": {
+      "display": "Opțiuni de afișare",
+      "styling": "Stilizare personalizată",
+      "behavior": "Comportament / Acțiuni"
+    },
+    "attributes": {
+      "brightness": "Luminozitate",
+      "red": "Roșu",
+      "green": "Verde",
+      "blue": "Albastru",
+      "hue": "Nuanță",
+      "saturation": "Saturație",
+      "color_temp_kelvin": "Temperatură culoare Kelvin"
+    },
+    "labels": {
+      "colorize": "Colorează în funcție de stare",
+      "show_percentage": "Afișează text procentual",
+      "bold_text": "Text îngroșat",
+      "no_scale": "Dezactivează scalarea la apăsare",
+      "no_transition_animation": "Dezactivează animația de tranziție",
+      "vertical": "Glisor vertical",
+      "min_slide_time": "Timp minim de glisare",
+      "hold_time": "Timp de apăsare lungă",
+      "settle_time": "Timp de stabilizare",
+      "immediate_update": "Actualizează în timpul glisării",
+      "background_color": "Culoare fundal",
+      "height": "Înălțime",
+      "width": "Lățime",
+      "text_color": "Culoare text",
+      "icon_color": "Culoare pictogramă",
+      "icon_off_color": "Culoare pictogramă oprită",
+      "constant_icon_color": "Culoare constantă pictogramă",
+      "icon_size": "Dimensiune pictogramă",
+      "text_size": "Dimensiune text",
+      "border_color": "Culoare chenar",
+      "border_radius": "Rază chenar",
+      "border_style": "Stil chenar",
+      "border_width": "Lățime chenar"
+    }
+  },
+  "errors": {
+    "light_domain_only": "Specifică o entitate din domeniul light"
+  },
+  "preview": {
+    "example_light": "Lumină exemplu"
+  },
+  "card": {
+    "name": "Big Slider Card",
+    "description": "Card cu glisor mare pentru entități de lumină."
   }
 }

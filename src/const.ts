@@ -1,6 +1,6 @@
 import { BigSliderCardConfig } from "./types";
 
-export const CARD_VERSION = '1.2.3-beta';
+export const CARD_VERSION = '1.2.4-beta';
 export const DEFAULT_ATTRIBUTE = 'brightness';
 export const SETTLE_TIME = 3000;
 export const HOLD_TIME = 600;

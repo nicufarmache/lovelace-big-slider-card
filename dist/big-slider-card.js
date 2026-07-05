@@ -1,61 +1,61 @@
-var mt = (o) => {
-  throw TypeError(o);
+var pe = (s) => {
+  throw TypeError(s);
 };
-var st = (o, t, e) => t.has(o) || mt("Cannot " + e);
-var a = (o, t, e) => (st(o, t, "read from private field"), e ? e.call(o) : t.get(o)), f = (o, t, e) => t.has(o) ? mt("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(o) : t.set(o, e), g = (o, t, e, i) => (st(o, t, "write to private field"), i ? i.call(o, e) : t.set(o, e), e), $ = (o, t, e) => (st(o, t, "access private method"), e);
-var p, T, w, A, C, U, k, L, M, H, y, b, G, ht, Ut, kt, Tt;
-let Yt = (Tt = class {
-  constructor(t, e, { touchActions: i, stopScrollDirection: s = "both" } = {}) {
-    f(this, b);
-    f(this, p);
-    f(this, T);
-    f(this, w, 0);
-    f(this, A, 0);
-    f(this, C, 0);
-    f(this, U, 0);
-    f(this, k);
-    f(this, L, !1);
-    f(this, M);
-    f(this, H);
-    f(this, y);
-    g(this, p, t), g(this, T, i), g(this, k, e), g(this, M, s), g(this, H, $(this, b, Ut).bind(this)), g(this, y, $(this, b, kt).bind(this)), this.addListeners();
+var oe = (s, e, t) => e.has(s) || pe("Cannot " + t);
+var a = (s, e, t) => (oe(s, e, "read from private field"), t ? t.call(s) : e.get(s)), b = (s, e, t) => e.has(s) ? pe("Cannot add the same private member more than once") : e instanceof WeakSet ? e.add(s) : e.set(s, t), f = (s, e, t, i) => (oe(s, e, "write to private field"), i ? i.call(s, t) : e.set(s, t), t), w = (s, e, t) => (oe(s, e, "access private method"), t);
+var p, E, S, A, k, P, U, R, M, j, v, y, q, de, ke, Pe, Te;
+let Tt = (Te = class {
+  constructor(e, t, { touchActions: i, stopScrollDirection: o = "both" } = {}) {
+    b(this, y);
+    b(this, p);
+    b(this, E);
+    b(this, S, 0);
+    b(this, A, 0);
+    b(this, k, 0);
+    b(this, P, 0);
+    b(this, U);
+    b(this, R, !1);
+    b(this, M);
+    b(this, j);
+    b(this, v);
+    f(this, p, e), f(this, E, i), f(this, U, t), f(this, M, o), f(this, j, w(this, y, ke).bind(this)), f(this, v, w(this, y, Pe).bind(this)), this.addListeners();
   }
   addListeners() {
-    a(this, p).addEventListener("pointerdown", a(this, y)), a(this, p).addEventListener("pointermove", a(this, y)), a(this, p).addEventListener("pointerup", a(this, y)), a(this, p).addEventListener("pointercancel", a(this, y)), window.addEventListener("touchmove", a(this, H), { passive: !1 }), a(this, T) && (a(this, p).style.touchAction = a(this, T));
+    a(this, p).addEventListener("pointerdown", a(this, v)), a(this, p).addEventListener("pointermove", a(this, v)), a(this, p).addEventListener("pointerup", a(this, v)), a(this, p).addEventListener("pointercancel", a(this, v)), window.addEventListener("touchmove", a(this, j), { passive: !1 }), a(this, E) && (a(this, p).style.touchAction = a(this, E));
   }
   removeListeners() {
-    a(this, p).removeEventListener("pointerdown", a(this, y)), a(this, p).removeEventListener("pointermove", a(this, y)), a(this, p).removeEventListener("pointerup", a(this, y)), a(this, p).removeEventListener("pointercancel", a(this, y)), window.removeEventListener("touchmove", a(this, H)), a(this, T) && a(this, p).style.removeProperty("touch-action");
+    a(this, p).removeEventListener("pointerdown", a(this, v)), a(this, p).removeEventListener("pointermove", a(this, v)), a(this, p).removeEventListener("pointerup", a(this, v)), a(this, p).removeEventListener("pointercancel", a(this, v)), window.removeEventListener("touchmove", a(this, j)), a(this, E) && a(this, p).style.removeProperty("touch-action");
   }
-}, p = new WeakMap(), T = new WeakMap(), w = new WeakMap(), A = new WeakMap(), C = new WeakMap(), U = new WeakMap(), k = new WeakMap(), L = new WeakMap(), M = new WeakMap(), H = new WeakMap(), y = new WeakMap(), b = new WeakSet(), G = function() {
-  g(this, L, !0);
-}, ht = function() {
-  g(this, L, !1);
-}, Ut = function(t) {
-  a(this, L) && t.preventDefault();
-}, kt = function(t) {
-  if (t.type === "pointerdown" && (a(this, p).setPointerCapture(t.pointerId), g(this, w, t.pageX), g(this, A, t.pageY)), a(this, p).hasPointerCapture(t.pointerId) && t.type !== "pointercancel" && typeof a(this, k) == "function") {
-    const e = t.pageX - a(this, w), i = t.pageY - a(this, A), s = Math.abs(e / i) > 1, n = Math.abs(e / i) < 1;
-    a(this, M) === "horizontal" && s && $(this, b, G).call(this), a(this, M) === "vertical" && n && $(this, b, G).call(this), a(this, M) === "both" && $(this, b, G).call(this), a(this, k).call(this, t, {
-      startX: a(this, w),
+}, p = new WeakMap(), E = new WeakMap(), S = new WeakMap(), A = new WeakMap(), k = new WeakMap(), P = new WeakMap(), U = new WeakMap(), R = new WeakMap(), M = new WeakMap(), j = new WeakMap(), v = new WeakMap(), y = new WeakSet(), q = function() {
+  f(this, R, !0);
+}, de = function() {
+  f(this, R, !1);
+}, ke = function(e) {
+  a(this, R) && e.preventDefault();
+}, Pe = function(e) {
+  if (e.type === "pointerdown" && (a(this, p).setPointerCapture(e.pointerId), f(this, S, e.pageX), f(this, A, e.pageY)), a(this, p).hasPointerCapture(e.pointerId) && e.type !== "pointercancel" && typeof a(this, U) == "function") {
+    const t = e.pageX - a(this, S), i = e.pageY - a(this, A), o = Math.abs(t / i) > 1, r = Math.abs(t / i) < 1;
+    a(this, M) === "horizontal" && o && w(this, y, q).call(this), a(this, M) === "vertical" && r && w(this, y, q).call(this), a(this, M) === "both" && w(this, y, q).call(this), a(this, U).call(this, e, {
+      startX: a(this, S),
       startY: a(this, A),
-      relativeX: e,
+      relativeX: t,
       relativeY: i,
-      totalX: e + a(this, C),
-      totalY: i + a(this, U)
+      totalX: t + a(this, k),
+      totalY: i + a(this, P)
     });
   }
-  t.type === "pointerup" && (g(this, C, +a(this, C) + t.pageX - a(this, w)), g(this, U, +a(this, U) + t.pageY - a(this, A)), a(this, p).releasePointerCapture(t.pointerId), $(this, b, ht).call(this)), t.type === "pointercancel" && (a(this, k).call(this, t, {
-    startX: a(this, w),
+  e.type === "pointerup" && (f(this, k, +a(this, k) + e.pageX - a(this, S)), f(this, P, +a(this, P) + e.pageY - a(this, A)), a(this, p).releasePointerCapture(e.pointerId), w(this, y, de).call(this)), e.type === "pointercancel" && (a(this, U).call(this, e, {
+    startX: a(this, S),
     startY: a(this, A),
     relativeX: 0,
     relativeY: 0,
-    totalX: a(this, C),
-    totalY: a(this, U)
-  }), a(this, p).releasePointerCapture(t.pointerId), $(this, b, ht).call(this));
-}, Tt);
-const qt = "1.2.3-beta", Ft = "brightness", Gt = 3e3, Kt = 600, Jt = 0, ft = 5, Zt = 0, Qt = 100, ot = {
+    totalX: a(this, k),
+    totalY: a(this, P)
+  }), a(this, p).releasePointerCapture(e.pointerId), w(this, y, de).call(this));
+}, Te);
+const Et = "1.2.4-beta", kt = "brightness", Pt = 3e3, Ut = 600, Mt = 0, ge = 5, Ot = 0, Lt = 100, se = {
   type: "custom:big-slider-card",
-  attribute: Ft,
+  attribute: kt,
   tap_action: {
     action: "toggle",
     haptic: "light"
@@ -63,305 +63,377 @@ const qt = "1.2.3-beta", Ft = "brightness", Gt = 3e3, Kt = 600, Jt = 0, ft = 5, 
   hold_action: {
     action: "more-info"
   },
-  hold_time: Kt,
-  settle_time: Gt,
-  min_slide_time: Jt,
-  min: Zt,
-  max: Qt
-}, Mt = { version: "Version", invalid_configuration: "Invalid configuration", show_warning: "Show Warning", no_entity_set: "Entity not set", no_entity: "Entity not available", on: "On", off: "Off" }, te = {
-  common: Mt
-}, ee = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  hold_time: Ut,
+  settle_time: Pt,
+  min_slide_time: Mt,
+  min: Ot,
+  max: Lt
+}, Ue = { version: "Version", invalid_configuration: "Invalid configuration", show_warning: "Show Warning", no_entity_set: "Entity not set", no_entity: "Entity not available", on: "On", off: "Off" }, Me = { sections: { display: "Display Options", styling: "Custom Styling", behavior: "Behavior / Actions" }, attributes: { brightness: "Brightness", red: "Red", green: "Green", blue: "Blue", hue: "Hue", saturation: "Saturation", color_temp_kelvin: "Color Temperature Kelvin" }, labels: { colorize: "Colorize based on state", show_percentage: "Show percentage text", bold_text: "Bold text", no_scale: "Disable scale on press", no_transition_animation: "Disable transition animation", vertical: "Vertical slider", min_slide_time: "Min slide time", hold_time: "Hold time", settle_time: "Settle time", immediate_update: "Update while sliding", background_color: "Background color", height: "Height", width: "Width", text_color: "Text color", icon_color: "Icon color", icon_off_color: "Icon off color", constant_icon_color: "Constant icon color", icon_size: "Icon size", text_size: "Text size", border_color: "Border color", border_radius: "Border radius", border_style: "Border style", border_width: "Border width" } }, Oe = { light_domain_only: "Specify an entity from within the light domain" }, Le = { example_light: "Example Light" }, Re = { name: "Big Slider Card", description: "Big slider card for light entities." }, Rt = {
+  common: Ue,
+  editor: Me,
+  errors: Oe,
+  preview: Le,
+  card: Re
+}, jt = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  common: Mt,
-  default: te
-}, Symbol.toStringTag, { value: "Module" })), zt = { version: "Version", invalid_configuration: "Ungültige Konfiguration", show_warning: "Warnung anzeigen", no_entity_set: "Entität nicht gesetzt", no_entity: "Entität nicht verfügbar", on: "An", off: "Aus" }, ie = {
-  common: zt
-}, se = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  card: Re,
+  common: Ue,
+  default: Rt,
+  editor: Me,
+  errors: Oe,
+  preview: Le
+}, Symbol.toStringTag, { value: "Module" })), je = { version: "Version", invalid_configuration: "Ungültige Konfiguration", show_warning: "Warnung anzeigen", no_entity_set: "Entität nicht gesetzt", no_entity: "Entität nicht verfügbar", on: "An", off: "Aus" }, He = { sections: { display: "Anzeigeoptionen", styling: "Benutzerdefiniertes Styling", behavior: "Verhalten / Aktionen" }, attributes: { brightness: "Helligkeit", red: "Rot", green: "Grün", blue: "Blau", hue: "Farbton", saturation: "Sättigung", color_temp_kelvin: "Farbtemperatur Kelvin" }, labels: { colorize: "Basierend auf Status einfärben", show_percentage: "Prozenttext anzeigen", bold_text: "Fetter Text", no_scale: "Skalierung beim Drücken deaktivieren", no_transition_animation: "Übergangsanimation deaktivieren", vertical: "Vertikaler Schieberegler", min_slide_time: "Minimale Schiebezeit", hold_time: "Haltezeit", settle_time: "Beruhigungszeit", immediate_update: "Beim Schieben aktualisieren", background_color: "Hintergrundfarbe", height: "Höhe", width: "Breite", text_color: "Textfarbe", icon_color: "Symbolfarbe", icon_off_color: "Symbolfarbe aus", constant_icon_color: "Konstante Symbolfarbe", icon_size: "Symbolgröße", text_size: "Textgröße", border_color: "Rahmenfarbe", border_radius: "Rahmenradius", border_style: "Rahmenstil", border_width: "Rahmenbreite" } }, De = { light_domain_only: "Gib eine Entität aus der light-Domain an" }, Be = { example_light: "Beispiellampe" }, Ve = { name: "Big Slider Card", description: "Große Schiebereglerkarte für Lichtentitäten." }, Ht = {
+  common: je,
+  editor: He,
+  errors: De,
+  preview: Be,
+  card: Ve
+}, Dt = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  common: zt,
-  default: ie
-}, Symbol.toStringTag, { value: "Module" })), Ot = { version: "Versión", invalid_configuration: "Configuración no válida", show_warning: "Mostrar advertencia", no_entity_set: "Entidad no configurada", no_entity: "Entidad no disponible", on: "Encendido", off: "Apagado" }, oe = {
-  common: Ot
-}, ne = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  card: Ve,
+  common: je,
+  default: Ht,
+  editor: He,
+  errors: De,
+  preview: Be
+}, Symbol.toStringTag, { value: "Module" })), Ie = { version: "Versión", invalid_configuration: "Configuración no válida", show_warning: "Mostrar advertencia", no_entity_set: "Entidad no configurada", no_entity: "Entidad no disponible", on: "Encendido", off: "Apagado" }, Ne = { sections: { display: "Opciones de visualización", styling: "Estilo personalizado", behavior: "Comportamiento / Acciones" }, attributes: { brightness: "Brillo", red: "Rojo", green: "Verde", blue: "Azul", hue: "Tono", saturation: "Saturación", color_temp_kelvin: "Temperatura de color Kelvin" }, labels: { colorize: "Colorear según el estado", show_percentage: "Mostrar texto de porcentaje", bold_text: "Texto en negrita", no_scale: "Desactivar escala al pulsar", no_transition_animation: "Desactivar animación de transición", vertical: "Control deslizante vertical", min_slide_time: "Tiempo mínimo de deslizamiento", hold_time: "Tiempo de pulsación larga", settle_time: "Tiempo de estabilización", immediate_update: "Actualizar mientras se desliza", background_color: "Color de fondo", height: "Altura", width: "Anchura", text_color: "Color del texto", icon_color: "Color del icono", icon_off_color: "Color del icono apagado", constant_icon_color: "Color constante del icono", icon_size: "Tamaño del icono", text_size: "Tamaño del texto", border_color: "Color del borde", border_radius: "Radio del borde", border_style: "Estilo del borde", border_width: "Anchura del borde" } }, We = { light_domain_only: "Especifica una entidad del dominio light" }, Ke = { example_light: "Luz de ejemplo" }, Ge = { name: "Big Slider Card", description: "Tarjeta deslizante grande para entidades de luz." }, Bt = {
+  common: Ie,
+  editor: Ne,
+  errors: We,
+  preview: Ke,
+  card: Ge
+}, Vt = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  common: Ot,
-  default: oe
-}, Symbol.toStringTag, { value: "Module" })), Lt = { version: "Version", invalid_configuration: "Configuration invalide", show_warning: "Afficher l'avertissement", no_entity_set: "Entité non définie", no_entity: "Entité non disponible", on: "Allumé", off: "Éteint" }, re = {
-  common: Lt
-}, ae = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  card: Ge,
+  common: Ie,
+  default: Bt,
+  editor: Ne,
+  errors: We,
+  preview: Ke
+}, Symbol.toStringTag, { value: "Module" })), Xe = { version: "Version", invalid_configuration: "Configuration invalide", show_warning: "Afficher l'avertissement", no_entity_set: "Entité non définie", no_entity: "Entité non disponible", on: "Allumé", off: "Éteint" }, Ye = { sections: { display: "Options d'affichage", styling: "Style personnalisé", behavior: "Comportement / Actions" }, attributes: { brightness: "Luminosité", red: "Rouge", green: "Vert", blue: "Bleu", hue: "Teinte", saturation: "Saturation", color_temp_kelvin: "Température de couleur Kelvin" }, labels: { colorize: "Colorer selon l'état", show_percentage: "Afficher le pourcentage", bold_text: "Texte en gras", no_scale: "Désactiver l'échelle à l'appui", no_transition_animation: "Désactiver l'animation de transition", vertical: "Curseur vertical", min_slide_time: "Temps de glissement minimal", hold_time: "Durée d'appui long", settle_time: "Temps de stabilisation", immediate_update: "Mettre à jour pendant le glissement", background_color: "Couleur d'arrière-plan", height: "Hauteur", width: "Largeur", text_color: "Couleur du texte", icon_color: "Couleur de l'icône", icon_off_color: "Couleur de l'icône éteinte", constant_icon_color: "Couleur constante de l'icône", icon_size: "Taille de l'icône", text_size: "Taille du texte", border_color: "Couleur de bordure", border_radius: "Rayon de bordure", border_style: "Style de bordure", border_width: "Largeur de bordure" } }, Fe = { light_domain_only: "Spécifiez une entité du domaine light" }, qe = { example_light: "Lumière d'exemple" }, Ze = { name: "Big Slider Card", description: "Grande carte de curseur pour les entités lumière." }, It = {
+  common: Xe,
+  editor: Ye,
+  errors: Fe,
+  preview: qe,
+  card: Ze
+}, Nt = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  common: Lt,
-  default: re
-}, Symbol.toStringTag, { value: "Module" })), Ht = { version: "Versione", invalid_configuration: "Configurazione non valida", show_warning: "Mostra avviso", no_entity_set: "Entità non impostata", no_entity: "Entità non disponibile", on: "Acceso", off: "Spento" }, ce = {
-  common: Ht
-}, le = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  card: Ze,
+  common: Xe,
+  default: It,
+  editor: Ye,
+  errors: Fe,
+  preview: qe
+}, Symbol.toStringTag, { value: "Module" })), Je = { version: "Versione", invalid_configuration: "Configurazione non valida", show_warning: "Mostra avviso", no_entity_set: "Entità non impostata", no_entity: "Entità non disponibile", on: "Acceso", off: "Spento" }, Qe = { sections: { display: "Opzioni di visualizzazione", styling: "Stile personalizzato", behavior: "Comportamento / Azioni" }, attributes: { brightness: "Luminosità", red: "Rosso", green: "Verde", blue: "Blu", hue: "Tonalità", saturation: "Saturazione", color_temp_kelvin: "Temperatura colore Kelvin" }, labels: { colorize: "Colora in base allo stato", show_percentage: "Mostra testo percentuale", bold_text: "Testo in grassetto", no_scale: "Disattiva scala alla pressione", no_transition_animation: "Disattiva animazione di transizione", vertical: "Cursore verticale", min_slide_time: "Tempo minimo di scorrimento", hold_time: "Tempo di pressione prolungata", settle_time: "Tempo di stabilizzazione", immediate_update: "Aggiorna durante lo scorrimento", background_color: "Colore di sfondo", height: "Altezza", width: "Larghezza", text_color: "Colore testo", icon_color: "Colore icona", icon_off_color: "Colore icona spenta", constant_icon_color: "Colore icona costante", icon_size: "Dimensione icona", text_size: "Dimensione testo", border_color: "Colore bordo", border_radius: "Raggio bordo", border_style: "Stile bordo", border_width: "Spessore bordo" } }, et = { light_domain_only: "Specifica un'entità del dominio light" }, tt = { example_light: "Luce di esempio" }, it = { name: "Big Slider Card", description: "Scheda con cursore grande per entità luce." }, Wt = {
+  common: Je,
+  editor: Qe,
+  errors: et,
+  preview: tt,
+  card: it
+}, Kt = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  common: Ht,
-  default: ce
-}, Symbol.toStringTag, { value: "Module" })), It = { version: "Versie", invalid_configuration: "Ongeldige configuratie", show_warning: "Waarschuwing tonen", no_entity_set: "Entiteit niet ingesteld", no_entity: "Entiteit niet beschikbaar", on: "Aan", off: "Uit" }, he = {
-  common: It
-}, de = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  card: it,
+  common: Je,
+  default: Wt,
+  editor: Qe,
+  errors: et,
+  preview: tt
+}, Symbol.toStringTag, { value: "Module" })), ot = { version: "Versie", invalid_configuration: "Ongeldige configuratie", show_warning: "Waarschuwing tonen", no_entity_set: "Entiteit niet ingesteld", no_entity: "Entiteit niet beschikbaar", on: "Aan", off: "Uit" }, st = { sections: { display: "Weergaveopties", styling: "Aangepaste stijl", behavior: "Gedrag / Acties" }, attributes: { brightness: "Helderheid", red: "Rood", green: "Groen", blue: "Blauw", hue: "Tint", saturation: "Verzadiging", color_temp_kelvin: "Kleurtemperatuur Kelvin" }, labels: { colorize: "Kleuren op basis van status", show_percentage: "Percentagetekst tonen", bold_text: "Vetgedrukte tekst", no_scale: "Schalen bij indrukken uitschakelen", no_transition_animation: "Overgangsanimatie uitschakelen", vertical: "Verticale schuifregelaar", min_slide_time: "Minimale schuiftijd", hold_time: "Tijd voor ingedrukt houden", settle_time: "Stabilisatietijd", immediate_update: "Bijwerken tijdens schuiven", background_color: "Achtergrondkleur", height: "Hoogte", width: "Breedte", text_color: "Tekstkleur", icon_color: "Pictogramkleur", icon_off_color: "Pictogramkleur uit", constant_icon_color: "Constante pictogramkleur", icon_size: "Pictogramgrootte", text_size: "Tekstgrootte", border_color: "Randkleur", border_radius: "Randradius", border_style: "Randstijl", border_width: "Randbreedte" } }, rt = { light_domain_only: "Geef een entiteit uit het light-domein op" }, nt = { example_light: "Voorbeeldlamp" }, at = { name: "Big Slider Card", description: "Grote schuifregelaar-kaart voor lichtentiteiten." }, Gt = {
+  common: ot,
+  editor: st,
+  errors: rt,
+  preview: nt,
+  card: at
+}, Xt = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  common: It,
-  default: he
-}, Symbol.toStringTag, { value: "Module" })), Rt = { version: "Wersja", invalid_configuration: "Nieprawidłowa konfiguracja", show_warning: "Pokaż ostrzeżenie", no_entity_set: "Encja nie ustawiona", no_entity: "Encja niedostępna", on: "Włączone", off: "Wyłączone" }, ue = {
-  common: Rt
-}, _e = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  card: at,
+  common: ot,
+  default: Gt,
+  editor: st,
+  errors: rt,
+  preview: nt
+}, Symbol.toStringTag, { value: "Module" })), lt = { version: "Wersja", invalid_configuration: "Nieprawidłowa konfiguracja", show_warning: "Pokaż ostrzeżenie", no_entity_set: "Encja nie ustawiona", no_entity: "Encja niedostępna", on: "Włączone", off: "Wyłączone" }, ct = { sections: { display: "Opcje wyświetlania", styling: "Niestandardowy styl", behavior: "Zachowanie / Akcje" }, attributes: { brightness: "Jasność", red: "Czerwony", green: "Zielony", blue: "Niebieski", hue: "Odcień", saturation: "Nasycenie", color_temp_kelvin: "Temperatura barwowa Kelvin" }, labels: { colorize: "Koloruj na podstawie stanu", show_percentage: "Pokaż tekst procentowy", bold_text: "Pogrubiony tekst", no_scale: "Wyłącz skalowanie po naciśnięciu", no_transition_animation: "Wyłącz animację przejścia", vertical: "Suwak pionowy", min_slide_time: "Minimalny czas przesuwania", hold_time: "Czas przytrzymania", settle_time: "Czas stabilizacji", immediate_update: "Aktualizuj podczas przesuwania", background_color: "Kolor tła", height: "Wysokość", width: "Szerokość", text_color: "Kolor tekstu", icon_color: "Kolor ikony", icon_off_color: "Kolor ikony wyłączonej", constant_icon_color: "Stały kolor ikony", icon_size: "Rozmiar ikony", text_size: "Rozmiar tekstu", border_color: "Kolor obramowania", border_radius: "Promień obramowania", border_style: "Styl obramowania", border_width: "Szerokość obramowania" } }, dt = { light_domain_only: "Podaj encję z domeny light" }, ht = { example_light: "Przykładowe światło" }, ut = { name: "Big Slider Card", description: "Duża karta suwaka dla encji światła." }, Yt = {
+  common: lt,
+  editor: ct,
+  errors: dt,
+  preview: ht,
+  card: ut
+}, Ft = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  common: Rt,
-  default: ue
-}, Symbol.toStringTag, { value: "Module" })), Nt = { version: "Versão", invalid_configuration: "Configuração inválida", show_warning: "Mostrar aviso", no_entity_set: "Entidade não definida", no_entity: "Entidade não disponível", on: "Ligado", off: "Desligado" }, pe = {
-  common: Nt
-}, me = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  card: ut,
+  common: lt,
+  default: Yt,
+  editor: ct,
+  errors: dt,
+  preview: ht
+}, Symbol.toStringTag, { value: "Module" })), _t = { version: "Versão", invalid_configuration: "Configuração inválida", show_warning: "Mostrar aviso", no_entity_set: "Entidade não definida", no_entity: "Entidade não disponível", on: "Ligado", off: "Desligado" }, mt = { sections: { display: "Opções de exibição", styling: "Estilo personalizado", behavior: "Comportamento / Ações" }, attributes: { brightness: "Brilho", red: "Vermelho", green: "Verde", blue: "Azul", hue: "Matiz", saturation: "Saturação", color_temp_kelvin: "Temperatura de cor Kelvin" }, labels: { colorize: "Colorir com base no estado", show_percentage: "Mostrar texto de porcentagem", bold_text: "Texto em negrito", no_scale: "Desativar escala ao pressionar", no_transition_animation: "Desativar animação de transição", vertical: "Controle deslizante vertical", min_slide_time: "Tempo mínimo de deslizamento", hold_time: "Tempo de pressionar e segurar", settle_time: "Tempo de estabilização", immediate_update: "Atualizar durante o deslizamento", background_color: "Cor de fundo", height: "Altura", width: "Largura", text_color: "Cor do texto", icon_color: "Cor do ícone", icon_off_color: "Cor do ícone desligado", constant_icon_color: "Cor constante do ícone", icon_size: "Tamanho do ícone", text_size: "Tamanho do texto", border_color: "Cor da borda", border_radius: "Raio da borda", border_style: "Estilo da borda", border_width: "Largura da borda" } }, pt = { light_domain_only: "Especifique uma entidade do domínio light" }, gt = { example_light: "Luz de exemplo" }, bt = { name: "Big Slider Card", description: "Cartão deslizante grande para entidades de luz." }, qt = {
+  common: _t,
+  editor: mt,
+  errors: pt,
+  preview: gt,
+  card: bt
+}, Zt = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  common: Nt,
-  default: pe
-}, Symbol.toStringTag, { value: "Module" })), jt = { version: "Versiunea", invalid_configuration: "Configurație invalidă", show_warning: "Show Warning", no_entity_set: "Entitatea nu e setată", no_entity: "Entitatea nu e disponibilă", on: "Pornit", off: "Oprit" }, fe = {
-  common: jt
-}, ge = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  card: bt,
+  common: _t,
+  default: qt,
+  editor: mt,
+  errors: pt,
+  preview: gt
+}, Symbol.toStringTag, { value: "Module" })), ft = { version: "Versiunea", invalid_configuration: "Configurație invalidă", show_warning: "Show Warning", no_entity_set: "Entitatea nu e setată", no_entity: "Entitatea nu e disponibilă", on: "Pornit", off: "Oprit" }, yt = { sections: { display: "Opțiuni de afișare", styling: "Stilizare personalizată", behavior: "Comportament / Acțiuni" }, attributes: { brightness: "Luminozitate", red: "Roșu", green: "Verde", blue: "Albastru", hue: "Nuanță", saturation: "Saturație", color_temp_kelvin: "Temperatură culoare Kelvin" }, labels: { colorize: "Colorează în funcție de stare", show_percentage: "Afișează text procentual", bold_text: "Text îngroșat", no_scale: "Dezactivează scalarea la apăsare", no_transition_animation: "Dezactivează animația de tranziție", vertical: "Glisor vertical", min_slide_time: "Timp minim de glisare", hold_time: "Timp de apăsare lungă", settle_time: "Timp de stabilizare", immediate_update: "Actualizează în timpul glisării", background_color: "Culoare fundal", height: "Înălțime", width: "Lățime", text_color: "Culoare text", icon_color: "Culoare pictogramă", icon_off_color: "Culoare pictogramă oprită", constant_icon_color: "Culoare constantă pictogramă", icon_size: "Dimensiune pictogramă", text_size: "Dimensiune text", border_color: "Culoare chenar", border_radius: "Rază chenar", border_style: "Stil chenar", border_width: "Lățime chenar" } }, vt = { light_domain_only: "Specifică o entitate din domeniul light" }, $t = { example_light: "Lumină exemplu" }, wt = { name: "Big Slider Card", description: "Card cu glisor mare pentru entități de lumină." }, Jt = {
+  common: ft,
+  editor: yt,
+  errors: vt,
+  preview: $t,
+  card: wt
+}, Qt = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  common: jt,
-  default: fe
-}, Symbol.toStringTag, { value: "Module" })), nt = {
-  en: ee,
-  de: se,
-  es: ne,
-  fr: ae,
-  it: le,
-  nl: de,
-  pl: _e,
-  pt: me,
-  ro: ge
+  card: wt,
+  common: ft,
+  default: Jt,
+  editor: yt,
+  errors: vt,
+  preview: $t
+}, Symbol.toStringTag, { value: "Module" })), re = {
+  en: jt,
+  de: Dt,
+  es: Vt,
+  fr: Nt,
+  it: Kt,
+  nl: Xt,
+  pl: Ft,
+  pt: Zt,
+  ro: Qt
 };
-function K(o, t = "", e = "") {
+function c(s, e = "", t = "") {
   const i = (localStorage.getItem("selectedLanguage") || "en").replace(/['"]+/g, "").replace("-", "_");
-  let s;
+  let o;
   try {
-    s = o.split(".").reduce((n, r) => n[r], nt[i]);
+    o = s.split(".").reduce((r, n) => r[n], re[i]);
   } catch {
-    s = o.split(".").reduce((r, l) => r[l], nt.en);
+    o = s.split(".").reduce((n, d) => n[d], re.en);
   }
-  return s === void 0 && (s = o.split(".").reduce((n, r) => n[r], nt.en)), t !== "" && e !== "" && (s = s.replace(t, e)), s;
+  return o === void 0 && (o = s.split(".").reduce((r, n) => r[n], re.en)), e !== "" && t !== "" && (o = o.replace(e, t)), o;
 }
 /**
  * @license
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const J = globalThis, dt = J.ShadowRoot && (J.ShadyCSS === void 0 || J.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, ut = Symbol(), gt = /* @__PURE__ */ new WeakMap();
-let Vt = class {
-  constructor(t, e, i) {
-    if (this._$cssResult$ = !0, i !== ut) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
-    this.cssText = t, this.t = e;
+const Z = globalThis, he = Z.ShadowRoot && (Z.ShadyCSS === void 0 || Z.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, ue = Symbol(), be = /* @__PURE__ */ new WeakMap();
+let xt = class {
+  constructor(e, t, i) {
+    if (this._$cssResult$ = !0, i !== ue) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
+    this.cssText = e, this.t = t;
   }
   get styleSheet() {
-    let t = this.o;
-    const e = this.t;
-    if (dt && t === void 0) {
-      const i = e !== void 0 && e.length === 1;
-      i && (t = gt.get(e)), t === void 0 && ((this.o = t = new CSSStyleSheet()).replaceSync(this.cssText), i && gt.set(e, t));
+    let e = this.o;
+    const t = this.t;
+    if (he && e === void 0) {
+      const i = t !== void 0 && t.length === 1;
+      i && (e = be.get(t)), e === void 0 && ((this.o = e = new CSSStyleSheet()).replaceSync(this.cssText), i && be.set(t, e));
     }
-    return t;
+    return e;
   }
   toString() {
     return this.cssText;
   }
 };
-const be = (o) => new Vt(typeof o == "string" ? o : o + "", void 0, ut), ye = (o, ...t) => {
-  const e = o.length === 1 ? o[0] : t.reduce((i, s, n) => i + ((r) => {
-    if (r._$cssResult$ === !0) return r.cssText;
-    if (typeof r == "number") return r;
-    throw Error("Value passed to 'css' function must be a 'css' function result: " + r + ". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.");
-  })(s) + o[n + 1], o[0]);
-  return new Vt(e, o, ut);
-}, ve = (o, t) => {
-  if (dt) o.adoptedStyleSheets = t.map((e) => e instanceof CSSStyleSheet ? e : e.styleSheet);
-  else for (const e of t) {
-    const i = document.createElement("style"), s = J.litNonce;
-    s !== void 0 && i.setAttribute("nonce", s), i.textContent = e.cssText, o.appendChild(i);
+const ei = (s) => new xt(typeof s == "string" ? s : s + "", void 0, ue), ti = (s, ...e) => {
+  const t = s.length === 1 ? s[0] : e.reduce((i, o, r) => i + ((n) => {
+    if (n._$cssResult$ === !0) return n.cssText;
+    if (typeof n == "number") return n;
+    throw Error("Value passed to 'css' function must be a 'css' function result: " + n + ". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.");
+  })(o) + s[r + 1], s[0]);
+  return new xt(t, s, ue);
+}, ii = (s, e) => {
+  if (he) s.adoptedStyleSheets = e.map((t) => t instanceof CSSStyleSheet ? t : t.styleSheet);
+  else for (const t of e) {
+    const i = document.createElement("style"), o = Z.litNonce;
+    o !== void 0 && i.setAttribute("nonce", o), i.textContent = t.cssText, s.appendChild(i);
   }
-}, bt = dt ? (o) => o : (o) => o instanceof CSSStyleSheet ? ((t) => {
-  let e = "";
-  for (const i of t.cssRules) e += i.cssText;
-  return be(e);
-})(o) : o;
+}, fe = he ? (s) => s : (s) => s instanceof CSSStyleSheet ? ((e) => {
+  let t = "";
+  for (const i of e.cssRules) t += i.cssText;
+  return ei(t);
+})(s) : s;
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const { is: $e, defineProperty: Se, getOwnPropertyDescriptor: we, getOwnPropertyNames: Ae, getOwnPropertySymbols: xe, getPrototypeOf: Ee } = Object, x = globalThis, yt = x.trustedTypes, Pe = yt ? yt.emptyScript : "", rt = x.reactiveElementPolyfillSupport, j = (o, t) => o, Z = { toAttribute(o, t) {
-  switch (t) {
+const { is: oi, defineProperty: si, getOwnPropertyDescriptor: ri, getOwnPropertyNames: ni, getOwnPropertySymbols: ai, getPrototypeOf: li } = Object, z = globalThis, ye = z.trustedTypes, ci = ye ? ye.emptyScript : "", ne = z.reactiveElementPolyfillSupport, V = (s, e) => s, J = { toAttribute(s, e) {
+  switch (e) {
     case Boolean:
-      o = o ? Pe : null;
+      s = s ? ci : null;
       break;
     case Object:
     case Array:
-      o = o == null ? o : JSON.stringify(o);
+      s = s == null ? s : JSON.stringify(s);
   }
-  return o;
-}, fromAttribute(o, t) {
-  let e = o;
-  switch (t) {
+  return s;
+}, fromAttribute(s, e) {
+  let t = s;
+  switch (e) {
     case Boolean:
-      e = o !== null;
+      t = s !== null;
       break;
     case Number:
-      e = o === null ? null : Number(o);
+      t = s === null ? null : Number(s);
       break;
     case Object:
     case Array:
       try {
-        e = JSON.parse(o);
+        t = JSON.parse(s);
       } catch {
-        e = null;
+        t = null;
       }
   }
-  return e;
-} }, _t = (o, t) => !$e(o, t), vt = { attribute: !0, type: String, converter: Z, reflect: !1, hasChanged: _t };
-Symbol.metadata ?? (Symbol.metadata = Symbol("metadata")), x.litPropertyMetadata ?? (x.litPropertyMetadata = /* @__PURE__ */ new WeakMap());
-class O extends HTMLElement {
-  static addInitializer(t) {
-    this._$Ei(), (this.l ?? (this.l = [])).push(t);
+  return t;
+} }, _e = (s, e) => !oi(s, e), ve = { attribute: !0, type: String, converter: J, reflect: !1, hasChanged: _e };
+Symbol.metadata ?? (Symbol.metadata = Symbol("metadata")), z.litPropertyMetadata ?? (z.litPropertyMetadata = /* @__PURE__ */ new WeakMap());
+class L extends HTMLElement {
+  static addInitializer(e) {
+    this._$Ei(), (this.l ?? (this.l = [])).push(e);
   }
   static get observedAttributes() {
     return this.finalize(), this._$Eh && [...this._$Eh.keys()];
   }
-  static createProperty(t, e = vt) {
-    if (e.state && (e.attribute = !1), this._$Ei(), this.elementProperties.set(t, e), !e.noAccessor) {
-      const i = Symbol(), s = this.getPropertyDescriptor(t, i, e);
-      s !== void 0 && Se(this.prototype, t, s);
+  static createProperty(e, t = ve) {
+    if (t.state && (t.attribute = !1), this._$Ei(), this.elementProperties.set(e, t), !t.noAccessor) {
+      const i = Symbol(), o = this.getPropertyDescriptor(e, i, t);
+      o !== void 0 && si(this.prototype, e, o);
     }
   }
-  static getPropertyDescriptor(t, e, i) {
-    const { get: s, set: n } = we(this.prototype, t) ?? { get() {
-      return this[e];
-    }, set(r) {
-      this[e] = r;
+  static getPropertyDescriptor(e, t, i) {
+    const { get: o, set: r } = ri(this.prototype, e) ?? { get() {
+      return this[t];
+    }, set(n) {
+      this[t] = n;
     } };
     return { get() {
-      return s == null ? void 0 : s.call(this);
-    }, set(r) {
-      const l = s == null ? void 0 : s.call(this);
-      n.call(this, r), this.requestUpdate(t, l, i);
+      return o == null ? void 0 : o.call(this);
+    }, set(n) {
+      const d = o == null ? void 0 : o.call(this);
+      r.call(this, n), this.requestUpdate(e, d, i);
     }, configurable: !0, enumerable: !0 };
   }
-  static getPropertyOptions(t) {
-    return this.elementProperties.get(t) ?? vt;
+  static getPropertyOptions(e) {
+    return this.elementProperties.get(e) ?? ve;
   }
   static _$Ei() {
-    if (this.hasOwnProperty(j("elementProperties"))) return;
-    const t = Ee(this);
-    t.finalize(), t.l !== void 0 && (this.l = [...t.l]), this.elementProperties = new Map(t.elementProperties);
+    if (this.hasOwnProperty(V("elementProperties"))) return;
+    const e = li(this);
+    e.finalize(), e.l !== void 0 && (this.l = [...e.l]), this.elementProperties = new Map(e.elementProperties);
   }
   static finalize() {
-    if (this.hasOwnProperty(j("finalized"))) return;
-    if (this.finalized = !0, this._$Ei(), this.hasOwnProperty(j("properties"))) {
-      const e = this.properties, i = [...Ae(e), ...xe(e)];
-      for (const s of i) this.createProperty(s, e[s]);
+    if (this.hasOwnProperty(V("finalized"))) return;
+    if (this.finalized = !0, this._$Ei(), this.hasOwnProperty(V("properties"))) {
+      const t = this.properties, i = [...ni(t), ...ai(t)];
+      for (const o of i) this.createProperty(o, t[o]);
     }
-    const t = this[Symbol.metadata];
-    if (t !== null) {
-      const e = litPropertyMetadata.get(t);
-      if (e !== void 0) for (const [i, s] of e) this.elementProperties.set(i, s);
+    const e = this[Symbol.metadata];
+    if (e !== null) {
+      const t = litPropertyMetadata.get(e);
+      if (t !== void 0) for (const [i, o] of t) this.elementProperties.set(i, o);
     }
     this._$Eh = /* @__PURE__ */ new Map();
-    for (const [e, i] of this.elementProperties) {
-      const s = this._$Eu(e, i);
-      s !== void 0 && this._$Eh.set(s, e);
+    for (const [t, i] of this.elementProperties) {
+      const o = this._$Eu(t, i);
+      o !== void 0 && this._$Eh.set(o, t);
     }
     this.elementStyles = this.finalizeStyles(this.styles);
   }
-  static finalizeStyles(t) {
-    const e = [];
-    if (Array.isArray(t)) {
-      const i = new Set(t.flat(1 / 0).reverse());
-      for (const s of i) e.unshift(bt(s));
-    } else t !== void 0 && e.push(bt(t));
-    return e;
+  static finalizeStyles(e) {
+    const t = [];
+    if (Array.isArray(e)) {
+      const i = new Set(e.flat(1 / 0).reverse());
+      for (const o of i) t.unshift(fe(o));
+    } else e !== void 0 && t.push(fe(e));
+    return t;
   }
-  static _$Eu(t, e) {
-    const i = e.attribute;
-    return i === !1 ? void 0 : typeof i == "string" ? i : typeof t == "string" ? t.toLowerCase() : void 0;
+  static _$Eu(e, t) {
+    const i = t.attribute;
+    return i === !1 ? void 0 : typeof i == "string" ? i : typeof e == "string" ? e.toLowerCase() : void 0;
   }
   constructor() {
     super(), this._$Ep = void 0, this.isUpdatePending = !1, this.hasUpdated = !1, this._$Em = null, this._$Ev();
   }
   _$Ev() {
+    var e;
+    this._$ES = new Promise((t) => this.enableUpdating = t), this._$AL = /* @__PURE__ */ new Map(), this._$E_(), this.requestUpdate(), (e = this.constructor.l) == null || e.forEach((t) => t(this));
+  }
+  addController(e) {
     var t;
-    this._$ES = new Promise((e) => this.enableUpdating = e), this._$AL = /* @__PURE__ */ new Map(), this._$E_(), this.requestUpdate(), (t = this.constructor.l) == null || t.forEach((e) => e(this));
+    (this._$EO ?? (this._$EO = /* @__PURE__ */ new Set())).add(e), this.renderRoot !== void 0 && this.isConnected && ((t = e.hostConnected) == null || t.call(e));
   }
-  addController(t) {
-    var e;
-    (this._$EO ?? (this._$EO = /* @__PURE__ */ new Set())).add(t), this.renderRoot !== void 0 && this.isConnected && ((e = t.hostConnected) == null || e.call(t));
-  }
-  removeController(t) {
-    var e;
-    (e = this._$EO) == null || e.delete(t);
+  removeController(e) {
+    var t;
+    (t = this._$EO) == null || t.delete(e);
   }
   _$E_() {
-    const t = /* @__PURE__ */ new Map(), e = this.constructor.elementProperties;
-    for (const i of e.keys()) this.hasOwnProperty(i) && (t.set(i, this[i]), delete this[i]);
-    t.size > 0 && (this._$Ep = t);
+    const e = /* @__PURE__ */ new Map(), t = this.constructor.elementProperties;
+    for (const i of t.keys()) this.hasOwnProperty(i) && (e.set(i, this[i]), delete this[i]);
+    e.size > 0 && (this._$Ep = e);
   }
   createRenderRoot() {
-    const t = this.shadowRoot ?? this.attachShadow(this.constructor.shadowRootOptions);
-    return ve(t, this.constructor.elementStyles), t;
+    const e = this.shadowRoot ?? this.attachShadow(this.constructor.shadowRootOptions);
+    return ii(e, this.constructor.elementStyles), e;
   }
   connectedCallback() {
-    var t;
-    this.renderRoot ?? (this.renderRoot = this.createRenderRoot()), this.enableUpdating(!0), (t = this._$EO) == null || t.forEach((e) => {
+    var e;
+    this.renderRoot ?? (this.renderRoot = this.createRenderRoot()), this.enableUpdating(!0), (e = this._$EO) == null || e.forEach((t) => {
       var i;
-      return (i = e.hostConnected) == null ? void 0 : i.call(e);
+      return (i = t.hostConnected) == null ? void 0 : i.call(t);
     });
   }
-  enableUpdating(t) {
+  enableUpdating(e) {
   }
   disconnectedCallback() {
-    var t;
-    (t = this._$EO) == null || t.forEach((e) => {
+    var e;
+    (e = this._$EO) == null || e.forEach((t) => {
       var i;
-      return (i = e.hostDisconnected) == null ? void 0 : i.call(e);
+      return (i = t.hostDisconnected) == null ? void 0 : i.call(t);
     });
   }
-  attributeChangedCallback(t, e, i) {
-    this._$AK(t, i);
+  attributeChangedCallback(e, t, i) {
+    this._$AK(e, i);
   }
-  _$EC(t, e) {
-    var n;
-    const i = this.constructor.elementProperties.get(t), s = this.constructor._$Eu(t, i);
-    if (s !== void 0 && i.reflect === !0) {
-      const r = (((n = i.converter) == null ? void 0 : n.toAttribute) !== void 0 ? i.converter : Z).toAttribute(e, i.type);
-      this._$Em = t, r == null ? this.removeAttribute(s) : this.setAttribute(s, r), this._$Em = null;
+  _$EC(e, t) {
+    var r;
+    const i = this.constructor.elementProperties.get(e), o = this.constructor._$Eu(e, i);
+    if (o !== void 0 && i.reflect === !0) {
+      const n = (((r = i.converter) == null ? void 0 : r.toAttribute) !== void 0 ? i.converter : J).toAttribute(t, i.type);
+      this._$Em = e, n == null ? this.removeAttribute(o) : this.setAttribute(o, n), this._$Em = null;
     }
   }
-  _$AK(t, e) {
-    var n;
-    const i = this.constructor, s = i._$Eh.get(t);
-    if (s !== void 0 && this._$Em !== s) {
-      const r = i.getPropertyOptions(s), l = typeof r.converter == "function" ? { fromAttribute: r.converter } : ((n = r.converter) == null ? void 0 : n.fromAttribute) !== void 0 ? r.converter : Z;
-      this._$Em = s, this[s] = l.fromAttribute(e, r.type), this._$Em = null;
+  _$AK(e, t) {
+    var r;
+    const i = this.constructor, o = i._$Eh.get(e);
+    if (o !== void 0 && this._$Em !== o) {
+      const n = i.getPropertyOptions(o), d = typeof n.converter == "function" ? { fromAttribute: n.converter } : ((r = n.converter) == null ? void 0 : r.fromAttribute) !== void 0 ? n.converter : J;
+      this._$Em = o, this[o] = d.fromAttribute(t, n.type), this._$Em = null;
     }
   }
-  requestUpdate(t, e, i) {
-    if (t !== void 0) {
-      if (i ?? (i = this.constructor.getPropertyOptions(t)), !(i.hasChanged ?? _t)(this[t], e)) return;
-      this.P(t, e, i);
+  requestUpdate(e, t, i) {
+    if (e !== void 0) {
+      if (i ?? (i = this.constructor.getPropertyOptions(e)), !(i.hasChanged ?? _e)(this[e], t)) return;
+      this.P(e, t, i);
     }
     this.isUpdatePending === !1 && (this._$ES = this._$ET());
   }
-  P(t, e, i) {
-    this._$AL.has(t) || this._$AL.set(t, e), i.reflect === !0 && this._$Em !== t && (this._$Ej ?? (this._$Ej = /* @__PURE__ */ new Set())).add(t);
+  P(e, t, i) {
+    this._$AL.has(e) || this._$AL.set(e, t), i.reflect === !0 && this._$Em !== e && (this._$Ej ?? (this._$Ej = /* @__PURE__ */ new Set())).add(e);
   }
   async _$ET() {
     this.isUpdatePending = !0;
     try {
       await this._$ES;
-    } catch (e) {
-      Promise.reject(e);
+    } catch (t) {
+      Promise.reject(t);
     }
-    const t = this.scheduleUpdate();
-    return t != null && await t, !this.isUpdatePending;
+    const e = this.scheduleUpdate();
+    return e != null && await e, !this.isUpdatePending;
   }
   scheduleUpdate() {
     return this.performUpdate();
@@ -371,32 +443,32 @@ class O extends HTMLElement {
     if (!this.isUpdatePending) return;
     if (!this.hasUpdated) {
       if (this.renderRoot ?? (this.renderRoot = this.createRenderRoot()), this._$Ep) {
-        for (const [n, r] of this._$Ep) this[n] = r;
+        for (const [r, n] of this._$Ep) this[r] = n;
         this._$Ep = void 0;
       }
-      const s = this.constructor.elementProperties;
-      if (s.size > 0) for (const [n, r] of s) r.wrapped !== !0 || this._$AL.has(n) || this[n] === void 0 || this.P(n, this[n], r);
+      const o = this.constructor.elementProperties;
+      if (o.size > 0) for (const [r, n] of o) n.wrapped !== !0 || this._$AL.has(r) || this[r] === void 0 || this.P(r, this[r], n);
     }
-    let t = !1;
-    const e = this._$AL;
+    let e = !1;
+    const t = this._$AL;
     try {
-      t = this.shouldUpdate(e), t ? (this.willUpdate(e), (i = this._$EO) == null || i.forEach((s) => {
-        var n;
-        return (n = s.hostUpdate) == null ? void 0 : n.call(s);
-      }), this.update(e)) : this._$EU();
-    } catch (s) {
-      throw t = !1, this._$EU(), s;
+      e = this.shouldUpdate(t), e ? (this.willUpdate(t), (i = this._$EO) == null || i.forEach((o) => {
+        var r;
+        return (r = o.hostUpdate) == null ? void 0 : r.call(o);
+      }), this.update(t)) : this._$EU();
+    } catch (o) {
+      throw e = !1, this._$EU(), o;
     }
-    t && this._$AE(e);
+    e && this._$AE(t);
   }
-  willUpdate(t) {
+  willUpdate(e) {
   }
-  _$AE(t) {
-    var e;
-    (e = this._$EO) == null || e.forEach((i) => {
-      var s;
-      return (s = i.hostUpdated) == null ? void 0 : s.call(i);
-    }), this.hasUpdated || (this.hasUpdated = !0, this.firstUpdated(t)), this.updated(t);
+  _$AE(e) {
+    var t;
+    (t = this._$EO) == null || t.forEach((i) => {
+      var o;
+      return (o = i.hostUpdated) == null ? void 0 : o.call(i);
+    }), this.hasUpdated || (this.hasUpdated = !0, this.firstUpdated(e)), this.updated(e);
   }
   _$EU() {
     this._$AL = /* @__PURE__ */ new Map(), this.isUpdatePending = !1;
@@ -407,129 +479,129 @@ class O extends HTMLElement {
   getUpdateComplete() {
     return this._$ES;
   }
-  shouldUpdate(t) {
+  shouldUpdate(e) {
     return !0;
   }
-  update(t) {
-    this._$Ej && (this._$Ej = this._$Ej.forEach((e) => this._$EC(e, this[e]))), this._$EU();
+  update(e) {
+    this._$Ej && (this._$Ej = this._$Ej.forEach((t) => this._$EC(t, this[t]))), this._$EU();
   }
-  updated(t) {
+  updated(e) {
   }
-  firstUpdated(t) {
+  firstUpdated(e) {
   }
 }
-O.elementStyles = [], O.shadowRootOptions = { mode: "open" }, O[j("elementProperties")] = /* @__PURE__ */ new Map(), O[j("finalized")] = /* @__PURE__ */ new Map(), rt == null || rt({ ReactiveElement: O }), (x.reactiveElementVersions ?? (x.reactiveElementVersions = [])).push("2.0.4");
+L.elementStyles = [], L.shadowRootOptions = { mode: "open" }, L[V("elementProperties")] = /* @__PURE__ */ new Map(), L[V("finalized")] = /* @__PURE__ */ new Map(), ne == null || ne({ ReactiveElement: L }), (z.reactiveElementVersions ?? (z.reactiveElementVersions = [])).push("2.0.4");
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const Te = { attribute: !0, type: String, converter: Z, reflect: !1, hasChanged: _t }, Ce = (o = Te, t, e) => {
-  const { kind: i, metadata: s } = e;
-  let n = globalThis.litPropertyMetadata.get(s);
-  if (n === void 0 && globalThis.litPropertyMetadata.set(s, n = /* @__PURE__ */ new Map()), n.set(e.name, o), i === "accessor") {
-    const { name: r } = e;
-    return { set(l) {
-      const c = t.get.call(this);
-      t.set.call(this, l), this.requestUpdate(r, c, o);
-    }, init(l) {
-      return l !== void 0 && this.P(r, void 0, o), l;
+const di = { attribute: !0, type: String, converter: J, reflect: !1, hasChanged: _e }, hi = (s = di, e, t) => {
+  const { kind: i, metadata: o } = t;
+  let r = globalThis.litPropertyMetadata.get(o);
+  if (r === void 0 && globalThis.litPropertyMetadata.set(o, r = /* @__PURE__ */ new Map()), r.set(t.name, s), i === "accessor") {
+    const { name: n } = t;
+    return { set(d) {
+      const l = e.get.call(this);
+      e.set.call(this, d), this.requestUpdate(n, l, s);
+    }, init(d) {
+      return d !== void 0 && this.P(n, void 0, s), d;
     } };
   }
   if (i === "setter") {
-    const { name: r } = e;
-    return function(l) {
-      const c = this[r];
-      t.call(this, l), this.requestUpdate(r, c, o);
+    const { name: n } = t;
+    return function(d) {
+      const l = this[n];
+      e.call(this, d), this.requestUpdate(n, l, s);
     };
   }
   throw Error("Unsupported decorator location: " + i);
 };
-function Ue(o) {
-  return (t, e) => typeof e == "object" ? Ce(o, t, e) : ((i, s, n) => {
-    const r = s.hasOwnProperty(n);
-    return s.constructor.createProperty(n, r ? { ...i, wrapped: !0 } : i), r ? Object.getOwnPropertyDescriptor(s, n) : void 0;
-  })(o, t, e);
+function ui(s) {
+  return (e, t) => typeof t == "object" ? hi(s, e, t) : ((i, o, r) => {
+    const n = o.hasOwnProperty(r);
+    return o.constructor.createProperty(r, n ? { ...i, wrapped: !0 } : i), n ? Object.getOwnPropertyDescriptor(o, r) : void 0;
+  })(s, e, t);
 }
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-function tt(o) {
-  return Ue({ ...o, state: !0, attribute: !1 });
+function ee(s) {
+  return ui({ ...s, state: !0, attribute: !1 });
 }
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const V = globalThis, Q = V.trustedTypes, $t = Q ? Q.createPolicy("lit-html", { createHTML: (o) => o }) : void 0, Dt = "$lit$", S = `lit$${Math.random().toFixed(9).slice(2)}$`, Bt = "?" + S, ke = `<${Bt}>`, z = document, B = () => z.createComment(""), W = (o) => o === null || typeof o != "object" && typeof o != "function", pt = Array.isArray, Me = (o) => pt(o) || typeof (o == null ? void 0 : o[Symbol.iterator]) == "function", at = `[ 	
-\f\r]`, N = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, St = /-->/g, wt = />/g, E = RegExp(`>|${at}(?:([^\\s"'>=/]+)(${at}*=${at}*(?:[^ 	
-\f\r"'\`<>=]|("|')|))|$)`, "g"), At = /'/g, xt = /"/g, Wt = /^(?:script|style|textarea|title)$/i, ze = (o) => (t, ...e) => ({ _$litType$: o, strings: t, values: e }), Et = ze(1), I = Symbol.for("lit-noChange"), _ = Symbol.for("lit-nothing"), Pt = /* @__PURE__ */ new WeakMap(), P = z.createTreeWalker(z, 129);
-function Xt(o, t) {
-  if (!pt(o) || !o.hasOwnProperty("raw")) throw Error("invalid template strings array");
-  return $t !== void 0 ? $t.createHTML(t) : t;
+const I = globalThis, Q = I.trustedTypes, $e = Q ? Q.createPolicy("lit-html", { createHTML: (s) => s }) : void 0, St = "$lit$", x = `lit$${Math.random().toFixed(9).slice(2)}$`, At = "?" + x, _i = `<${At}>`, O = document, W = () => O.createComment(""), K = (s) => s === null || typeof s != "object" && typeof s != "function", me = Array.isArray, mi = (s) => me(s) || typeof (s == null ? void 0 : s[Symbol.iterator]) == "function", ae = `[ 	
+\f\r]`, B = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, we = /-->/g, xe = />/g, C = RegExp(`>|${ae}(?:([^\\s"'>=/]+)(${ae}*=${ae}*(?:[^ 	
+\f\r"'\`<>=]|("|')|))|$)`, "g"), Se = /'/g, Ae = /"/g, zt = /^(?:script|style|textarea|title)$/i, pi = (s) => (e, ...t) => ({ _$litType$: s, strings: e, values: t }), ze = pi(1), H = Symbol.for("lit-noChange"), m = Symbol.for("lit-nothing"), Ce = /* @__PURE__ */ new WeakMap(), T = O.createTreeWalker(O, 129);
+function Ct(s, e) {
+  if (!me(s) || !s.hasOwnProperty("raw")) throw Error("invalid template strings array");
+  return $e !== void 0 ? $e.createHTML(e) : e;
 }
-const Oe = (o, t) => {
-  const e = o.length - 1, i = [];
-  let s, n = t === 2 ? "<svg>" : t === 3 ? "<math>" : "", r = N;
-  for (let l = 0; l < e; l++) {
-    const c = o[l];
-    let d, u, h = -1, m = 0;
-    for (; m < c.length && (r.lastIndex = m, u = r.exec(c), u !== null); ) m = r.lastIndex, r === N ? u[1] === "!--" ? r = St : u[1] !== void 0 ? r = wt : u[2] !== void 0 ? (Wt.test(u[2]) && (s = RegExp("</" + u[2], "g")), r = E) : u[3] !== void 0 && (r = E) : r === E ? u[0] === ">" ? (r = s ?? N, h = -1) : u[1] === void 0 ? h = -2 : (h = r.lastIndex - u[2].length, d = u[1], r = u[3] === void 0 ? E : u[3] === '"' ? xt : At) : r === xt || r === At ? r = E : r === St || r === wt ? r = N : (r = E, s = void 0);
-    const v = r === E && o[l + 1].startsWith("/>") ? " " : "";
-    n += r === N ? c + ke : h >= 0 ? (i.push(d), c.slice(0, h) + Dt + c.slice(h) + S + v) : c + S + (h === -2 ? l : v);
+const gi = (s, e) => {
+  const t = s.length - 1, i = [];
+  let o, r = e === 2 ? "<svg>" : e === 3 ? "<math>" : "", n = B;
+  for (let d = 0; d < t; d++) {
+    const l = s[d];
+    let u, _, h = -1, g = 0;
+    for (; g < l.length && (n.lastIndex = g, _ = n.exec(l), _ !== null); ) g = n.lastIndex, n === B ? _[1] === "!--" ? n = we : _[1] !== void 0 ? n = xe : _[2] !== void 0 ? (zt.test(_[2]) && (o = RegExp("</" + _[2], "g")), n = C) : _[3] !== void 0 && (n = C) : n === C ? _[0] === ">" ? (n = o ?? B, h = -1) : _[1] === void 0 ? h = -2 : (h = n.lastIndex - _[2].length, u = _[1], n = _[3] === void 0 ? C : _[3] === '"' ? Ae : Se) : n === Ae || n === Se ? n = C : n === we || n === xe ? n = B : (n = C, o = void 0);
+    const $ = n === C && s[d + 1].startsWith("/>") ? " " : "";
+    r += n === B ? l + _i : h >= 0 ? (i.push(u), l.slice(0, h) + St + l.slice(h) + x + $) : l + x + (h === -2 ? d : $);
   }
-  return [Xt(o, n + (o[e] || "<?>") + (t === 2 ? "</svg>" : t === 3 ? "</math>" : "")), i];
+  return [Ct(s, r + (s[t] || "<?>") + (e === 2 ? "</svg>" : e === 3 ? "</math>" : "")), i];
 };
-class X {
-  constructor({ strings: t, _$litType$: e }, i) {
-    let s;
+class G {
+  constructor({ strings: e, _$litType$: t }, i) {
+    let o;
     this.parts = [];
-    let n = 0, r = 0;
-    const l = t.length - 1, c = this.parts, [d, u] = Oe(t, e);
-    if (this.el = X.createElement(d, i), P.currentNode = this.el.content, e === 2 || e === 3) {
+    let r = 0, n = 0;
+    const d = e.length - 1, l = this.parts, [u, _] = gi(e, t);
+    if (this.el = G.createElement(u, i), T.currentNode = this.el.content, t === 2 || t === 3) {
       const h = this.el.content.firstChild;
       h.replaceWith(...h.childNodes);
     }
-    for (; (s = P.nextNode()) !== null && c.length < l; ) {
-      if (s.nodeType === 1) {
-        if (s.hasAttributes()) for (const h of s.getAttributeNames()) if (h.endsWith(Dt)) {
-          const m = u[r++], v = s.getAttribute(h).split(S), F = /([.?@])?(.*)/.exec(m);
-          c.push({ type: 1, index: n, name: F[2], strings: v, ctor: F[1] === "." ? He : F[1] === "?" ? Ie : F[1] === "@" ? Re : et }), s.removeAttribute(h);
-        } else h.startsWith(S) && (c.push({ type: 6, index: n }), s.removeAttribute(h));
-        if (Wt.test(s.tagName)) {
-          const h = s.textContent.split(S), m = h.length - 1;
-          if (m > 0) {
-            s.textContent = Q ? Q.emptyScript : "";
-            for (let v = 0; v < m; v++) s.append(h[v], B()), P.nextNode(), c.push({ type: 2, index: ++n });
-            s.append(h[m], B());
+    for (; (o = T.nextNode()) !== null && l.length < d; ) {
+      if (o.nodeType === 1) {
+        if (o.hasAttributes()) for (const h of o.getAttributeNames()) if (h.endsWith(St)) {
+          const g = _[n++], $ = o.getAttribute(h).split(x), F = /([.?@])?(.*)/.exec(g);
+          l.push({ type: 1, index: r, name: F[2], strings: $, ctor: F[1] === "." ? fi : F[1] === "?" ? yi : F[1] === "@" ? vi : te }), o.removeAttribute(h);
+        } else h.startsWith(x) && (l.push({ type: 6, index: r }), o.removeAttribute(h));
+        if (zt.test(o.tagName)) {
+          const h = o.textContent.split(x), g = h.length - 1;
+          if (g > 0) {
+            o.textContent = Q ? Q.emptyScript : "";
+            for (let $ = 0; $ < g; $++) o.append(h[$], W()), T.nextNode(), l.push({ type: 2, index: ++r });
+            o.append(h[g], W());
           }
         }
-      } else if (s.nodeType === 8) if (s.data === Bt) c.push({ type: 2, index: n });
+      } else if (o.nodeType === 8) if (o.data === At) l.push({ type: 2, index: r });
       else {
         let h = -1;
-        for (; (h = s.data.indexOf(S, h + 1)) !== -1; ) c.push({ type: 7, index: n }), h += S.length - 1;
+        for (; (h = o.data.indexOf(x, h + 1)) !== -1; ) l.push({ type: 7, index: r }), h += x.length - 1;
       }
-      n++;
+      r++;
     }
   }
-  static createElement(t, e) {
-    const i = z.createElement("template");
-    return i.innerHTML = t, i;
+  static createElement(e, t) {
+    const i = O.createElement("template");
+    return i.innerHTML = e, i;
   }
 }
-function R(o, t, e = o, i) {
-  var r, l;
-  if (t === I) return t;
-  let s = i !== void 0 ? (r = e._$Co) == null ? void 0 : r[i] : e._$Cl;
-  const n = W(t) ? void 0 : t._$litDirective$;
-  return (s == null ? void 0 : s.constructor) !== n && ((l = s == null ? void 0 : s._$AO) == null || l.call(s, !1), n === void 0 ? s = void 0 : (s = new n(o), s._$AT(o, e, i)), i !== void 0 ? (e._$Co ?? (e._$Co = []))[i] = s : e._$Cl = s), s !== void 0 && (t = R(o, s._$AS(o, t.values), s, i)), t;
+function D(s, e, t = s, i) {
+  var n, d;
+  if (e === H) return e;
+  let o = i !== void 0 ? (n = t._$Co) == null ? void 0 : n[i] : t._$Cl;
+  const r = K(e) ? void 0 : e._$litDirective$;
+  return (o == null ? void 0 : o.constructor) !== r && ((d = o == null ? void 0 : o._$AO) == null || d.call(o, !1), r === void 0 ? o = void 0 : (o = new r(s), o._$AT(s, t, i)), i !== void 0 ? (t._$Co ?? (t._$Co = []))[i] = o : t._$Cl = o), o !== void 0 && (e = D(s, o._$AS(s, e.values), o, i)), e;
 }
-class Le {
-  constructor(t, e) {
-    this._$AV = [], this._$AN = void 0, this._$AD = t, this._$AM = e;
+class bi {
+  constructor(e, t) {
+    this._$AV = [], this._$AN = void 0, this._$AD = e, this._$AM = t;
   }
   get parentNode() {
     return this._$AM.parentNode;
@@ -537,36 +609,36 @@ class Le {
   get _$AU() {
     return this._$AM._$AU;
   }
-  u(t) {
-    const { el: { content: e }, parts: i } = this._$AD, s = ((t == null ? void 0 : t.creationScope) ?? z).importNode(e, !0);
-    P.currentNode = s;
-    let n = P.nextNode(), r = 0, l = 0, c = i[0];
-    for (; c !== void 0; ) {
-      if (r === c.index) {
-        let d;
-        c.type === 2 ? d = new Y(n, n.nextSibling, this, t) : c.type === 1 ? d = new c.ctor(n, c.name, c.strings, this, t) : c.type === 6 && (d = new Ne(n, this, t)), this._$AV.push(d), c = i[++l];
+  u(e) {
+    const { el: { content: t }, parts: i } = this._$AD, o = ((e == null ? void 0 : e.creationScope) ?? O).importNode(t, !0);
+    T.currentNode = o;
+    let r = T.nextNode(), n = 0, d = 0, l = i[0];
+    for (; l !== void 0; ) {
+      if (n === l.index) {
+        let u;
+        l.type === 2 ? u = new X(r, r.nextSibling, this, e) : l.type === 1 ? u = new l.ctor(r, l.name, l.strings, this, e) : l.type === 6 && (u = new $i(r, this, e)), this._$AV.push(u), l = i[++d];
       }
-      r !== (c == null ? void 0 : c.index) && (n = P.nextNode(), r++);
+      n !== (l == null ? void 0 : l.index) && (r = T.nextNode(), n++);
     }
-    return P.currentNode = z, s;
+    return T.currentNode = O, o;
   }
-  p(t) {
-    let e = 0;
-    for (const i of this._$AV) i !== void 0 && (i.strings !== void 0 ? (i._$AI(t, i, e), e += i.strings.length - 2) : i._$AI(t[e])), e++;
+  p(e) {
+    let t = 0;
+    for (const i of this._$AV) i !== void 0 && (i.strings !== void 0 ? (i._$AI(e, i, t), t += i.strings.length - 2) : i._$AI(e[t])), t++;
   }
 }
-class Y {
+class X {
   get _$AU() {
-    var t;
-    return ((t = this._$AM) == null ? void 0 : t._$AU) ?? this._$Cv;
+    var e;
+    return ((e = this._$AM) == null ? void 0 : e._$AU) ?? this._$Cv;
   }
-  constructor(t, e, i, s) {
-    this.type = 2, this._$AH = _, this._$AN = void 0, this._$AA = t, this._$AB = e, this._$AM = i, this.options = s, this._$Cv = (s == null ? void 0 : s.isConnected) ?? !0;
+  constructor(e, t, i, o) {
+    this.type = 2, this._$AH = m, this._$AN = void 0, this._$AA = e, this._$AB = t, this._$AM = i, this.options = o, this._$Cv = (o == null ? void 0 : o.isConnected) ?? !0;
   }
   get parentNode() {
-    let t = this._$AA.parentNode;
-    const e = this._$AM;
-    return e !== void 0 && (t == null ? void 0 : t.nodeType) === 11 && (t = e.parentNode), t;
+    let e = this._$AA.parentNode;
+    const t = this._$AM;
+    return t !== void 0 && (e == null ? void 0 : e.nodeType) === 11 && (e = t.parentNode), e;
   }
   get startNode() {
     return this._$AA;
@@ -574,184 +646,184 @@ class Y {
   get endNode() {
     return this._$AB;
   }
-  _$AI(t, e = this) {
-    t = R(this, t, e), W(t) ? t === _ || t == null || t === "" ? (this._$AH !== _ && this._$AR(), this._$AH = _) : t !== this._$AH && t !== I && this._(t) : t._$litType$ !== void 0 ? this.$(t) : t.nodeType !== void 0 ? this.T(t) : Me(t) ? this.k(t) : this._(t);
+  _$AI(e, t = this) {
+    e = D(this, e, t), K(e) ? e === m || e == null || e === "" ? (this._$AH !== m && this._$AR(), this._$AH = m) : e !== this._$AH && e !== H && this._(e) : e._$litType$ !== void 0 ? this.$(e) : e.nodeType !== void 0 ? this.T(e) : mi(e) ? this.k(e) : this._(e);
   }
-  O(t) {
-    return this._$AA.parentNode.insertBefore(t, this._$AB);
+  O(e) {
+    return this._$AA.parentNode.insertBefore(e, this._$AB);
   }
-  T(t) {
-    this._$AH !== t && (this._$AR(), this._$AH = this.O(t));
+  T(e) {
+    this._$AH !== e && (this._$AR(), this._$AH = this.O(e));
   }
-  _(t) {
-    this._$AH !== _ && W(this._$AH) ? this._$AA.nextSibling.data = t : this.T(z.createTextNode(t)), this._$AH = t;
+  _(e) {
+    this._$AH !== m && K(this._$AH) ? this._$AA.nextSibling.data = e : this.T(O.createTextNode(e)), this._$AH = e;
   }
-  $(t) {
-    var n;
-    const { values: e, _$litType$: i } = t, s = typeof i == "number" ? this._$AC(t) : (i.el === void 0 && (i.el = X.createElement(Xt(i.h, i.h[0]), this.options)), i);
-    if (((n = this._$AH) == null ? void 0 : n._$AD) === s) this._$AH.p(e);
+  $(e) {
+    var r;
+    const { values: t, _$litType$: i } = e, o = typeof i == "number" ? this._$AC(e) : (i.el === void 0 && (i.el = G.createElement(Ct(i.h, i.h[0]), this.options)), i);
+    if (((r = this._$AH) == null ? void 0 : r._$AD) === o) this._$AH.p(t);
     else {
-      const r = new Le(s, this), l = r.u(this.options);
-      r.p(e), this.T(l), this._$AH = r;
+      const n = new bi(o, this), d = n.u(this.options);
+      n.p(t), this.T(d), this._$AH = n;
     }
   }
-  _$AC(t) {
-    let e = Pt.get(t.strings);
-    return e === void 0 && Pt.set(t.strings, e = new X(t)), e;
+  _$AC(e) {
+    let t = Ce.get(e.strings);
+    return t === void 0 && Ce.set(e.strings, t = new G(e)), t;
   }
-  k(t) {
-    pt(this._$AH) || (this._$AH = [], this._$AR());
-    const e = this._$AH;
-    let i, s = 0;
-    for (const n of t) s === e.length ? e.push(i = new Y(this.O(B()), this.O(B()), this, this.options)) : i = e[s], i._$AI(n), s++;
-    s < e.length && (this._$AR(i && i._$AB.nextSibling, s), e.length = s);
+  k(e) {
+    me(this._$AH) || (this._$AH = [], this._$AR());
+    const t = this._$AH;
+    let i, o = 0;
+    for (const r of e) o === t.length ? t.push(i = new X(this.O(W()), this.O(W()), this, this.options)) : i = t[o], i._$AI(r), o++;
+    o < t.length && (this._$AR(i && i._$AB.nextSibling, o), t.length = o);
   }
-  _$AR(t = this._$AA.nextSibling, e) {
+  _$AR(e = this._$AA.nextSibling, t) {
     var i;
-    for ((i = this._$AP) == null ? void 0 : i.call(this, !1, !0, e); t && t !== this._$AB; ) {
-      const s = t.nextSibling;
-      t.remove(), t = s;
+    for ((i = this._$AP) == null ? void 0 : i.call(this, !1, !0, t); e && e !== this._$AB; ) {
+      const o = e.nextSibling;
+      e.remove(), e = o;
     }
   }
-  setConnected(t) {
-    var e;
-    this._$AM === void 0 && (this._$Cv = t, (e = this._$AP) == null || e.call(this, t));
+  setConnected(e) {
+    var t;
+    this._$AM === void 0 && (this._$Cv = e, (t = this._$AP) == null || t.call(this, e));
   }
 }
-class et {
+class te {
   get tagName() {
     return this.element.tagName;
   }
   get _$AU() {
     return this._$AM._$AU;
   }
-  constructor(t, e, i, s, n) {
-    this.type = 1, this._$AH = _, this._$AN = void 0, this.element = t, this.name = e, this._$AM = s, this.options = n, i.length > 2 || i[0] !== "" || i[1] !== "" ? (this._$AH = Array(i.length - 1).fill(new String()), this.strings = i) : this._$AH = _;
+  constructor(e, t, i, o, r) {
+    this.type = 1, this._$AH = m, this._$AN = void 0, this.element = e, this.name = t, this._$AM = o, this.options = r, i.length > 2 || i[0] !== "" || i[1] !== "" ? (this._$AH = Array(i.length - 1).fill(new String()), this.strings = i) : this._$AH = m;
   }
-  _$AI(t, e = this, i, s) {
-    const n = this.strings;
-    let r = !1;
-    if (n === void 0) t = R(this, t, e, 0), r = !W(t) || t !== this._$AH && t !== I, r && (this._$AH = t);
+  _$AI(e, t = this, i, o) {
+    const r = this.strings;
+    let n = !1;
+    if (r === void 0) e = D(this, e, t, 0), n = !K(e) || e !== this._$AH && e !== H, n && (this._$AH = e);
     else {
-      const l = t;
-      let c, d;
-      for (t = n[0], c = 0; c < n.length - 1; c++) d = R(this, l[i + c], e, c), d === I && (d = this._$AH[c]), r || (r = !W(d) || d !== this._$AH[c]), d === _ ? t = _ : t !== _ && (t += (d ?? "") + n[c + 1]), this._$AH[c] = d;
+      const d = e;
+      let l, u;
+      for (e = r[0], l = 0; l < r.length - 1; l++) u = D(this, d[i + l], t, l), u === H && (u = this._$AH[l]), n || (n = !K(u) || u !== this._$AH[l]), u === m ? e = m : e !== m && (e += (u ?? "") + r[l + 1]), this._$AH[l] = u;
     }
-    r && !s && this.j(t);
+    n && !o && this.j(e);
   }
-  j(t) {
-    t === _ ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, t ?? "");
+  j(e) {
+    e === m ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, e ?? "");
   }
 }
-class He extends et {
+class fi extends te {
   constructor() {
     super(...arguments), this.type = 3;
   }
-  j(t) {
-    this.element[this.name] = t === _ ? void 0 : t;
+  j(e) {
+    this.element[this.name] = e === m ? void 0 : e;
   }
 }
-class Ie extends et {
+class yi extends te {
   constructor() {
     super(...arguments), this.type = 4;
   }
-  j(t) {
-    this.element.toggleAttribute(this.name, !!t && t !== _);
+  j(e) {
+    this.element.toggleAttribute(this.name, !!e && e !== m);
   }
 }
-class Re extends et {
-  constructor(t, e, i, s, n) {
-    super(t, e, i, s, n), this.type = 5;
+class vi extends te {
+  constructor(e, t, i, o, r) {
+    super(e, t, i, o, r), this.type = 5;
   }
-  _$AI(t, e = this) {
-    if ((t = R(this, t, e, 0) ?? _) === I) return;
-    const i = this._$AH, s = t === _ && i !== _ || t.capture !== i.capture || t.once !== i.once || t.passive !== i.passive, n = t !== _ && (i === _ || s);
-    s && this.element.removeEventListener(this.name, this, i), n && this.element.addEventListener(this.name, this, t), this._$AH = t;
+  _$AI(e, t = this) {
+    if ((e = D(this, e, t, 0) ?? m) === H) return;
+    const i = this._$AH, o = e === m && i !== m || e.capture !== i.capture || e.once !== i.once || e.passive !== i.passive, r = e !== m && (i === m || o);
+    o && this.element.removeEventListener(this.name, this, i), r && this.element.addEventListener(this.name, this, e), this._$AH = e;
   }
-  handleEvent(t) {
-    var e;
-    typeof this._$AH == "function" ? this._$AH.call(((e = this.options) == null ? void 0 : e.host) ?? this.element, t) : this._$AH.handleEvent(t);
+  handleEvent(e) {
+    var t;
+    typeof this._$AH == "function" ? this._$AH.call(((t = this.options) == null ? void 0 : t.host) ?? this.element, e) : this._$AH.handleEvent(e);
   }
 }
-class Ne {
-  constructor(t, e, i) {
-    this.element = t, this.type = 6, this._$AN = void 0, this._$AM = e, this.options = i;
+class $i {
+  constructor(e, t, i) {
+    this.element = e, this.type = 6, this._$AN = void 0, this._$AM = t, this.options = i;
   }
   get _$AU() {
     return this._$AM._$AU;
   }
-  _$AI(t) {
-    R(this, t);
+  _$AI(e) {
+    D(this, e);
   }
 }
-const ct = V.litHtmlPolyfillSupport;
-ct == null || ct(X, Y), (V.litHtmlVersions ?? (V.litHtmlVersions = [])).push("3.2.1");
-const je = (o, t, e) => {
-  const i = (e == null ? void 0 : e.renderBefore) ?? t;
-  let s = i._$litPart$;
-  if (s === void 0) {
-    const n = (e == null ? void 0 : e.renderBefore) ?? null;
-    i._$litPart$ = s = new Y(t.insertBefore(B(), n), n, void 0, e ?? {});
+const le = I.litHtmlPolyfillSupport;
+le == null || le(G, X), (I.litHtmlVersions ?? (I.litHtmlVersions = [])).push("3.2.1");
+const wi = (s, e, t) => {
+  const i = (t == null ? void 0 : t.renderBefore) ?? e;
+  let o = i._$litPart$;
+  if (o === void 0) {
+    const r = (t == null ? void 0 : t.renderBefore) ?? null;
+    i._$litPart$ = o = new X(e.insertBefore(W(), r), r, void 0, t ?? {});
   }
-  return s._$AI(o), s;
+  return o._$AI(s), o;
 };
 /**
  * @license
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const Ve = (o) => o ?? _;
+const xi = (s) => s ?? m;
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-class D extends O {
+class N extends L {
   constructor() {
     super(...arguments), this.renderOptions = { host: this }, this._$Do = void 0;
   }
   createRenderRoot() {
-    var e;
-    const t = super.createRenderRoot();
-    return (e = this.renderOptions).renderBefore ?? (e.renderBefore = t.firstChild), t;
+    var t;
+    const e = super.createRenderRoot();
+    return (t = this.renderOptions).renderBefore ?? (t.renderBefore = e.firstChild), e;
   }
-  update(t) {
-    const e = this.render();
-    this.hasUpdated || (this.renderOptions.isConnected = this.isConnected), super.update(t), this._$Do = je(e, this.renderRoot, this.renderOptions);
+  update(e) {
+    const t = this.render();
+    this.hasUpdated || (this.renderOptions.isConnected = this.isConnected), super.update(e), this._$Do = wi(t, this.renderRoot, this.renderOptions);
   }
   connectedCallback() {
-    var t;
-    super.connectedCallback(), (t = this._$Do) == null || t.setConnected(!0);
+    var e;
+    super.connectedCallback(), (e = this._$Do) == null || e.setConnected(!0);
   }
   disconnectedCallback() {
-    var t;
-    super.disconnectedCallback(), (t = this._$Do) == null || t.setConnected(!1);
+    var e;
+    super.disconnectedCallback(), (e = this._$Do) == null || e.setConnected(!1);
   }
   render() {
-    return I;
+    return H;
   }
 }
-var Ct;
-D._$litElement$ = !0, D.finalized = !0, (Ct = globalThis.litElementHydrateSupport) == null || Ct.call(globalThis, { LitElement: D });
-const lt = globalThis.litElementPolyfillSupport;
-lt == null || lt({ LitElement: D });
+var Ee;
+N._$litElement$ = !0, N.finalized = !0, (Ee = globalThis.litElementHydrateSupport) == null || Ee.call(globalThis, { LitElement: N });
+const ce = globalThis.litElementPolyfillSupport;
+ce == null || ce({ LitElement: N });
 (globalThis.litElementVersions ?? (globalThis.litElementVersions = [])).push("4.1.1");
-var De = Object.defineProperty, it = (o, t, e, i) => {
-  for (var s = void 0, n = o.length - 1, r; n >= 0; n--)
-    (r = o[n]) && (s = r(t, e, s) || s);
-  return s && De(t, e, s), s;
+var Si = Object.defineProperty, ie = (s, e, t, i) => {
+  for (var o = void 0, r = s.length - 1, n; r >= 0; r--)
+    (n = s[r]) && (o = n(e, t, o) || o);
+  return o && Si(e, t, o), o;
 };
-class q extends D {
+class Y extends N {
   constructor() {
-    super(...arguments), this._config = ot, this._name = "", this.mouseStartPos = { x: 0, y: 0 }, this.mousePos = { x: 0, y: 0 }, this.containerWidth = 0, this.containerHeight = 0, this.oldValue = 0, this.currentValue = 0, this.holdTimer = 0, this.isHold = !1, this._shouldUpdate = !0, this.updateTimeout = 0, this.pressTimeout = 0, this.immediateUpdateTimeout = 0, this.trackingStartTime = 0, this.isTap = !1, this.hasValidSlide = !1, this._handleContextMenu = (t) => (t.preventDefault && t.preventDefault(), t.stopPropagation && t.stopPropagation(), !1), this._handlePointer = (t, e) => {
-      this.mousePos = { x: t.pageX, y: t.pageY };
+    super(...arguments), this._config = se, this._name = "", this.mouseStartPos = { x: 0, y: 0 }, this.mousePos = { x: 0, y: 0 }, this.containerWidth = 0, this.containerHeight = 0, this.oldValue = 0, this.currentValue = 0, this.holdTimer = 0, this.isHold = !1, this._shouldUpdate = !0, this.updateTimeout = 0, this.pressTimeout = 0, this.immediateUpdateTimeout = 0, this.trackingStartTime = 0, this.isTap = !1, this.hasValidSlide = !1, this._handleContextMenu = (e) => (e.preventDefault && e.preventDefault(), e.stopPropagation && e.stopPropagation(), !1), this._handlePointer = (e, t) => {
+      this.mousePos = { x: e.pageX, y: e.pageY };
       const i = this._config.min_slide_time;
-      if (t.type === "pointerdown" && (this._press(), this.isTap = !0, this.isHold = !1, this.hasValidSlide = !1, this._clearImmediateUpdate(), this.holdTimer = window.setTimeout(this._setHold, this._config.hold_time), this.trackingStartTime = Date.now(), this._updateContainerSize(), this._resetTrack()), !this.isHold && ["pointerdown", "pointermove", "pointerup"].includes(t.type) && this._updateValue(), t.type === "pointermove") {
-        if (this.isHold || this.isTap && Math.abs(e.relativeX) < ft && Math.abs(e.relativeY) < ft)
+      if (e.type === "pointerdown" && (this._press(), this.isTap = !0, this.isHold = !1, this.hasValidSlide = !1, this._clearImmediateUpdate(), this.holdTimer = window.setTimeout(this._setHold, this._config.hold_time), this.trackingStartTime = Date.now(), this._updateContainerSize(), this._resetTrack()), !this.isHold && ["pointerdown", "pointermove", "pointerup"].includes(e.type) && this._updateValue(), e.type === "pointermove") {
+        if (this.isHold || this.isTap && Math.abs(t.relativeX) < ge && Math.abs(t.relativeY) < ge)
           return;
         this.isTap = !1, clearTimeout(this.holdTimer), this._stopUpdates(), this._scheduleImmediateUpdate();
       }
-      if (t.type === "pointercancel" && (clearTimeout(this.holdTimer), this._clearImmediateUpdate(), this._unpress(), this._startUpdates()), t.type === "pointerup") {
+      if (e.type === "pointercancel" && (clearTimeout(this.holdTimer), this._clearImmediateUpdate(), this._unpress(), this._startUpdates()), e.type === "pointerup") {
         if (clearTimeout(this.holdTimer), this._clearImmediateUpdate(), this._unpress(), this._startUpdates(), this.isHold) return;
         if (this.isTap) {
           this._handleTap();
@@ -762,12 +834,12 @@ class q extends D {
     }, this._setHold = () => {
       this.isTap = !1, this.isHold = !0, this._clearImmediateUpdate(), this._shouldUpdate = !0, this.requestUpdate(), this._handleAction("hold");
     }, this._handleTap = () => {
-      var t;
-      clearTimeout(this.holdTimer), (t = this._config) != null && t.tap_action && (this.isHold || this._handleAction("tap"));
+      var e;
+      clearTimeout(this.holdTimer), (e = this._config) != null && e.tap_action && (this.isHold || this._handleAction("tap"));
     };
   }
-  static getStubConfig(t, e) {
-    const i = e.filter((n) => n.split(".")[0] === "light").sort();
+  static getStubConfig(e, t) {
+    const i = t.filter((r) => r.split(".")[0] === "light").sort();
     return { type: "custom:big-slider-card", entity: i[Math.floor(Math.random() * i.length)] };
   }
   getGridOptions() {
@@ -784,8 +856,8 @@ class q extends D {
     };
   }
   getCardSize() {
-    const t = this._config.vertical ? 180 : 60, e = this._getNumericCssLength(this._config.height ?? t);
-    return Math.max(1, Math.ceil((e ?? t) / 50));
+    const e = this._config.vertical ? 180 : 60, t = this._getNumericCssLength(this._config.height ?? e);
+    return Math.max(1, Math.ceil((t ?? e) / 50));
   }
   static getConfigForm() {
     return {
@@ -806,7 +878,7 @@ class q extends D {
         {
           type: "expandable",
           name: "display",
-          title: "Display Options",
+          title: c("editor.sections.display"),
           flatten: !0,
           schema: [
             {
@@ -814,13 +886,13 @@ class q extends D {
               selector: {
                 select: {
                   options: [
-                    { value: "brightness", label: "Brightness" },
-                    { value: "red", label: "Red" },
-                    { value: "green", label: "Green" },
-                    { value: "blue", label: "Blue" },
-                    { value: "hue", label: "Hue" },
-                    { value: "saturation", label: "Saturation" },
-                    { value: "color_temp_kelvin", label: "Color Temperature Kelvin" }
+                    { value: "brightness", label: c("editor.attributes.brightness") },
+                    { value: "red", label: c("editor.attributes.red") },
+                    { value: "green", label: c("editor.attributes.green") },
+                    { value: "blue", label: c("editor.attributes.blue") },
+                    { value: "hue", label: c("editor.attributes.hue") },
+                    { value: "saturation", label: c("editor.attributes.saturation") },
+                    { value: "color_temp_kelvin", label: c("editor.attributes.color_temp_kelvin") }
                   ]
                 }
               }
@@ -842,7 +914,7 @@ class q extends D {
         {
           type: "expandable",
           name: "styling",
-          title: "Custom Styling",
+          title: c("editor.sections.styling"),
           flatten: !0,
           schema: [
             {
@@ -937,7 +1009,7 @@ class q extends D {
         {
           type: "expandable",
           name: "behavior",
-          title: "Behavior / Actions",
+          title: c("editor.sections.behavior"),
           flatten: !0,
           schema: [
             {
@@ -989,53 +1061,53 @@ class q extends D {
           ]
         }
       ],
-      computeLabel: (t, e) => ({
-        colorize: "Colorize based on state",
-        show_percentage: "Show percentage text",
-        bold_text: "Bold text",
-        no_scale: "Disable scale on press",
-        no_transition_animation: "Disable transition animation",
-        vertical: "Vertical slider",
-        min_slide_time: "Min slide time",
-        hold_time: "Hold time",
-        settle_time: "Settle time",
-        immediate_update: "Update while sliding",
-        background_color: "Background color",
-        height: "Height",
-        width: "Width",
-        text_color: "Text color",
-        icon_color: "Icon color",
-        icon_off_color: "Icon off color",
-        constant_icon_color: "Constant icon color",
-        icon_size: "Icon size",
-        text_size: "Text size",
-        border_color: "Border color",
-        border_radius: "Border radius",
-        border_style: "Border style",
-        border_width: "Border width"
-      })[t.name] || e(`ui.panel.lovelace.editor.card.generic.${t.name}`) || t.name
+      computeLabel: (e, t) => ({
+        colorize: c("editor.labels.colorize"),
+        show_percentage: c("editor.labels.show_percentage"),
+        bold_text: c("editor.labels.bold_text"),
+        no_scale: c("editor.labels.no_scale"),
+        no_transition_animation: c("editor.labels.no_transition_animation"),
+        vertical: c("editor.labels.vertical"),
+        min_slide_time: c("editor.labels.min_slide_time"),
+        hold_time: c("editor.labels.hold_time"),
+        settle_time: c("editor.labels.settle_time"),
+        immediate_update: c("editor.labels.immediate_update"),
+        background_color: c("editor.labels.background_color"),
+        height: c("editor.labels.height"),
+        width: c("editor.labels.width"),
+        text_color: c("editor.labels.text_color"),
+        icon_color: c("editor.labels.icon_color"),
+        icon_off_color: c("editor.labels.icon_off_color"),
+        constant_icon_color: c("editor.labels.constant_icon_color"),
+        icon_size: c("editor.labels.icon_size"),
+        text_size: c("editor.labels.text_size"),
+        border_color: c("editor.labels.border_color"),
+        border_radius: c("editor.labels.border_radius"),
+        border_style: c("editor.labels.border_style"),
+        border_width: c("editor.labels.border_width")
+      })[e.name] || t(`ui.panel.lovelace.editor.card.generic.${e.name}`) || e.name
     };
   }
   // life cycle
-  setConfig(t) {
-    if (!t)
-      throw new Error(K("common.invalid_configuration"));
-    if (t.entity && t.entity.split(".")[0] !== "light")
-      throw new Error("Specify an entity from within the light domain");
-    const e = this._getAttributeDefaults(t.attribute ?? ot.attribute);
-    this._config = { ...ot, ...e, ...t }, this._entity = this._config.entity, this._config.original_min = this._config.min, this._config.original_max = this._config.max;
+  setConfig(e) {
+    if (!e)
+      throw new Error(c("common.invalid_configuration"));
+    if (e.entity && e.entity.split(".")[0] !== "light")
+      throw new Error(c("errors.light_domain_only"));
+    const t = this._getAttributeDefaults(e.attribute ?? se.attribute);
+    this._config = { ...se, ...t, ...e }, this._entity = this._config.entity, this._config.original_min = this._config.min, this._config.original_max = this._config.max;
   }
-  _getAttributeDefaults(t) {
-    switch (t) {
+  _getAttributeDefaults(e) {
+    switch (e) {
       case "color_temp_kelvin":
         return { min: 2200, max: 6500 };
       default:
         return {};
     }
   }
-  set hass(t) {
-    var e, i;
-    this._hass = t, this._entity && (this._state = t.states[this._entity], this._name = this._config.name ?? ((i = (e = this._state) == null ? void 0 : e.attributes) == null ? void 0 : i.friendly_name) ?? this._entity.split(".")[1] ?? "");
+  set hass(e) {
+    var t, i;
+    this._hass = e, this._entity && (this._state = e.states[this._entity], this._name = this._config.name ?? ((i = (t = this._state) == null ? void 0 : t.attributes) == null ? void 0 : i.friendly_name) ?? this._entity.split(".")[1] ?? "");
   }
   get _effectiveState() {
     return this._state ? this._state : {
@@ -1053,21 +1125,21 @@ class q extends D {
     };
   }
   get _effectiveName() {
-    var t, e;
-    return this._config.name ? this._config.name : this._state ? ((t = this._state.attributes) == null ? void 0 : t.friendly_name) ?? ((e = this._entity) == null ? void 0 : e.split(".")[1]) ?? "" : "Example Light";
+    var e, t;
+    return this._config.name ? this._config.name : this._state ? ((e = this._state.attributes) == null ? void 0 : e.friendly_name) ?? ((t = this._entity) == null ? void 0 : t.split(".")[1]) ?? "" : c("preview.example_light");
   }
   get _effectiveStatus() {
     return this._state ? this._state.state : "on";
   }
-  _log(t) {
+  _log(e) {
     console.log(
-      `%c  BIG-SLIDER-CARD ${this._name} %c ${t} `,
+      `%c  BIG-SLIDER-CARD ${this._name} %c ${e} `,
       "color: orange; font-weight: bold; background: black",
       ""
     );
   }
   connectedCallback() {
-    super.connectedCallback(), this.addEventListener("contextmenu", this._handleContextMenu), this.slideGesture = new Yt(this, this._handlePointer.bind(this), {
+    super.connectedCallback(), this.addEventListener("contextmenu", this._handleContextMenu), this.slideGesture = new Tt(this, this._handlePointer.bind(this), {
       touchActions: this._config.vertical ? "pan-x" : "pan-y",
       stopScrollDirection: this._config.vertical ? "vertical" : "horizontal"
     });
@@ -1077,23 +1149,23 @@ class q extends D {
   }
   _updateValue() {
     if (!this._updateContainerSize()) return;
-    const t = this._config.vertical ? this.containerHeight : this.containerWidth, e = this._config.vertical ? this.mouseStartPos.y - this.mousePos.y : this.mousePos.x - this.mouseStartPos.x, i = this._usesRangeSlider() ? Math.round((this._config.max - this._config.min) * e / t) : Math.round(100 * e / t);
+    const e = this._config.vertical ? this.containerHeight : this.containerWidth, t = this._config.vertical ? this.mouseStartPos.y - this.mousePos.y : this.mousePos.x - this.mouseStartPos.x, i = this._usesRangeSlider() ? Math.round((this._config.max - this._config.min) * t / e) : Math.round(100 * t / e);
     Number.isFinite(i) && (this.currentValue = this.oldValue + i, this._checklimits(), this._updateSlider(), this.hasValidSlide = !0);
   }
   _updateContainerSize() {
-    var t, e, i, s;
-    return this.containerWidth = ((e = (t = this.shadowRoot) == null ? void 0 : t.getElementById("container")) == null ? void 0 : e.clientWidth) ?? 0, this.containerHeight = ((s = (i = this.shadowRoot) == null ? void 0 : i.getElementById("container")) == null ? void 0 : s.clientHeight) ?? 0, this._config.vertical ? this.containerHeight > 0 : this.containerWidth > 0;
+    var e, t, i, o;
+    return this.containerWidth = ((t = (e = this.shadowRoot) == null ? void 0 : e.getElementById("container")) == null ? void 0 : t.clientWidth) ?? 0, this.containerHeight = ((o = (i = this.shadowRoot) == null ? void 0 : i.getElementById("container")) == null ? void 0 : o.clientHeight) ?? 0, this._config.vertical ? this.containerHeight > 0 : this.containerWidth > 0;
   }
-  _handleAction(t) {
-    const e = new Event("hass-action", {
+  _handleAction(e) {
+    const t = new Event("hass-action", {
       bubbles: !0,
       cancelable: !1,
       composed: !0
     });
-    e.detail = {
+    t.detail = {
       config: this._config,
-      action: t
-    }, this.dispatchEvent(e);
+      action: e
+    }, this.dispatchEvent(t);
   }
   _resetTrack() {
     this.mouseStartPos = { x: this.mousePos.x, y: this.mousePos.y }, this.oldValue = this.currentValue;
@@ -1105,102 +1177,102 @@ class q extends D {
     this.pressTimeout && clearTimeout(this.pressTimeout), this.removeAttribute("pressed"), this.removeAttribute("half-pressed");
   }
   _checklimits() {
-    const t = this._config.min ?? 0, e = this._config.max ?? 100;
-    this.currentValue < t && (this.currentValue = t, this._resetTrack()), this.currentValue > e && (this.currentValue = e, this._resetTrack());
+    const e = this._config.min ?? 0, t = this._config.max ?? 100;
+    this.currentValue < e && (this.currentValue = e, this._resetTrack()), this.currentValue > t && (this.currentValue = t, this._resetTrack());
   }
   _updateSlider() {
     var i;
-    const t = this._getSliderPercentage();
-    this.style.setProperty("--bsc-percent", t + "%");
-    const e = (i = this == null ? void 0 : this.shadowRoot) == null ? void 0 : i.getElementById("percentage");
-    e && (e.innerText = this._getSliderLabel(t));
+    const e = this._getSliderPercentage();
+    this.style.setProperty("--bsc-percent", e + "%");
+    const t = (i = this == null ? void 0 : this.shadowRoot) == null ? void 0 : i.getElementById("percentage");
+    t && (t.innerText = this._getSliderLabel(e));
   }
-  _getSliderLabel(t) {
-    return this._config.attribute === "color_temp_kelvin" ? `${Math.round(this.currentValue)}K` : `${Math.round(t)}%`;
+  _getSliderLabel(e) {
+    return this._config.attribute === "color_temp_kelvin" ? `${Math.round(this.currentValue)}K` : `${Math.round(e)}%`;
   }
   _getSliderPercentage() {
     if (!this._usesRangeSlider()) return this.currentValue;
-    const t = this._config.max - this._config.min;
-    if (t <= 0) return 0;
-    const e = 100 * (this.currentValue - this._config.min) / t;
-    return Number.isFinite(e) ? Math.max(0, Math.min(100, e)) : 0;
+    const e = this._config.max - this._config.min;
+    if (e <= 0) return 0;
+    const t = 100 * (this.currentValue - this._config.min) / e;
+    return Number.isFinite(t) ? Math.max(0, Math.min(100, t)) : 0;
   }
   _usesRangeSlider() {
     return this._config.attribute === "color_temp_kelvin";
   }
   _updateColors() {
-    var c, d, u;
-    let t = "var(--bsc-color)", e = "0%", i = "50%", s = !1;
-    const n = this._effectiveState;
+    var l, u, _;
+    let e = "var(--bsc-color)", t = "0%", i = "50%", o = !1;
+    const r = this._effectiveState;
     if (this._effectiveStatus == "on") {
-      const h = ((c = n.attributes) == null ? void 0 : c.rgb_color) ?? [255, 255, 255], m = ((d = n.attributes) == null ? void 0 : d.brightness) ?? 255;
-      s = !0, h && (t = `rgb(${h.join(",")})`), m && (e = `${Math.ceil(100 * m / 255)}%`, i = `${Math.ceil(100 * m / 510 + 50)}%`);
+      const h = ((l = r.attributes) == null ? void 0 : l.rgb_color) ?? [255, 255, 255], g = ((u = r.attributes) == null ? void 0 : u.brightness) ?? 255;
+      o = !0, h && (e = `rgb(${h.join(",")})`), g && (t = `${Math.ceil(100 * g / 255)}%`, i = `${Math.ceil(100 * g / 510 + 50)}%`);
     } else
-      t = "var(--bsc-off-color)";
-    const l = (u = this == null ? void 0 : this.shadowRoot) == null ? void 0 : u.getElementById("percentage");
-    if (!s) {
-      const h = n ? this._hass && typeof this._hass.formatEntityState == "function" ? this._hass.formatEntityState(n) : n.state : K("common.off");
-      l && (l.innerText = h);
+      e = "var(--bsc-off-color)";
+    const d = (_ = this == null ? void 0 : this.shadowRoot) == null ? void 0 : _.getElementById("percentage");
+    if (!o) {
+      const h = r ? this._hass && typeof this._hass.formatEntityState == "function" ? this._hass.formatEntityState(r) : r.state : c("common.off");
+      d && (d.innerText = h);
     }
-    this.style.setProperty("--bsc-entity-color", t), this.style.setProperty("--bsc-brightness", e), this.style.setProperty("--bsc-brightness-ui", i), this.style.setProperty("--bsc-icon-brightness", this._config.constant_icon_color === !0 ? "100%" : i), s && this._config.icon_color ? this.style.setProperty("--bsc-icon-color", this._config.icon_color) : !s && this._config.icon_off_color ? this.style.setProperty("--bsc-icon-color", this._config.icon_off_color) : this.style.removeProperty("--bsc-icon-color");
+    this.style.setProperty("--bsc-entity-color", e), this.style.setProperty("--bsc-brightness", t), this.style.setProperty("--bsc-brightness-ui", i), this.style.setProperty("--bsc-icon-brightness", this._config.constant_icon_color === !0 ? "100%" : i), o && this._config.icon_color ? this.style.setProperty("--bsc-icon-color", this._config.icon_color) : !o && this._config.icon_off_color ? this.style.setProperty("--bsc-icon-color", this._config.icon_off_color) : this.style.removeProperty("--bsc-icon-color");
   }
   _getValue() {
-    var n;
+    var r;
     if (!this._shouldUpdate) return;
-    const t = this._effectiveState, e = this._effectiveStatus, i = (n = this._config) == null ? void 0 : n.attribute;
-    let s = 0;
-    if (e == "unavailable" ? (this._config.min = 0, this._config.max = 0, this.style.setProperty("--bsc-opacity", "0.5")) : (this._config.min = this._config.original_min, this._config.max = this._config.original_max, this.style.removeProperty("--bsc-opacity")), e != "on")
-      s = 0;
+    const e = this._effectiveState, t = this._effectiveStatus, i = (r = this._config) == null ? void 0 : r.attribute;
+    let o = 0;
+    if (t == "unavailable" ? (this._config.min = 0, this._config.max = 0, this.style.setProperty("--bsc-opacity", "0.5")) : (this._config.min = this._config.original_min, this._config.max = this._config.original_max, this.style.removeProperty("--bsc-opacity")), t != "on")
+      o = 0;
     else
       switch (i) {
         case "brightness":
-          s = Math.round(100 * (t.attributes.brightness ?? 255) / 255);
+          o = Math.round(100 * (e.attributes.brightness ?? 255) / 255);
           break;
         case "red":
         case "green":
         case "blue":
-          const r = t.attributes.rgb_color ?? [255, 255, 255];
-          i === "red" && (s = r[0]), i === "green" && (s = r[1]), i === "blue" && (s = r[2]), s = Math.ceil(100 * s / 255);
+          const n = e.attributes.rgb_color ?? [255, 255, 255];
+          i === "red" && (o = n[0]), i === "green" && (o = n[1]), i === "blue" && (o = n[2]), o = Math.ceil(100 * o / 255);
           break;
         case "hue":
         case "saturation":
-          const l = t.attributes.hs_color ?? [100, 100];
-          i === "hue" && (s = l[0]), i === "saturation" && (s = l[1]);
+          const d = e.attributes.hs_color ?? [100, 100];
+          i === "hue" && (o = d[0]), i === "saturation" && (o = d[1]);
           break;
         case "color_temp_kelvin":
-          s = t.attributes[i] ?? this._config.min ?? 0;
+          o = e.attributes[i] ?? this._config.min ?? 0;
           break;
       }
-    this.currentValue = s, this._updateSlider();
+    this.currentValue = o, this._updateSlider();
   }
   _setValue() {
     if (!this._state) return;
-    let t = this.currentValue, e = this._config.attribute, i = !0, s;
-    switch (e) {
+    let e = this.currentValue, t = this._config.attribute, i = !0, o;
+    switch (t) {
       case "brightness":
-        t = Math.ceil(t / 100 * 255), t || (i = !1);
+        e = Math.ceil(e / 100 * 255), e || (i = !1);
         break;
       case "red":
       case "green":
       case "blue":
-        s = this._state.attributes.rgb_color ?? [255, 255, 255], e === "red" && (s[0] = t), e === "green" && (s[1] = t), e === "blue" && (s[2] = t), t = s, e = "rgb_color";
+        o = this._state.attributes.rgb_color ?? [255, 255, 255], t === "red" && (o[0] = e), t === "green" && (o[1] = e), t === "blue" && (o[2] = e), e = o, t = "rgb_color";
         break;
       case "hue":
       case "saturation":
-        s = this._state.attributes.hs_color ?? [100, 100], e === "hue" && (s[0] = t), e === "saturation" && (s[1] = t), t = s, e = "hs_color";
+        o = this._state.attributes.hs_color ?? [100, 100], t === "hue" && (o[0] = e), t === "saturation" && (o[1] = e), e = o, t = "hs_color";
         break;
       case "color_temp_kelvin":
-        t = Math.round(t);
+        e = Math.round(e);
         break;
     }
-    const n = {
+    const r = {
       entity_id: this._state.entity_id
     };
-    i ? (n[e] = t, this._config.transition && (n.transition = this._config.transition), this._hass.callService("light", "turn_on", n)) : this._hass.callService("light", "turn_off", n);
+    i ? (r[t] = e, this._config.transition && (r.transition = this._config.transition), this._hass.callService("light", "turn_on", r)) : this._hass.callService("light", "turn_off", r);
   }
   _stopUpdates() {
-    var t, e, i;
-    this.updateTimeout && clearTimeout(this.updateTimeout), this._shouldUpdate && ((i = (e = (t = this.shadowRoot) == null ? void 0 : t.getElementById("slider")) == null ? void 0 : e.classList) == null || i.remove("animate"), this._shouldUpdate = !1);
+    var e, t, i;
+    this.updateTimeout && clearTimeout(this.updateTimeout), this._shouldUpdate && ((i = (t = (e = this.shadowRoot) == null ? void 0 : e.getElementById("slider")) == null ? void 0 : t.classList) == null || i.remove("animate"), this._shouldUpdate = !1);
   }
   _scheduleImmediateUpdate() {
     !this._config.immediate_update || this.immediateUpdateTimeout || (this.immediateUpdateTimeout = window.setTimeout(() => {
@@ -1210,11 +1282,11 @@ class q extends D {
   _clearImmediateUpdate() {
     this.immediateUpdateTimeout && (clearTimeout(this.immediateUpdateTimeout), this.immediateUpdateTimeout = 0);
   }
-  _startUpdates(t = !1) {
+  _startUpdates(e = !1) {
     this.updateTimeout && clearTimeout(this.updateTimeout), this.updateTimeout = window.setTimeout(() => {
-      var e, i, s;
-      this._shouldUpdate = !0, (s = (i = (e = this.shadowRoot) == null ? void 0 : e.getElementById("slider")) == null ? void 0 : i.classList) == null || s.add("animate"), this.requestUpdate();
-    }, t ? this._config.settle_time : 0);
+      var t, i, o;
+      this._shouldUpdate = !0, (o = (i = (t = this.shadowRoot) == null ? void 0 : t.getElementById("slider")) == null ? void 0 : i.classList) == null || o.add("animate"), this.requestUpdate();
+    }, e ? this._config.settle_time : 0);
   }
   updated() {
     this._updateContainerSize(), this._getValue(), this._updateColors();
@@ -1222,63 +1294,63 @@ class q extends D {
   render() {
     var h;
     if (this._entity && !(this._entity in (((h = this._hass) == null ? void 0 : h.states) ?? {})))
-      return this._showError(`${K("common.no_entity")}: ${this._entity}`);
-    const t = this._effectiveState, e = this._effectiveStatus, i = this._effectiveName, s = this._entity || "light.example_light", n = (this._config.colorize && !0) ?? !1, r = (this._config.show_percentage && !0) ?? !1, l = (this._config.bold_text && !0) ?? !1, c = this._config.no_scale !== !0, d = this._config.no_transition_animation !== !0, u = this._config.vertical === !0;
-    return this._setStyleProperty("--bsc-background", this._config.background_color), this._setStyleProperty("--bsc-primary-text-color", this._config.text_color), this._setStyleProperty("--bsc-slider-color", this._config.color), this._setStyleProperty("--bsc-border-color", this._config.border_color), this._setStyleProperty("--bsc-border-radius", this._config.border_radius, this._normalizeCssLength), this._setStyleProperty("--bsc-border-style", this._config.border_style), this._setStyleProperty("--bsc-border-width", this._config.border_width, this._normalizeCssLength), this._setStyleProperty("--bsc-height", this._config.height, this._normalizeCssLength), this._setStyleProperty("--bsc-width", this._config.width, this._normalizeCssLength), this._setStyleProperty("--bsc-icon-size", this._config.icon_size, this._normalizeCssLength), this._setStyleProperty("--bsc-text-size", this._config.text_size, this._normalizeCssLength), this.style.setProperty("--bsc-press-transition", c ? "transform 0.1s ease-out" : "none"), this.style.setProperty("--bsc-half-pressed-transform", c ? "scale(0.99)" : "none"), this.style.setProperty("--bsc-pressed-transform", c ? "scale(0.98)" : "none"), this.style.setProperty("--bsc-color-transition", d ? "background-color 1s ease, filter 1s ease" : "none"), this.style.setProperty("--bsc-slider-transition", d ? "right 1s ease, background-color 1s ease, filter 1s ease" : "none"), this.style.setProperty("--bsc-vertical-slider-transition", d ? "top 1s ease, background-color 1s ease, filter 1s ease" : "none"), this.style.setProperty("--bsc-icon-transition", d ? "color 0.3s ease-out" : "none"), Et`
+      return this._showError(`${c("common.no_entity")}: ${this._entity}`);
+    const e = this._effectiveState, t = this._effectiveStatus, i = this._effectiveName, o = this._entity || "light.example_light", r = (this._config.colorize && !0) ?? !1, n = (this._config.show_percentage && !0) ?? !1, d = (this._config.bold_text && !0) ?? !1, l = this._config.no_scale !== !0, u = this._config.no_transition_animation !== !0, _ = this._config.vertical === !0;
+    return this._setStyleProperty("--bsc-background", this._config.background_color), this._setStyleProperty("--bsc-primary-text-color", this._config.text_color), this._setStyleProperty("--bsc-slider-color", this._config.color), this._setStyleProperty("--bsc-border-color", this._config.border_color), this._setStyleProperty("--bsc-border-radius", this._config.border_radius, this._normalizeCssLength), this._setStyleProperty("--bsc-border-style", this._config.border_style), this._setStyleProperty("--bsc-border-width", this._config.border_width, this._normalizeCssLength), this._setStyleProperty("--bsc-height", this._config.height, this._normalizeCssLength), this._setStyleProperty("--bsc-width", this._config.width, this._normalizeCssLength), this._setStyleProperty("--bsc-icon-size", this._config.icon_size, this._normalizeCssLength), this._setStyleProperty("--bsc-text-size", this._config.text_size, this._normalizeCssLength), this.style.setProperty("--bsc-press-transition", l ? "transform 0.1s ease-out" : "none"), this.style.setProperty("--bsc-half-pressed-transform", l ? "scale(0.99)" : "none"), this.style.setProperty("--bsc-pressed-transform", l ? "scale(0.98)" : "none"), this.style.setProperty("--bsc-color-transition", u ? "background-color 1s ease, filter 1s ease" : "none"), this.style.setProperty("--bsc-slider-transition", u ? "right 1s ease, background-color 1s ease, filter 1s ease" : "none"), this.style.setProperty("--bsc-vertical-slider-transition", u ? "top 1s ease, background-color 1s ease, filter 1s ease" : "none"), this.style.setProperty("--bsc-icon-transition", u ? "color 0.3s ease-out" : "none"), ze`
       <ha-card
         id="container"
-        class="${u ? "vertical" : ""}"
+        class="${_ ? "vertical" : ""}"
         tabindex="0"
         >
-        <div id="slider" class="animate ${n ? "colorize" : ""}"></div>
+        <div id="slider" class="animate ${r ? "colorize" : ""}"></div>
         <ha-state-icon
           id="icon"
           .icon=${this._config.icon}
-          .state=${t}
+          .state=${e}
           .hass=${this._hass}
-          .stateObj=${t}
-          data-domain=${s.split(".")[0]}
-          data-state=${Ve(e)}
+          .stateObj=${e}
+          data-domain=${o.split(".")[0]}
+          data-state=${xi(t)}
         ></ha-state-icon>
         <div id="content">
-          <p id="label" class="${l ? "bold" : ""}">
+          <p id="label" class="${d ? "bold" : ""}">
             <span id="name">${i}</span>
-            <span id="percentage" class="${r ? "" : "hide"}"></span>
+            <span id="percentage" class="${n ? "" : "hide"}"></span>
           </p>
         </div>
       </ha-card>
     `;
   }
-  _setStyleProperty(t, e, i = (s) => s) {
-    e != null && e !== "" && this.style.setProperty(t, i(e));
+  _setStyleProperty(e, t, i = (o) => o) {
+    t != null && t !== "" && this.style.setProperty(e, i(t));
   }
-  _normalizeCssLength(t) {
-    return typeof t == "number" ? `${t}px` : t;
+  _normalizeCssLength(e) {
+    return typeof e == "number" ? `${e}px` : e;
   }
-  _getNumericCssLength(t) {
-    if (typeof t == "number") return t;
-    if (typeof t != "string") return;
-    const e = t.trim().match(/^(\d+(?:\.\d+)?)px$/);
-    return e ? Number(e[1]) : void 0;
+  _getNumericCssLength(e) {
+    if (typeof e == "number") return e;
+    if (typeof e != "string") return;
+    const t = e.trim().match(/^(\d+(?:\.\d+)?)px$/);
+    return t ? Number(t[1]) : void 0;
   }
   // private _showWarning(warning: string): TemplateResult {
   //   return html`
   //     <hui-warning>${warning}</hui-warning>
   //   `;
   // }
-  _showError(t) {
-    const e = document.createElement("hui-error-card");
-    return e.setConfig({
+  _showError(e) {
+    const t = document.createElement("hui-error-card");
+    return t.setConfig({
       type: "error",
-      error: t
+      error: e
       // origConfig: this._config,
-    }), Et`
-      ${e}
+    }), ze`
+      ${t}
     `;
   }
   // https://lit-element.polymer-project.org/guide/styles
   static get styles() {
-    return ye`
+    return ti`
       :host {
         --bsc-background: var(--card-background-color, #aaaaaa);
         --bsc-slider-color: var(--paper-slider-active-color, #f9d2b0);
@@ -1443,36 +1515,36 @@ class q extends D {
     `;
   }
 }
-it([
-  tt()
-], q.prototype, "_config");
-it([
-  tt()
-], q.prototype, "_entity");
-it([
-  tt()
-], q.prototype, "_state");
-it([
-  tt()
-], q.prototype, "_name");
+ie([
+  ee()
+], Y.prototype, "_config");
+ie([
+  ee()
+], Y.prototype, "_entity");
+ie([
+  ee()
+], Y.prototype, "_state");
+ie([
+  ee()
+], Y.prototype, "_name");
 console.info(
   `%c  BIG-SLIDER-CARD 
-%c  ${K("common.version")} ${qt}    `,
+%c  ${c("common.version")} ${Et}    `,
   "color: orange; font-weight: bold; background: black",
   "color: white; font-weight: bold; background: dimgray"
 );
-customElements.define("big-slider-card", q);
+customElements.define("big-slider-card", Y);
 window.customCards = window.customCards ?? [];
 window.customCards.push({
   type: "big-slider-card",
-  name: "Big Slider Card",
-  description: "Big slider card for light entities.",
+  name: c("card.name"),
+  description: c("card.description"),
   preview: !0,
-  getEntitySuggestion: (o, t) => t.startsWith("light.") ? {
+  getEntitySuggestion: (s, e) => e.startsWith("light.") ? {
     type: "custom:big-slider-card",
     config: {
       type: "custom:big-slider-card",
-      entity: t
+      entity: e
     }
   } : null
 });

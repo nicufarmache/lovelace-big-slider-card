@@ -7,5 +7,56 @@
     "no_entity": "Entität nicht verfügbar",
     "on": "An",
     "off": "Aus"
+  },
+  "editor": {
+    "sections": {
+      "display": "Anzeigeoptionen",
+      "styling": "Benutzerdefiniertes Styling",
+      "behavior": "Verhalten / Aktionen"
+    },
+    "attributes": {
+      "brightness": "Helligkeit",
+      "red": "Rot",
+      "green": "Grün",
+      "blue": "Blau",
+      "hue": "Farbton",
+      "saturation": "Sättigung",
+      "color_temp_kelvin": "Farbtemperatur Kelvin"
+    },
+    "labels": {
+      "colorize": "Basierend auf Status einfärben",
+      "show_percentage": "Prozenttext anzeigen",
+      "bold_text": "Fetter Text",
+      "no_scale": "Skalierung beim Drücken deaktivieren",
+      "no_transition_animation": "Übergangsanimation deaktivieren",
+      "vertical": "Vertikaler Schieberegler",
+      "min_slide_time": "Minimale Schiebezeit",
+      "hold_time": "Haltezeit",
+      "settle_time": "Beruhigungszeit",
+      "immediate_update": "Beim Schieben aktualisieren",
+      "background_color": "Hintergrundfarbe",
+      "height": "Höhe",
+      "width": "Breite",
+      "text_color": "Textfarbe",
+      "icon_color": "Symbolfarbe",
+      "icon_off_color": "Symbolfarbe aus",
+      "constant_icon_color": "Konstante Symbolfarbe",
+      "icon_size": "Symbolgröße",
+      "text_size": "Textgröße",
+      "border_color": "Rahmenfarbe",
+      "border_radius": "Rahmenradius",
+      "border_style": "Rahmenstil",
+      "border_width": "Rahmenbreite"
+    }
+  },
+  "errors": {
+    "light_domain_only": "Gib eine Entität aus der light-Domain an"
+  },
+  "preview": {
+    "example_light": "Beispiellampe"
+  },
+  "card": {
+    "name": "Big Slider Card",
+    "description": "Große Schiebereglerkarte für Lichtentitäten."
   }
 }

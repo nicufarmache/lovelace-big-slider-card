@@ -7,5 +7,56 @@
     "no_entity": "Entidad no disponible",
     "on": "Encendido",
     "off": "Apagado"
+  },
+  "editor": {
+    "sections": {
+      "display": "Opciones de visualización",
+      "styling": "Estilo personalizado",
+      "behavior": "Comportamiento / Acciones"
+    },
+    "attributes": {
+      "brightness": "Brillo",
+      "red": "Rojo",
+      "green": "Verde",
+      "blue": "Azul",
+      "hue": "Tono",
+      "saturation": "Saturación",
+      "color_temp_kelvin": "Temperatura de color Kelvin"
+    },
+    "labels": {
+      "colorize": "Colorear según el estado",
+      "show_percentage": "Mostrar texto de porcentaje",
+      "bold_text": "Texto en negrita",
+      "no_scale": "Desactivar escala al pulsar",
+      "no_transition_animation": "Desactivar animación de transición",
+      "vertical": "Control deslizante vertical",
+      "min_slide_time": "Tiempo mínimo de deslizamiento",
+      "hold_time": "Tiempo de pulsación larga",
+      "settle_time": "Tiempo de estabilización",
+      "immediate_update": "Actualizar mientras se desliza",
+      "background_color": "Color de fondo",
+      "height": "Altura",
+      "width": "Anchura",
+      "text_color": "Color del texto",
+      "icon_color": "Color del icono",
+      "icon_off_color": "Color del icono apagado",
+      "constant_icon_color": "Color constante del icono",
+      "icon_size": "Tamaño del icono",
+      "text_size": "Tamaño del texto",
+      "border_color": "Color del borde",
+      "border_radius": "Radio del borde",
+      "border_style": "Estilo del borde",
+      "border_width": "Anchura del borde"
+    }
+  },
+  "errors": {
+    "light_domain_only": "Especifica una entidad del dominio light"
+  },
+  "preview": {
+    "example_light": "Luz de ejemplo"
+  },
+  "card": {
+    "name": "Big Slider Card",
+    "description": "Tarjeta deslizante grande para entidades de luz."
   }
 }

@@ -7,5 +7,56 @@
     "no_entity": "Entità non disponibile",
     "on": "Acceso",
     "off": "Spento"
+  },
+  "editor": {
+    "sections": {
+      "display": "Opzioni di visualizzazione",
+      "styling": "Stile personalizzato",
+      "behavior": "Comportamento / Azioni"
+    },
+    "attributes": {
+      "brightness": "Luminosità",
+      "red": "Rosso",
+      "green": "Verde",
+      "blue": "Blu",
+      "hue": "Tonalità",
+      "saturation": "Saturazione",
+      "color_temp_kelvin": "Temperatura colore Kelvin"
+    },
+    "labels": {
+      "colorize": "Colora in base allo stato",
+      "show_percentage": "Mostra testo percentuale",
+      "bold_text": "Testo in grassetto",
+      "no_scale": "Disattiva scala alla pressione",
+      "no_transition_animation": "Disattiva animazione di transizione",
+      "vertical": "Cursore verticale",
+      "min_slide_time": "Tempo minimo di scorrimento",
+      "hold_time": "Tempo di pressione prolungata",
+      "settle_time": "Tempo di stabilizzazione",
+      "immediate_update": "Aggiorna durante lo scorrimento",
+      "background_color": "Colore di sfondo",
+      "height": "Altezza",
+      "width": "Larghezza",
+      "text_color": "Colore testo",
+      "icon_color": "Colore icona",
+      "icon_off_color": "Colore icona spenta",
+      "constant_icon_color": "Colore icona costante",
+      "icon_size": "Dimensione icona",
+      "text_size": "Dimensione testo",
+      "border_color": "Colore bordo",
+      "border_radius": "Raggio bordo",
+      "border_style": "Stile bordo",
+      "border_width": "Spessore bordo"
+    }
+  },
+  "errors": {
+    "light_domain_only": "Specifica un'entità del dominio light"
+  },
+  "preview": {
+    "example_light": "Luce di esempio"
+  },
+  "card": {
+    "name": "Big Slider Card",
+    "description": "Scheda con cursore grande per entità luce."
   }
 }

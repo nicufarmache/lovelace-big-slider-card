@@ -14,8 +14,8 @@ customElements.define("big-slider-card", BigSliderCard);
 (window as any).customCards = (window as any).customCards ?? [];
 (window as any).customCards.push({
   type: 'big-slider-card',
-  name: 'Big Slider Card',
-  description: 'Big slider card for light entities.',
+  name: localize('card.name'),
+  description: localize('card.description'),
   preview: true,
   getEntitySuggestion: (_hass: any, entityId: string) => {
     if (!entityId.startsWith('light.')) {
