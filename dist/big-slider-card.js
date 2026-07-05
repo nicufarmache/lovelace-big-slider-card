@@ -53,7 +53,7 @@ let kt = (ke = class {
     totalY: l(this, U)
   }), l(this, b).releasePointerCapture(e.pointerId), x(this, y, ue).call(this));
 }, ke);
-const Et = "1.2.4-beta", Mt = "brightness", Ut = 3e3, Vt = 600, Lt = 0, fe = 5, Rt = 0, Nt = 100, Q = [
+const Et = "1.2.5-beta", Mt = "brightness", Ut = 3e3, Vt = 600, Lt = 0, fe = 5, Rt = 0, Nt = 100, Q = [
   "light",
   "number",
   "input_number",
@@ -1580,10 +1580,10 @@ class q extends K {
         --bsc-entity-color: var(--bsc-color);
         --bsc-primary-text-color: var(--primary-text-color);
         --bsc-secondary-text-color: var(--secondary-text-color);
-        --bsc-border-color: var(--ha-card-border-color);
-        --bsc-border-radius: var(--ha-card-border-radius);
-        --bsc-border-style: var(--ha-card-border-style);
-        --bsc-border-width: var(--ha-card-border-width);
+        --bsc-border-color: var(--ha-card-border-color, var(--divider-color, #e0e0e0));
+        --bsc-border-radius: var(--ha-card-border-radius, var(--ha-border-radius-lg));
+        --bsc-border-style: var(--ha-card-border-style, solid);
+        --bsc-border-width: var(--ha-card-border-width, 1px);
         --bsc-icon-box-size: 36px;
         --bsc-icon-size: 24px;
         --bsc-icon-background: transparent;
