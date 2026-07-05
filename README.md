@@ -42,17 +42,22 @@ transition: 0.3
 height: 80
 background_color: '#a45634'
 text_color: '#ffffff'
-border_color: '#ff00ff'
-border_radius: '4px'
+border_color: 'ff00ff'
+border_radius: 4
 border_style: 'dashed'
-border_width: '5px'
+border_width: 5
 icon_color: '#ff00ff'
+icon_size: 24
+text_size: 14
 colorize: true
 icon: mdi:lamp
 show_percentage: true
 bold_text: true
+no_scale: true
+no_transition_animation: true
 min: 1
 max: 80
+immediate_update: true
 hold_time: 600
 settle_time: 3000
 tap_action:
@@ -73,21 +78,26 @@ hold_action:
 | name              | string  | **Optional** | Name to show on card                           | entity name         |
 | attribute         | string  | **Optional** | Attribute to control                           | `brightness`        |
 | transition        | number  | **Optional** | Transition time (seonds)                       | not used if unset   |
-| height            | number  | **Optional** | Card height in px                              | form theme          |
+| height            | number/string | **Optional** | Card height in px or CSS length                | form theme          |
 | color             | string  | **Optional** | Slider color (CSS format)                      | form theme          |
 | background_color  | string  | **Optional** | Background color (CSS format)                  | form theme          |
 | text_color        | string  | **Optional** | Text color (CSS format)                        | form theme          |
 | icon_color        | string  | **Optional** | Icon color (CSS format)                        | entity color        |
+| icon_size         | number/string | **Optional** | Icon size in px or CSS length                  | `24`                |
+| text_size         | number/string | **Optional** | Text size in px or CSS length                  | theme default       |
 | border_color      | string  | **Optional** | Border color (CSS format)                      | form theme          |
-| border_radius     | string  | **Optional** | Border radius including units (CSS format)     | form theme          |
+| border_radius     | number/string | **Optional** | Border radius in px or CSS length              | form theme          |
 | border_style      | string  | **Optional** | Border style (CSS format)                      | form theme          |
-| border_width      | string  | **Optional** | Border width (CSS format)                      | form theme          |
+| border_width      | number/string | **Optional** | Border width in px or CSS length               | form theme          |
 | colorize          | boolean | **Optional** | Colorize slider using entity color             | false               |
 | icon              | string  | **Optional** | Sets custom icon                               | entity icon         |
 | show_percentage   | boolean | **Optional** | Show percentage under entity name              | false               |
 | bold_text         | boolean | **Optional** | Make taxt font bold                            | false               |
+| no_scale         | boolean | **Optional** | Disable scaling the card while pressing        | false               |
+| no_transition_animation | boolean | **Optional** | Disable slider, color, and icon transitions | false               |
 | min               | number  | **Optional** | Maximum value for slider                       | `0`                 |
 | max               | number  | **Optional** | Minimum value for slider                       | `100`               |
+| immediate_update  | boolean | **Optional** | Update value while sliding every 300ms         | false               |
 | min_slide_time    | number  | **Optional** | Mimimum time to prevent accidental changes (ms)| `0`                 |
 | hold_time         | number  | **Optional** | Hold gesture time (ms)                         | `600`               |
 | settle_time       | number  | **Optional** | Ignore updates after changig the value (ms)    | `3000`              |
@@ -95,6 +105,9 @@ hold_action:
 | hold_action       | object  | **Optional** | Action to take on hold                         | `action: more-info` |
 
 For more info about the rest of the action options see this page: [Actions - Home Assistant][actions]
+
+Supported attributes: `brightness`, `red`, `green`, `blue`, `hue`, `saturation`, `color_temp_kelvin`.
+Color temperature defaults to `2200`-`6500` Kelvin; set `min` or `max` to override that range.
 
 ### The card uses the following css variables for configuring the look and feel:
 
@@ -110,6 +123,8 @@ For more info about the rest of the action options see this page: [Actions - Hom
 --bsc-border-radius: var(--ha-card-border-radius);
 --bsc-border-style: var(--ha-card-border-style);
 --bsc-border-width: var(--ha-card-border-width);
+--bsc-icon-size: 24px;
+--bsc-text-size: inherit;
 ```
 
 

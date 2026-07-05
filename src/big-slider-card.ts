@@ -20,11 +20,10 @@ export class BigSliderCard extends LitElement {
   @state() private _config: BigSliderCardConfig = DEFAULT_CONFIG;
   @state() private _entity?: string;
   @state() private _state?: HassEntity;
-  @state() private _status?: string;
   @state() private _name: string = '';
   private _hass?: HomeAssistant;
-  private mouseStartPos: MousePos = { x:0, y:0 };
-  private mousePos: MousePos = { x:0, y:0 };
+  private mouseStartPos: MousePos = { x: 0, y: 0 };
+  private mousePos: MousePos = { x: 0, y: 0 };
   private containerWidth: number = 0;
   private oldValue: number = 0;
   private currentValue: number = 0;
@@ -33,17 +32,244 @@ export class BigSliderCard extends LitElement {
   private _shouldUpdate: boolean = true;
   private updateTimeout: number = 0;
   private pressTimeout: number = 0;
+  private immediateUpdateTimeout: number = 0;
   private trackingStartTime: number = 0;
   private slideGesture: any;
   private isTap: boolean = false;
+  private hasValidSlide: boolean = false;
 
   public static getStubConfig(
     _hass: HomeAssistant,
     entities: string[],
   ): Partial<BigSliderCardConfig> {
-    const lights = entities.filter(entity => entity.split('.')[0]==='light').sort();
+    const lights = entities.filter(entity => entity.split('.')[0] === 'light').sort();
     const randomLight = lights[Math.floor(Math.random() * lights.length)];
     return { type: 'custom:big-slider-card', entity: randomLight };
+  }
+
+  public getGridOptions() {
+    return {
+      columns: 6,
+      rows: 1,
+      min_columns: 3,
+      min_rows: 1,
+    };
+  }
+
+  public getCardSize(): number {
+    return 1;
+  }
+
+  public static getConfigForm() {
+    return {
+      schema: [
+        {
+          name: 'entity',
+          required: true,
+          selector: { entity: { domain: 'light' } },
+        },
+        {
+          name: 'name',
+          selector: { text: {} },
+        },
+        {
+          name: 'icon',
+          selector: { icon: {} },
+        },
+        {
+          type: 'expandable',
+          name: 'display',
+          title: 'Display Options',
+          flatten: true,
+          schema: [
+            {
+              name: 'attribute',
+              selector: {
+                select: {
+                  options: [
+                    { value: 'brightness', label: 'Brightness' },
+                    { value: 'red', label: 'Red' },
+                    { value: 'green', label: 'Green' },
+                    { value: 'blue', label: 'Blue' },
+                    { value: 'hue', label: 'Hue' },
+                    { value: 'saturation', label: 'Saturation' },
+                    { value: 'color_temp_kelvin', label: 'Color Temperature Kelvin' },
+                  ],
+                },
+              },
+            },
+            {
+              name: 'colorize',
+              selector: { boolean: {} },
+            },
+            {
+              name: 'show_percentage',
+              selector: { boolean: {} },
+            },
+          ],
+        },
+        {
+          type: 'expandable',
+          name: 'styling',
+          title: 'Custom Styling',
+          flatten: true,
+          schema: [
+            {
+              name: 'height',
+              selector: {
+                number: {
+                  mode: 'box',
+                  min: 10,
+                  max: 200,
+                  unit_of_measurement: 'px',
+                },
+              },
+            },
+            {
+              name: 'icon_size',
+              selector: {
+                number: {
+                  mode: 'box',
+                  min: 8,
+                  max: 96,
+                  unit_of_measurement: 'px',
+                },
+              },
+            },
+            {
+              name: 'text_size',
+              selector: {
+                number: {
+                  mode: 'box',
+                  min: 8,
+                  max: 48,
+                  unit_of_measurement: 'px',
+                },
+              },
+            },
+            { name: 'color', selector: { text: {} } },
+            { name: 'background_color', selector: { text: {} } },
+            { name: 'text_color', selector: { text: {} } },
+            { name: 'icon_color', selector: { text: {} } },
+            {
+              name: 'bold_text',
+              selector: { boolean: {} },
+            },
+            {
+              name: 'no_scale',
+              selector: { boolean: {} },
+            },
+            {
+              name: 'no_transition_animation',
+              selector: { boolean: {} },
+            },
+            { name: 'border_color', selector: { text: {} } },
+            {
+              name: 'border_radius',
+              selector: {
+                number: {
+                  mode: 'box',
+                  min: 0,
+                  unit_of_measurement: 'px',
+                },
+              },
+            },
+            { name: 'border_style', selector: { text: {} } },
+            {
+              name: 'border_width',
+              selector: {
+                number: {
+                  mode: 'box',
+                  min: 0,
+                  unit_of_measurement: 'px',
+                },
+              },
+            },
+          ],
+        },
+        {
+          type: 'expandable',
+          name: 'behavior',
+          title: 'Behavior / Actions',
+          flatten: true,
+          schema: [
+            {
+              name: 'transition',
+              selector: {
+                number: {
+                  mode: 'box',
+                  min: 0,
+                  step: 0.1,
+                  unit_of_measurement: 's',
+                },
+              },
+            },
+            { name: 'min', selector: { number: { mode: 'box' } } },
+            { name: 'max', selector: { number: { mode: 'box' } } },
+            {
+              name: 'min_slide_time',
+              selector: {
+                number: {
+                  mode: 'box',
+                  unit_of_measurement: 'ms',
+                },
+              },
+            },
+            {
+              name: 'hold_time',
+              selector: {
+                number: {
+                  mode: 'box',
+                  unit_of_measurement: 'ms',
+                },
+              },
+            },
+            {
+              name: 'settle_time',
+              selector: {
+                number: {
+                  mode: 'box',
+                  unit_of_measurement: 'ms',
+                },
+              },
+            },
+            {
+              name: 'immediate_update',
+              selector: { boolean: {} },
+            },
+            { name: 'tap_action', selector: { ui_action: {} } },
+            { name: 'hold_action', selector: { ui_action: {} } },
+          ],
+        },
+      ],
+      computeLabel: (schema: any, hassLocalize: any) => {
+        const customLabels: Record<string, string> = {
+          colorize: 'Colorize based on state',
+          show_percentage: 'Show percentage text',
+          bold_text: 'Bold text',
+          no_scale: 'Disable scale on press',
+          no_transition_animation: 'Disable transition animation',
+          min_slide_time: 'Min slide time',
+          hold_time: 'Hold time',
+          settle_time: 'Settle time',
+          immediate_update: 'Update while sliding',
+          background_color: 'Background color',
+          text_color: 'Text color',
+          icon_color: 'Icon color',
+          icon_size: 'Icon size',
+          text_size: 'Text size',
+          border_color: 'Border color',
+          border_radius: 'Border radius',
+          border_style: 'Border style',
+          border_width: 'Border width',
+        };
+        return (
+          customLabels[schema.name] ||
+          hassLocalize(`ui.panel.lovelace.editor.card.generic.${schema.name}`) ||
+          schema.name
+        );
+      },
+    };
   }
 
   // life cycle
@@ -53,33 +279,69 @@ export class BigSliderCard extends LitElement {
       throw new Error(localize('common.invalid_configuration'));
     }
 
-    if (!config.entity) {
-      throw new Error(localize('common.no_entity_set'));
-    }
-
-    if (!config.entity || config.entity.split(".")[0] !== "light") {
+    if (config.entity && config.entity.split(".")[0] !== "light") {
       throw new Error("Specify an entity from within the light domain");
     }
 
-    this._config = { ...DEFAULT_CONFIG, ...config };
+    const attributeDefaults = this._getAttributeDefaults(config.attribute ?? DEFAULT_CONFIG.attribute);
+
+    this._config = { ...DEFAULT_CONFIG, ...attributeDefaults, ...config };
     this._entity = this._config.entity;
     this._config.original_min = this._config.min;
     this._config.original_max = this._config.max;
   }
 
+  _getAttributeDefaults(attribute: string): Partial<BigSliderCardConfig> {
+    switch (attribute) {
+      case 'color_temp_kelvin':
+        return { min: 2200, max: 6500 };
+      default:
+        return {};
+    }
+  }
+
   set hass(hass: HomeAssistant) {
-    if (!this._entity) return;
     this._hass = hass;
+    if (!this._entity) return;
     this._state = hass.states[this._entity];
-    this._status = this._state?.state;
-    this._name = 
+    this._name =
       this._config.name ??
-      this._state?.attributes?.friendly_name ?? 
+      this._state?.attributes?.friendly_name ??
       this._entity.split('.')[1] ??
       '';
   }
 
-  _log(text): void{
+  private get _effectiveState(): HassEntity {
+    if (this._state) {
+      return this._state;
+    }
+    return {
+      entity_id: this._entity || 'light.example_light',
+      state: this._effectiveStatus,
+      attributes: {
+        friendly_name: this._effectiveName,
+        brightness: 153, // 60%
+        rgb_color: [255, 165, 0],
+      },
+      last_changed: '',
+      last_updated: '',
+      context: { id: '', parent_id: null, user_id: null }
+    };
+  }
+
+  private get _effectiveName(): string {
+    if (this._config.name) return this._config.name;
+    if (this._state) {
+      return this._state.attributes?.friendly_name ?? this._entity?.split('.')[1] ?? '';
+    }
+    return 'Example Light';
+  }
+
+  private get _effectiveStatus(): string {
+    return this._state ? this._state.state : 'on';
+  }
+
+  _log(text: string): void {
     console.log(
       `%c  BIG-SLIDER-CARD ${this._name} %c ${text} `,
       'color: orange; font-weight: bold; background: black',
@@ -90,7 +352,7 @@ export class BigSliderCard extends LitElement {
   connectedCallback(): void {
     super.connectedCallback();
     this.addEventListener('contextmenu', this._handleContextMenu);
-    this.slideGesture = new SlideGesture(this, this._handlePointer.bind(this), { 
+    this.slideGesture = new SlideGesture(this, this._handlePointer.bind(this), {
       touchActions: 'pan-y',
       stopScrollDirection: 'horizontal'
     });
@@ -98,6 +360,7 @@ export class BigSliderCard extends LitElement {
 
   disconnectedCallback(): void {
     this.removeEventListener('contextmenu', this._handleContextMenu);
+    this._clearImmediateUpdate();
     this.slideGesture.removeListeners();
     super.disconnectedCallback();
   }
@@ -112,7 +375,7 @@ export class BigSliderCard extends LitElement {
     return false;
   }
 
-  _handlePointer = (evt, extra): void => {
+  _handlePointer = (evt: PointerEvent, extra: any): void => {
     this.mousePos = { x: evt.pageX, y: evt.pageY };
     const minSlideTime = this._config.min_slide_time;
 
@@ -120,40 +383,49 @@ export class BigSliderCard extends LitElement {
       this._press();
       this.isTap = true;
       this.isHold = false;
+      this.hasValidSlide = false;
+      this._clearImmediateUpdate();
       this.holdTimer = window.setTimeout(this._setHold, this._config.hold_time);
       this.trackingStartTime = Date.now();
+      this._updateContainerWidth();
       this._resetTrack();
     }
 
-    if ([ 'pointerdown', 'pointermove', 'pointerup'].includes(evt.type)) {
+    if (!this.isHold && ['pointerdown', 'pointermove', 'pointerup'].includes(evt.type)) {
       this._updateValue();
     }
-  
+
     if (evt.type === 'pointermove') {
-      if(this.isTap && (Math.abs(extra.relativeX) < TAP_THRESHOLD && Math.abs(extra.relativeY) < TAP_THRESHOLD)) 
+      if (this.isHold) return;
+      if (this.isTap && (Math.abs(extra.relativeX) < TAP_THRESHOLD && Math.abs(extra.relativeY) < TAP_THRESHOLD))
         return;
-      this.isTap = false; 
+      this.isTap = false;
       clearTimeout(this.holdTimer);
       this._stopUpdates();
+      this._scheduleImmediateUpdate();
     }
 
     if (evt.type === 'pointercancel') {
       clearTimeout(this.holdTimer);
+      this._clearImmediateUpdate();
       this._unpress();
       this._startUpdates();
     }
-  
+
     if (evt.type === 'pointerup') {
       clearTimeout(this.holdTimer);
+      this._clearImmediateUpdate();
       this._unpress();
       this._startUpdates();
+
+      if (this.isHold) return;
 
       if (this.isTap) {
         this._handleTap();
         return;
       }
 
-      if((Date.now() - this.trackingStartTime) > minSlideTime) {
+      if (this.hasValidSlide && (Date.now() - this.trackingStartTime) > minSlideTime) {
         this._setValue();
         this._startUpdates(true);
       }
@@ -161,14 +433,26 @@ export class BigSliderCard extends LitElement {
   }
 
   _updateValue(): void {
+    if (!this._updateContainerWidth()) return;
+
     const width = this.containerWidth;
     const dx = this.mousePos.x - this.mouseStartPos.x;
 
-    const percentage = Math.round( 100 * dx / width );
+    const valueDelta = this._usesRangeSlider()
+      ? Math.round((this._config.max - this._config.min) * dx / width)
+      : Math.round(100 * dx / width);
 
-    this.currentValue = this.oldValue + percentage;
+    if (!Number.isFinite(valueDelta)) return;
+
+    this.currentValue = this.oldValue + valueDelta;
     this._checklimits();
     this._updateSlider();
+    this.hasValidSlide = true;
+  }
+
+  _updateContainerWidth(): boolean {
+    this.containerWidth = this.shadowRoot?.getElementById('container')?.clientWidth ?? 0;
+    return this.containerWidth > 0;
   }
 
   private _handleAction(action: any): void {
@@ -187,6 +471,9 @@ export class BigSliderCard extends LitElement {
   _setHold = (): void => {
     this.isTap = false;
     this.isHold = true;
+    this._clearImmediateUpdate();
+    this._shouldUpdate = true;
+    this.requestUpdate();
     this._handleAction('hold');
   }
 
@@ -205,13 +492,13 @@ export class BigSliderCard extends LitElement {
   }
 
   _press(): void {
-    if(this.pressTimeout) clearTimeout(this.pressTimeout);
+    if (this.pressTimeout) clearTimeout(this.pressTimeout);
     this.pressTimeout = window.setTimeout(() => this.setAttribute('pressed', ''), this._config.min_slide_time)
     this.setAttribute('half-pressed', '')
   }
 
   _unpress(): void {
-    if(this.pressTimeout) clearTimeout(this.pressTimeout);
+    if (this.pressTimeout) clearTimeout(this.pressTimeout);
     this.removeAttribute('pressed');
     this.removeAttribute('half-pressed');
   }
@@ -219,20 +506,46 @@ export class BigSliderCard extends LitElement {
   _checklimits(): void {
     const min = this._config.min ?? 0;
     const max = this._config.max ?? 100;
-    if (this.currentValue < min){
+    if (this.currentValue < min) {
       this.currentValue = min;
       this._resetTrack();
     }
-    if (this.currentValue > max){
+    if (this.currentValue > max) {
       this.currentValue = max;
       this._resetTrack();
     }
   }
 
   _updateSlider(): void {
-    this.style.setProperty('--bsc-percent', this.currentValue + '%');
+    const sliderPercentage = this._getSliderPercentage();
+
+    this.style.setProperty('--bsc-percent', sliderPercentage + '%');
     const percentage = this?.shadowRoot?.getElementById('percentage');
-    percentage && (percentage.innerText = Math.round(this.currentValue) + '%');
+    percentage && (percentage.innerText = this._getSliderLabel(sliderPercentage));
+  }
+
+  _getSliderLabel(sliderPercentage: number): string {
+    if (this._config.attribute === 'color_temp_kelvin') {
+      return `${Math.round(this.currentValue)}K`;
+    }
+
+    return `${Math.round(sliderPercentage)}%`;
+  }
+
+  _getSliderPercentage(): number {
+    if (!this._usesRangeSlider()) return this.currentValue;
+
+    const range = this._config.max - this._config.min;
+    if (range <= 0) return 0;
+
+    const percentage = 100 * (this.currentValue - this._config.min) / range;
+    if (!Number.isFinite(percentage)) return 0;
+
+    return Math.max(0, Math.min(100, percentage));
+  }
+
+  _usesRangeSlider(): boolean {
+    return this._config.attribute === 'color_temp_kelvin';
   }
 
   _updateColors(): void {
@@ -241,46 +554,53 @@ export class BigSliderCard extends LitElement {
     let brightnessUI = '50%';
     let isOn = false;
 
-    if (this._state) {
-      if (this._status == 'on') {
-        const stateColor = this._state.attributes?.rgb_color ?? [255, 255, 255];
-        const stateBrightness = this._state.attributes?.brightness ?? 255;
-        isOn = true;
-        if (stateColor) {
-          color = `rgb(${stateColor.join(',')})`;
-        }
-        if (stateBrightness) {
-          brightness = `${Math.ceil(100 * stateBrightness / 255)}%`
-          brightnessUI = `${Math.ceil(100 * stateBrightness / 510 + 50)}%`
-        }
-      } else {
-        color = 'var(--bsc-off-color)';
+    const stateObj = this._effectiveState;
+    const status = this._effectiveStatus;
+
+    if (status == 'on') {
+      const stateColor = stateObj.attributes?.rgb_color ?? [255, 255, 255];
+      const stateBrightness = stateObj.attributes?.brightness ?? 255;
+      isOn = true;
+      if (stateColor) {
+        color = `rgb(${stateColor.join(',')})`;
       }
+      if (stateBrightness) {
+        brightness = `${Math.ceil(100 * stateBrightness / 255)}%`
+        brightnessUI = `${Math.ceil(100 * stateBrightness / 510 + 50)}%`
+      }
+    } else {
+      color = 'var(--bsc-off-color)';
     }
 
     const percentage = this?.shadowRoot?.getElementById('percentage');
     if (!isOn) {
-      percentage && (percentage.innerText = localize('common.off'));
+      const stateText = stateObj
+        ? (this._hass && typeof this._hass.formatEntityState === 'function'
+            ? this._hass.formatEntityState(stateObj)
+            : stateObj.state)
+        : localize('common.off');
+      percentage && (percentage.innerText = stateText);
     }
     this.style.setProperty('--bsc-entity-color', color);
     this.style.setProperty('--bsc-brightness', brightness);
     this.style.setProperty('--bsc-brightness-ui', brightnessUI);
-    if(this._config.icon_color && isOn) {
+    if (this._config.icon_color && isOn) {
       this.style.setProperty('--bsc-icon-color', this._config.icon_color);
     }
-    if(this._config.icon_color && !isOn) {
+    if (this._config.icon_color && !isOn) {
       this.style.removeProperty('--bsc-icon-color');
     }
   }
 
   _getValue(): void {
     if (!this._shouldUpdate) return;
-    if (!this._state) return;
 
+    const stateObj = this._effectiveState;
+    const status = this._effectiveStatus;
     const attr = this._config?.attribute;
     let _value = 0;
 
-    if(this._status == 'unavailable'){
+    if (status == 'unavailable') {
       this._config.min = 0;
       this._config.max = 0;
       this.style.setProperty('--bsc-opacity', '0.5');
@@ -290,17 +610,17 @@ export class BigSliderCard extends LitElement {
       this.style.removeProperty('--bsc-opacity');
     }
 
-    if (this._status != 'on') {
-      _value = this._config.min ?? 0;
+    if (status != 'on') {
+      _value = 0;
     } else {
       switch (attr) {
         case 'brightness':
-          _value = Math.round(100 * (this._state.attributes.brightness ?? 255)/255)
+          _value = Math.round(100 * (stateObj.attributes.brightness ?? 255) / 255)
           break;
         case 'red':
         case 'green':
         case 'blue':
-          const rgb = this._state.attributes.rgb_color ?? [255, 255, 255];
+          const rgb = stateObj.attributes.rgb_color ?? [255, 255, 255];
           if (attr === 'red') _value = rgb[0];
           if (attr === 'green') _value = rgb[1];
           if (attr === 'blue') _value = rgb[2];
@@ -308,9 +628,12 @@ export class BigSliderCard extends LitElement {
           break;
         case 'hue':
         case 'saturation':
-          const hs = this._state.attributes.hs_color ?? [100, 100];
+          const hs = stateObj.attributes.hs_color ?? [100, 100];
           if (attr === 'hue') _value = hs[0];
           if (attr === 'saturation') _value = hs[1];
+          break;
+        case 'color_temp_kelvin':
+          _value = stateObj.attributes[attr] ?? this._config.min ?? 0;
           break;
       }
     }
@@ -329,7 +652,7 @@ export class BigSliderCard extends LitElement {
     let _value;
     switch (attr) {
       case 'brightness':
-        value = Math.ceil(value/100.0*255);
+        value = Math.ceil(value / 100.0 * 255);
         if (!value) on = false;
         break;
       case 'red':
@@ -350,9 +673,12 @@ export class BigSliderCard extends LitElement {
         value = _value;
         attr = 'hs_color';
         break;
+      case 'color_temp_kelvin':
+        value = Math.round(value);
+        break;
     }
 
-    const params: Record<string,any> = {
+    const params: Record<string, any> = {
       entity_id: this._state.entity_id,
     }
 
@@ -368,14 +694,32 @@ export class BigSliderCard extends LitElement {
   }
 
   _stopUpdates(): void {
-    if(this.updateTimeout) clearTimeout(this.updateTimeout);
-    if(!this._shouldUpdate) return;
+    if (this.updateTimeout) clearTimeout(this.updateTimeout);
+    if (!this._shouldUpdate) return;
     this.shadowRoot?.getElementById('slider')?.classList?.remove('animate')
     this._shouldUpdate = false;
   }
 
+  _scheduleImmediateUpdate(): void {
+    if (!this._config.immediate_update || this.immediateUpdateTimeout) return;
+
+    this.immediateUpdateTimeout = window.setTimeout(() => {
+      this.immediateUpdateTimeout = 0;
+      if (!this.isHold && (Date.now() - this.trackingStartTime) > this._config.min_slide_time) {
+        this._setValue();
+      }
+    }, 300);
+  }
+
+  _clearImmediateUpdate(): void {
+    if (this.immediateUpdateTimeout) {
+      clearTimeout(this.immediateUpdateTimeout);
+      this.immediateUpdateTimeout = 0;
+    }
+  }
+
   _startUpdates(settle = false): void {
-    if(this.updateTimeout) clearTimeout(this.updateTimeout);
+    if (this.updateTimeout) clearTimeout(this.updateTimeout);
     this.updateTimeout = window.setTimeout(() => {
       this._shouldUpdate = true;
       this.shadowRoot?.getElementById('slider')?.classList?.add('animate')
@@ -385,15 +729,20 @@ export class BigSliderCard extends LitElement {
   }
 
   protected updated(): void {
-    this.containerWidth = this.shadowRoot?.getElementById('container')?.clientWidth ?? 0;
+    this._updateContainerWidth();
     this._getValue();
     this._updateColors();
   }
 
   protected render(): TemplateResult | void {
-    if (!(this._entity && (this._entity in (this._hass?.states ?? {})))) {
+    if (this._entity && !(this._entity in (this._hass?.states ?? {}))) {
       return this._showError(`${localize('common.no_entity')}: ${this._entity}`);
     }
+
+    const stateObj = this._effectiveState;
+    const status = this._effectiveStatus;
+    const name = this._effectiveName;
+    const entity = this._entity || 'light.example_light';
 
     const colorize = (this._config.colorize && true) ?? false;
 
@@ -401,14 +750,26 @@ export class BigSliderCard extends LitElement {
 
     const boldText = (this._config.bold_text && true) ?? false;
 
+    const scale = this._config.no_scale !== true;
+
+    const transitionAnimation = this._config.no_transition_animation !== true;
+
     this._setStyleProperty('--bsc-background', this._config.background_color);
     this._setStyleProperty('--bsc-primary-text-color', this._config.text_color);
     this._setStyleProperty('--bsc-slider-color', this._config.color);
     this._setStyleProperty('--bsc-border-color', this._config.border_color);
-    this._setStyleProperty('--bsc-border-radius',  this._config.border_radius);
+    this._setStyleProperty('--bsc-border-radius', this._config.border_radius, this._normalizeCssLength);
     this._setStyleProperty('--bsc-border-style', this._config.border_style);
-    this._setStyleProperty('--bsc-border-width', this._config.border_width);
-    this._setStyleProperty('--bsc-height', this._config.height, (height) => `${height}px`);
+    this._setStyleProperty('--bsc-border-width', this._config.border_width, this._normalizeCssLength);
+    this._setStyleProperty('--bsc-height', this._config.height, this._normalizeCssLength);
+    this._setStyleProperty('--bsc-icon-size', this._config.icon_size, this._normalizeCssLength);
+    this._setStyleProperty('--bsc-text-size', this._config.text_size, this._normalizeCssLength);
+    this.style.setProperty('--bsc-press-transition', scale ? 'transform 0.1s ease-out' : 'none');
+    this.style.setProperty('--bsc-half-pressed-transform', scale ? 'scale(0.99)' : 'none');
+    this.style.setProperty('--bsc-pressed-transform', scale ? 'scale(0.98)' : 'none');
+    this.style.setProperty('--bsc-color-transition', transitionAnimation ? 'background-color 1s ease, filter 1s ease' : 'none');
+    this.style.setProperty('--bsc-slider-transition', transitionAnimation ? 'right 1s ease, background-color 1s ease, filter 1s ease' : 'none');
+    this.style.setProperty('--bsc-icon-transition', transitionAnimation ? 'color 0.3s ease-out' : 'none');
 
     return html`
       <ha-card
@@ -417,17 +778,17 @@ export class BigSliderCard extends LitElement {
         >
         <div id="slider" class="animate ${colorize ? 'colorize' : ''}"></div>
         <ha-state-icon
-        id="icon"
-              .icon=${this._config.icon}
-              .state=${this._state}
-              .hass=${this._hass}
-              .stateObj=${this._state}
-              data-domain=${this._entity.split(".")[0]}
-              data-state=${ifDefined(this._status)}
-            ></ha-state-icon>
+          id="icon"
+          .icon=${this._config.icon}
+          .state=${stateObj}
+          .hass=${this._hass}
+          .stateObj=${stateObj}
+          data-domain=${entity.split(".")[0]}
+          data-state=${ifDefined(status)}
+        ></ha-state-icon>
         <div id="content">
           <p id="label" class="${boldText ? 'bold' : ''}">
-            <span id="name">${this._name}</span>
+            <span id="name">${name}</span>
             <span id="percentage" class="${showPercentage ? '' : 'hide'}"></span>
           </p>
         </div>
@@ -441,11 +802,15 @@ export class BigSliderCard extends LitElement {
     }
   }
 
-  private _showWarning(warning: string): TemplateResult {
-    return html`
-      <hui-warning>${warning}</hui-warning>
-    `;
+  _normalizeCssLength(value: string | number): string {
+    return typeof value === 'number' ? `${value}px` : value;
   }
+
+  // private _showWarning(warning: string): TemplateResult {
+  //   return html`
+  //     <hui-warning>${warning}</hui-warning>
+  //   `;
+  // }
 
   private _showError(error: string): TemplateResult {
     const errorCard = document.createElement('hui-error-card');
@@ -479,20 +844,28 @@ export class BigSliderCard extends LitElement {
         --bsc-border-style: var(--ha-card-border-style);
         --bsc-border-width: var(--ha-card-border-width);
         --bsc-height: var(--ha-card-height, 60px);
+        --bsc-icon-size: 24px;
+        --bsc-text-size: inherit;
+        --bsc-press-transition: transform 0.1s ease-out;
+        --bsc-half-pressed-transform: scale(0.99);
+        --bsc-pressed-transform: scale(0.98);
+        --bsc-color-transition: background-color 1s ease, filter 1s ease;
+        --bsc-slider-transition: right 1s ease, background-color 1s ease, filter 1s ease;
+        --bsc-icon-transition: color 0.3s ease-out;
         --bsc-opacity: 1;
 
 
         display: flex;
-        transition: transform 0.1s ease-out;
+        transition: var(--bsc-press-transition);
         user-select: none;
       }
 
       :host([half-pressed]) {
-        transform: scale(0.99);
+        transform: var(--bsc-half-pressed-transform);
       }
 
       :host([pressed]) {
-        transform: scale(0.98);
+        transform: var(--bsc-pressed-transform);
       }
 
       #container {
@@ -506,6 +879,7 @@ export class BigSliderCard extends LitElement {
         border-radius: var(--bsc-border-radius, 4px);
         border-style: var(--bsc-border-style, solid);
         border-width: var(--bsc-border-width, 1px);
+        transition: none;
         z-index: 1; //fix safari bug with filter transition https://stackoverflow.com/a/27935035
       }
 
@@ -528,13 +902,13 @@ export class BigSliderCard extends LitElement {
       }
 
       #slider.colorize {
-        background-color: var(--bsc-entity-color);
+        background-color: var(--bsc-entity-color, var(--bsc-slider-color));
         filter: brightness(var(--bsc-brightness-ui));
-        transition: background-color 1s ease, filter 1s ease;
+        transition: var(--bsc-color-transition);
       }
 
       #slider.animate {
-        transition: right 1s ease, background-color 1s ease, filter 1s ease;
+        transition: var(--bsc-slider-transition);
       }
 
       #icon {
@@ -542,12 +916,14 @@ export class BigSliderCard extends LitElement {
         top: 0;
         bottom: 0;
         left: 24px;
+        width: var(--bsc-icon-size);
         display: flex;
         justify-content: center;
         align-items: center;
         color: var(--bsc-icon-color, var(--bsc-entity-color));
         filter: brightness(var(--bsc-brightness-ui));
-        transition: color 0.3s ease-out;
+        transition: var(--bsc-icon-transition);
+        --mdc-icon-size: var(--bsc-icon-size);
       }
 
       #content {
@@ -557,13 +933,14 @@ export class BigSliderCard extends LitElement {
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        padding: 0 24px 0 72px;
+        padding: 0 24px 0 calc(48px + var(--bsc-icon-size));
         box-sizing: border-box;
       }
 
       #label {
         display: flex;
         flex-direction: column;
+        font-size: var(--bsc-text-size);
       }
 
       #label.bold {

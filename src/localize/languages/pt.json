@@ -1,0 +1,11 @@
+{
+  "common": {
+    "version": "Versão",
+    "invalid_configuration": "Configuração inválida",
+    "show_warning": "Mostrar aviso",
+    "no_entity_set": "Entidade não definida",
+    "no_entity": "Entidade não disponível",
+    "on": "Ligado",
+    "off": "Desligado"
+  }
+}
