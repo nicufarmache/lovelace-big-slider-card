@@ -21,7 +21,14 @@
       "blue": "Albastru",
       "hue": "Nuanță",
       "saturation": "Saturație",
-      "color_temp_kelvin": "Temperatură culoare Kelvin"
+      "color_temp_kelvin": "Temperatură culoare Kelvin",
+      "value": "Valoare",
+      "percentage": "Procent",
+      "position": "Poziție",
+      "tilt_position": "Poziție înclinare",
+      "temperature": "Temperatură",
+      "humidity": "Umiditate",
+      "volume": "Volum"
     },
     "labels": {
       "colorize": "Colorează în funcție de stare",
@@ -50,7 +57,8 @@
     }
   },
   "errors": {
-    "light_domain_only": "Specifică o entitate din domeniul light"
+    "light_domain_only": "Specifică o entitate din domeniul light",
+    "unsupported_domain": "Specifică o entitate suportată de glisor"
   },
   "preview": {
     "example_light": "Lumină exemplu"

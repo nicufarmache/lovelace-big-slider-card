@@ -21,7 +21,14 @@
       "blue": "Niebieski",
       "hue": "Odcień",
       "saturation": "Nasycenie",
-      "color_temp_kelvin": "Temperatura barwowa Kelvin"
+      "color_temp_kelvin": "Temperatura barwowa Kelvin",
+      "value": "Wartość",
+      "percentage": "Procent",
+      "position": "Pozycja",
+      "tilt_position": "Pozycja nachylenia",
+      "temperature": "Temperatura",
+      "humidity": "Wilgotność",
+      "volume": "Głośność"
     },
     "labels": {
       "colorize": "Koloruj na podstawie stanu",
@@ -50,7 +57,8 @@
     }
   },
   "errors": {
-    "light_domain_only": "Podaj encję z domeny light"
+    "light_domain_only": "Podaj encję z domeny light",
+    "unsupported_domain": "Podaj obsługiwaną encję suwaka"
   },
   "preview": {
     "example_light": "Przykładowe światło"

@@ -21,7 +21,14 @@
       "blue": "Blue",
       "hue": "Hue",
       "saturation": "Saturation",
-      "color_temp_kelvin": "Color Temperature Kelvin"
+      "color_temp_kelvin": "Color Temperature Kelvin",
+      "value": "Value",
+      "percentage": "Percentage",
+      "position": "Position",
+      "tilt_position": "Tilt position",
+      "temperature": "Temperature",
+      "humidity": "Humidity",
+      "volume": "Volume"
     },
     "labels": {
       "colorize": "Colorize based on state",
@@ -50,7 +57,8 @@
     }
   },
   "errors": {
-    "light_domain_only": "Specify an entity from within the light domain"
+    "light_domain_only": "Specify an entity from within the light domain",
+    "unsupported_domain": "Specify a supported slider entity"
   },
   "preview": {
     "example_light": "Example Light"

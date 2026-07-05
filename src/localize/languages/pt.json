@@ -21,7 +21,14 @@
       "blue": "Azul",
       "hue": "Matiz",
       "saturation": "Saturação",
-      "color_temp_kelvin": "Temperatura de cor Kelvin"
+      "color_temp_kelvin": "Temperatura de cor Kelvin",
+      "value": "Valor",
+      "percentage": "Porcentagem",
+      "position": "Posição",
+      "tilt_position": "Posição de inclinação",
+      "temperature": "Temperatura",
+      "humidity": "Umidade",
+      "volume": "Volume"
     },
     "labels": {
       "colorize": "Colorir com base no estado",
@@ -50,7 +57,8 @@
     }
   },
   "errors": {
-    "light_domain_only": "Especifique uma entidade do domínio light"
+    "light_domain_only": "Especifique uma entidade do domínio light",
+    "unsupported_domain": "Especifique uma entidade compatível com o controle deslizante"
   },
   "preview": {
     "example_light": "Luz de exemplo"

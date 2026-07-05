@@ -21,7 +21,14 @@
       "blue": "Blauw",
       "hue": "Tint",
       "saturation": "Verzadiging",
-      "color_temp_kelvin": "Kleurtemperatuur Kelvin"
+      "color_temp_kelvin": "Kleurtemperatuur Kelvin",
+      "value": "Waarde",
+      "percentage": "Percentage",
+      "position": "Positie",
+      "tilt_position": "Kantelpositie",
+      "temperature": "Temperatuur",
+      "humidity": "Luchtvochtigheid",
+      "volume": "Volume"
     },
     "labels": {
       "colorize": "Kleuren op basis van status",
@@ -50,7 +57,8 @@
     }
   },
   "errors": {
-    "light_domain_only": "Geef een entiteit uit het light-domein op"
+    "light_domain_only": "Geef een entiteit uit het light-domein op",
+    "unsupported_domain": "Geef een ondersteunde schuifregelaar-entiteit op"
   },
   "preview": {
     "example_light": "Voorbeeldlamp"

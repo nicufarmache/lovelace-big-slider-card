@@ -1,5 +1,6 @@
 import { BigSliderCard } from './big-slider-card';
 import { CARD_VERSION } from './const';
+import { SUPPORTED_DOMAINS } from './const';
 import { localize } from './localize/localize';
 
 /* eslint no-console: 0 */
@@ -18,7 +19,7 @@ customElements.define("big-slider-card", BigSliderCard);
   description: localize('card.description'),
   preview: true,
   getEntitySuggestion: (_hass: any, entityId: string) => {
-    if (!entityId.startsWith('light.')) {
+    if (!SUPPORTED_DOMAINS.includes(entityId.split('.')[0])) {
       return null;
     }
     return {

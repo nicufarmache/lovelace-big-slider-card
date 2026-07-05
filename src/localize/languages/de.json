@@ -21,7 +21,14 @@
       "blue": "Blau",
       "hue": "Farbton",
       "saturation": "Sättigung",
-      "color_temp_kelvin": "Farbtemperatur Kelvin"
+      "color_temp_kelvin": "Farbtemperatur Kelvin",
+      "value": "Wert",
+      "percentage": "Prozent",
+      "position": "Position",
+      "tilt_position": "Kippposition",
+      "temperature": "Temperatur",
+      "humidity": "Luftfeuchtigkeit",
+      "volume": "Lautstärke"
     },
     "labels": {
       "colorize": "Basierend auf Status einfärben",
@@ -50,7 +57,8 @@
     }
   },
   "errors": {
-    "light_domain_only": "Gib eine Entität aus der light-Domain an"
+    "light_domain_only": "Gib eine Entität aus der light-Domain an",
+    "unsupported_domain": "Gib eine unterstützte Schieberegler-Entität an"
   },
   "preview": {
     "example_light": "Beispiellampe"

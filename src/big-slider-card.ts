@@ -3,7 +3,7 @@ import { SlideGesture } from '@nicufarmache/slide-gesture';
 import { HassEntity } from "home-assistant-js-websocket";
 import { HomeAssistant } from './ha-types';
 import type { BigSliderCardConfig, MousePos } from './types';
-import { DEFAULT_CONFIG, TAP_THRESHOLD } from './const';
+import { DEFAULT_CONFIG, SUPPORTED_DOMAINS, TAP_THRESHOLD } from './const';
 import { localize } from './localize/localize';
 import { state } from 'lit/decorators.js';
 import { ifDefined } from "lit/directives/if-defined.js";
@@ -14,6 +14,11 @@ import {
   TemplateResult,
   css,
 } from 'lit';
+
+type SliderRange = {
+  min: number;
+  max: number;
+};
 
 export class BigSliderCard extends LitElement {
   // @property({ attribute: false }) public hass!: HomeAssistant;
@@ -38,14 +43,16 @@ export class BigSliderCard extends LitElement {
   private slideGesture: any;
   private isTap: boolean = false;
   private hasValidSlide: boolean = false;
+  private hasCustomMin: boolean = false;
+  private hasCustomMax: boolean = false;
 
   public static getStubConfig(
     _hass: HomeAssistant,
     entities: string[],
   ): Partial<BigSliderCardConfig> {
-    const lights = entities.filter(entity => entity.split('.')[0] === 'light').sort();
-    const randomLight = lights[Math.floor(Math.random() * lights.length)];
-    return { type: 'custom:big-slider-card', entity: randomLight };
+    const supportedEntities = entities.filter(entity => SUPPORTED_DOMAINS.includes(entity.split('.')[0])).sort();
+    const randomEntity = supportedEntities[Math.floor(Math.random() * supportedEntities.length)];
+    return { type: 'custom:big-slider-card', entity: randomEntity };
   }
 
   public getGridOptions() {
@@ -78,7 +85,7 @@ export class BigSliderCard extends LitElement {
         {
           name: 'entity',
           required: true,
-          selector: { entity: { domain: 'light' } },
+          selector: { entity: { domain: SUPPORTED_DOMAINS } },
         },
         {
           name: 'name',
@@ -106,6 +113,13 @@ export class BigSliderCard extends LitElement {
                     { value: 'hue', label: localize('editor.attributes.hue') },
                     { value: 'saturation', label: localize('editor.attributes.saturation') },
                     { value: 'color_temp_kelvin', label: localize('editor.attributes.color_temp_kelvin') },
+                    { value: 'value', label: localize('editor.attributes.value') },
+                    { value: 'percentage', label: localize('editor.attributes.percentage') },
+                    { value: 'position', label: localize('editor.attributes.position') },
+                    { value: 'tilt_position', label: localize('editor.attributes.tilt_position') },
+                    { value: 'temperature', label: localize('editor.attributes.temperature') },
+                    { value: 'humidity', label: localize('editor.attributes.humidity') },
+                    { value: 'volume', label: localize('editor.attributes.volume') },
                   ],
                 },
               },
@@ -316,24 +330,54 @@ export class BigSliderCard extends LitElement {
       throw new Error(localize('common.invalid_configuration'));
     }
 
-    if (config.entity && config.entity.split(".")[0] !== "light") {
-      throw new Error(localize('errors.light_domain_only'));
+    const domain = this._getDomain(config.entity);
+    if (domain && !SUPPORTED_DOMAINS.includes(domain)) {
+      throw new Error(localize('errors.unsupported_domain'));
     }
 
-    const attributeDefaults = this._getAttributeDefaults(config.attribute ?? DEFAULT_CONFIG.attribute);
+    const attribute = config.attribute ?? this._getDefaultAttribute(domain);
+    const attributeDefaults = this._getAttributeDefaults(attribute, domain);
 
-    this._config = { ...DEFAULT_CONFIG, ...attributeDefaults, ...config };
+    this.hasCustomMin = config.min !== undefined;
+    this.hasCustomMax = config.max !== undefined;
+    this._config = { ...DEFAULT_CONFIG, attribute, ...attributeDefaults, ...config };
     this._entity = this._config.entity;
     this._config.original_min = this._config.min;
     this._config.original_max = this._config.max;
   }
 
-  _getAttributeDefaults(attribute: string): Partial<BigSliderCardConfig> {
+  _getAttributeDefaults(attribute: string, _domain?: string): Partial<BigSliderCardConfig> {
     switch (attribute) {
       case 'color_temp_kelvin':
         return { min: 2200, max: 6500 };
       default:
         return {};
+    }
+  }
+
+  _getDomain(entityId?: string): string {
+    return entityId?.split('.')[0] ?? 'light';
+  }
+
+  _getDefaultAttribute(domain?: string): string {
+    switch (domain) {
+      case 'number':
+      case 'input_number':
+        return 'value';
+      case 'fan':
+        return 'percentage';
+      case 'cover':
+      case 'valve':
+        return 'position';
+      case 'media_player':
+        return 'volume';
+      case 'climate':
+      case 'water_heater':
+        return 'temperature';
+      case 'humidifier':
+        return 'humidity';
+      default:
+        return DEFAULT_CONFIG.attribute;
     }
   }
 
@@ -477,8 +521,9 @@ export class BigSliderCard extends LitElement {
       ? this.mouseStartPos.y - this.mousePos.y
       : this.mousePos.x - this.mouseStartPos.x;
 
+    const range = this._getRange();
     const valueDelta = this._usesRangeSlider()
-      ? Math.round((this._config.max - this._config.min) * delta / size)
+      ? this._roundValue((range.max - range.min) * delta / size)
       : Math.round(100 * delta / size);
 
     if (!Number.isFinite(valueDelta)) return;
@@ -544,8 +589,7 @@ export class BigSliderCard extends LitElement {
   }
 
   _checklimits(): void {
-    const min = this._config.min ?? 0;
-    const max = this._config.max ?? 100;
+    const { min, max } = this._getRange();
     if (this.currentValue < min) {
       this.currentValue = min;
       this._resetTrack();
@@ -565,27 +609,69 @@ export class BigSliderCard extends LitElement {
   }
 
   _getSliderLabel(sliderPercentage: number): string {
-    if (this._config.attribute === 'color_temp_kelvin') {
-      return `${Math.round(this.currentValue)}K`;
+    const unit = this._getValueUnit();
+
+    if (this._usesRangeSlider()) {
+      return `${this._formatValue(this.currentValue)}${unit}`;
     }
 
     return `${Math.round(sliderPercentage)}%`;
   }
 
   _getSliderPercentage(): number {
-    if (!this._usesRangeSlider()) return this.currentValue;
+    if (!this._usesRangeSlider()) {
+      return Math.max(0, Math.min(100, this.currentValue));
+    }
 
-    const range = this._config.max - this._config.min;
+    const { min, max } = this._getRange();
+    const range = max - min;
     if (range <= 0) return 0;
 
-    const percentage = 100 * (this.currentValue - this._config.min) / range;
+    const percentage = 100 * (this.currentValue - min) / range;
     if (!Number.isFinite(percentage)) return 0;
 
     return Math.max(0, Math.min(100, percentage));
   }
 
   _usesRangeSlider(): boolean {
-    return this._config.attribute === 'color_temp_kelvin';
+    const { min, max } = this._getRange();
+    return this._config.attribute === 'color_temp_kelvin' || min !== 0 || max !== 100;
+  }
+
+  _getRange(): SliderRange {
+    const min = this._config.min ?? 0;
+    const max = this._config.max ?? 100;
+    return { min, max };
+  }
+
+  _getValueUnit(): string {
+    const attr = this._config.attribute;
+    const stateObj = this._effectiveState;
+
+    if (attr === 'color_temp_kelvin') return 'K';
+    if (attr === 'percentage' || attr === 'position' || attr === 'tilt_position' || attr === 'humidity' || attr === 'volume') return '%';
+
+    return stateObj.attributes?.unit_of_measurement ?? '';
+  }
+
+  _formatValue(value: number): string {
+    if (!Number.isFinite(value)) return '0';
+    return Number.isInteger(value) ? String(value) : String(Number(value.toFixed(1)));
+  }
+
+  _roundValue(value: number): number {
+    const step = Number(this._effectiveState.attributes?.step ?? this._effectiveState.attributes?.target_temp_step);
+    if (!Number.isFinite(step) || step <= 0) {
+      return Math.round(value);
+    }
+
+    const decimals = this._getDecimalPlaces(step);
+    return Number((Math.round(value / step) * step).toFixed(decimals));
+  }
+
+  _getDecimalPlaces(value: number): number {
+    const valueString = String(value);
+    return valueString.includes('.') ? valueString.split('.')[1].length : 0;
   }
 
   _updateColors(): void {
@@ -596,8 +682,9 @@ export class BigSliderCard extends LitElement {
 
     const stateObj = this._effectiveState;
     const status = this._effectiveStatus;
+    const domain = this._getDomain(stateObj.entity_id);
 
-    if (status == 'on') {
+    if (domain === 'light' && status == 'on') {
       const stateColor = stateObj.attributes?.rgb_color ?? [255, 255, 255];
       const stateBrightness = stateObj.attributes?.brightness ?? 255;
       isOn = true;
@@ -613,7 +700,7 @@ export class BigSliderCard extends LitElement {
     }
 
     const percentage = this?.shadowRoot?.getElementById('percentage');
-    if (!isOn) {
+    if (domain === 'light' && !isOn) {
       const stateText = stateObj
         ? (this._hass && typeof this._hass.formatEntityState === 'function'
             ? this._hass.formatEntityState(stateObj)
@@ -640,55 +727,34 @@ export class BigSliderCard extends LitElement {
     const stateObj = this._effectiveState;
     const status = this._effectiveStatus;
     const attr = this._config?.attribute;
-    let _value = 0;
 
-    if (status == 'unavailable') {
+    if (this._isUnavailable(status)) {
       this._config.min = 0;
       this._config.max = 0;
       this.style.setProperty('--bsc-opacity', '0.5');
     } else {
-      this._config.min = this._config.original_min;
-      this._config.max = this._config.original_max;
+      const range = this._getEntityRange(stateObj);
+      this._config.min = this.hasCustomMin ? (this._config.original_min ?? DEFAULT_CONFIG.min) : range.min;
+      this._config.max = this.hasCustomMax ? (this._config.original_max ?? DEFAULT_CONFIG.max) : range.max;
       this.style.removeProperty('--bsc-opacity');
     }
 
-    if (status != 'on') {
-      _value = 0;
-    } else {
-      switch (attr) {
-        case 'brightness':
-          _value = Math.round(100 * (stateObj.attributes.brightness ?? 255) / 255)
-          break;
-        case 'red':
-        case 'green':
-        case 'blue':
-          const rgb = stateObj.attributes.rgb_color ?? [255, 255, 255];
-          if (attr === 'red') _value = rgb[0];
-          if (attr === 'green') _value = rgb[1];
-          if (attr === 'blue') _value = rgb[2];
-          _value = Math.ceil(100 * _value / 255);
-          break;
-        case 'hue':
-        case 'saturation':
-          const hs = stateObj.attributes.hs_color ?? [100, 100];
-          if (attr === 'hue') _value = hs[0];
-          if (attr === 'saturation') _value = hs[1];
-          break;
-        case 'color_temp_kelvin':
-          _value = stateObj.attributes[attr] ?? this._config.min ?? 0;
-          break;
-      }
-    }
-
-    this.currentValue = _value;
+    this.currentValue = this._getEntityValue(stateObj, attr);
+    this._checklimits();
     this._updateSlider();
   }
 
   _setValue(): void {
     if (!this._state) return;
 
-    let value = this.currentValue;
+    let value = this._roundValue(this.currentValue);
     let attr = this._config.attribute;
+    const domain = this._getDomain(this._state.entity_id);
+
+    if (domain !== 'light') {
+      this._setDomainValue(domain, attr, value);
+      return;
+    }
 
     let on = true;
     let _value;
@@ -733,6 +799,158 @@ export class BigSliderCard extends LitElement {
     } else {
       this._hass!.callService('light', 'turn_off', params);
     }
+  }
+
+  _getEntityValue(stateObj: HassEntity, attr: string): number {
+    const domain = this._getDomain(stateObj.entity_id);
+    const status = stateObj.state;
+
+    if (this._isUnavailable(status)) return this._config.min ?? 0;
+
+    if (domain === 'light' && status !== 'on') return 0;
+
+    switch (domain) {
+      case 'light':
+        return this._getLightValue(stateObj, attr);
+      case 'number':
+      case 'input_number':
+        return this._toNumber(stateObj.state, this._config.min ?? 0);
+      case 'fan':
+        return this._toNumber(stateObj.attributes?.percentage, 0);
+      case 'cover':
+        return attr === 'tilt_position'
+          ? this._toNumber(stateObj.attributes?.current_tilt_position, 0)
+          : this._toNumber(stateObj.attributes?.current_position, 0);
+      case 'valve':
+        return this._toNumber(stateObj.attributes?.current_position ?? stateObj.attributes?.position, 0);
+      case 'media_player':
+        return Math.round(100 * this._toNumber(stateObj.attributes?.volume_level, 0));
+      case 'climate':
+        return attr === 'humidity'
+          ? this._toNumber(stateObj.attributes?.humidity, this._config.min ?? 0)
+          : this._toNumber(stateObj.attributes?.temperature, this._config.min ?? 0);
+      case 'humidifier':
+        return this._toNumber(stateObj.attributes?.humidity, this._config.min ?? 0);
+      case 'water_heater':
+        return this._toNumber(stateObj.attributes?.temperature, this._config.min ?? 0);
+      default:
+        return this._toNumber(stateObj.state, this._config.min ?? 0);
+    }
+  }
+
+  _getLightValue(stateObj: HassEntity, attr: string): number {
+    switch (attr) {
+      case 'brightness':
+        return Math.round(100 * (stateObj.attributes.brightness ?? 255) / 255);
+      case 'red':
+      case 'green':
+      case 'blue':
+        const rgb = stateObj.attributes.rgb_color ?? [255, 255, 255];
+        if (attr === 'red') return Math.ceil(100 * rgb[0] / 255);
+        if (attr === 'green') return Math.ceil(100 * rgb[1] / 255);
+        return Math.ceil(100 * rgb[2] / 255);
+      case 'hue':
+      case 'saturation':
+        const hs = stateObj.attributes.hs_color ?? [100, 100];
+        return attr === 'hue' ? hs[0] : hs[1];
+      case 'color_temp_kelvin':
+        return this._toNumber(stateObj.attributes[attr], this._config.min ?? 0);
+      default:
+        return 0;
+    }
+  }
+
+  _setDomainValue(domain: string, attr: string, value: number): void {
+    const entityId = this._state!.entity_id;
+    const roundedValue = this._roundValue(value);
+
+    switch (domain) {
+      case 'number':
+      case 'input_number':
+        this._hass!.callService(domain, 'set_value', {
+          entity_id: entityId,
+          value: roundedValue,
+        });
+        return;
+      case 'fan':
+        this._hass!.callService('fan', roundedValue <= 0 ? 'turn_off' : 'set_percentage', {
+          entity_id: entityId,
+          ...(roundedValue > 0 ? { percentage: Math.round(roundedValue) } : {}),
+        });
+        return;
+      case 'cover':
+        this._hass!.callService('cover', attr === 'tilt_position' ? 'set_cover_tilt_position' : 'set_cover_position', {
+          entity_id: entityId,
+          [attr === 'tilt_position' ? 'tilt_position' : 'position']: Math.round(roundedValue),
+        });
+        return;
+      case 'valve':
+        this._hass!.callService('valve', 'set_valve_position', {
+          entity_id: entityId,
+          position: Math.round(roundedValue),
+        });
+        return;
+      case 'media_player':
+        this._hass!.callService('media_player', 'volume_set', {
+          entity_id: entityId,
+          volume_level: Math.max(0, Math.min(1, roundedValue / 100)),
+        });
+        return;
+      case 'climate':
+        this._hass!.callService('climate', attr === 'humidity' ? 'set_humidity' : 'set_temperature', {
+          entity_id: entityId,
+          [attr === 'humidity' ? 'humidity' : 'temperature']: roundedValue,
+        });
+        return;
+      case 'humidifier':
+        this._hass!.callService('humidifier', 'set_humidity', {
+          entity_id: entityId,
+          humidity: Math.round(roundedValue),
+        });
+        return;
+      case 'water_heater':
+        this._hass!.callService('water_heater', 'set_temperature', {
+          entity_id: entityId,
+          temperature: roundedValue,
+        });
+        return;
+    }
+  }
+
+  _getEntityRange(stateObj: HassEntity): SliderRange {
+    const domain = this._getDomain(stateObj.entity_id);
+    const attr = this._config.attribute;
+
+    if (attr === 'color_temp_kelvin') {
+      return { min: 2200, max: 6500 };
+    }
+
+    switch (domain) {
+      case 'number':
+      case 'input_number':
+        return {
+          min: this._toNumber(stateObj.attributes?.min, DEFAULT_CONFIG.min),
+          max: this._toNumber(stateObj.attributes?.max, DEFAULT_CONFIG.max),
+        };
+      case 'climate':
+      case 'water_heater':
+        if (attr === 'humidity') return { min: 0, max: 100 };
+        return {
+          min: this._toNumber(stateObj.attributes?.min_temp, DEFAULT_CONFIG.min),
+          max: this._toNumber(stateObj.attributes?.max_temp, DEFAULT_CONFIG.max),
+        };
+      default:
+        return { min: DEFAULT_CONFIG.min, max: DEFAULT_CONFIG.max };
+    }
+  }
+
+  _toNumber(value: any, fallback: number): number {
+    const numericValue = Number(value);
+    return Number.isFinite(numericValue) ? numericValue : fallback;
+  }
+
+  _isUnavailable(status: string): boolean {
+    return status === 'unavailable' || status === 'unknown';
   }
 
   _stopUpdates(): void {

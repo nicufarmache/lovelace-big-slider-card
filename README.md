@@ -3,7 +3,7 @@
 <!-- [![hacs_badge](https://img.shields.io/badge/HACS-default-orange.svg?style=for-the-badge)](https://github.com/custom-components/hacs) -->
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-41BDF5.svg?style=for-the-badge)](https://github.com/hacs/integration)
 
-Big slider card inspired by the google home app cards for `light` entities.
+Big slider card inspired by the google home app cards for controllable Home Assistant entities.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nicufarmache/lovelace-big-slider-card/master/prev-dark.gif">
@@ -31,6 +31,14 @@ Search for `Big Slider Card` in the Frontend section.
 ```yaml
 type: custom:big-slider-card
 entity: light.lamp
+```
+```yaml
+type: custom:big-slider-card
+entity: cover.bedroom_blind
+```
+```yaml
+type: custom:big-slider-card
+entity: climate.living_room
 ```
 ### Sample Full Configuration
 ```yaml
@@ -80,7 +88,7 @@ hold_action:
 | type              | string  | **Required** | `custom:big-slider-card`                       |                     |
 | entity            | string  | **Required** | Home Assistant entity ID.                      |                     |
 | name              | string  | **Optional** | Name to show on card                           | entity name         |
-| attribute         | string  | **Optional** | Attribute to control                           | `brightness`        |
+| attribute         | string  | **Optional** | Capability/attribute to control                | inferred by domain  |
 | transition        | number  | **Optional** | Transition time (seonds)                       | not used if unset   |
 | height            | number/string | **Optional** | Card height in px or CSS length                | form theme / `200` when vertical |
 | width             | number/string | **Optional** | Card width in px or CSS length                 | `100%` / `80` when vertical |
@@ -114,8 +122,25 @@ hold_action:
 
 For more info about the rest of the action options see this page: [Actions - Home Assistant][actions]
 
-Supported attributes: `brightness`, `red`, `green`, `blue`, `hue`, `saturation`, `color_temp_kelvin`.
+Supported entities and default attributes:
+
+| Domain | Default attribute | Service used |
+| ------ | ----------------- | ------------ |
+| `light` | `brightness` | `light.turn_on` / `light.turn_off` |
+| `number` | `value` | `number.set_value` |
+| `input_number` | `value` | `input_number.set_value` |
+| `fan` | `percentage` | `fan.set_percentage` / `fan.turn_off` |
+| `cover` | `position` | `cover.set_cover_position` |
+| `climate` | `temperature` | `climate.set_temperature` |
+| `humidifier` | `humidity` | `humidifier.set_humidity` |
+| `water_heater` | `temperature` | `water_heater.set_temperature` |
+| `valve` | `position` | `valve.set_valve_position` |
+| `media_player` | `volume` | `media_player.volume_set` |
+
+Supported attributes: `brightness`, `red`, `green`, `blue`, `hue`, `saturation`, `color_temp_kelvin`, `value`, `percentage`, `position`, `tilt_position`, `temperature`, `humidity`, `volume`.
 Color temperature defaults to `2200`-`6500` Kelvin; set `min` or `max` to override that range.
+
+Use `attribute: tilt_position` for covers that support tilt, or `attribute: humidity` for climate entities that expose a humidity setpoint.
 
 ### The card uses the following css variables for configuring the look and feel:
 

@@ -8,6 +8,18 @@ export const MIN_SLIDE_TIME = 0;
 export const TAP_THRESHOLD = 5;
 export const MIN = 0;
 export const MAX = 100;
+export const SUPPORTED_DOMAINS = [
+  'light',
+  'number',
+  'input_number',
+  'fan',
+  'cover',
+  'climate',
+  'humidifier',
+  'water_heater',
+  'valve',
+  'media_player',
+];
 export const DEFAULT_CONFIG: BigSliderCardConfig = {
   type: 'custom:big-slider-card',
   attribute: DEFAULT_ATTRIBUTE,
