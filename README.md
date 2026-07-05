@@ -39,7 +39,8 @@ entity: light.lamp
 name: Bedroom Lamp
 attribute: brightness
 transition: 0.3
-height: 80
+height: 180
+width: 60
 background_color: '#a45634'
 text_color: '#ffffff'
 border_color: '#ff00ff'
@@ -55,6 +56,7 @@ show_percentage: true
 bold_text: true
 no_scale: true
 no_transition_animation: true
+vertical: true
 min: 1
 max: 80
 immediate_update: true
@@ -78,7 +80,8 @@ hold_action:
 | name              | string  | **Optional** | Name to show on card                           | entity name         |
 | attribute         | string  | **Optional** | Attribute to control                           | `brightness`        |
 | transition        | number  | **Optional** | Transition time (seonds)                       | not used if unset   |
-| height            | number/string | **Optional** | Card height in px or CSS length                | form theme          |
+| height            | number/string | **Optional** | Card height in px or CSS length                | form theme / `200` when vertical |
+| width             | number/string | **Optional** | Card width in px or CSS length                 | `100%` / `80` when vertical |
 | color             | string  | **Optional** | Slider color (CSS format)                      | form theme          |
 | background_color  | string  | **Optional** | Background color (CSS format)                  | form theme          |
 | text_color        | string  | **Optional** | Text color (CSS format)                        | form theme          |
@@ -95,6 +98,7 @@ hold_action:
 | bold_text         | boolean | **Optional** | Make taxt font bold                            | false               |
 | no_scale         | boolean | **Optional** | Disable scaling the card while pressing        | false               |
 | no_transition_animation | boolean | **Optional** | Disable slider, color, and icon transitions | false               |
+| vertical          | boolean | **Optional** | Display the slider vertically                  | false               |
 | min               | number  | **Optional** | Maximum value for slider                       | `0`                 |
 | max               | number  | **Optional** | Minimum value for slider                       | `100`               |
 | immediate_update  | boolean | **Optional** | Update value while sliding every 300ms         | false               |

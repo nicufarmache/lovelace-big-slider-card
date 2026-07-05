@@ -18,6 +18,7 @@ export interface BigSliderCardConfig extends LovelaceCardConfig {
   attribute: string;
   transition?: number;
   height?: number | string;
+  width?: number | string;
   color?: string;
   background_color?: string;
   text_color?: string;
@@ -35,6 +36,7 @@ export interface BigSliderCardConfig extends LovelaceCardConfig {
   no_scale?: boolean;
   no_transition_animation?: boolean;
   immediate_update?: boolean;
+  vertical?: boolean;
   min: number;
   max: number;
   min_slide_time: number;

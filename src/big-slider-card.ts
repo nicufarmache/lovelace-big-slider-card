@@ -25,6 +25,7 @@ export class BigSliderCard extends LitElement {
   private mouseStartPos: MousePos = { x: 0, y: 0 };
   private mousePos: MousePos = { x: 0, y: 0 };
   private containerWidth: number = 0;
+  private containerHeight: number = 0;
   private oldValue: number = 0;
   private currentValue: number = 0;
   private holdTimer: number = 0;
@@ -48,16 +49,27 @@ export class BigSliderCard extends LitElement {
   }
 
   public getGridOptions() {
-    return {
-      columns: 6,
-      rows: 1,
-      min_columns: 3,
-      min_rows: 1,
-    };
+    if (this._config.vertical) {
+      return {
+        columns: 2,
+        rows: 4,
+        min_columns: 1,
+        min_rows: 3,
+      };
+    } else {
+      return {
+        columns: 6,
+        rows: 1,
+        min_columns: 3,
+        min_rows: 1,
+      };
+    }
   }
 
   public getCardSize(): number {
-    return 1;
+    const defaultHeight = this._config.vertical ? 180 : 60;
+    const height = this._getNumericCssLength(this._config.height ?? defaultHeight);
+    return Math.max(1, Math.ceil((height ?? defaultHeight) / 50));
   }
 
   public static getConfigForm() {
@@ -106,6 +118,10 @@ export class BigSliderCard extends LitElement {
               name: 'show_percentage',
               selector: { boolean: {} },
             },
+            {
+              name: 'vertical',
+              selector: { boolean: {} },
+            },
           ],
         },
         {
@@ -121,6 +137,17 @@ export class BigSliderCard extends LitElement {
                   mode: 'box',
                   min: 10,
                   max: 200,
+                  unit_of_measurement: 'px',
+                },
+              },
+            },
+            {
+              name: 'width',
+              selector: {
+                number: {
+                  mode: 'box',
+                  min: 10,
+                  max: 400,
                   unit_of_measurement: 'px',
                 },
               },
@@ -249,11 +276,14 @@ export class BigSliderCard extends LitElement {
           bold_text: 'Bold text',
           no_scale: 'Disable scale on press',
           no_transition_animation: 'Disable transition animation',
+          vertical: 'Vertical slider',
           min_slide_time: 'Min slide time',
           hold_time: 'Hold time',
           settle_time: 'Settle time',
           immediate_update: 'Update while sliding',
           background_color: 'Background color',
+          height: 'Height',
+          width: 'Width',
           text_color: 'Text color',
           icon_color: 'Icon color',
           icon_size: 'Icon size',
@@ -353,8 +383,8 @@ export class BigSliderCard extends LitElement {
     super.connectedCallback();
     this.addEventListener('contextmenu', this._handleContextMenu);
     this.slideGesture = new SlideGesture(this, this._handlePointer.bind(this), {
-      touchActions: 'pan-y',
-      stopScrollDirection: 'horizontal'
+      touchActions: this._config.vertical ? 'pan-x' : 'pan-y',
+      stopScrollDirection: this._config.vertical ? 'vertical' : 'horizontal'
     });
   }
 
@@ -387,7 +417,7 @@ export class BigSliderCard extends LitElement {
       this._clearImmediateUpdate();
       this.holdTimer = window.setTimeout(this._setHold, this._config.hold_time);
       this.trackingStartTime = Date.now();
-      this._updateContainerWidth();
+      this._updateContainerSize();
       this._resetTrack();
     }
 
@@ -433,14 +463,16 @@ export class BigSliderCard extends LitElement {
   }
 
   _updateValue(): void {
-    if (!this._updateContainerWidth()) return;
+    if (!this._updateContainerSize()) return;
 
-    const width = this.containerWidth;
-    const dx = this.mousePos.x - this.mouseStartPos.x;
+    const size = this._config.vertical ? this.containerHeight : this.containerWidth;
+    const delta = this._config.vertical
+      ? this.mouseStartPos.y - this.mousePos.y
+      : this.mousePos.x - this.mouseStartPos.x;
 
     const valueDelta = this._usesRangeSlider()
-      ? Math.round((this._config.max - this._config.min) * dx / width)
-      : Math.round(100 * dx / width);
+      ? Math.round((this._config.max - this._config.min) * delta / size)
+      : Math.round(100 * delta / size);
 
     if (!Number.isFinite(valueDelta)) return;
 
@@ -450,9 +482,10 @@ export class BigSliderCard extends LitElement {
     this.hasValidSlide = true;
   }
 
-  _updateContainerWidth(): boolean {
+  _updateContainerSize(): boolean {
     this.containerWidth = this.shadowRoot?.getElementById('container')?.clientWidth ?? 0;
-    return this.containerWidth > 0;
+    this.containerHeight = this.shadowRoot?.getElementById('container')?.clientHeight ?? 0;
+    return this._config.vertical ? this.containerHeight > 0 : this.containerWidth > 0;
   }
 
   private _handleAction(action: any): void {
@@ -729,7 +762,7 @@ export class BigSliderCard extends LitElement {
   }
 
   protected updated(): void {
-    this._updateContainerWidth();
+    this._updateContainerSize();
     this._getValue();
     this._updateColors();
   }
@@ -754,6 +787,8 @@ export class BigSliderCard extends LitElement {
 
     const transitionAnimation = this._config.no_transition_animation !== true;
 
+    const vertical = this._config.vertical === true;
+
     this._setStyleProperty('--bsc-background', this._config.background_color);
     this._setStyleProperty('--bsc-primary-text-color', this._config.text_color);
     this._setStyleProperty('--bsc-slider-color', this._config.color);
@@ -762,6 +797,7 @@ export class BigSliderCard extends LitElement {
     this._setStyleProperty('--bsc-border-style', this._config.border_style);
     this._setStyleProperty('--bsc-border-width', this._config.border_width, this._normalizeCssLength);
     this._setStyleProperty('--bsc-height', this._config.height, this._normalizeCssLength);
+    this._setStyleProperty('--bsc-width', this._config.width, this._normalizeCssLength);
     this._setStyleProperty('--bsc-icon-size', this._config.icon_size, this._normalizeCssLength);
     this._setStyleProperty('--bsc-text-size', this._config.text_size, this._normalizeCssLength);
     this.style.setProperty('--bsc-press-transition', scale ? 'transform 0.1s ease-out' : 'none');
@@ -769,11 +805,13 @@ export class BigSliderCard extends LitElement {
     this.style.setProperty('--bsc-pressed-transform', scale ? 'scale(0.98)' : 'none');
     this.style.setProperty('--bsc-color-transition', transitionAnimation ? 'background-color 1s ease, filter 1s ease' : 'none');
     this.style.setProperty('--bsc-slider-transition', transitionAnimation ? 'right 1s ease, background-color 1s ease, filter 1s ease' : 'none');
+    this.style.setProperty('--bsc-vertical-slider-transition', transitionAnimation ? 'top 1s ease, background-color 1s ease, filter 1s ease' : 'none');
     this.style.setProperty('--bsc-icon-transition', transitionAnimation ? 'color 0.3s ease-out' : 'none');
 
     return html`
       <ha-card
         id="container"
+        class="${vertical ? 'vertical' : ''}"
         tabindex="0"
         >
         <div id="slider" class="animate ${colorize ? 'colorize' : ''}"></div>
@@ -804,6 +842,14 @@ export class BigSliderCard extends LitElement {
 
   _normalizeCssLength(value: string | number): string {
     return typeof value === 'number' ? `${value}px` : value;
+  }
+
+  _getNumericCssLength(value?: string | number): number | undefined {
+    if (typeof value === 'number') return value;
+    if (typeof value !== 'string') return undefined;
+
+    const match = value.trim().match(/^(\d+(?:\.\d+)?)px$/);
+    return match ? Number(match[1]) : undefined;
   }
 
   // private _showWarning(warning: string): TemplateResult {
@@ -843,7 +889,8 @@ export class BigSliderCard extends LitElement {
         --bsc-border-radius: var(--ha-card-border-radius);
         --bsc-border-style: var(--ha-card-border-style);
         --bsc-border-width: var(--ha-card-border-width);
-        --bsc-height: var(--ha-card-height, 60px);
+        --bsc-height: 100%;
+        --bsc-width: 100%;
         --bsc-icon-size: 24px;
         --bsc-text-size: inherit;
         --bsc-press-transition: transform 0.1s ease-out;
@@ -851,10 +898,12 @@ export class BigSliderCard extends LitElement {
         --bsc-pressed-transform: scale(0.98);
         --bsc-color-transition: background-color 1s ease, filter 1s ease;
         --bsc-slider-transition: right 1s ease, background-color 1s ease, filter 1s ease;
+        --bsc-vertical-slider-transition: top 1s ease, background-color 1s ease, filter 1s ease;
         --bsc-icon-transition: color 0.3s ease-out;
         --bsc-opacity: 1;
 
-
+        width: 100%;
+        height: 100%;
         display: flex;
         transition: var(--bsc-press-transition);
         user-select: none;
@@ -869,18 +918,25 @@ export class BigSliderCard extends LitElement {
       }
 
       #container {
-        height: var(--bsc-height);
-        width: 100%;
+        width: var(--bsc-width, 100%);
+        height: var(--bsc-height, 100%);
+        min-height: 60px;
+        min-width: 180px;
         position: relative;
         overflow: hidden;
         opacity: var(--bsc-opacity);
         background: var(--bsc-background);
-        border-color: var(--bsc-border-color, rgba(0 0 0 / 14%));
-        border-radius: var(--bsc-border-radius, 4px);
-        border-style: var(--bsc-border-style, solid);
-        border-width: var(--bsc-border-width, 1px);
+        border-color: var(--bsc-border-color);
+        border-radius: var(--bsc-border-radius);
+        border-style: var(--bsc-border-style);
+        border-width: var(--bsc-border-width);
         transition: none;
         z-index: 1; //fix safari bug with filter transition https://stackoverflow.com/a/27935035
+      }
+
+      #container.vertical {
+        min-height: 180px;
+        min-width: 60px;
       }
 
       .hide {
@@ -901,6 +957,13 @@ export class BigSliderCard extends LitElement {
         right: calc(100% - var(--bsc-percent));
       }
 
+      #container.vertical #slider {
+        height: auto;
+        right: 0;
+        top: calc(100% - var(--bsc-percent));
+        bottom: 0;
+      }
+
       #slider.colorize {
         background-color: var(--bsc-entity-color, var(--bsc-slider-color));
         filter: brightness(var(--bsc-brightness-ui));
@@ -909,6 +972,10 @@ export class BigSliderCard extends LitElement {
 
       #slider.animate {
         transition: var(--bsc-slider-transition);
+      }
+
+      #container.vertical #slider.animate {
+        transition: var(--bsc-vertical-slider-transition);
       }
 
       #icon {
@@ -935,6 +1002,21 @@ export class BigSliderCard extends LitElement {
         align-items: center;
         padding: 0 24px 0 calc(48px + var(--bsc-icon-size));
         box-sizing: border-box;
+      }
+
+      #container.vertical #icon {
+        top: 24px;
+        right: 0;
+        bottom: auto;
+        left: 0;
+        width: 100%;
+      }
+
+      #container.vertical #content {
+        justify-content: center;
+        align-items: flex-end;
+        padding: 0 12px 24px;
+        text-align: center;
       }
 
       #label {
