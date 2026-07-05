@@ -53,7 +53,7 @@ let Yt = (Tt = class {
     totalY: a(this, U)
   }), a(this, p).releasePointerCapture(t.pointerId), $(this, b, ht).call(this));
 }, Tt);
-const qt = "1.2.1-beta", Ft = "brightness", Gt = 3e3, Kt = 600, Jt = 0, ft = 5, Zt = 0, Qt = 100, ot = {
+const qt = "1.2.2-beta", Ft = "brightness", Gt = 3e3, Kt = 600, Jt = 0, ft = 5, Zt = 0, Qt = 100, ot = {
   type: "custom:big-slider-card",
   attribute: Ft,
   tap_action: {
