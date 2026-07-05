@@ -36,6 +36,7 @@ export class BigSliderCard extends LitElement {
   private trackingStartTime: number = 0;
   private slideGesture: any;
   private isTap: boolean = false;
+  private hasValidSlide: boolean = false;
 
   public static getStubConfig(
     _hass: HomeAssistant,
@@ -370,9 +371,11 @@ export class BigSliderCard extends LitElement {
       this._press();
       this.isTap = true;
       this.isHold = false;
+      this.hasValidSlide = false;
       this._clearImmediateUpdate();
       this.holdTimer = window.setTimeout(this._setHold, this._config.hold_time);
       this.trackingStartTime = Date.now();
+      this._updateContainerWidth();
       this._resetTrack();
     }
 
@@ -410,7 +413,7 @@ export class BigSliderCard extends LitElement {
         return;
       }
 
-      if ((Date.now() - this.trackingStartTime) > minSlideTime) {
+      if (this.hasValidSlide && (Date.now() - this.trackingStartTime) > minSlideTime) {
         this._setValue();
         this._startUpdates(true);
       }
@@ -418,14 +421,24 @@ export class BigSliderCard extends LitElement {
   }
 
   _updateValue(): void {
+    if (!this._updateContainerWidth()) return;
+
     const width = this.containerWidth;
     const dx = this.mousePos.x - this.mouseStartPos.x;
 
     const percentage = Math.round(100 * dx / width);
 
+    if (!Number.isFinite(percentage)) return;
+
     this.currentValue = this.oldValue + percentage;
     this._checklimits();
     this._updateSlider();
+    this.hasValidSlide = true;
+  }
+
+  _updateContainerWidth(): boolean {
+    this.containerWidth = this.shadowRoot?.getElementById('container')?.clientWidth ?? 0;
+    return this.containerWidth > 0;
   }
 
   private _handleAction(action: any): void {
@@ -670,7 +683,7 @@ export class BigSliderCard extends LitElement {
   }
 
   protected updated(): void {
-    this.containerWidth = this.shadowRoot?.getElementById('container')?.clientWidth ?? 0;
+    this._updateContainerWidth();
     this._getValue();
     this._updateColors();
   }

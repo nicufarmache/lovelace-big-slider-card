@@ -53,7 +53,7 @@ let Yt = (Pt = class {
     totalY: a(this, U)
   }), a(this, _).releasePointerCapture(t.pointerId), $(this, b, lt).call(this));
 }, Pt);
-const qt = "1.2.0", Gt = "brightness", Ft = 3e3, Kt = 600, Jt = 0, mt = 5, Zt = 0, Qt = 100, ft = {
+const qt = "1.2.1-beta", Gt = "brightness", Ft = 3e3, Kt = 600, Jt = 0, mt = 5, Zt = 0, Qt = 100, ft = {
   type: "custom:big-slider-card",
   attribute: Gt,
   tap_action: {
@@ -116,11 +116,11 @@ const qt = "1.2.0", Gt = "brightness", Ft = 3e3, Kt = 600, Jt = 0, mt = 5, Zt = 
   __proto__: null,
   common: jt,
   default: _e
-}, Symbol.toStringTag, { value: "Module" })), Nt = { version: "Versiunea", invalid_configuration: "Configurație invalidă", show_warning: "Show Warning", no_entity_set: "Entitatea nu e setată", no_entity: "Entitatea nu e disponibilă", on: "Pornit", off: "Oprit" }, fe = {
-  common: Nt
+}, Symbol.toStringTag, { value: "Module" })), Vt = { version: "Versiunea", invalid_configuration: "Configurație invalidă", show_warning: "Show Warning", no_entity_set: "Entitatea nu e setată", no_entity: "Entitatea nu e disponibilă", on: "Pornit", off: "Oprit" }, fe = {
+  common: Vt
 }, ge = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  common: Nt,
+  common: Vt,
   default: fe
 }, Symbol.toStringTag, { value: "Module" })), ot = {
   en: ee,
@@ -149,7 +149,7 @@ function K(o, t = "", e = "") {
  * SPDX-License-Identifier: BSD-3-Clause
  */
 const J = globalThis, ht = J.ShadowRoot && (J.ShadyCSS === void 0 || J.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, dt = Symbol(), gt = /* @__PURE__ */ new WeakMap();
-let Vt = class {
+let Nt = class {
   constructor(t, e, i) {
     if (this._$cssResult$ = !0, i !== dt) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
     this.cssText = t, this.t = e;
@@ -167,13 +167,13 @@ let Vt = class {
     return this.cssText;
   }
 };
-const be = (o) => new Vt(typeof o == "string" ? o : o + "", void 0, dt), ye = (o, ...t) => {
+const be = (o) => new Nt(typeof o == "string" ? o : o + "", void 0, dt), ye = (o, ...t) => {
   const e = o.length === 1 ? o[0] : t.reduce((i, s, n) => i + ((r) => {
     if (r._$cssResult$ === !0) return r.cssText;
     if (typeof r == "number") return r;
     throw Error("Value passed to 'css' function must be a 'css' function result: " + r + ". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.");
   })(s) + o[n + 1], o[0]);
-  return new Vt(e, o, dt);
+  return new Nt(e, o, dt);
 }, ve = (o, t) => {
   if (ht) o.adoptedStyleSheets = t.map((e) => e instanceof CSSStyleSheet ? e : e.styleSheet);
   else for (const e of t) {
@@ -190,7 +190,7 @@ const be = (o) => new Vt(typeof o == "string" ? o : o + "", void 0, dt), ye = (o
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const { is: $e, defineProperty: Ae, getOwnPropertyDescriptor: Se, getOwnPropertyNames: we, getOwnPropertySymbols: xe, getPrototypeOf: Ee } = Object, x = globalThis, yt = x.trustedTypes, Te = yt ? yt.emptyScript : "", nt = x.reactiveElementPolyfillSupport, N = (o, t) => o, Z = { toAttribute(o, t) {
+const { is: $e, defineProperty: Ae, getOwnPropertyDescriptor: Se, getOwnPropertyNames: we, getOwnPropertySymbols: xe, getPrototypeOf: Ee } = Object, x = globalThis, yt = x.trustedTypes, Te = yt ? yt.emptyScript : "", nt = x.reactiveElementPolyfillSupport, V = (o, t) => o, Z = { toAttribute(o, t) {
   switch (t) {
     case Boolean:
       o = o ? Te : null;
@@ -250,13 +250,13 @@ class k extends HTMLElement {
     return this.elementProperties.get(t) ?? vt;
   }
   static _$Ei() {
-    if (this.hasOwnProperty(N("elementProperties"))) return;
+    if (this.hasOwnProperty(V("elementProperties"))) return;
     const t = Ee(this);
     t.finalize(), t.l !== void 0 && (this.l = [...t.l]), this.elementProperties = new Map(t.elementProperties);
   }
   static finalize() {
-    if (this.hasOwnProperty(N("finalized"))) return;
-    if (this.finalized = !0, this._$Ei(), this.hasOwnProperty(N("properties"))) {
+    if (this.hasOwnProperty(V("finalized"))) return;
+    if (this.finalized = !0, this._$Ei(), this.hasOwnProperty(V("properties"))) {
       const e = this.properties, i = [...we(e), ...xe(e)];
       for (const s of i) this.createProperty(s, e[s]);
     }
@@ -418,7 +418,7 @@ class k extends HTMLElement {
   firstUpdated(t) {
   }
 }
-k.elementStyles = [], k.shadowRootOptions = { mode: "open" }, k[N("elementProperties")] = /* @__PURE__ */ new Map(), k[N("finalized")] = /* @__PURE__ */ new Map(), nt == null || nt({ ReactiveElement: k }), (x.reactiveElementVersions ?? (x.reactiveElementVersions = [])).push("2.0.4");
+k.elementStyles = [], k.shadowRootOptions = { mode: "open" }, k[V("elementProperties")] = /* @__PURE__ */ new Map(), k[V("finalized")] = /* @__PURE__ */ new Map(), nt == null || nt({ ReactiveElement: k }), (x.reactiveElementVersions ?? (x.reactiveElementVersions = [])).push("2.0.4");
 /**
  * @license
  * Copyright 2017 Google LLC
@@ -464,7 +464,7 @@ function tt(o) {
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const V = globalThis, Q = V.trustedTypes, $t = Q ? Q.createPolicy("lit-html", { createHTML: (o) => o }) : void 0, Dt = "$lit$", A = `lit$${Math.random().toFixed(9).slice(2)}$`, Bt = "?" + A, Oe = `<${Bt}>`, M = document, B = () => M.createComment(""), W = (o) => o === null || typeof o != "object" && typeof o != "function", pt = Array.isArray, ze = (o) => pt(o) || typeof (o == null ? void 0 : o[Symbol.iterator]) == "function", rt = `[ 	
+const N = globalThis, Q = N.trustedTypes, $t = Q ? Q.createPolicy("lit-html", { createHTML: (o) => o }) : void 0, Dt = "$lit$", A = `lit$${Math.random().toFixed(9).slice(2)}$`, Bt = "?" + A, Oe = `<${Bt}>`, M = document, B = () => M.createComment(""), W = (o) => o === null || typeof o != "object" && typeof o != "function", pt = Array.isArray, ze = (o) => pt(o) || typeof (o == null ? void 0 : o[Symbol.iterator]) == "function", rt = `[ 	
 \f\r]`, j = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, At = /-->/g, St = />/g, E = RegExp(`>|${rt}(?:([^\\s"'>=/]+)(${rt}*=${rt}*(?:[^ 	
 \f\r"'\`<>=]|("|')|))|$)`, "g"), wt = /'/g, xt = /"/g, Wt = /^(?:script|style|textarea|title)$/i, Me = (o) => (t, ...e) => ({ _$litType$: o, strings: t, values: e }), Et = Me(1), I = Symbol.for("lit-noChange"), p = Symbol.for("lit-nothing"), Tt = /* @__PURE__ */ new WeakMap(), T = M.createTreeWalker(M, 129);
 function Xt(o, t) {
@@ -684,9 +684,9 @@ class je {
     R(this, t);
   }
 }
-const at = V.litHtmlPolyfillSupport;
-at == null || at(X, Y), (V.litHtmlVersions ?? (V.litHtmlVersions = [])).push("3.2.1");
-const Ne = (o, t, e) => {
+const at = N.litHtmlPolyfillSupport;
+at == null || at(X, Y), (N.litHtmlVersions ?? (N.litHtmlVersions = [])).push("3.2.1");
+const Ve = (o, t, e) => {
   const i = (e == null ? void 0 : e.renderBefore) ?? t;
   let s = i._$litPart$;
   if (s === void 0) {
@@ -700,7 +700,7 @@ const Ne = (o, t, e) => {
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const Ve = (o) => o ?? p;
+const Ne = (o) => o ?? p;
 /**
  * @license
  * Copyright 2017 Google LLC
@@ -717,7 +717,7 @@ class D extends k {
   }
   update(t) {
     const e = this.render();
-    this.hasUpdated || (this.renderOptions.isConnected = this.isConnected), super.update(t), this._$Do = Ne(e, this.renderRoot, this.renderOptions);
+    this.hasUpdated || (this.renderOptions.isConnected = this.isConnected), super.update(t), this._$Do = Ve(e, this.renderRoot, this.renderOptions);
   }
   connectedCallback() {
     var t;
@@ -743,10 +743,10 @@ var De = Object.defineProperty, it = (o, t, e, i) => {
 };
 class q extends D {
   constructor() {
-    super(...arguments), this._config = ft, this._name = "", this.mouseStartPos = { x: 0, y: 0 }, this.mousePos = { x: 0, y: 0 }, this.containerWidth = 0, this.oldValue = 0, this.currentValue = 0, this.holdTimer = 0, this.isHold = !1, this._shouldUpdate = !0, this.updateTimeout = 0, this.pressTimeout = 0, this.immediateUpdateTimeout = 0, this.trackingStartTime = 0, this.isTap = !1, this._handleContextMenu = (t) => (t.preventDefault && t.preventDefault(), t.stopPropagation && t.stopPropagation(), !1), this._handlePointer = (t, e) => {
+    super(...arguments), this._config = ft, this._name = "", this.mouseStartPos = { x: 0, y: 0 }, this.mousePos = { x: 0, y: 0 }, this.containerWidth = 0, this.oldValue = 0, this.currentValue = 0, this.holdTimer = 0, this.isHold = !1, this._shouldUpdate = !0, this.updateTimeout = 0, this.pressTimeout = 0, this.immediateUpdateTimeout = 0, this.trackingStartTime = 0, this.isTap = !1, this.hasValidSlide = !1, this._handleContextMenu = (t) => (t.preventDefault && t.preventDefault(), t.stopPropagation && t.stopPropagation(), !1), this._handlePointer = (t, e) => {
       this.mousePos = { x: t.pageX, y: t.pageY };
       const i = this._config.min_slide_time;
-      if (t.type === "pointerdown" && (this._press(), this.isTap = !0, this.isHold = !1, this._clearImmediateUpdate(), this.holdTimer = window.setTimeout(this._setHold, this._config.hold_time), this.trackingStartTime = Date.now(), this._resetTrack()), !this.isHold && ["pointerdown", "pointermove", "pointerup"].includes(t.type) && this._updateValue(), t.type === "pointermove") {
+      if (t.type === "pointerdown" && (this._press(), this.isTap = !0, this.isHold = !1, this.hasValidSlide = !1, this._clearImmediateUpdate(), this.holdTimer = window.setTimeout(this._setHold, this._config.hold_time), this.trackingStartTime = Date.now(), this._updateContainerWidth(), this._resetTrack()), !this.isHold && ["pointerdown", "pointermove", "pointerup"].includes(t.type) && this._updateValue(), t.type === "pointermove") {
         if (this.isHold || this.isTap && Math.abs(e.relativeX) < mt && Math.abs(e.relativeY) < mt)
           return;
         this.isTap = !1, clearTimeout(this.holdTimer), this._stopUpdates(), this._scheduleImmediateUpdate();
@@ -757,7 +757,7 @@ class q extends D {
           this._handleTap();
           return;
         }
-        Date.now() - this.trackingStartTime > i && (this._setValue(), this._startUpdates(!0));
+        this.hasValidSlide && Date.now() - this.trackingStartTime > i && (this._setValue(), this._startUpdates(!0));
       }
     }, this._setHold = () => {
       this.isTap = !1, this.isHold = !0, this._clearImmediateUpdate(), this._shouldUpdate = !0, this.requestUpdate(), this._handleAction("hold");
@@ -1035,8 +1035,13 @@ class q extends D {
     this.removeEventListener("contextmenu", this._handleContextMenu), this._clearImmediateUpdate(), this.slideGesture.removeListeners(), super.disconnectedCallback();
   }
   _updateValue() {
+    if (!this._updateContainerWidth()) return;
     const t = this.containerWidth, e = this.mousePos.x - this.mouseStartPos.x, i = Math.round(100 * e / t);
-    this.currentValue = this.oldValue + i, this._checklimits(), this._updateSlider();
+    Number.isFinite(i) && (this.currentValue = this.oldValue + i, this._checklimits(), this._updateSlider(), this.hasValidSlide = !0);
+  }
+  _updateContainerWidth() {
+    var t, e;
+    return this.containerWidth = ((e = (t = this.shadowRoot) == null ? void 0 : t.getElementById("container")) == null ? void 0 : e.clientWidth) ?? 0, this.containerWidth > 0;
   }
   _handleAction(t) {
     const e = new Event("hass-action", {
@@ -1151,8 +1156,7 @@ class q extends D {
     }, t ? this._config.settle_time : 0);
   }
   updated() {
-    var t, e;
-    this.containerWidth = ((e = (t = this.shadowRoot) == null ? void 0 : t.getElementById("container")) == null ? void 0 : e.clientWidth) ?? 0, this._getValue(), this._updateColors();
+    this._updateContainerWidth(), this._getValue(), this._updateColors();
   }
   render() {
     var u;
@@ -1172,7 +1176,7 @@ class q extends D {
           .hass=${this._hass}
           .stateObj=${t}
           data-domain=${s.split(".")[0]}
-          data-state=${Ve(e)}
+          data-state=${Ne(e)}
         ></ha-state-icon>
         <div id="content">
           <p id="label" class="${l ? "bold" : ""}">
