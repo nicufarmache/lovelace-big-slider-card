@@ -106,6 +106,9 @@ hold_action:
 
 For more info about the rest of the action options see this page: [Actions - Home Assistant][actions]
 
+Supported attributes: `brightness`, `red`, `green`, `blue`, `hue`, `saturation`, `color_temp_kelvin`.
+Color temperature defaults to `2200`-`6500` Kelvin; set `min` or `max` to override that range.
+
 ### The card uses the following css variables for configuring the look and feel:
 
 ```css

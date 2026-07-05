@@ -93,6 +93,7 @@ export class BigSliderCard extends LitElement {
                     { value: 'blue', label: 'Blue' },
                     { value: 'hue', label: 'Hue' },
                     { value: 'saturation', label: 'Saturation' },
+                    { value: 'color_temp_kelvin', label: 'Color Temperature Kelvin' },
                   ],
                 },
               },
@@ -282,10 +283,21 @@ export class BigSliderCard extends LitElement {
       throw new Error("Specify an entity from within the light domain");
     }
 
-    this._config = { ...DEFAULT_CONFIG, ...config };
+    const attributeDefaults = this._getAttributeDefaults(config.attribute ?? DEFAULT_CONFIG.attribute);
+
+    this._config = { ...DEFAULT_CONFIG, ...attributeDefaults, ...config };
     this._entity = this._config.entity;
     this._config.original_min = this._config.min;
     this._config.original_max = this._config.max;
+  }
+
+  _getAttributeDefaults(attribute: string): Partial<BigSliderCardConfig> {
+    switch (attribute) {
+      case 'color_temp_kelvin':
+        return { min: 2200, max: 6500 };
+      default:
+        return {};
+    }
   }
 
   set hass(hass: HomeAssistant) {
@@ -426,11 +438,13 @@ export class BigSliderCard extends LitElement {
     const width = this.containerWidth;
     const dx = this.mousePos.x - this.mouseStartPos.x;
 
-    const percentage = Math.round(100 * dx / width);
+    const valueDelta = this._usesRangeSlider()
+      ? Math.round((this._config.max - this._config.min) * dx / width)
+      : Math.round(100 * dx / width);
 
-    if (!Number.isFinite(percentage)) return;
+    if (!Number.isFinite(valueDelta)) return;
 
-    this.currentValue = this.oldValue + percentage;
+    this.currentValue = this.oldValue + valueDelta;
     this._checklimits();
     this._updateSlider();
     this.hasValidSlide = true;
@@ -503,9 +517,35 @@ export class BigSliderCard extends LitElement {
   }
 
   _updateSlider(): void {
-    this.style.setProperty('--bsc-percent', this.currentValue + '%');
+    const sliderPercentage = this._getSliderPercentage();
+
+    this.style.setProperty('--bsc-percent', sliderPercentage + '%');
     const percentage = this?.shadowRoot?.getElementById('percentage');
-    percentage && (percentage.innerText = Math.round(this.currentValue) + '%');
+    percentage && (percentage.innerText = this._getSliderLabel(sliderPercentage));
+  }
+
+  _getSliderLabel(sliderPercentage: number): string {
+    if (this._config.attribute === 'color_temp_kelvin') {
+      return `${Math.round(this.currentValue)}K`;
+    }
+
+    return `${Math.round(sliderPercentage)}%`;
+  }
+
+  _getSliderPercentage(): number {
+    if (!this._usesRangeSlider()) return this.currentValue;
+
+    const range = this._config.max - this._config.min;
+    if (range <= 0) return 0;
+
+    const percentage = 100 * (this.currentValue - this._config.min) / range;
+    if (!Number.isFinite(percentage)) return 0;
+
+    return Math.max(0, Math.min(100, percentage));
+  }
+
+  _usesRangeSlider(): boolean {
+    return this._config.attribute === 'color_temp_kelvin';
   }
 
   _updateColors(): void {
@@ -592,6 +632,9 @@ export class BigSliderCard extends LitElement {
           if (attr === 'hue') _value = hs[0];
           if (attr === 'saturation') _value = hs[1];
           break;
+        case 'color_temp_kelvin':
+          _value = stateObj.attributes[attr] ?? this._config.min ?? 0;
+          break;
       }
     }
 
@@ -629,6 +672,9 @@ export class BigSliderCard extends LitElement {
         if (attr === 'saturation') _value[1] = value;
         value = _value;
         attr = 'hs_color';
+        break;
+      case 'color_temp_kelvin':
+        value = Math.round(value);
         break;
     }
 
