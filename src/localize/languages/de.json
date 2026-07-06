@@ -51,6 +51,8 @@
       "show_icon_halo": "Symbol-Halo anzeigen",
       "use_alternative_slider_color": "Alternative Schiebereglerfarbe verwenden",
       "icon_size": "Symbolgröße",
+      "icon_box_size": "Symbolfeldgröße",
+      "slider_opacity": "Schieberegler-Deckkraft",
       "text_size": "Textgröße",
       "border_color": "Rahmenfarbe",
       "border_radius": "Rahmenradius",

@@ -61,6 +61,8 @@ constant_icon_color: true
 show_icon_halo: true
 use_alternative_slider_color: true
 icon_size: 24
+icon_box_size: 36
+slider_opacity: 0.3
 text_size: 14
 colorize: true
 icon: mdi:lamp
@@ -103,6 +105,8 @@ hold_action:
 | show_icon_halo    | boolean | **Optional** | Show a Tile-like background halo behind the icon | false               |
 | use_alternative_slider_color | boolean | **Optional** | Use the old slider color fallback instead of Home Assistant's active color | false               |
 | icon_size         | number/string | **Optional** | Icon size in px or CSS length                  | `24`                |
+| icon_box_size     | number/string | **Optional** | Icon box size in px or CSS length              | `36`                |
+| slider_opacity    | number  | **Optional** | Slider fill opacity from `0` to `1`            | `0.3`               |
 | text_size         | number/string | **Optional** | Text size in px or CSS length                  | theme default       |
 | border_color      | string  | **Optional** | Border color (CSS format)                      | form theme          |
 | border_radius     | number/string | **Optional** | Border radius in px or CSS length              | form theme          |
@@ -153,6 +157,7 @@ Use `attribute: tilt_position` for covers that support tilt, or `attribute: humi
 --bsc-active-color: var(--state-light-on-color, var(--state-light-active-color, var(--state-active-color)));
 --bsc-default-slider-color: var(--bsc-active-color);
 --bsc-slider-color: var(--bsc-default-slider-color);
+--bsc-slider-opacity: 0.3;
 --bsc-color: var(--bsc-active-color);
 --bsc-off-color: var(--state-inactive-color);
 --bsc-entity-color: var(--bsc-color);

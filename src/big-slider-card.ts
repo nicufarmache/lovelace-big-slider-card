@@ -186,6 +186,28 @@ export class BigSliderCard extends LitElement {
               },
             },
             {
+              name: 'icon_box_size',
+              selector: {
+                number: {
+                  mode: 'box',
+                  min: 24,
+                  max: 96,
+                  unit_of_measurement: 'px',
+                },
+              },
+            },
+            {
+              name: 'slider_opacity',
+              selector: {
+                number: {
+                  mode: 'box',
+                  min: 0,
+                  max: 1,
+                  step: 0.05,
+                },
+              },
+            },
+            {
               name: 'text_size',
               selector: {
                 number: {
@@ -317,6 +339,8 @@ export class BigSliderCard extends LitElement {
           icon_off_color: localize('editor.labels.icon_off_color'),
           constant_icon_color: localize('editor.labels.constant_icon_color'),
           icon_size: localize('editor.labels.icon_size'),
+          icon_box_size: localize('editor.labels.icon_box_size'),
+          slider_opacity: localize('editor.labels.slider_opacity'),
           use_alternative_slider_color: localize('editor.labels.use_alternative_slider_color'),
           text_size: localize('editor.labels.text_size'),
           border_color: localize('editor.labels.border_color'),
@@ -1062,6 +1086,8 @@ export class BigSliderCard extends LitElement {
     this._setStyleProperty('--bsc-height', this._config.height, this._normalizeCssLength);
     this._setStyleProperty('--bsc-width', this._config.width, this._normalizeCssLength);
     this._setStyleProperty('--bsc-icon-size', this._config.icon_size, this._normalizeCssLength);
+    this._setStyleProperty('--bsc-icon-box-size', this._config.icon_box_size, this._normalizeCssLength);
+    this._setStyleProperty('--bsc-slider-opacity', this._config.slider_opacity);
     this._setStyleProperty('--bsc-text-size', this._config.text_size, this._normalizeCssLength);
     this.style.setProperty('--bsc-press-transition', scale ? 'transform 0.1s ease-out' : 'none');
     this.style.setProperty('--bsc-half-pressed-transform', scale ? 'scale(0.99)' : 'none');
@@ -1144,6 +1170,7 @@ export class BigSliderCard extends LitElement {
         --bsc-active-color: var(--state-light-on-color, var(--state-light-active-color, var(--state-active-color)));
         --bsc-default-slider-color: var(--bsc-active-color);
         --bsc-slider-color: var(--bsc-default-slider-color);
+        --bsc-slider-opacity: 0.3;
         --bsc-percent: 0%;
         --bsc-brightness: 50%;
         --bsc-brightness-ui: 50%;
@@ -1222,11 +1249,10 @@ export class BigSliderCard extends LitElement {
         height: 100%;
         position: absolute;
         background-color: var(--bsc-slider-color);
-        opacity: 0.3;
+        opacity: var(--bsc-slider-opacity);
         left: 0;
         top: 0;
         right: calc(100% - var(--bsc-percent));
-        border-radius: var(--bsc-border-radius);
       }
 
       #container.vertical #slider {

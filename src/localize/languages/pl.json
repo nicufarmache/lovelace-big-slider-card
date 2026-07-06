@@ -51,6 +51,8 @@
       "show_icon_halo": "Pokaż poświatę ikony",
       "use_alternative_slider_color": "Użyj alternatywnego koloru suwaka",
       "icon_size": "Rozmiar ikony",
+      "icon_box_size": "Rozmiar pola ikony",
+      "slider_opacity": "Przezroczystość suwaka",
       "text_size": "Rozmiar tekstu",
       "border_color": "Kolor obramowania",
       "border_radius": "Promień obramowania",

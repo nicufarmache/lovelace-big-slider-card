@@ -51,6 +51,8 @@
       "show_icon_halo": "Afficher le halo de l'icône",
       "use_alternative_slider_color": "Utiliser une couleur de curseur alternative",
       "icon_size": "Taille de l'icône",
+      "icon_box_size": "Taille du cadre de l'icône",
+      "slider_opacity": "Opacité du curseur",
       "text_size": "Taille du texte",
       "border_color": "Couleur de bordure",
       "border_radius": "Rayon de bordure",

@@ -32,6 +32,8 @@ export interface BigSliderCardConfig extends LovelaceCardConfig {
   border_style?: string;
   border_width?: number | string;
   icon_size?: number | string;
+  icon_box_size?: number | string;
+  slider_opacity?: number;
   text_size?: number | string;
   colorize?: boolean;
   icon?: string;

@@ -51,6 +51,8 @@
       "show_icon_halo": "Mostrar halo do ícone",
       "use_alternative_slider_color": "Usar cor alternativa do controle deslizante",
       "icon_size": "Tamanho do ícone",
+      "icon_box_size": "Tamanho da caixa do ícone",
+      "slider_opacity": "Opacidade do controle deslizante",
       "text_size": "Tamanho do texto",
       "border_color": "Cor da borda",
       "border_radius": "Raio da borda",

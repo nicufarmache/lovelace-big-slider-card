@@ -51,6 +51,8 @@
       "show_icon_halo": "Afișează haloul pictogramei",
       "use_alternative_slider_color": "Folosește culoarea alternativă a glisorului",
       "icon_size": "Dimensiune pictogramă",
+      "icon_box_size": "Dimensiune casetă pictogramă",
+      "slider_opacity": "Opacitate glisor",
       "text_size": "Dimensiune text",
       "border_color": "Culoare chenar",
       "border_radius": "Rază chenar",

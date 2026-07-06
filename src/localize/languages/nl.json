@@ -51,6 +51,8 @@
       "show_icon_halo": "Pictogramhalo tonen",
       "use_alternative_slider_color": "Alternatieve schuifkleur gebruiken",
       "icon_size": "Pictogramgrootte",
+      "icon_box_size": "Pictogramvakgrootte",
+      "slider_opacity": "Schuifregelaar dekking",
       "text_size": "Tekstgrootte",
       "border_color": "Randkleur",
       "border_radius": "Randradius",
