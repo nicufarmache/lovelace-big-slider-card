@@ -53,7 +53,7 @@ let kt = (ke = class {
     totalY: l(this, U)
   }), l(this, g).releasePointerCapture(e.pointerId), x(this, y, de).call(this));
 }, ke);
-const Et = "1.2.6-beta", Mt = "brightness", Ut = 3e3, Vt = 600, Lt = 0, fe = 5, Dt = 0, Rt = 100, J = [
+const Et = "1.2.7-beta", Mt = "brightness", Ut = 3e3, Vt = 600, Lt = 0, fe = 5, Dt = 0, Rt = 100, J = [
   "light",
   "number",
   "input_number",
