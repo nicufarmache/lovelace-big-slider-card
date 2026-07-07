@@ -554,9 +554,7 @@ export class BigSliderCard extends LitElement {
       : this.mousePos.x - this.mouseStartPos.x;
 
     const range = this._getRange();
-    const valueDelta = this._usesRangeSlider()
-      ? this._roundValue((range.max - range.min) * delta / size)
-      : Math.round(100 * delta / size);
+    const valueDelta = this._getDragValueDelta(delta, size, range);
 
     if (!Number.isFinite(valueDelta)) return;
 
@@ -570,6 +568,14 @@ export class BigSliderCard extends LitElement {
     this.containerWidth = this.shadowRoot?.getElementById('container')?.clientWidth ?? 0;
     this.containerHeight = this.shadowRoot?.getElementById('container')?.clientHeight ?? 0;
     return this._config.vertical ? this.containerHeight > 0 : this.containerWidth > 0;
+  }
+
+  _getDragValueDelta(delta: number, size: number, range: SliderRange): number {
+    if (size <= 0) return 0;
+
+    return this._usesRangeSlider()
+      ? (range.max - range.min) * delta / size
+      : 100 * delta / size;
   }
 
   private _handleAction(action: any): void {
@@ -647,7 +653,7 @@ export class BigSliderCard extends LitElement {
       return `${this._formatValue(this.currentValue)}${unit}`;
     }
 
-    return `${Math.round(sliderPercentage)}%`;
+    return `${this._formatValue(sliderPercentage)}%`;
   }
 
   _getSliderPercentage(): number {

@@ -3,7 +3,7 @@ var ge = (s) => {
 };
 var re = (s, e, t) => e.has(s) || ge("Cannot " + t);
 var l = (s, e, t) => (re(s, e, "read from private field"), t ? t.call(s) : e.get(s)), f = (s, e, t) => e.has(s) ? ge("Cannot add the same private member more than once") : e instanceof WeakSet ? e.add(s) : e.set(s, t), v = (s, e, t, i) => (re(s, e, "write to private field"), i ? i.call(s, t) : e.set(s, t), t), x = (s, e, t) => (re(s, e, "access private method"), t);
-var g, E, z, A, M, U, V, D, L, H, w, y, Z, de, Me, Ue, ke;
+var g, E, z, A, M, U, V, N, L, H, w, y, Z, de, Me, Ue, ke;
 let kt = (ke = class {
   constructor(e, t, { touchActions: i, stopScrollDirection: o = "both" } = {}) {
     f(this, y);
@@ -14,7 +14,7 @@ let kt = (ke = class {
     f(this, M, 0);
     f(this, U, 0);
     f(this, V);
-    f(this, D, !1);
+    f(this, N, !1);
     f(this, L);
     f(this, H);
     f(this, w);
@@ -26,12 +26,12 @@ let kt = (ke = class {
   removeListeners() {
     l(this, g).removeEventListener("pointerdown", l(this, w)), l(this, g).removeEventListener("pointermove", l(this, w)), l(this, g).removeEventListener("pointerup", l(this, w)), l(this, g).removeEventListener("pointercancel", l(this, w)), window.removeEventListener("touchmove", l(this, H)), l(this, E) && l(this, g).style.removeProperty("touch-action");
   }
-}, g = new WeakMap(), E = new WeakMap(), z = new WeakMap(), A = new WeakMap(), M = new WeakMap(), U = new WeakMap(), V = new WeakMap(), D = new WeakMap(), L = new WeakMap(), H = new WeakMap(), w = new WeakMap(), y = new WeakSet(), Z = function() {
-  v(this, D, !0);
+}, g = new WeakMap(), E = new WeakMap(), z = new WeakMap(), A = new WeakMap(), M = new WeakMap(), U = new WeakMap(), V = new WeakMap(), N = new WeakMap(), L = new WeakMap(), H = new WeakMap(), w = new WeakMap(), y = new WeakSet(), Z = function() {
+  v(this, N, !0);
 }, de = function() {
-  v(this, D, !1);
+  v(this, N, !1);
 }, Me = function(e) {
-  l(this, D) && e.preventDefault();
+  l(this, N) && e.preventDefault();
 }, Ue = function(e) {
   if (e.type === "pointerdown" && (l(this, g).setPointerCapture(e.pointerId), v(this, z, e.pageX), v(this, A, e.pageY)), l(this, g).hasPointerCapture(e.pointerId) && e.type !== "pointercancel" && typeof l(this, V) == "function") {
     const t = e.pageX - l(this, z), i = e.pageY - l(this, A), o = Math.abs(t / i) > 1, r = Math.abs(t / i) < 1;
@@ -53,7 +53,7 @@ let kt = (ke = class {
     totalY: l(this, U)
   }), l(this, g).releasePointerCapture(e.pointerId), x(this, y, de).call(this));
 }, ke);
-const Et = "1.2.6-beta", Mt = "brightness", Ut = 3e3, Vt = 600, Lt = 0, fe = 5, Rt = 0, Nt = 100, J = [
+const Et = "1.2.6-beta", Mt = "brightness", Ut = 3e3, Vt = 600, Lt = 0, fe = 5, Dt = 0, Rt = 100, J = [
   "light",
   "number",
   "input_number",
@@ -77,22 +77,22 @@ const Et = "1.2.6-beta", Mt = "brightness", Ut = 3e3, Vt = 600, Lt = 0, fe = 5, 
   hold_time: Vt,
   settle_time: Ut,
   min_slide_time: Lt,
-  min: Rt,
-  max: Nt
-}, Ve = { version: "Version", invalid_configuration: "Invalid configuration", show_warning: "Show Warning", no_entity_set: "Entity not set", no_entity: "Entity not available", on: "On", off: "Off" }, Le = { sections: { display: "Display Options", styling: "Custom Styling", behavior: "Behavior / Actions" }, attributes: { brightness: "Brightness", red: "Red", green: "Green", blue: "Blue", hue: "Hue", saturation: "Saturation", color_temp_kelvin: "Color Temperature Kelvin", value: "Value", percentage: "Percentage", position: "Position", tilt_position: "Tilt position", temperature: "Temperature", humidity: "Humidity", volume: "Volume" }, labels: { colorize: "Colorize based on state", show_percentage: "Show percentage text", bold_text: "Bold text", no_scale: "Disable scale on press", no_transition_animation: "Disable transition animation", vertical: "Vertical slider", min_slide_time: "Min slide time", hold_time: "Hold time", settle_time: "Settle time", immediate_update: "Update while sliding", background_color: "Background color", height: "Height", width: "Width", text_color: "Text color", icon_color: "Icon color", icon_off_color: "Icon off color", constant_icon_color: "Constant icon color", show_icon_halo: "Show icon halo", use_alternative_slider_color: "Use alternative slider color", icon_size: "Icon size", icon_box_size: "Icon box size", slider_opacity: "Slider opacity", text_size: "Text size", border_color: "Border color", border_radius: "Border radius", border_style: "Border style", border_width: "Border width" } }, Re = { light_domain_only: "Specify an entity from within the light domain", unsupported_domain: "Specify a supported slider entity" }, Ne = { example_light: "Example Light" }, De = { name: "Big Slider Card", description: "Big slider card for light entities." }, Dt = {
+  min: Dt,
+  max: Rt
+}, Ve = { version: "Version", invalid_configuration: "Invalid configuration", show_warning: "Show Warning", no_entity_set: "Entity not set", no_entity: "Entity not available", on: "On", off: "Off" }, Le = { sections: { display: "Display Options", styling: "Custom Styling", behavior: "Behavior / Actions" }, attributes: { brightness: "Brightness", red: "Red", green: "Green", blue: "Blue", hue: "Hue", saturation: "Saturation", color_temp_kelvin: "Color Temperature Kelvin", value: "Value", percentage: "Percentage", position: "Position", tilt_position: "Tilt position", temperature: "Temperature", humidity: "Humidity", volume: "Volume" }, labels: { colorize: "Colorize based on state", show_percentage: "Show percentage text", bold_text: "Bold text", no_scale: "Disable scale on press", no_transition_animation: "Disable transition animation", vertical: "Vertical slider", min_slide_time: "Min slide time", hold_time: "Hold time", settle_time: "Settle time", immediate_update: "Update while sliding", background_color: "Background color", height: "Height", width: "Width", text_color: "Text color", icon_color: "Icon color", icon_off_color: "Icon off color", constant_icon_color: "Constant icon color", show_icon_halo: "Show icon halo", use_alternative_slider_color: "Use alternative slider color", icon_size: "Icon size", icon_box_size: "Icon box size", slider_opacity: "Slider opacity", text_size: "Text size", border_color: "Border color", border_radius: "Border radius", border_style: "Border style", border_width: "Border width" } }, De = { light_domain_only: "Specify an entity from within the light domain", unsupported_domain: "Specify a supported slider entity" }, Re = { example_light: "Example Light" }, Ne = { name: "Big Slider Card", description: "Big slider card for light entities." }, Nt = {
   common: Ve,
   editor: Le,
-  errors: Re,
-  preview: Ne,
-  card: De
+  errors: De,
+  preview: Re,
+  card: Ne
 }, Ht = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  card: De,
+  card: Ne,
   common: Ve,
-  default: Dt,
+  default: Nt,
   editor: Le,
-  errors: Re,
-  preview: Ne
+  errors: De,
+  preview: Re
 }, Symbol.toStringTag, { value: "Module" })), He = { version: "Version", invalid_configuration: "Ungültige Konfiguration", show_warning: "Warnung anzeigen", no_entity_set: "Entität nicht gesetzt", no_entity: "Entität nicht verfügbar", on: "An", off: "Aus" }, Oe = { sections: { display: "Anzeigeoptionen", styling: "Benutzerdefiniertes Styling", behavior: "Verhalten / Aktionen" }, attributes: { brightness: "Helligkeit", red: "Rot", green: "Grün", blue: "Blau", hue: "Farbton", saturation: "Sättigung", color_temp_kelvin: "Farbtemperatur Kelvin", value: "Wert", percentage: "Prozent", position: "Position", tilt_position: "Kippposition", temperature: "Temperatur", humidity: "Luftfeuchtigkeit", volume: "Lautstärke" }, labels: { colorize: "Basierend auf Status einfärben", show_percentage: "Prozenttext anzeigen", bold_text: "Fetter Text", no_scale: "Skalierung beim Drücken deaktivieren", no_transition_animation: "Übergangsanimation deaktivieren", vertical: "Vertikaler Schieberegler", min_slide_time: "Minimale Schiebezeit", hold_time: "Haltezeit", settle_time: "Beruhigungszeit", immediate_update: "Beim Schieben aktualisieren", background_color: "Hintergrundfarbe", height: "Höhe", width: "Breite", text_color: "Textfarbe", icon_color: "Symbolfarbe", icon_off_color: "Symbolfarbe aus", constant_icon_color: "Konstante Symbolfarbe", show_icon_halo: "Symbol-Halo anzeigen", use_alternative_slider_color: "Alternative Schiebereglerfarbe verwenden", icon_size: "Symbolgröße", icon_box_size: "Symbolfeldgröße", slider_opacity: "Schieberegler-Deckkraft", text_size: "Textgröße", border_color: "Rahmenfarbe", border_radius: "Rahmenradius", border_style: "Rahmenstil", border_width: "Rahmenbreite" } }, Be = { light_domain_only: "Gib eine Entität aus der light-Domain an", unsupported_domain: "Gib eine unterstützte Schieberegler-Entität an" }, je = { example_light: "Beispiellampe" }, Ie = { name: "Big Slider Card", description: "Große Schiebereglerkarte für Lichtentitäten." }, Ot = {
   common: He,
   editor: Oe,
@@ -303,7 +303,7 @@ const { is: si, defineProperty: ni, getOwnPropertyDescriptor: ai, getOwnProperty
   return t;
 } }, _e = (s, e) => !si(s, e), $e = { attribute: !0, type: String, converter: ee, reflect: !1, hasChanged: _e };
 Symbol.metadata ?? (Symbol.metadata = Symbol("metadata")), T.litPropertyMetadata ?? (T.litPropertyMetadata = /* @__PURE__ */ new WeakMap());
-class N extends HTMLElement {
+class R extends HTMLElement {
   static addInitializer(e) {
     this._$Ei(), (this.l ?? (this.l = [])).push(e);
   }
@@ -501,7 +501,7 @@ class N extends HTMLElement {
   firstUpdated(e) {
   }
 }
-N.elementStyles = [], N.shadowRootOptions = { mode: "open" }, N[I("elementProperties")] = /* @__PURE__ */ new Map(), N[I("finalized")] = /* @__PURE__ */ new Map(), ne == null || ne({ ReactiveElement: N }), (T.reactiveElementVersions ?? (T.reactiveElementVersions = [])).push("2.0.4");
+R.elementStyles = [], R.shadowRootOptions = { mode: "open" }, R[I("elementProperties")] = /* @__PURE__ */ new Map(), R[I("finalized")] = /* @__PURE__ */ new Map(), ne == null || ne({ ReactiveElement: R }), (T.reactiveElementVersions ?? (T.reactiveElementVersions = [])).push("2.0.4");
 /**
  * @license
  * Copyright 2017 Google LLC
@@ -547,9 +547,9 @@ function me(s) {
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const W = globalThis, te = W.trustedTypes, xe = te ? te.createPolicy("lit-html", { createHTML: (s) => s }) : void 0, At = "$lit$", S = `lit$${Math.random().toFixed(9).slice(2)}$`, Tt = "?" + S, pi = `<${Tt}>`, R = document, G = () => R.createComment(""), F = (s) => s === null || typeof s != "object" && typeof s != "function", pe = Array.isArray, bi = (s) => pe(s) || typeof (s == null ? void 0 : s[Symbol.iterator]) == "function", ae = `[ 	
+const W = globalThis, te = W.trustedTypes, xe = te ? te.createPolicy("lit-html", { createHTML: (s) => s }) : void 0, At = "$lit$", S = `lit$${Math.random().toFixed(9).slice(2)}$`, Tt = "?" + S, pi = `<${Tt}>`, D = document, G = () => D.createComment(""), F = (s) => s === null || typeof s != "object" && typeof s != "function", pe = Array.isArray, bi = (s) => pe(s) || typeof (s == null ? void 0 : s[Symbol.iterator]) == "function", ae = `[ 	
 \f\r]`, j = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, Se = /-->/g, ze = />/g, P = RegExp(`>|${ae}(?:([^\\s"'>=/]+)(${ae}*=${ae}*(?:[^ 	
-\f\r"'\`<>=]|("|')|))|$)`, "g"), Ae = /'/g, Te = /"/g, Ct = /^(?:script|style|textarea|title)$/i, gi = (s) => (e, ...t) => ({ _$litType$: s, strings: e, values: t }), Ce = gi(1), O = Symbol.for("lit-noChange"), p = Symbol.for("lit-nothing"), Pe = /* @__PURE__ */ new WeakMap(), k = R.createTreeWalker(R, 129);
+\f\r"'\`<>=]|("|')|))|$)`, "g"), Ae = /'/g, Te = /"/g, Ct = /^(?:script|style|textarea|title)$/i, gi = (s) => (e, ...t) => ({ _$litType$: s, strings: e, values: t }), Ce = gi(1), O = Symbol.for("lit-noChange"), p = Symbol.for("lit-nothing"), Pe = /* @__PURE__ */ new WeakMap(), k = D.createTreeWalker(D, 129);
 function Pt(s, e) {
   if (!pe(s) || !s.hasOwnProperty("raw")) throw Error("invalid template strings array");
   return xe !== void 0 ? xe.createHTML(e) : e;
@@ -599,7 +599,7 @@ class X {
     }
   }
   static createElement(e, t) {
-    const i = R.createElement("template");
+    const i = D.createElement("template");
     return i.innerHTML = e, i;
   }
 }
@@ -621,7 +621,7 @@ class vi {
     return this._$AM._$AU;
   }
   u(e) {
-    const { el: { content: t }, parts: i } = this._$AD, o = ((e == null ? void 0 : e.creationScope) ?? R).importNode(t, !0);
+    const { el: { content: t }, parts: i } = this._$AD, o = ((e == null ? void 0 : e.creationScope) ?? D).importNode(t, !0);
     k.currentNode = o;
     let r = k.nextNode(), n = 0, d = 0, c = i[0];
     for (; c !== void 0; ) {
@@ -631,7 +631,7 @@ class vi {
       }
       n !== (c == null ? void 0 : c.index) && (r = k.nextNode(), n++);
     }
-    return k.currentNode = R, o;
+    return k.currentNode = D, o;
   }
   p(e) {
     let t = 0;
@@ -667,7 +667,7 @@ class q {
     this._$AH !== e && (this._$AR(), this._$AH = this.O(e));
   }
   _(e) {
-    this._$AH !== p && F(this._$AH) ? this._$AA.nextSibling.data = e : this.T(R.createTextNode(e)), this._$AH = e;
+    this._$AH !== p && F(this._$AH) ? this._$AA.nextSibling.data = e : this.T(D.createTextNode(e)), this._$AH = e;
   }
   $(e) {
     var r;
@@ -789,7 +789,7 @@ const Y = (s) => s ?? p;
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-class K extends N {
+class K extends R {
   constructor() {
     super(...arguments), this.renderOptions = { host: this }, this._$Do = void 0;
   }
@@ -1226,12 +1226,15 @@ class oe extends K {
   }
   _updateValue() {
     if (!this._updateContainerSize()) return;
-    const e = this._config.vertical ? this.containerHeight : this.containerWidth, t = this._config.vertical ? this.mouseStartPos.y - this.mousePos.y : this.mousePos.x - this.mouseStartPos.x, i = this._getRange(), o = this._usesRangeSlider() ? this._roundValue((i.max - i.min) * t / e) : Math.round(100 * t / e);
+    const e = this._config.vertical ? this.containerHeight : this.containerWidth, t = this._config.vertical ? this.mouseStartPos.y - this.mousePos.y : this.mousePos.x - this.mouseStartPos.x, i = this._getRange(), o = this._getDragValueDelta(t, e, i);
     Number.isFinite(o) && (this.currentValue = this.oldValue + o, this._checklimits(), this._updateSlider(), this.hasValidSlide = !0);
   }
   _updateContainerSize() {
     var e, t, i, o;
     return this.containerWidth = ((t = (e = this.shadowRoot) == null ? void 0 : e.getElementById("container")) == null ? void 0 : t.clientWidth) ?? 0, this.containerHeight = ((o = (i = this.shadowRoot) == null ? void 0 : i.getElementById("container")) == null ? void 0 : o.clientHeight) ?? 0, this._config.vertical ? this.containerHeight > 0 : this.containerWidth > 0;
+  }
+  _getDragValueDelta(e, t, i) {
+    return t <= 0 ? 0 : this._usesRangeSlider() ? (i.max - i.min) * e / t : 100 * e / t;
   }
   _handleAction(e) {
     const t = new Event("hass-action", {
@@ -1266,7 +1269,7 @@ class oe extends K {
   }
   _getSliderLabel(e) {
     const t = this._getValueUnit();
-    return this._usesRangeSlider() ? `${this._formatValue(this.currentValue)}${t}` : `${Math.round(e)}%`;
+    return this._usesRangeSlider() ? `${this._formatValue(this.currentValue)}${t}` : `${this._formatValue(e)}%`;
   }
   _getSliderPercentage() {
     if (!this._usesRangeSlider())
