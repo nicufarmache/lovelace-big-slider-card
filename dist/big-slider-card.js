@@ -1,9 +1,9 @@
 var ge = (s) => {
   throw TypeError(s);
 };
-var ne = (s, e, t) => e.has(s) || ge("Cannot " + t);
-var l = (s, e, t) => (ne(s, e, "read from private field"), t ? t.call(s) : e.get(s)), f = (s, e, t) => e.has(s) ? ge("Cannot add the same private member more than once") : e instanceof WeakSet ? e.add(s) : e.set(s, t), v = (s, e, t, i) => (ne(s, e, "write to private field"), i ? i.call(s, t) : e.set(s, t), t), x = (s, e, t) => (ne(s, e, "access private method"), t);
-var g, E, z, A, M, U, V, N, L, H, $, y, J, ue, Me, Ue, ke;
+var re = (s, e, t) => e.has(s) || ge("Cannot " + t);
+var l = (s, e, t) => (re(s, e, "read from private field"), t ? t.call(s) : e.get(s)), f = (s, e, t) => e.has(s) ? ge("Cannot add the same private member more than once") : e instanceof WeakSet ? e.add(s) : e.set(s, t), v = (s, e, t, i) => (re(s, e, "write to private field"), i ? i.call(s, t) : e.set(s, t), t), x = (s, e, t) => (re(s, e, "access private method"), t);
+var g, E, z, A, M, U, V, D, L, H, w, y, Z, de, Me, Ue, ke;
 let kt = (ke = class {
   constructor(e, t, { touchActions: i, stopScrollDirection: o = "both" } = {}) {
     f(this, y);
@@ -14,28 +14,28 @@ let kt = (ke = class {
     f(this, M, 0);
     f(this, U, 0);
     f(this, V);
-    f(this, N, !1);
+    f(this, D, !1);
     f(this, L);
     f(this, H);
-    f(this, $);
-    v(this, g, e), v(this, E, i), v(this, V, t), v(this, L, o), v(this, H, x(this, y, Me).bind(this)), v(this, $, x(this, y, Ue).bind(this)), this.addListeners();
+    f(this, w);
+    v(this, g, e), v(this, E, i), v(this, V, t), v(this, L, o), v(this, H, x(this, y, Me).bind(this)), v(this, w, x(this, y, Ue).bind(this)), this.addListeners();
   }
   addListeners() {
-    l(this, g).addEventListener("pointerdown", l(this, $)), l(this, g).addEventListener("pointermove", l(this, $)), l(this, g).addEventListener("pointerup", l(this, $)), l(this, g).addEventListener("pointercancel", l(this, $)), window.addEventListener("touchmove", l(this, H), { passive: !1 }), l(this, E) && (l(this, g).style.touchAction = l(this, E));
+    l(this, g).addEventListener("pointerdown", l(this, w)), l(this, g).addEventListener("pointermove", l(this, w)), l(this, g).addEventListener("pointerup", l(this, w)), l(this, g).addEventListener("pointercancel", l(this, w)), window.addEventListener("touchmove", l(this, H), { passive: !1 }), l(this, E) && (l(this, g).style.touchAction = l(this, E));
   }
   removeListeners() {
-    l(this, g).removeEventListener("pointerdown", l(this, $)), l(this, g).removeEventListener("pointermove", l(this, $)), l(this, g).removeEventListener("pointerup", l(this, $)), l(this, g).removeEventListener("pointercancel", l(this, $)), window.removeEventListener("touchmove", l(this, H)), l(this, E) && l(this, g).style.removeProperty("touch-action");
+    l(this, g).removeEventListener("pointerdown", l(this, w)), l(this, g).removeEventListener("pointermove", l(this, w)), l(this, g).removeEventListener("pointerup", l(this, w)), l(this, g).removeEventListener("pointercancel", l(this, w)), window.removeEventListener("touchmove", l(this, H)), l(this, E) && l(this, g).style.removeProperty("touch-action");
   }
-}, g = new WeakMap(), E = new WeakMap(), z = new WeakMap(), A = new WeakMap(), M = new WeakMap(), U = new WeakMap(), V = new WeakMap(), N = new WeakMap(), L = new WeakMap(), H = new WeakMap(), $ = new WeakMap(), y = new WeakSet(), J = function() {
-  v(this, N, !0);
-}, ue = function() {
-  v(this, N, !1);
+}, g = new WeakMap(), E = new WeakMap(), z = new WeakMap(), A = new WeakMap(), M = new WeakMap(), U = new WeakMap(), V = new WeakMap(), D = new WeakMap(), L = new WeakMap(), H = new WeakMap(), w = new WeakMap(), y = new WeakSet(), Z = function() {
+  v(this, D, !0);
+}, de = function() {
+  v(this, D, !1);
 }, Me = function(e) {
-  l(this, N) && e.preventDefault();
+  l(this, D) && e.preventDefault();
 }, Ue = function(e) {
   if (e.type === "pointerdown" && (l(this, g).setPointerCapture(e.pointerId), v(this, z, e.pageX), v(this, A, e.pageY)), l(this, g).hasPointerCapture(e.pointerId) && e.type !== "pointercancel" && typeof l(this, V) == "function") {
     const t = e.pageX - l(this, z), i = e.pageY - l(this, A), o = Math.abs(t / i) > 1, r = Math.abs(t / i) < 1;
-    l(this, L) === "horizontal" && o && x(this, y, J).call(this), l(this, L) === "vertical" && r && x(this, y, J).call(this), l(this, L) === "both" && x(this, y, J).call(this), l(this, V).call(this, e, {
+    l(this, L) === "horizontal" && o && x(this, y, Z).call(this), l(this, L) === "vertical" && r && x(this, y, Z).call(this), l(this, L) === "both" && x(this, y, Z).call(this), l(this, V).call(this, e, {
       startX: l(this, z),
       startY: l(this, A),
       relativeX: t,
@@ -44,16 +44,16 @@ let kt = (ke = class {
       totalY: i + l(this, U)
     });
   }
-  e.type === "pointerup" && (v(this, M, +l(this, M) + e.pageX - l(this, z)), v(this, U, +l(this, U) + e.pageY - l(this, A)), l(this, g).releasePointerCapture(e.pointerId), x(this, y, ue).call(this)), e.type === "pointercancel" && (l(this, V).call(this, e, {
+  e.type === "pointerup" && (v(this, M, +l(this, M) + e.pageX - l(this, z)), v(this, U, +l(this, U) + e.pageY - l(this, A)), l(this, g).releasePointerCapture(e.pointerId), x(this, y, de).call(this)), e.type === "pointercancel" && (l(this, V).call(this, e, {
     startX: l(this, z),
     startY: l(this, A),
     relativeX: 0,
     relativeY: 0,
     totalX: l(this, M),
     totalY: l(this, U)
-  }), l(this, g).releasePointerCapture(e.pointerId), x(this, y, ue).call(this));
+  }), l(this, g).releasePointerCapture(e.pointerId), x(this, y, de).call(this));
 }, ke);
-const Et = "1.2.6-beta", Mt = "brightness", Ut = 3e3, Vt = 600, Lt = 0, fe = 5, Rt = 0, Dt = 100, Q = [
+const Et = "1.2.6-beta", Mt = "brightness", Ut = 3e3, Vt = 600, Lt = 0, fe = 5, Rt = 0, Nt = 100, J = [
   "light",
   "number",
   "input_number",
@@ -64,7 +64,7 @@ const Et = "1.2.6-beta", Mt = "brightness", Ut = 3e3, Vt = 600, Lt = 0, fe = 5, 
   "water_heater",
   "valve",
   "media_player"
-], w = {
+], $ = {
   type: "custom:big-slider-card",
   attribute: Mt,
   tap_action: {
@@ -78,21 +78,21 @@ const Et = "1.2.6-beta", Mt = "brightness", Ut = 3e3, Vt = 600, Lt = 0, fe = 5, 
   settle_time: Ut,
   min_slide_time: Lt,
   min: Rt,
-  max: Dt
-}, Ve = { version: "Version", invalid_configuration: "Invalid configuration", show_warning: "Show Warning", no_entity_set: "Entity not set", no_entity: "Entity not available", on: "On", off: "Off" }, Le = { sections: { display: "Display Options", styling: "Custom Styling", behavior: "Behavior / Actions" }, attributes: { brightness: "Brightness", red: "Red", green: "Green", blue: "Blue", hue: "Hue", saturation: "Saturation", color_temp_kelvin: "Color Temperature Kelvin", value: "Value", percentage: "Percentage", position: "Position", tilt_position: "Tilt position", temperature: "Temperature", humidity: "Humidity", volume: "Volume" }, labels: { colorize: "Colorize based on state", show_percentage: "Show percentage text", bold_text: "Bold text", no_scale: "Disable scale on press", no_transition_animation: "Disable transition animation", vertical: "Vertical slider", min_slide_time: "Min slide time", hold_time: "Hold time", settle_time: "Settle time", immediate_update: "Update while sliding", background_color: "Background color", height: "Height", width: "Width", text_color: "Text color", icon_color: "Icon color", icon_off_color: "Icon off color", constant_icon_color: "Constant icon color", show_icon_halo: "Show icon halo", use_alternative_slider_color: "Use alternative slider color", icon_size: "Icon size", icon_box_size: "Icon box size", slider_opacity: "Slider opacity", text_size: "Text size", border_color: "Border color", border_radius: "Border radius", border_style: "Border style", border_width: "Border width" } }, Re = { light_domain_only: "Specify an entity from within the light domain", unsupported_domain: "Specify a supported slider entity" }, De = { example_light: "Example Light" }, Ne = { name: "Big Slider Card", description: "Big slider card for light entities." }, Nt = {
+  max: Nt
+}, Ve = { version: "Version", invalid_configuration: "Invalid configuration", show_warning: "Show Warning", no_entity_set: "Entity not set", no_entity: "Entity not available", on: "On", off: "Off" }, Le = { sections: { display: "Display Options", styling: "Custom Styling", behavior: "Behavior / Actions" }, attributes: { brightness: "Brightness", red: "Red", green: "Green", blue: "Blue", hue: "Hue", saturation: "Saturation", color_temp_kelvin: "Color Temperature Kelvin", value: "Value", percentage: "Percentage", position: "Position", tilt_position: "Tilt position", temperature: "Temperature", humidity: "Humidity", volume: "Volume" }, labels: { colorize: "Colorize based on state", show_percentage: "Show percentage text", bold_text: "Bold text", no_scale: "Disable scale on press", no_transition_animation: "Disable transition animation", vertical: "Vertical slider", min_slide_time: "Min slide time", hold_time: "Hold time", settle_time: "Settle time", immediate_update: "Update while sliding", background_color: "Background color", height: "Height", width: "Width", text_color: "Text color", icon_color: "Icon color", icon_off_color: "Icon off color", constant_icon_color: "Constant icon color", show_icon_halo: "Show icon halo", use_alternative_slider_color: "Use alternative slider color", icon_size: "Icon size", icon_box_size: "Icon box size", slider_opacity: "Slider opacity", text_size: "Text size", border_color: "Border color", border_radius: "Border radius", border_style: "Border style", border_width: "Border width" } }, Re = { light_domain_only: "Specify an entity from within the light domain", unsupported_domain: "Specify a supported slider entity" }, Ne = { example_light: "Example Light" }, De = { name: "Big Slider Card", description: "Big slider card for light entities." }, Dt = {
   common: Ve,
   editor: Le,
   errors: Re,
-  preview: De,
-  card: Ne
+  preview: Ne,
+  card: De
 }, Ht = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  card: Ne,
+  card: De,
   common: Ve,
-  default: Nt,
+  default: Dt,
   editor: Le,
   errors: Re,
-  preview: De
+  preview: Ne
 }, Symbol.toStringTag, { value: "Module" })), He = { version: "Version", invalid_configuration: "Ungültige Konfiguration", show_warning: "Warnung anzeigen", no_entity_set: "Entität nicht gesetzt", no_entity: "Entität nicht verfügbar", on: "An", off: "Aus" }, Oe = { sections: { display: "Anzeigeoptionen", styling: "Benutzerdefiniertes Styling", behavior: "Verhalten / Aktionen" }, attributes: { brightness: "Helligkeit", red: "Rot", green: "Grün", blue: "Blau", hue: "Farbton", saturation: "Sättigung", color_temp_kelvin: "Farbtemperatur Kelvin", value: "Wert", percentage: "Prozent", position: "Position", tilt_position: "Kippposition", temperature: "Temperatur", humidity: "Luftfeuchtigkeit", volume: "Lautstärke" }, labels: { colorize: "Basierend auf Status einfärben", show_percentage: "Prozenttext anzeigen", bold_text: "Fetter Text", no_scale: "Skalierung beim Drücken deaktivieren", no_transition_animation: "Übergangsanimation deaktivieren", vertical: "Vertikaler Schieberegler", min_slide_time: "Minimale Schiebezeit", hold_time: "Haltezeit", settle_time: "Beruhigungszeit", immediate_update: "Beim Schieben aktualisieren", background_color: "Hintergrundfarbe", height: "Höhe", width: "Breite", text_color: "Textfarbe", icon_color: "Symbolfarbe", icon_off_color: "Symbolfarbe aus", constant_icon_color: "Konstante Symbolfarbe", show_icon_halo: "Symbol-Halo anzeigen", use_alternative_slider_color: "Alternative Schiebereglerfarbe verwenden", icon_size: "Symbolgröße", icon_box_size: "Symbolfeldgröße", slider_opacity: "Schieberegler-Deckkraft", text_size: "Textgröße", border_color: "Rahmenfarbe", border_radius: "Rahmenradius", border_style: "Rahmenstil", border_width: "Rahmenbreite" } }, Be = { light_domain_only: "Gib eine Entität aus der light-Domain an", unsupported_domain: "Gib eine unterstützte Schieberegler-Entität an" }, je = { example_light: "Beispiellampe" }, Ie = { name: "Big Slider Card", description: "Große Schiebereglerkarte für Lichtentitäten." }, Ot = {
   common: He,
   editor: Oe,
@@ -191,10 +191,10 @@ const Et = "1.2.6-beta", Mt = "brightness", Ut = 3e3, Vt = 600, Lt = 0, fe = 5, 
   editor: bt,
   errors: gt,
   preview: ft
-}, Symbol.toStringTag, { value: "Module" })), yt = { version: "Versiunea", invalid_configuration: "Configurație invalidă", show_warning: "Show Warning", no_entity_set: "Entitatea nu e setată", no_entity: "Entitatea nu e disponibilă", on: "Pornit", off: "Oprit" }, $t = { sections: { display: "Opțiuni de afișare", styling: "Stilizare personalizată", behavior: "Comportament / Acțiuni" }, attributes: { brightness: "Luminozitate", red: "Roșu", green: "Verde", blue: "Albastru", hue: "Nuanță", saturation: "Saturație", color_temp_kelvin: "Temperatură culoare Kelvin", value: "Valoare", percentage: "Procent", position: "Poziție", tilt_position: "Poziție înclinare", temperature: "Temperatură", humidity: "Umiditate", volume: "Volum" }, labels: { colorize: "Colorează în funcție de stare", show_percentage: "Afișează text procentual", bold_text: "Text îngroșat", no_scale: "Dezactivează scalarea la apăsare", no_transition_animation: "Dezactivează animația de tranziție", vertical: "Glisor vertical", min_slide_time: "Timp minim de glisare", hold_time: "Timp de apăsare lungă", settle_time: "Timp de stabilizare", immediate_update: "Actualizează în timpul glisării", background_color: "Culoare fundal", height: "Înălțime", width: "Lățime", text_color: "Culoare text", icon_color: "Culoare pictogramă", icon_off_color: "Culoare pictogramă oprită", constant_icon_color: "Culoare constantă pictogramă", show_icon_halo: "Afișează haloul pictogramei", use_alternative_slider_color: "Folosește culoarea alternativă a glisorului", icon_size: "Dimensiune pictogramă", icon_box_size: "Dimensiune casetă pictogramă", slider_opacity: "Opacitate glisor", text_size: "Dimensiune text", border_color: "Culoare chenar", border_radius: "Rază chenar", border_style: "Stil chenar", border_width: "Lățime chenar" } }, wt = { light_domain_only: "Specifică o entitate din domeniul light", unsupported_domain: "Specifică o entitate suportată de glisor" }, xt = { example_light: "Lumină exemplu" }, St = { name: "Big Slider Card", description: "Card cu glisor mare pentru entități de lumină." }, ei = {
+}, Symbol.toStringTag, { value: "Module" })), yt = { version: "Versiunea", invalid_configuration: "Configurație invalidă", show_warning: "Show Warning", no_entity_set: "Entitatea nu e setată", no_entity: "Entitatea nu e disponibilă", on: "Pornit", off: "Oprit" }, wt = { sections: { display: "Opțiuni de afișare", styling: "Stilizare personalizată", behavior: "Comportament / Acțiuni" }, attributes: { brightness: "Luminozitate", red: "Roșu", green: "Verde", blue: "Albastru", hue: "Nuanță", saturation: "Saturație", color_temp_kelvin: "Temperatură culoare Kelvin", value: "Valoare", percentage: "Procent", position: "Poziție", tilt_position: "Poziție înclinare", temperature: "Temperatură", humidity: "Umiditate", volume: "Volum" }, labels: { colorize: "Colorează în funcție de stare", show_percentage: "Afișează text procentual", bold_text: "Text îngroșat", no_scale: "Dezactivează scalarea la apăsare", no_transition_animation: "Dezactivează animația de tranziție", vertical: "Glisor vertical", min_slide_time: "Timp minim de glisare", hold_time: "Timp de apăsare lungă", settle_time: "Timp de stabilizare", immediate_update: "Actualizează în timpul glisării", background_color: "Culoare fundal", height: "Înălțime", width: "Lățime", text_color: "Culoare text", icon_color: "Culoare pictogramă", icon_off_color: "Culoare pictogramă oprită", constant_icon_color: "Culoare constantă pictogramă", show_icon_halo: "Afișează haloul pictogramei", use_alternative_slider_color: "Folosește culoarea alternativă a glisorului", icon_size: "Dimensiune pictogramă", icon_box_size: "Dimensiune casetă pictogramă", slider_opacity: "Opacitate glisor", text_size: "Dimensiune text", border_color: "Culoare chenar", border_radius: "Rază chenar", border_style: "Stil chenar", border_width: "Lățime chenar" } }, $t = { light_domain_only: "Specifică o entitate din domeniul light", unsupported_domain: "Specifică o entitate suportată de glisor" }, xt = { example_light: "Lumină exemplu" }, St = { name: "Big Slider Card", description: "Card cu glisor mare pentru entități de lumină." }, ei = {
   common: yt,
-  editor: $t,
-  errors: wt,
+  editor: wt,
+  errors: $t,
   preview: xt,
   card: St
 }, ti = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
@@ -202,10 +202,10 @@ const Et = "1.2.6-beta", Mt = "brightness", Ut = 3e3, Vt = 600, Lt = 0, fe = 5, 
   card: St,
   common: yt,
   default: ei,
-  editor: $t,
-  errors: wt,
+  editor: wt,
+  errors: $t,
   preview: xt
-}, Symbol.toStringTag, { value: "Module" })), ae = {
+}, Symbol.toStringTag, { value: "Module" })), se = {
   en: Ht,
   de: Bt,
   es: It,
@@ -220,27 +220,27 @@ function a(s, e = "", t = "") {
   const i = (localStorage.getItem("selectedLanguage") || "en").replace(/['"]+/g, "").replace("-", "_");
   let o;
   try {
-    o = s.split(".").reduce((r, n) => r[n], ae[i]);
+    o = s.split(".").reduce((r, n) => r[n], se[i]);
   } catch {
-    o = s.split(".").reduce((n, d) => n[d], ae.en);
+    o = s.split(".").reduce((n, d) => n[d], se.en);
   }
-  return o === void 0 && (o = s.split(".").reduce((r, n) => r[n], ae.en)), e !== "" && t !== "" && (o = o.replace(e, t)), o;
+  return o === void 0 && (o = s.split(".").reduce((r, n) => r[n], se.en)), e !== "" && t !== "" && (o = o.replace(e, t)), o;
 }
 /**
  * @license
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const ee = globalThis, _e = ee.ShadowRoot && (ee.ShadyCSS === void 0 || ee.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, me = Symbol(), ve = /* @__PURE__ */ new WeakMap();
+const Q = globalThis, he = Q.ShadowRoot && (Q.ShadyCSS === void 0 || Q.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, ue = Symbol(), ve = /* @__PURE__ */ new WeakMap();
 let zt = class {
   constructor(e, t, i) {
-    if (this._$cssResult$ = !0, i !== me) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
+    if (this._$cssResult$ = !0, i !== ue) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
     this.cssText = e, this.t = t;
   }
   get styleSheet() {
     let e = this.o;
     const t = this.t;
-    if (_e && e === void 0) {
+    if (he && e === void 0) {
       const i = t !== void 0 && t.length === 1;
       i && (e = ve.get(t)), e === void 0 && ((this.o = e = new CSSStyleSheet()).replaceSync(this.cssText), i && ve.set(t, e));
     }
@@ -250,20 +250,20 @@ let zt = class {
     return this.cssText;
   }
 };
-const ii = (s) => new zt(typeof s == "string" ? s : s + "", void 0, me), oi = (s, ...e) => {
+const ii = (s) => new zt(typeof s == "string" ? s : s + "", void 0, ue), oi = (s, ...e) => {
   const t = s.length === 1 ? s[0] : e.reduce((i, o, r) => i + ((n) => {
     if (n._$cssResult$ === !0) return n.cssText;
     if (typeof n == "number") return n;
     throw Error("Value passed to 'css' function must be a 'css' function result: " + n + ". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.");
   })(o) + s[r + 1], s[0]);
-  return new zt(t, s, me);
+  return new zt(t, s, ue);
 }, ri = (s, e) => {
-  if (_e) s.adoptedStyleSheets = e.map((t) => t instanceof CSSStyleSheet ? t : t.styleSheet);
+  if (he) s.adoptedStyleSheets = e.map((t) => t instanceof CSSStyleSheet ? t : t.styleSheet);
   else for (const t of e) {
-    const i = document.createElement("style"), o = ee.litNonce;
+    const i = document.createElement("style"), o = Q.litNonce;
     o !== void 0 && i.setAttribute("nonce", o), i.textContent = t.cssText, s.appendChild(i);
   }
-}, ye = _e ? (s) => s : (s) => s instanceof CSSStyleSheet ? ((e) => {
+}, ye = he ? (s) => s : (s) => s instanceof CSSStyleSheet ? ((e) => {
   let t = "";
   for (const i of e.cssRules) t += i.cssText;
   return ii(t);
@@ -273,7 +273,7 @@ const ii = (s) => new zt(typeof s == "string" ? s : s + "", void 0, me), oi = (s
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const { is: si, defineProperty: ni, getOwnPropertyDescriptor: ai, getOwnPropertyNames: li, getOwnPropertySymbols: ci, getPrototypeOf: di } = Object, T = globalThis, $e = T.trustedTypes, hi = $e ? $e.emptyScript : "", le = T.reactiveElementPolyfillSupport, I = (s, e) => s, te = { toAttribute(s, e) {
+const { is: si, defineProperty: ni, getOwnPropertyDescriptor: ai, getOwnPropertyNames: li, getOwnPropertySymbols: ci, getPrototypeOf: di } = Object, T = globalThis, we = T.trustedTypes, hi = we ? we.emptyScript : "", ne = T.reactiveElementPolyfillSupport, I = (s, e) => s, ee = { toAttribute(s, e) {
   switch (e) {
     case Boolean:
       s = s ? hi : null;
@@ -301,16 +301,16 @@ const { is: si, defineProperty: ni, getOwnPropertyDescriptor: ai, getOwnProperty
       }
   }
   return t;
-} }, pe = (s, e) => !si(s, e), we = { attribute: !0, type: String, converter: te, reflect: !1, hasChanged: pe };
+} }, _e = (s, e) => !si(s, e), $e = { attribute: !0, type: String, converter: ee, reflect: !1, hasChanged: _e };
 Symbol.metadata ?? (Symbol.metadata = Symbol("metadata")), T.litPropertyMetadata ?? (T.litPropertyMetadata = /* @__PURE__ */ new WeakMap());
-class D extends HTMLElement {
+class N extends HTMLElement {
   static addInitializer(e) {
     this._$Ei(), (this.l ?? (this.l = [])).push(e);
   }
   static get observedAttributes() {
     return this.finalize(), this._$Eh && [...this._$Eh.keys()];
   }
-  static createProperty(e, t = we) {
+  static createProperty(e, t = $e) {
     if (t.state && (t.attribute = !1), this._$Ei(), this.elementProperties.set(e, t), !t.noAccessor) {
       const i = Symbol(), o = this.getPropertyDescriptor(e, i, t);
       o !== void 0 && ni(this.prototype, e, o);
@@ -330,7 +330,7 @@ class D extends HTMLElement {
     }, configurable: !0, enumerable: !0 };
   }
   static getPropertyOptions(e) {
-    return this.elementProperties.get(e) ?? we;
+    return this.elementProperties.get(e) ?? $e;
   }
   static _$Ei() {
     if (this.hasOwnProperty(I("elementProperties"))) return;
@@ -414,7 +414,7 @@ class D extends HTMLElement {
     var r;
     const i = this.constructor.elementProperties.get(e), o = this.constructor._$Eu(e, i);
     if (o !== void 0 && i.reflect === !0) {
-      const n = (((r = i.converter) == null ? void 0 : r.toAttribute) !== void 0 ? i.converter : te).toAttribute(t, i.type);
+      const n = (((r = i.converter) == null ? void 0 : r.toAttribute) !== void 0 ? i.converter : ee).toAttribute(t, i.type);
       this._$Em = e, n == null ? this.removeAttribute(o) : this.setAttribute(o, n), this._$Em = null;
     }
   }
@@ -422,13 +422,13 @@ class D extends HTMLElement {
     var r;
     const i = this.constructor, o = i._$Eh.get(e);
     if (o !== void 0 && this._$Em !== o) {
-      const n = i.getPropertyOptions(o), d = typeof n.converter == "function" ? { fromAttribute: n.converter } : ((r = n.converter) == null ? void 0 : r.fromAttribute) !== void 0 ? n.converter : te;
+      const n = i.getPropertyOptions(o), d = typeof n.converter == "function" ? { fromAttribute: n.converter } : ((r = n.converter) == null ? void 0 : r.fromAttribute) !== void 0 ? n.converter : ee;
       this._$Em = o, this[o] = d.fromAttribute(t, n.type), this._$Em = null;
     }
   }
   requestUpdate(e, t, i) {
     if (e !== void 0) {
-      if (i ?? (i = this.constructor.getPropertyOptions(e)), !(i.hasChanged ?? pe)(this[e], t)) return;
+      if (i ?? (i = this.constructor.getPropertyOptions(e)), !(i.hasChanged ?? _e)(this[e], t)) return;
       this.P(e, t, i);
     }
     this.isUpdatePending === !1 && (this._$ES = this._$ET());
@@ -501,13 +501,13 @@ class D extends HTMLElement {
   firstUpdated(e) {
   }
 }
-D.elementStyles = [], D.shadowRootOptions = { mode: "open" }, D[I("elementProperties")] = /* @__PURE__ */ new Map(), D[I("finalized")] = /* @__PURE__ */ new Map(), le == null || le({ ReactiveElement: D }), (T.reactiveElementVersions ?? (T.reactiveElementVersions = [])).push("2.0.4");
+N.elementStyles = [], N.shadowRootOptions = { mode: "open" }, N[I("elementProperties")] = /* @__PURE__ */ new Map(), N[I("finalized")] = /* @__PURE__ */ new Map(), ne == null || ne({ ReactiveElement: N }), (T.reactiveElementVersions ?? (T.reactiveElementVersions = [])).push("2.0.4");
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const ui = { attribute: !0, type: String, converter: te, reflect: !1, hasChanged: pe }, _i = (s = ui, e, t) => {
+const ui = { attribute: !0, type: String, converter: ee, reflect: !1, hasChanged: _e }, _i = (s = ui, e, t) => {
   const { kind: i, metadata: o } = t;
   let r = globalThis.litPropertyMetadata.get(o);
   if (r === void 0 && globalThis.litPropertyMetadata.set(o, r = /* @__PURE__ */ new Map()), r.set(t.name, s), i === "accessor") {
@@ -539,7 +539,7 @@ function mi(s) {
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-function oe(s) {
+function me(s) {
   return mi({ ...s, state: !0, attribute: !1 });
 }
 /**
@@ -547,11 +547,11 @@ function oe(s) {
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const W = globalThis, ie = W.trustedTypes, xe = ie ? ie.createPolicy("lit-html", { createHTML: (s) => s }) : void 0, At = "$lit$", S = `lit$${Math.random().toFixed(9).slice(2)}$`, Tt = "?" + S, pi = `<${Tt}>`, R = document, G = () => R.createComment(""), F = (s) => s === null || typeof s != "object" && typeof s != "function", be = Array.isArray, bi = (s) => be(s) || typeof (s == null ? void 0 : s[Symbol.iterator]) == "function", ce = `[ 	
-\f\r]`, j = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, Se = /-->/g, ze = />/g, P = RegExp(`>|${ce}(?:([^\\s"'>=/]+)(${ce}*=${ce}*(?:[^ 	
+const W = globalThis, te = W.trustedTypes, xe = te ? te.createPolicy("lit-html", { createHTML: (s) => s }) : void 0, At = "$lit$", S = `lit$${Math.random().toFixed(9).slice(2)}$`, Tt = "?" + S, pi = `<${Tt}>`, R = document, G = () => R.createComment(""), F = (s) => s === null || typeof s != "object" && typeof s != "function", pe = Array.isArray, bi = (s) => pe(s) || typeof (s == null ? void 0 : s[Symbol.iterator]) == "function", ae = `[ 	
+\f\r]`, j = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, Se = /-->/g, ze = />/g, P = RegExp(`>|${ae}(?:([^\\s"'>=/]+)(${ae}*=${ae}*(?:[^ 	
 \f\r"'\`<>=]|("|')|))|$)`, "g"), Ae = /'/g, Te = /"/g, Ct = /^(?:script|style|textarea|title)$/i, gi = (s) => (e, ...t) => ({ _$litType$: s, strings: e, values: t }), Ce = gi(1), O = Symbol.for("lit-noChange"), p = Symbol.for("lit-nothing"), Pe = /* @__PURE__ */ new WeakMap(), k = R.createTreeWalker(R, 129);
 function Pt(s, e) {
-  if (!be(s) || !s.hasOwnProperty("raw")) throw Error("invalid template strings array");
+  if (!pe(s) || !s.hasOwnProperty("raw")) throw Error("invalid template strings array");
   return xe !== void 0 ? xe.createHTML(e) : e;
 }
 const fi = (s, e) => {
@@ -580,12 +580,12 @@ class X {
       if (o.nodeType === 1) {
         if (o.hasAttributes()) for (const h of o.getAttributeNames()) if (h.endsWith(At)) {
           const m = _[n++], b = o.getAttribute(h).split(S), C = /([.?@])?(.*)/.exec(m);
-          c.push({ type: 1, index: r, name: C[2], strings: b, ctor: C[1] === "." ? yi : C[1] === "?" ? $i : C[1] === "@" ? wi : re }), o.removeAttribute(h);
+          c.push({ type: 1, index: r, name: C[2], strings: b, ctor: C[1] === "." ? yi : C[1] === "?" ? wi : C[1] === "@" ? $i : ie }), o.removeAttribute(h);
         } else h.startsWith(S) && (c.push({ type: 6, index: r }), o.removeAttribute(h));
         if (Ct.test(o.tagName)) {
           const h = o.textContent.split(S), m = h.length - 1;
           if (m > 0) {
-            o.textContent = ie ? ie.emptyScript : "";
+            o.textContent = te ? te.emptyScript : "";
             for (let b = 0; b < m; b++) o.append(h[b], G()), k.nextNode(), c.push({ type: 2, index: ++r });
             o.append(h[m], G());
           }
@@ -683,7 +683,7 @@ class q {
     return t === void 0 && Pe.set(e.strings, t = new X(e)), t;
   }
   k(e) {
-    be(this._$AH) || (this._$AH = [], this._$AR());
+    pe(this._$AH) || (this._$AH = [], this._$AR());
     const t = this._$AH;
     let i, o = 0;
     for (const r of e) o === t.length ? t.push(i = new q(this.O(G()), this.O(G()), this, this.options)) : i = t[o], i._$AI(r), o++;
@@ -701,7 +701,7 @@ class q {
     this._$AM === void 0 && (this._$Cv = e, (t = this._$AP) == null || t.call(this, e));
   }
 }
-class re {
+class ie {
   get tagName() {
     return this.element.tagName;
   }
@@ -726,7 +726,7 @@ class re {
     e === p ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, e ?? "");
   }
 }
-class yi extends re {
+class yi extends ie {
   constructor() {
     super(...arguments), this.type = 3;
   }
@@ -734,7 +734,7 @@ class yi extends re {
     this.element[this.name] = e === p ? void 0 : e;
   }
 }
-class $i extends re {
+class wi extends ie {
   constructor() {
     super(...arguments), this.type = 4;
   }
@@ -742,7 +742,7 @@ class $i extends re {
     this.element.toggleAttribute(this.name, !!e && e !== p);
   }
 }
-class wi extends re {
+class $i extends ie {
   constructor(e, t, i, o, r) {
     super(e, t, i, o, r), this.type = 5;
   }
@@ -767,8 +767,8 @@ class xi {
     B(this, e);
   }
 }
-const de = W.litHtmlPolyfillSupport;
-de == null || de(X, q), (W.litHtmlVersions ?? (W.litHtmlVersions = [])).push("3.2.1");
+const le = W.litHtmlPolyfillSupport;
+le == null || le(X, q), (W.litHtmlVersions ?? (W.litHtmlVersions = [])).push("3.2.1");
 const Si = (s, e, t) => {
   const i = (t == null ? void 0 : t.renderBefore) ?? e;
   let o = i._$litPart$;
@@ -783,13 +783,13 @@ const Si = (s, e, t) => {
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const Z = (s) => s ?? p;
+const Y = (s) => s ?? p;
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-class K extends D {
+class K extends N {
   constructor() {
     super(...arguments), this.renderOptions = { host: this }, this._$Do = void 0;
   }
@@ -816,17 +816,17 @@ class K extends D {
 }
 var Ee;
 K._$litElement$ = !0, K.finalized = !0, (Ee = globalThis.litElementHydrateSupport) == null || Ee.call(globalThis, { LitElement: K });
-const he = globalThis.litElementPolyfillSupport;
-he == null || he({ LitElement: K });
+const ce = globalThis.litElementPolyfillSupport;
+ce == null || ce({ LitElement: K });
 (globalThis.litElementVersions ?? (globalThis.litElementVersions = [])).push("4.1.1");
-var zi = Object.defineProperty, se = (s, e, t, i) => {
+var zi = Object.defineProperty, be = (s, e, t, i) => {
   for (var o = void 0, r = s.length - 1, n; r >= 0; r--)
     (n = s[r]) && (o = n(e, t, o) || o);
   return o && zi(e, t, o), o;
 };
-class Y extends K {
+class oe extends K {
   constructor() {
-    super(...arguments), this._config = w, this._name = "", this.mouseStartPos = { x: 0, y: 0 }, this.mousePos = { x: 0, y: 0 }, this.containerWidth = 0, this.containerHeight = 0, this.oldValue = 0, this.currentValue = 0, this.holdTimer = 0, this.isHold = !1, this._shouldUpdate = !0, this.updateTimeout = 0, this.pressTimeout = 0, this.immediateUpdateTimeout = 0, this.trackingStartTime = 0, this.isTap = !1, this.hasValidSlide = !1, this.hasCustomMin = !1, this.hasCustomMax = !1, this._handleContextMenu = (e) => (e.preventDefault && e.preventDefault(), e.stopPropagation && e.stopPropagation(), !1), this._handlePointer = (e, t) => {
+    super(...arguments), this._config = $, this.mouseStartPos = { x: 0, y: 0 }, this.mousePos = { x: 0, y: 0 }, this.containerWidth = 0, this.containerHeight = 0, this.oldValue = 0, this.currentValue = 0, this.holdTimer = 0, this.isHold = !1, this._shouldUpdate = !0, this.updateTimeout = 0, this.pressTimeout = 0, this.immediateUpdateTimeout = 0, this.trackingStartTime = 0, this.isTap = !1, this.hasValidSlide = !1, this.hasCustomMin = !1, this.hasCustomMax = !1, this._handleContextMenu = (e) => (e.preventDefault && e.preventDefault(), e.stopPropagation && e.stopPropagation(), !1), this._handlePointer = (e, t) => {
       this.mousePos = { x: e.pageX, y: e.pageY };
       const i = this._config.min_slide_time;
       if (e.type === "pointerdown" && (this._press(), this.isTap = !0, this.isHold = !1, this.hasValidSlide = !1, this._clearImmediateUpdate(), this.holdTimer = window.setTimeout(this._setHold, this._config.hold_time), this.trackingStartTime = Date.now(), this._updateContainerSize(), this._resetTrack()), !this.isHold && ["pointerdown", "pointermove", "pointerup"].includes(e.type) && this._updateValue(), e.type === "pointermove") {
@@ -850,8 +850,11 @@ class Y extends K {
     };
   }
   static getStubConfig(e, t) {
-    const i = t.filter((r) => Q.includes(r.split(".")[0])).sort();
-    return { type: "custom:big-slider-card", entity: i[Math.floor(Math.random() * i.length)] };
+    const i = t.filter((r) => J.includes(r.split(".")[0])).sort(), o = i[Math.floor(Math.random() * i.length)];
+    return {
+      type: "custom:big-slider-card",
+      ...o ? { entity: o } : {}
+    };
   }
   getGridOptions() {
     return this._config.vertical ? {
@@ -876,7 +879,7 @@ class Y extends K {
         {
           name: "entity",
           required: !0,
-          selector: { entity: { domain: Q } }
+          selector: { entity: { domain: J } }
         },
         {
           name: "name",
@@ -1145,10 +1148,10 @@ class Y extends K {
     if (!e)
       throw new Error(a("common.invalid_configuration"));
     const t = this._getDomain(e.entity);
-    if (t && !Q.includes(t))
+    if (t && !J.includes(t))
       throw new Error(a("errors.unsupported_domain"));
     const i = e.attribute ?? this._getDefaultAttribute(t), o = this._getAttributeDefaults(i, t);
-    this.hasCustomMin = e.min !== void 0, this.hasCustomMax = e.max !== void 0, this._config = { ...w, attribute: i, ...o, ...e }, this._entity = this._config.entity, this._config.original_min = this._config.min, this._config.original_max = this._config.max;
+    this.hasCustomMin = e.min !== void 0, this.hasCustomMax = e.max !== void 0, this._config = { ...$, attribute: i, ...o, ...e }, this._entity = this._config.entity, this._config.original_min = this._config.min, this._config.original_max = this._config.max, this.isConnected && this._setupSlideGesture();
   }
   _getAttributeDefaults(e, t) {
     switch (e) {
@@ -1179,12 +1182,11 @@ class Y extends K {
       case "humidifier":
         return "humidity";
       default:
-        return w.attribute;
+        return $.attribute;
     }
   }
   set hass(e) {
-    var t, i;
-    this._hass = e, this._entity && (this._state = e.states[this._entity], this._name = this._config.name ?? ((i = (t = this._state) == null ? void 0 : t.attributes) == null ? void 0 : i.friendly_name) ?? this._entity.split(".")[1] ?? "");
+    this._hass = e, this._entity && (this._state = e.states[this._entity]);
   }
   get _effectiveState() {
     return this._state ? this._state : {
@@ -1208,21 +1210,19 @@ class Y extends K {
   get _effectiveStatus() {
     return this._state ? this._state.state : "on";
   }
-  _log(e) {
-    console.log(
-      `%c  BIG-SLIDER-CARD ${this._name} %c ${e} `,
-      "color: orange; font-weight: bold; background: black",
-      ""
-    );
-  }
   connectedCallback() {
-    super.connectedCallback(), this.addEventListener("contextmenu", this._handleContextMenu), this.slideGesture = new kt(this, this._handlePointer.bind(this), {
+    super.connectedCallback(), this.addEventListener("contextmenu", this._handleContextMenu), this._setupSlideGesture();
+  }
+  _setupSlideGesture() {
+    var e;
+    (e = this.slideGesture) == null || e.removeListeners(), this.slideGesture = new kt(this, this._handlePointer.bind(this), {
       touchActions: this._config.vertical ? "pan-x" : "pan-y",
       stopScrollDirection: this._config.vertical ? "vertical" : "horizontal"
     });
   }
   disconnectedCallback() {
-    this.removeEventListener("contextmenu", this._handleContextMenu), this._clearImmediateUpdate(), this.slideGesture.removeListeners(), super.disconnectedCallback();
+    var e;
+    this.removeEventListener("contextmenu", this._handleContextMenu), this._clearImmediateUpdate(), (e = this.slideGesture) == null || e.removeListeners(), this.slideGesture = void 0, super.disconnectedCallback();
   }
   _updateValue() {
     if (!this._updateContainerSize()) return;
@@ -1334,7 +1334,7 @@ class Y extends K {
       this._config.min = 0, this._config.max = 0, this.style.setProperty("--bsc-opacity", "0.5");
     else {
       const r = this._getEntityRange(e);
-      this._config.min = this.hasCustomMin ? this._config.original_min ?? w.min : r.min, this._config.max = this.hasCustomMax ? this._config.original_max ?? w.max : r.max, this.style.removeProperty("--bsc-opacity");
+      this._config.min = this.hasCustomMin ? this._config.original_min ?? $.min : r.min, this._config.max = this.hasCustomMax ? this._config.original_max ?? $.max : r.max, this.style.removeProperty("--bsc-opacity");
     }
     this.currentValue = this._getEntityValue(e, i), this._checklimits(), this._updateSlider();
   }
@@ -1480,17 +1480,17 @@ class Y extends K {
       case "number":
       case "input_number":
         return {
-          min: this._toNumber((o = e.attributes) == null ? void 0 : o.min, w.min),
-          max: this._toNumber((r = e.attributes) == null ? void 0 : r.max, w.max)
+          min: this._toNumber((o = e.attributes) == null ? void 0 : o.min, $.min),
+          max: this._toNumber((r = e.attributes) == null ? void 0 : r.max, $.max)
         };
       case "climate":
       case "water_heater":
         return i === "humidity" ? { min: 0, max: 100 } : {
-          min: this._toNumber((n = e.attributes) == null ? void 0 : n.min_temp, w.min),
-          max: this._toNumber((d = e.attributes) == null ? void 0 : d.max_temp, w.max)
+          min: this._toNumber((n = e.attributes) == null ? void 0 : n.min_temp, $.min),
+          max: this._toNumber((d = e.attributes) == null ? void 0 : d.max_temp, $.max)
         };
       default:
-        return { min: w.min, max: w.max };
+        return { min: $.min, max: $.max };
     }
   }
   _toNumber(e, t) {
@@ -1537,8 +1537,8 @@ class Y extends K {
       <ha-card
         id="container"
         class="${h ? "vertical" : ""}"
-        data-domain=${Z(r)}
-        data-state=${Z(t)}
+        data-domain=${Y(r)}
+        data-state=${Y(t)}
         tabindex="0"
         >
         <div id="slider" class="animate ${n ? "colorize" : ""}"></div>
@@ -1548,8 +1548,8 @@ class Y extends K {
           .state=${e}
           .hass=${this._hass}
           .stateObj=${e}
-          data-domain=${Z(r)}
-          data-state=${Z(t)}
+          data-domain=${Y(r)}
+          data-state=${Y(t)}
         ></ha-state-icon>
         <div id="content">
           <p id="label" class="${c ? "bold" : ""}">
@@ -1561,7 +1561,7 @@ class Y extends K {
     `;
   }
   _setStyleProperty(e, t, i = (o) => o) {
-    t != null && t !== "" && this.style.setProperty(e, i(t));
+    t != null && t !== "" ? this.style.setProperty(e, i(t)) : this.style.removeProperty(e);
   }
   _normalizeCssLength(e) {
     return typeof e == "number" ? `${e}px` : e;
@@ -1572,11 +1572,6 @@ class Y extends K {
     const t = e.trim().match(/^(\d+(?:\.\d+)?)px$/);
     return t ? Number(t[1]) : void 0;
   }
-  // private _showWarning(warning: string): TemplateResult {
-  //   return html`
-  //     <hui-warning>${warning}</hui-warning>
-  //   `;
-  // }
   _showError(e) {
     const t = document.createElement("hui-error-card");
     return t.setConfig({
@@ -1791,32 +1786,29 @@ class Y extends K {
     `;
   }
 }
-se([
-  oe()
-], Y.prototype, "_config");
-se([
-  oe()
-], Y.prototype, "_entity");
-se([
-  oe()
-], Y.prototype, "_state");
-se([
-  oe()
-], Y.prototype, "_name");
+be([
+  me()
+], oe.prototype, "_config");
+be([
+  me()
+], oe.prototype, "_entity");
+be([
+  me()
+], oe.prototype, "_state");
 console.info(
   `%c  BIG-SLIDER-CARD 
 %c  ${a("common.version")} ${Et}    `,
   "color: orange; font-weight: bold; background: black",
   "color: white; font-weight: bold; background: dimgray"
 );
-customElements.define("big-slider-card", Y);
+customElements.define("big-slider-card", oe);
 window.customCards = window.customCards ?? [];
 window.customCards.push({
   type: "big-slider-card",
   name: a("card.name"),
   description: a("card.description"),
   preview: !0,
-  getEntitySuggestion: (s, e) => Q.includes(e.split(".")[0]) ? {
+  getEntitySuggestion: (s, e) => J.includes(e.split(".")[0]) ? {
     type: "custom:big-slider-card",
     config: {
       type: "custom:big-slider-card",

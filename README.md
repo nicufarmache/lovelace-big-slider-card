@@ -93,9 +93,9 @@ hold_action:
 | entity            | string  | **Required** | Home Assistant entity ID.                      |                     |
 | name              | string  | **Optional** | Name to show on card                           | entity name         |
 | attribute         | string  | **Optional** | Capability/attribute to control                | inferred by domain  |
-| transition        | number  | **Optional** | Transition time (seonds)                       | not used if unset   |
-| height            | number/string | **Optional** | Card height in px or CSS length                | form theme / `200` when vertical |
-| width             | number/string | **Optional** | Card width in px or CSS length                 | `100%` / `80` when vertical |
+| transition        | number  | **Optional** | Transition time (seconds)                      | not used if unset   |
+| height            | number/string | **Optional** | Card height in px or CSS length                | `100%`, min `56px` / min `180px` when vertical |
+| width             | number/string | **Optional** | Card width in px or CSS length                 | `100%`, min `0` / min `60px` when vertical |
 | color             | string  | **Optional** | Slider color (CSS format)                      | form theme          |
 | background_color  | string  | **Optional** | Background color (CSS format)                  | form theme          |
 | text_color        | string  | **Optional** | Text color (CSS format)                        | form theme          |
@@ -115,16 +115,16 @@ hold_action:
 | colorize          | boolean | **Optional** | Colorize slider using entity color             | false               |
 | icon              | string  | **Optional** | Sets custom icon                               | entity icon         |
 | show_percentage   | boolean | **Optional** | Show percentage under entity name              | false               |
-| bold_text         | boolean | **Optional** | Make taxt font bold                            | false               |
+| bold_text         | boolean | **Optional** | Make text font bold                            | false               |
 | no_scale         | boolean | **Optional** | Disable scaling the card while pressing        | false               |
 | no_transition_animation | boolean | **Optional** | Disable slider, color, and icon transitions | false               |
 | vertical          | boolean | **Optional** | Display the slider vertically                  | false               |
-| min               | number  | **Optional** | Maximum value for slider                       | `0`                 |
-| max               | number  | **Optional** | Minimum value for slider                       | `100`               |
+| min               | number  | **Optional** | Minimum value for slider                       | `0`                 |
+| max               | number  | **Optional** | Maximum value for slider                       | `100`               |
 | immediate_update  | boolean | **Optional** | Update value while sliding every 300ms         | false               |
-| min_slide_time    | number  | **Optional** | Mimimum time to prevent accidental changes (ms)| `0`                 |
+| min_slide_time    | number  | **Optional** | Minimum time to prevent accidental changes (ms)| `0`                 |
 | hold_time         | number  | **Optional** | Hold gesture time (ms)                         | `600`               |
-| settle_time       | number  | **Optional** | Ignore updates after changig the value (ms)    | `3000`              |
+| settle_time       | number  | **Optional** | Ignore updates after changing the value (ms)   | `3000`              |
 | tap_action        | object  | **Optional** | Action to take on tap                          | `action: toggle`    |
 | hold_action       | object  | **Optional** | Action to take on hold                         | `action: more-info` |
 

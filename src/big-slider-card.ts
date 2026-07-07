@@ -1,5 +1,5 @@
 
-import { SlideGesture } from '@nicufarmache/slide-gesture';
+import { SlideGesture, type SlideGestureEvent } from '@nicufarmache/slide-gesture';
 import { HassEntity } from "home-assistant-js-websocket";
 import { HomeAssistant } from './ha-types';
 import type { BigSliderCardConfig, MousePos } from './types';
@@ -21,11 +21,9 @@ type SliderRange = {
 };
 
 export class BigSliderCard extends LitElement {
-  // @property({ attribute: false }) public hass!: HomeAssistant;
   @state() private _config: BigSliderCardConfig = DEFAULT_CONFIG;
   @state() private _entity?: string;
   @state() private _state?: HassEntity;
-  @state() private _name: string = '';
   private _hass?: HomeAssistant;
   private mouseStartPos: MousePos = { x: 0, y: 0 };
   private mousePos: MousePos = { x: 0, y: 0 };
@@ -40,7 +38,7 @@ export class BigSliderCard extends LitElement {
   private pressTimeout: number = 0;
   private immediateUpdateTimeout: number = 0;
   private trackingStartTime: number = 0;
-  private slideGesture: any;
+  private slideGesture?: SlideGesture;
   private isTap: boolean = false;
   private hasValidSlide: boolean = false;
   private hasCustomMin: boolean = false;
@@ -52,7 +50,10 @@ export class BigSliderCard extends LitElement {
   ): Partial<BigSliderCardConfig> {
     const supportedEntities = entities.filter(entity => SUPPORTED_DOMAINS.includes(entity.split('.')[0])).sort();
     const randomEntity = supportedEntities[Math.floor(Math.random() * supportedEntities.length)];
-    return { type: 'custom:big-slider-card', entity: randomEntity };
+    return {
+      type: 'custom:big-slider-card',
+      ...(randomEntity ? { entity: randomEntity } : {}),
+    };
   }
 
   public getGridOptions() {
@@ -378,6 +379,10 @@ export class BigSliderCard extends LitElement {
     this._entity = this._config.entity;
     this._config.original_min = this._config.min;
     this._config.original_max = this._config.max;
+
+    if (this.isConnected) {
+      this._setupSlideGesture();
+    }
   }
 
   _getAttributeDefaults(attribute: string, _domain?: string): Partial<BigSliderCardConfig> {
@@ -419,11 +424,6 @@ export class BigSliderCard extends LitElement {
     this._hass = hass;
     if (!this._entity) return;
     this._state = hass.states[this._entity];
-    this._name =
-      this._config.name ??
-      this._state?.attributes?.friendly_name ??
-      this._entity.split('.')[1] ??
-      '';
   }
 
   private get _effectiveState(): HassEntity {
@@ -456,17 +456,14 @@ export class BigSliderCard extends LitElement {
     return this._state ? this._state.state : 'on';
   }
 
-  _log(text: string): void {
-    console.log(
-      `%c  BIG-SLIDER-CARD ${this._name} %c ${text} `,
-      'color: orange; font-weight: bold; background: black',
-      '',
-    );
-  }
-
   connectedCallback(): void {
     super.connectedCallback();
     this.addEventListener('contextmenu', this._handleContextMenu);
+    this._setupSlideGesture();
+  }
+
+  private _setupSlideGesture(): void {
+    this.slideGesture?.removeListeners();
     this.slideGesture = new SlideGesture(this, this._handlePointer.bind(this), {
       touchActions: this._config.vertical ? 'pan-x' : 'pan-y',
       stopScrollDirection: this._config.vertical ? 'vertical' : 'horizontal'
@@ -476,7 +473,8 @@ export class BigSliderCard extends LitElement {
   disconnectedCallback(): void {
     this.removeEventListener('contextmenu', this._handleContextMenu);
     this._clearImmediateUpdate();
-    this.slideGesture.removeListeners();
+    this.slideGesture?.removeListeners();
+    this.slideGesture = undefined;
     super.disconnectedCallback();
   }
 
@@ -490,7 +488,7 @@ export class BigSliderCard extends LitElement {
     return false;
   }
 
-  _handlePointer = (evt: PointerEvent, extra: any): void => {
+  _handlePointer = (evt: PointerEvent, extra: SlideGestureEvent): void => {
     this.mousePos = { x: evt.pageX, y: evt.pageY };
     const minSlideTime = this._config.min_slide_time;
 
@@ -1128,6 +1126,8 @@ export class BigSliderCard extends LitElement {
   _setStyleProperty(name: string, value: any, transform = (value: any): string => value): void {
     if (value !== undefined && value !== null && value !== '') {
       this.style.setProperty(name, transform(value));
+    } else {
+      this.style.removeProperty(name);
     }
   }
 
@@ -1142,12 +1142,6 @@ export class BigSliderCard extends LitElement {
     const match = value.trim().match(/^(\d+(?:\.\d+)?)px$/);
     return match ? Number(match[1]) : undefined;
   }
-
-  // private _showWarning(warning: string): TemplateResult {
-  //   return html`
-  //     <hui-warning>${warning}</hui-warning>
-  //   `;
-  // }
 
   private _showError(error: string): TemplateResult {
     const errorCard = document.createElement('hui-error-card');
