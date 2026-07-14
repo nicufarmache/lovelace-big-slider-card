@@ -45,8 +45,6 @@ export interface BigSliderCardConfig extends LovelaceCardConfig {
   vertical?: boolean;
   min: number;
   max: number;
-  original_min?: number;
-  original_max?: number;
   min_slide_time: number;
   hold_time: number;
   settle_time: number;

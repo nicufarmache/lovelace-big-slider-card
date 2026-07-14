@@ -20,6 +20,9 @@ type SliderRange = {
   max: number;
 };
 
+type SliderAction = 'hold' | 'tap';
+type StyleValue = string | number | null | undefined;
+
 export class BigSliderCard extends LitElement {
   @state() private _config: BigSliderCardConfig = DEFAULT_CONFIG;
   @state() private _entity?: string;
@@ -41,8 +44,8 @@ export class BigSliderCard extends LitElement {
   private slideGesture?: SlideGesture;
   private isTap: boolean = false;
   private hasValidSlide: boolean = false;
-  private hasCustomMin: boolean = false;
-  private hasCustomMax: boolean = false;
+  private customMin?: number;
+  private customMax?: number;
 
   public static getStubConfig(
     _hass: HomeAssistant,
@@ -319,7 +322,7 @@ export class BigSliderCard extends LitElement {
           ],
         },
       ],
-      computeLabel: (schema: any, hassLocalize: any) => {
+      computeLabel: (schema: { name: string }, hassLocalize: (key: string) => string | undefined) => {
         const customLabels: Record<string, string> = {
           colorize: localize('editor.labels.colorize'),
           show_percentage: localize('editor.labels.show_percentage'),
@@ -373,12 +376,10 @@ export class BigSliderCard extends LitElement {
     const attribute = config.attribute ?? this._getDefaultAttribute(domain);
     const attributeDefaults = this._getAttributeDefaults(attribute, domain);
 
-    this.hasCustomMin = config.min !== undefined;
-    this.hasCustomMax = config.max !== undefined;
+    this.customMin = config.min;
+    this.customMax = config.max;
     this._config = { ...DEFAULT_CONFIG, attribute, ...attributeDefaults, ...config };
     this._entity = this._config.entity;
-    this._config.original_min = this._config.min;
-    this._config.original_max = this._config.max;
 
     if (this.isConnected) {
       this._setupSlideGesture();
@@ -472,6 +473,12 @@ export class BigSliderCard extends LitElement {
 
   disconnectedCallback(): void {
     this.removeEventListener('contextmenu', this._handleContextMenu);
+    clearTimeout(this.holdTimer);
+    clearTimeout(this.pressTimeout);
+    clearTimeout(this.updateTimeout);
+    this.holdTimer = 0;
+    this.pressTimeout = 0;
+    this.updateTimeout = 0;
     this._clearImmediateUpdate();
     this.slideGesture?.removeListeners();
     this.slideGesture = undefined;
@@ -578,16 +585,16 @@ export class BigSliderCard extends LitElement {
       : 100 * delta / size;
   }
 
-  private _handleAction(action: any): void {
-    const event = new Event('hass-action', {
+  private _handleAction(action: SliderAction): void {
+    const event = new CustomEvent('hass-action', {
       bubbles: true,
       cancelable: false,
       composed: true,
+      detail: {
+        config: this._config,
+        action,
+      },
     });
-    (event as any).detail = {
-      config: this._config!,
-      action: action,
-    };
     this.dispatchEvent(event);
   }
 
@@ -782,8 +789,8 @@ export class BigSliderCard extends LitElement {
       this.style.setProperty('--bsc-opacity', '0.5');
     } else {
       const range = this._getEntityRange(stateObj);
-      this._config.min = this.hasCustomMin ? (this._config.original_min ?? DEFAULT_CONFIG.min) : range.min;
-      this._config.max = this.hasCustomMax ? (this._config.original_max ?? DEFAULT_CONFIG.max) : range.max;
+      this._config.min = this.customMin ?? range.min;
+      this._config.max = this.customMax ?? range.max;
       this.style.removeProperty('--bsc-opacity');
     }
 
@@ -795,7 +802,7 @@ export class BigSliderCard extends LitElement {
   _setValue(): void {
     if (!this._state) return;
 
-    let value = this.currentValue;
+    const value = this.currentValue;
     let attr = this._config.attribute;
     const domain = this._getDomain(this._state.entity_id);
 
@@ -805,42 +812,44 @@ export class BigSliderCard extends LitElement {
     }
 
     let on = true;
-    let _value;
+    let serviceValue: number | number[] = value;
     switch (attr) {
       case 'brightness':
-        value = Math.round(value / 100 * 255);
-        if (!value) on = false;
+        serviceValue = Math.round(value / 100 * 255);
+        if (!serviceValue) on = false;
         break;
       case 'red':
       case 'green':
-      case 'blue':
-        _value = this._state.attributes.rgb_color ?? [255, 255, 255];
-        value = Math.round(value / 100 * 255);
-        if (attr === 'red') _value[0] = value;
-        if (attr === 'green') _value[1] = value;
-        if (attr === 'blue') _value[2] = value;
-        value = _value;
+      case 'blue': {
+        const rgb = [...(this._state.attributes.rgb_color ?? [255, 255, 255])];
+        const channelValue = Math.round(value / 100 * 255);
+        if (attr === 'red') rgb[0] = channelValue;
+        if (attr === 'green') rgb[1] = channelValue;
+        if (attr === 'blue') rgb[2] = channelValue;
+        serviceValue = rgb;
         attr = 'rgb_color';
         break;
+      }
       case 'hue':
-      case 'saturation':
-        _value = this._state.attributes.hs_color ?? [100, 100];
-        if (attr === 'hue') _value[0] = value;
-        if (attr === 'saturation') _value[1] = value;
-        value = _value;
+      case 'saturation': {
+        const hs = [...(this._state.attributes.hs_color ?? [100, 100])];
+        if (attr === 'hue') hs[0] = value;
+        if (attr === 'saturation') hs[1] = value;
+        serviceValue = hs;
         attr = 'hs_color';
         break;
+      }
       case 'color_temp_kelvin':
-        value = Math.round(value);
+        serviceValue = Math.round(value);
         break;
     }
 
-    const params: Record<string, any> = {
+    const params: Record<string, string | number | number[]> = {
       entity_id: this._state.entity_id,
     }
 
     if (on) {
-      params[attr] = value;
+      params[attr] = serviceValue;
       if (this._config.transition) {
         params.transition = this._config.transition;
       }
@@ -996,7 +1005,7 @@ export class BigSliderCard extends LitElement {
     }
   }
 
-  _toNumber(value: any, fallback: number): number {
+  _toNumber(value: unknown, fallback: number): number {
     const numericValue = Number(value);
     return Number.isFinite(numericValue) ? numericValue : fallback;
   }
@@ -1133,7 +1142,11 @@ export class BigSliderCard extends LitElement {
     `;
   }
 
-  _setStyleProperty(name: string, value: any, transform = (value: any): string => value): void {
+  _setStyleProperty(
+    name: string,
+    value: StyleValue,
+    transform: (value: string | number) => string = String,
+  ): void {
     if (value !== undefined && value !== null && value !== '') {
       this.style.setProperty(name, transform(value));
     } else {
