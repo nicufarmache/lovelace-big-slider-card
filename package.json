@@ -16,8 +16,11 @@
   "author": "Nicu Farmache <github@nicu.ro>",
   "license": "MIT",
   "devDependencies": {
+    "@vitest/coverage-v8": "^4.1.10",
+    "jsdom": "^29.1.1",
     "typescript": "~5.7.2",
-    "vite": "^6.2.0"
+    "vite": "^6.2.0",
+    "vitest": "^4.1.10"
   },
   "dependencies": {
     "@nicufarmache/slide-gesture": "^1.2.4",
@@ -28,6 +31,10 @@
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "tsc && vite build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "check": "tsc && vitest run --coverage && vite build",
     "preview": "vite preview"
   }
 }

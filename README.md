@@ -175,6 +175,16 @@ Use `attribute: tilt_position` for covers that support tilt, or `attribute: humi
 --bsc-secondary-text-size: var(--ha-font-size-s, 12px);
 ```
 
+### Testing
+
+Run the complete local verification before committing:
+
+```bash
+npm run check
+```
+
+This runs strict TypeScript checks, the Vitest suite with enforced coverage thresholds, and the production build. Use `npm run test:watch` while developing. The same complete check runs automatically on every push and pull request.
+
 
 <!-- References -->
 [hacs]: https://hacs.xyz
