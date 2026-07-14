@@ -53,7 +53,7 @@ let Ct = (Ce = class {
     totalY: d(this, M)
   }), d(this, g).releasePointerCapture(e.pointerId), x(this, y, de).call(this));
 }, Ce);
-const Et = "1.2.8-beta", Ut = "brightness", Mt = 3e3, Vt = 600, Lt = 0, fe = 5, Dt = 0, Rt = 100, J = [
+const Et = "1.2.9-beta", Ut = "brightness", Mt = 3e3, Vt = 600, Lt = 0, fe = 5, Dt = 0, Rt = 100, J = [
   "light",
   "number",
   "input_number",
