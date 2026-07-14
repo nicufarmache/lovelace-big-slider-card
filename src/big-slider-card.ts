@@ -694,13 +694,13 @@ export class BigSliderCard extends LitElement {
 
   _formatValue(value: number): string {
     if (!Number.isFinite(value)) return '0';
-    return Number.isInteger(value) ? String(value) : String(Number(value.toFixed(1)));
+    return String(Math.round(value));
   }
 
-  _roundValue(value: number): number {
-    const step = Number(this._effectiveState.attributes?.step ?? this._effectiveState.attributes?.target_temp_step);
+  _snapValueToStep(value: number, stepValue: unknown): number {
+    const step = Number(stepValue);
     if (!Number.isFinite(step) || step <= 0) {
-      return Math.round(value);
+      return value;
     }
 
     const decimals = this._getDecimalPlaces(step);
@@ -732,8 +732,8 @@ export class BigSliderCard extends LitElement {
         color = 'var(--bsc-active-color)';
       }
       if (stateBrightness) {
-        brightness = `${Math.ceil(100 * stateBrightness / 255)}%`
-        brightnessUI = `${Math.ceil(100 * stateBrightness / 510 + 50)}%`
+        brightness = `${100 * stateBrightness / 255}%`
+        brightnessUI = `${100 * stateBrightness / 510 + 50}%`
       }
     } else {
       color = 'var(--bsc-off-color)';
@@ -795,7 +795,7 @@ export class BigSliderCard extends LitElement {
   _setValue(): void {
     if (!this._state) return;
 
-    let value = this._roundValue(this.currentValue);
+    let value = this.currentValue;
     let attr = this._config.attribute;
     const domain = this._getDomain(this._state.entity_id);
 
@@ -808,13 +808,14 @@ export class BigSliderCard extends LitElement {
     let _value;
     switch (attr) {
       case 'brightness':
-        value = Math.ceil(value / 100.0 * 255);
+        value = Math.round(value / 100 * 255);
         if (!value) on = false;
         break;
       case 'red':
       case 'green':
       case 'blue':
         _value = this._state.attributes.rgb_color ?? [255, 255, 255];
+        value = Math.round(value / 100 * 255);
         if (attr === 'red') _value[0] = value;
         if (attr === 'green') _value[1] = value;
         if (attr === 'blue') _value[2] = value;
@@ -872,7 +873,7 @@ export class BigSliderCard extends LitElement {
       case 'valve':
         return this._toNumber(stateObj.attributes?.current_position ?? stateObj.attributes?.position, 0);
       case 'media_player':
-        return Math.round(100 * this._toNumber(stateObj.attributes?.volume_level, 0));
+        return 100 * this._toNumber(stateObj.attributes?.volume_level, 0);
       case 'climate':
         return attr === 'humidity'
           ? this._toNumber(stateObj.attributes?.humidity, this._config.min ?? 0)
@@ -889,14 +890,14 @@ export class BigSliderCard extends LitElement {
   _getLightValue(stateObj: HassEntity, attr: string): number {
     switch (attr) {
       case 'brightness':
-        return Math.round(100 * (stateObj.attributes.brightness ?? 255) / 255);
+        return 100 * (stateObj.attributes.brightness ?? 255) / 255;
       case 'red':
       case 'green':
       case 'blue':
         const rgb = stateObj.attributes.rgb_color ?? [255, 255, 255];
-        if (attr === 'red') return Math.ceil(100 * rgb[0] / 255);
-        if (attr === 'green') return Math.ceil(100 * rgb[1] / 255);
-        return Math.ceil(100 * rgb[2] / 255);
+        if (attr === 'red') return 100 * rgb[0] / 255;
+        if (attr === 'green') return 100 * rgb[1] / 255;
+        return 100 * rgb[2] / 255;
       case 'hue':
       case 'saturation':
         const hs = stateObj.attributes.hs_color ?? [100, 100];
@@ -910,56 +911,59 @@ export class BigSliderCard extends LitElement {
 
   _setDomainValue(domain: string, attr: string, value: number): void {
     const entityId = this._state!.entity_id;
-    const roundedValue = this._roundValue(value);
 
     switch (domain) {
       case 'number':
       case 'input_number':
         this._hass!.callService(domain, 'set_value', {
           entity_id: entityId,
-          value: roundedValue,
+          value: this._snapValueToStep(value, this._state!.attributes?.step),
         });
         return;
-      case 'fan':
-        this._hass!.callService('fan', roundedValue <= 0 ? 'turn_off' : 'set_percentage', {
+      case 'fan': {
+        const percentage = Math.round(value);
+        this._hass!.callService('fan', percentage <= 0 ? 'turn_off' : 'set_percentage', {
           entity_id: entityId,
-          ...(roundedValue > 0 ? { percentage: Math.round(roundedValue) } : {}),
+          ...(percentage > 0 ? { percentage } : {}),
         });
         return;
+      }
       case 'cover':
         this._hass!.callService('cover', attr === 'tilt_position' ? 'set_cover_tilt_position' : 'set_cover_position', {
           entity_id: entityId,
-          [attr === 'tilt_position' ? 'tilt_position' : 'position']: Math.round(roundedValue),
+          [attr === 'tilt_position' ? 'tilt_position' : 'position']: Math.round(value),
         });
         return;
       case 'valve':
         this._hass!.callService('valve', 'set_valve_position', {
           entity_id: entityId,
-          position: Math.round(roundedValue),
+          position: Math.round(value),
         });
         return;
       case 'media_player':
         this._hass!.callService('media_player', 'volume_set', {
           entity_id: entityId,
-          volume_level: Math.max(0, Math.min(1, roundedValue / 100)),
+          volume_level: Math.max(0, Math.min(1, value / 100)),
         });
         return;
       case 'climate':
         this._hass!.callService('climate', attr === 'humidity' ? 'set_humidity' : 'set_temperature', {
           entity_id: entityId,
-          [attr === 'humidity' ? 'humidity' : 'temperature']: roundedValue,
+          [attr === 'humidity' ? 'humidity' : 'temperature']: attr === 'humidity'
+            ? Math.round(value)
+            : this._snapValueToStep(value, this._state!.attributes?.target_temp_step),
         });
         return;
       case 'humidifier':
         this._hass!.callService('humidifier', 'set_humidity', {
           entity_id: entityId,
-          humidity: Math.round(roundedValue),
+          humidity: Math.round(value),
         });
         return;
       case 'water_heater':
         this._hass!.callService('water_heater', 'set_temperature', {
           entity_id: entityId,
-          temperature: roundedValue,
+          temperature: this._snapValueToStep(value, this._state!.attributes?.target_temp_step),
         });
         return;
     }
