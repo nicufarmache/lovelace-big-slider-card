@@ -5,10 +5,20 @@
 
 Big slider card inspired by the google home app cards for controllable Home Assistant entities.
 
+Default appearance, with only `color` and `vertical` configured:
+
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nicufarmache/lovelace-big-slider-card/master/prev-dark.gif">
-  <img width="470" alt="Preview" src="https://raw.githubusercontent.com/nicufarmache/lovelace-big-slider-card/master/prev-light.gif">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/preview-default-dark.gif">
+  <img width="940" alt="Big Slider Card using its default appearance with custom colors and vertical layout" src="assets/preview-default-light.gif">
 </picture>
+
+Custom apearance closer to the Home Assistant Tile card:
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/preview-dark.gif">
+  <img width="940" alt="Big Slider Card controlling lights, fans, media players, input numbers, covers, and climate entities" src="assets/preview-light.gif">
+</picture>
+
 
 #### Please ⭐️ this repo if you find it useful
 
@@ -184,6 +194,10 @@ npm run check
 ```
 
 This runs strict TypeScript checks, the Vitest suite with enforced coverage thresholds, and the production build. Use `npm run test:watch` while developing. The same complete check runs automatically on every push and pull request.
+
+### Preview assets
+
+The README showcase is rendered with the real card and a small Home Assistant fixture in [`preview/`](preview/). Run `npm run dev`, then open `/preview/?theme=light` or `/preview/?theme=dark`. Add `&variant=default` for the default-appearance set, and `&frame=0.25` with a value from `0` to `1` to render a deterministic animation frame.
 
 
 <!-- References -->
