@@ -18,15 +18,15 @@
   "devDependencies": {
     "@vitest/coverage-v8": "^4.1.10",
     "jsdom": "^29.1.1",
-    "typescript": "~5.7.2",
-    "vite": "^6.2.0",
+    "typescript": "~7.0.2",
+    "vite": "^8.1.5",
     "vitest": "^4.1.10"
   },
   "dependencies": {
     "@nicufarmache/slide-gesture": "^1.2.4",
-    "custom-card-helpers": "^1.9.0",
-    "home-assistant-js-websocket": "^9.4.0",
-    "lit": "^3.2.1"
+    "custom-card-helpers": "^2.0.0",
+    "home-assistant-js-websocket": "^9.6.0",
+    "lit": "^3.3.3"
   },
   "scripts": {
     "dev": "vite --host 0.0.0.0",
