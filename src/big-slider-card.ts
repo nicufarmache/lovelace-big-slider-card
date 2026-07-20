@@ -655,11 +655,15 @@ export class BigSliderCard extends LitElement {
 
   _getSliderLabel(sliderPercentage: number): string {
     const unit = this._getValueUnit();
+    const isClimateTemperature = this._getDomain(this._effectiveState.entity_id) === 'climate'
+      && this._config.attribute === 'temperature';
+
+    if (isClimateTemperature) {
+      return `${this._formatValue(this.currentValue, 1)}${unit}`;
+    }
 
     if (this._usesRangeSlider()) {
-      const isClimateTemperature = this._getDomain(this._effectiveState.entity_id) === 'climate'
-        && this._config.attribute === 'temperature';
-      return `${this._formatValue(this.currentValue, isClimateTemperature ? 1 : 0)}${unit}`;
+      return `${this._formatValue(this.currentValue)}${unit}`;
     }
 
     return `${this._formatValue(sliderPercentage)}%`;

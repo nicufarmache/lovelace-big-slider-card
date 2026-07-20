@@ -1873,11 +1873,7 @@ var $ = class extends Z {
 	}
 	_getSliderLabel(e) {
 		let t = this._getValueUnit();
-		if (this._usesRangeSlider()) {
-			let e = this._getDomain(this._effectiveState.entity_id) === "climate" && this._config.attribute === "temperature";
-			return `${this._formatValue(this.currentValue, +!!e)}${t}`;
-		}
-		return `${this._formatValue(e)}%`;
+		return this._getDomain(this._effectiveState.entity_id) === "climate" && this._config.attribute === "temperature" ? `${this._formatValue(this.currentValue, 1)}${t}` : this._usesRangeSlider() ? `${this._formatValue(this.currentValue)}${t}` : `${this._formatValue(e)}%`;
 	}
 	_getSliderPercentage() {
 		if (!this._usesRangeSlider()) return Math.max(0, Math.min(100, this.currentValue));

@@ -90,6 +90,12 @@ describe('rendering and visual options', () => {
     const { card: wholeDegreeCard } = createCard(wholeDegreeEntity, { show_percentage: true });
     await mount(wholeDegreeCard);
     expect((wholeDegreeCard.shadowRoot?.querySelector('#percentage') as HTMLElement).innerText).toBe('21.0°C');
+
+    const { card: percentageRangeCard } = createCard(entity, {
+      show_percentage: true, min: 0, max: 100,
+    });
+    await mount(percentageRangeCard);
+    expect((percentageRangeCard.shadowRoot?.querySelector('#percentage') as HTMLElement).innerText).toBe('21.6°C');
   });
 
   it('renders an error card for a missing configured entity', async () => {
