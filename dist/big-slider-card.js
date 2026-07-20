@@ -1873,7 +1873,7 @@ var $ = class extends Z {
 	}
 	_getSliderLabel(e) {
 		let t = this._getValueUnit();
-		return this._usesRangeSlider() ? `${this._formatValue(this.currentValue)}${t}` : `${this._formatValue(e)}%`;
+		return this._getDomain(this._effectiveState.entity_id) === "climate" && this._config.attribute === "temperature" ? `${this._formatValue(this.currentValue, 1)}${t}` : this._usesRangeSlider() ? `${this._formatValue(this.currentValue)}${t}` : `${this._formatValue(e)}%`;
 	}
 	_getSliderPercentage() {
 		if (!this._usesRangeSlider()) return Math.max(0, Math.min(100, this.currentValue));
@@ -1896,8 +1896,8 @@ var $ = class extends Z {
 		let e = this._config.attribute, t = this._effectiveState;
 		return e === "color_temp_kelvin" ? "K" : e === "percentage" || e === "position" || e === "tilt_position" || e === "humidity" || e === "volume" ? "%" : t.attributes?.unit_of_measurement ?? "";
 	}
-	_formatValue(e) {
-		return Number.isFinite(e) ? String(Math.round(e)) : "0";
+	_formatValue(e, t = 0) {
+		return Number.isFinite(e) ? t > 0 ? e.toFixed(t) : String(Math.round(e)) : t > 0 ? 0 .toFixed(t) : "0";
 	}
 	_snapValueToStep(e, t) {
 		let n = Number(t);
