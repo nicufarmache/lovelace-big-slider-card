@@ -75,14 +75,21 @@ describe('rendering and visual options', () => {
     }
   });
 
-  it('renders value units for range sliders', async () => {
+  it('renders climate temperatures with one decimal and their unit', async () => {
     const entity = createEntity('climate.test', 'heat', {
       friendly_name: 'Heating', temperature: 21.6, min_temp: 7, max_temp: 35,
       unit_of_measurement: '°C',
     });
     const { card } = createCard(entity, { show_percentage: true });
     await mount(card);
-    expect((card.shadowRoot?.querySelector('#percentage') as HTMLElement).innerText).toBe('22°C');
+    expect((card.shadowRoot?.querySelector('#percentage') as HTMLElement).innerText).toBe('21.6°C');
+
+    const wholeDegreeEntity = createEntity('climate.whole_degree', 'heat', {
+      temperature: 21, min_temp: 7, max_temp: 35, unit_of_measurement: '°C',
+    });
+    const { card: wholeDegreeCard } = createCard(wholeDegreeEntity, { show_percentage: true });
+    await mount(wholeDegreeCard);
+    expect((wholeDegreeCard.shadowRoot?.querySelector('#percentage') as HTMLElement).innerText).toBe('21.0°C');
   });
 
   it('renders an error card for a missing configured entity', async () => {
