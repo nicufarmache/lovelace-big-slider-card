@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -18,7 +20,18 @@ jobs:
           node-version: 24
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Run checks
         run: npm run check
+
+      - name: Check generated bundle
+        run: git diff --exit-code -- dist/big-slider-card.js
+
+      - name: Check diff hygiene
+        if: github.event_name == 'pull_request'
+        run: git diff --check "${{ github.event.pull_request.base.sha }}...${{ github.sha }}"
+
+      - name: Check pushed commit hygiene
+        if: github.event_name == 'push'
+        run: git show --check --format= "${{ github.sha }}"

@@ -33,6 +33,29 @@ Provide details about what browser (and version) you are seeing the issue in. An
 Explain what the issue is, and how things should look/behave. If possible provide a screenshot with a description.
 -->
 
+**Steps to reproduce:**
+
+1.
+2.
+3.
+
+**Minimal card configuration:**
+
+```yaml
+type: custom:big-slider-card
+entity:
+```
+
+**Expected behavior:**
+
+**Actual behavior:**
+
+**Acceptance criteria:**
+
+<!-- List observable outcomes that would demonstrate the issue is fixed. -->
+
+- [ ]
+
 **Javascript errors shown in the web inspector (if applicable):**
 
 ```
@@ -40,3 +63,8 @@ Explain what the issue is, and how things should look/behave. If possible provid
 ```
 
 **Additional information:**
+
+**Verification notes:**
+
+<!-- If known, name the affected entity domain, orientation, theme, and any
+service calls that should be checked. -->
