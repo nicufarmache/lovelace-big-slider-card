@@ -1,0 +1,4 @@
+interface:
+  display_name: "Develop Big Slider Card"
+  short_description: "Implement and verify Big Slider Card changes"
+  default_prompt: "Use $develop-big-slider-card to implement this Big Slider Card change with tests and full verification."
