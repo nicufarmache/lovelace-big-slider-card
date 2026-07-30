@@ -3,7 +3,7 @@ import { SlideGesture, type SlideGestureEvent } from '@nicufarmache/slide-gestur
 import { HassEntity } from "home-assistant-js-websocket";
 import { HomeAssistant } from './ha-types';
 import type { BigSliderCardConfig, MousePos } from './types';
-import { DEFAULT_CONFIG, SUPPORTED_DOMAINS, TAP_THRESHOLD } from './const';
+import { DEFAULT_CONFIG, SUPPORTED_DOMAINS, TAP_THRESHOLD, TOUCH_TAP_THRESHOLD } from './const';
 import { localize } from './localize/localize';
 import { state } from 'lit/decorators.js';
 import { ifDefined } from "lit/directives/if-defined.js";
@@ -522,7 +522,8 @@ export class BigSliderCard extends LitElement {
 
     if (evt.type === 'pointermove') {
       if (this.isHold) return;
-      if (this.isTap && (Math.abs(extra.relativeX) < TAP_THRESHOLD && Math.abs(extra.relativeY) < TAP_THRESHOLD))
+      const tapThreshold = evt.pointerType === 'mouse' ? TAP_THRESHOLD : TOUCH_TAP_THRESHOLD;
+      if (this.isTap && (Math.abs(extra.relativeX) < tapThreshold && Math.abs(extra.relativeY) < tapThreshold))
         return;
       this.isTap = false;
       clearTimeout(this.holdTimer);

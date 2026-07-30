@@ -1388,7 +1388,9 @@ var $ = class extends Z {
 				"pointermove",
 				"pointerup"
 			].includes(e.type) && this._updateValue(), e.type === "pointermove") {
-				if (this.isHold || this.isTap && Math.abs(t.relativeX) < 5 && Math.abs(t.relativeY) < 5) return;
+				if (this.isHold) return;
+				let n = e.pointerType === "mouse" ? 5 : 10;
+				if (this.isTap && Math.abs(t.relativeX) < n && Math.abs(t.relativeY) < n) return;
 				this.isTap = !1, clearTimeout(this.holdTimer), this._stopUpdates(), this._scheduleImmediateUpdate();
 			}
 			if (e.type === "pointercancel" && (clearTimeout(this.holdTimer), this._clearImmediateUpdate(), this._unpress(), this._startUpdates()), e.type === "pointerup") {

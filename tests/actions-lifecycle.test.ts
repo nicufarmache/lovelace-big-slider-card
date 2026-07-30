@@ -86,6 +86,42 @@ describe('actions and lifecycle', () => {
     card._handlePointer(new PointerEvent('pointerup', { clientX, clientY }), extra);
   };
 
+  const wobblyTap = (card: BigSliderCard, pointerType: string, wobble: number): void => {
+    const at = (dx: number) => ({ relativeX: dx, relativeY: 0 }) as SlideGestureEvent;
+    card._handlePointer(new PointerEvent('pointerdown', { clientX: 100, clientY: 25, pointerType }), at(0));
+    card._handlePointer(new PointerEvent('pointermove', {
+      clientX: 100 + wobble, clientY: 25, pointerType,
+    }), at(wobble));
+    card._handlePointer(new PointerEvent('pointerup', {
+      clientX: 100 + wobble, clientY: 25, pointerType,
+    }), at(wobble));
+  };
+
+  it('keeps a wobbly touch gesture a tap', async () => {
+    const entity = createEntity('light.test', 'on', { brightness: 255 });
+    const { card } = createCard(entity, { tap_to_set: true });
+    await mount(card);
+    stubContainerRect(card, {});
+
+    // 8px of finger wobble: past the mouse threshold, inside the touch one
+    wobblyTap(card, 'touch', 8);
+
+    expect(getCurrentValue(card)).toBeCloseTo(54);
+  });
+
+  it('treats the same movement from a mouse as a drag', async () => {
+    const entity = createEntity('light.test', 'on', { brightness: 255 });
+    const { card } = createCard(entity, { tap_to_set: true });
+    await mount(card);
+    stubContainerRect(card, {});
+
+    wobblyTap(card, 'mouse', 8);
+
+    // Relative drag from 100%, so it stays pinned at the top rather than
+    // jumping to the pointer position.
+    expect(getCurrentValue(card)).toBeCloseTo(100);
+  });
+
   it('sets the value from the tap position when tap_to_set is enabled', async () => {
     const entity = createEntity('light.test', 'on', { brightness: 255 });
     const { card, callService } = createCard(entity, { tap_to_set: true });

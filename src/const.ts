@@ -6,6 +6,9 @@ export const SETTLE_TIME = 3000;
 export const HOLD_TIME = 600;
 export const MIN_SLIDE_TIME = 0;
 export const TAP_THRESHOLD = 5;
+// Fingers wobble far more than a mouse does, so a touch or pen gesture needs
+// more slack before it counts as a drag. Roughly matches browser touch slop.
+export const TOUCH_TAP_THRESHOLD = 10;
 export const MIN = 0;
 export const MAX = 100;
 export const SUPPORTED_DOMAINS = [
