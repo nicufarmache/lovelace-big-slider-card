@@ -619,7 +619,7 @@ export class BigSliderCard extends LitElement {
     // pixel. edge_margin trades a band at each end for the extremes, rescaling
     // what is left so the mapping stays continuous - the same trick a native
     // range input plays with its thumb radius.
-    const margin = Math.min(Math.max(this._config.edge_margin ?? 0, 0), MAX_EDGE_MARGIN) / 100;
+    const margin = this._getEdgeMargin();
     if (margin > 0) {
       fraction = (fraction - margin) / (1 - 2 * margin);
     }
@@ -718,9 +718,33 @@ export class BigSliderCard extends LitElement {
   _updateSlider(): void {
     const sliderPercentage = this._getSliderPercentage();
 
-    this.style.setProperty('--bsc-percent', sliderPercentage + '%');
+    // The fill is drawn where a tap for this value would land, so the two agree.
+    // The label keeps reporting the real value rather than the track position.
+    this.style.setProperty('--bsc-percent', this._getTrackPercentage(sliderPercentage) + '%');
     const percentage = this?.shadowRoot?.getElementById('percentage');
     percentage && (percentage.innerText = this._getSliderLabel(sliderPercentage));
+  }
+
+  /// Inverse of the edge_margin mapping in _getTapFraction: turns a value
+  /// percentage into the position along the track that represents it, so the
+  /// fill lines up with where a tap for that value lands.
+  ///
+  /// The extremes stay flush with the ends - an empty slider should look empty
+  /// and a full one full - so the fill jumps by the margin between the minimum
+  /// and the first step above it.
+  _getTrackPercentage(sliderPercentage: number): number {
+    const margin = this._getEdgeMargin();
+    if (margin <= 0) return sliderPercentage;
+    if (sliderPercentage <= 0) return 0;
+    if (sliderPercentage >= 100) return 100;
+
+    const position = 100 * (margin + (sliderPercentage / 100) * (1 - 2 * margin));
+    return Math.round(position * 1000) / 1000;
+  }
+
+  /// edge_margin as a 0-0.25 fraction of the track, taken off each end.
+  _getEdgeMargin(): number {
+    return Math.min(Math.max(this._config.edge_margin ?? 0, 0), MAX_EDGE_MARGIN) / 100;
   }
 
   _getSliderLabel(sliderPercentage: number): string {

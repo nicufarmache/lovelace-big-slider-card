@@ -1862,7 +1862,7 @@ var $ = class extends Z {
 		if (!t) return null;
 		let n = t.getBoundingClientRect(), r = this._config.vertical ? n.height : n.width;
 		if (!(r > 0)) return null;
-		let i = (this._config.vertical ? n.bottom - e.clientY : e.clientX - n.left) / r, a = Math.min(Math.max(this._config.edge_margin ?? 0, 0), 25) / 100;
+		let i = (this._config.vertical ? n.bottom - e.clientY : e.clientX - n.left) / r, a = this._getEdgeMargin();
 		return a > 0 && (i = (i - a) / (1 - 2 * a)), Math.max(0, Math.min(1, i));
 	}
 	_setValueFromTap(e) {
@@ -1904,9 +1904,20 @@ var $ = class extends Z {
 	}
 	_updateSlider() {
 		let e = this._getSliderPercentage();
-		this.style.setProperty("--bsc-percent", e + "%");
+		this.style.setProperty("--bsc-percent", this._getTrackPercentage(e) + "%");
 		let t = this?.shadowRoot?.getElementById("percentage");
 		t && (t.innerText = this._getSliderLabel(e));
+	}
+	_getTrackPercentage(e) {
+		let t = this._getEdgeMargin();
+		if (t <= 0) return e;
+		if (e <= 0) return 0;
+		if (e >= 100) return 100;
+		let n = 100 * (t + e / 100 * (1 - 2 * t));
+		return Math.round(n * 1e3) / 1e3;
+	}
+	_getEdgeMargin() {
+		return Math.min(Math.max(this._config.edge_margin ?? 0, 0), 25) / 100;
 	}
 	_getSliderLabel(e) {
 		let t = this._getValueUnit();

@@ -1,7 +1,37 @@
 import { describe, expect, it } from 'vitest';
-import { createCard, createEntity, mount } from './fixtures';
+import { createCard, createEntity, mount, setCurrentValue } from './fixtures';
 
 describe('rendering and visual options', () => {
+  it('draws the fill inside edge_margin while keeping the ends flush', async () => {
+    const entity = createEntity('light.test', 'on', { brightness: 255 });
+    const { card } = createCard(entity, { tap_to_set: true, edge_margin: 10 });
+    await mount(card);
+
+    const positionFor = (value: number): string => {
+      setCurrentValue(card, value);
+      card._updateSlider();
+      return card.style.getPropertyValue('--bsc-percent');
+    };
+
+    // Empty stays empty and full stays full ...
+    expect(positionFor(0)).toBe('0%');
+    expect(positionFor(100)).toBe('100%');
+    // ... everything between is inset to match where a tap for it lands
+    expect(positionFor(1)).toBe('10.8%');
+    expect(positionFor(50)).toBe('50%');
+    expect(positionFor(99)).toBe('89.2%');
+  });
+
+  it('draws the fill straight through without edge_margin', async () => {
+    const entity = createEntity('light.test', 'on', { brightness: 255 });
+    const { card } = createCard(entity, { tap_to_set: true });
+    await mount(card);
+
+    setCurrentValue(card, 1);
+    card._updateSlider();
+    expect(card.style.getPropertyValue('--bsc-percent')).toBe('1%');
+  });
+
   it('renders content and every styling/boolean option', async () => {
     const entity = createEntity('light.test', 'on', {
       friendly_name: 'Kitchen', brightness: 128, rgb_color: [255, 0, 0],
