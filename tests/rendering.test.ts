@@ -32,6 +32,24 @@ describe('rendering and visual options', () => {
     expect(card.style.getPropertyValue('--bsc-percent')).toBe('1%');
   });
 
+  it('fills flush when the value only rounds to an extreme', async () => {
+    // Plenty of lights top out at 254 of 255, i.e. 99.6% rather than 100%
+    const entity = createEntity('light.test', 'on', { brightness: 254 });
+    const { card } = createCard(entity, { edge_margin: 10 });
+    await mount(card);
+
+    const positionFor = (value: number): string => {
+      setCurrentValue(card, value);
+      card._updateSlider();
+      return card.style.getPropertyValue('--bsc-percent');
+    };
+
+    expect(positionFor(100 * 254 / 255)).toBe('100%');
+    expect(positionFor(0.4)).toBe('0%');
+    // Still inset once it is clearly away from the end
+    expect(positionFor(98)).toBe('88.4%');
+  });
+
   it('renders content and every styling/boolean option', async () => {
     const entity = createEntity('light.test', 'on', {
       friendly_name: 'Kitchen', brightness: 128, rgb_color: [255, 0, 0],

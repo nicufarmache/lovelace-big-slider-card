@@ -1911,8 +1911,8 @@ var $ = class extends Z {
 	_getTrackPercentage(e) {
 		let t = this._getEdgeMargin();
 		if (t <= 0) return e;
-		if (e <= 0) return 0;
-		if (e >= 100) return 100;
+		if (e <= .5) return 0;
+		if (e >= 99.5) return 100;
 		let n = 100 * (t + e / 100 * (1 - 2 * t));
 		return Math.round(n * 1e3) / 1e3;
 	}

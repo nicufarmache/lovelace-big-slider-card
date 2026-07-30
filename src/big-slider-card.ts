@@ -4,7 +4,8 @@ import { HassEntity } from "home-assistant-js-websocket";
 import { HomeAssistant } from './ha-types';
 import type { BigSliderCardConfig, MousePos } from './types';
 import {
-  DEFAULT_CONFIG, MAX_EDGE_MARGIN, SUPPORTED_DOMAINS, TAP_THRESHOLD, TOUCH_TAP_THRESHOLD,
+  DEFAULT_CONFIG, EDGE_FLUSH_EPSILON, MAX_EDGE_MARGIN, SUPPORTED_DOMAINS, TAP_THRESHOLD,
+  TOUCH_TAP_THRESHOLD,
 } from './const';
 import { localize } from './localize/localize';
 import { state } from 'lit/decorators.js';
@@ -735,8 +736,8 @@ export class BigSliderCard extends LitElement {
   _getTrackPercentage(sliderPercentage: number): number {
     const margin = this._getEdgeMargin();
     if (margin <= 0) return sliderPercentage;
-    if (sliderPercentage <= 0) return 0;
-    if (sliderPercentage >= 100) return 100;
+    if (sliderPercentage <= EDGE_FLUSH_EPSILON) return 0;
+    if (sliderPercentage >= 100 - EDGE_FLUSH_EPSILON) return 100;
 
     const position = 100 * (margin + (sliderPercentage / 100) * (1 - 2 * margin));
     return Math.round(position * 1000) / 1000;
