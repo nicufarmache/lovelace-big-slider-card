@@ -129,6 +129,7 @@ var e = Object.defineProperty, t = (t, n) => {
 		hold_time: "Hold time",
 		settle_time: "Settle time",
 		immediate_update: "Update while sliding",
+		tap_to_set: "Jump to tapped position",
 		background_color: "Background color",
 		height: "Height",
 		width: "Width",
@@ -1393,6 +1394,10 @@ var $ = class extends Z {
 			if (e.type === "pointercancel" && (clearTimeout(this.holdTimer), this._clearImmediateUpdate(), this._unpress(), this._startUpdates()), e.type === "pointerup") {
 				if (clearTimeout(this.holdTimer), this._clearImmediateUpdate(), this._unpress(), this._startUpdates(), this.isHold) return;
 				if (this.isTap) {
+					if (this._config.tap_to_set && this._setValueFromTap(e)) {
+						this._startUpdates(!0);
+						return;
+					}
 					this._handleTap();
 					return;
 				}
@@ -1704,6 +1709,10 @@ var $ = class extends Z {
 							selector: { boolean: {} }
 						},
 						{
+							name: "tap_to_set",
+							selector: { boolean: {} }
+						},
+						{
 							name: "tap_action",
 							selector: { ui_action: {} }
 						},
@@ -1726,6 +1735,7 @@ var $ = class extends Z {
 				hold_time: x("editor.labels.hold_time"),
 				settle_time: x("editor.labels.settle_time"),
 				immediate_update: x("editor.labels.immediate_update"),
+				tap_to_set: x("editor.labels.tap_to_set"),
 				background_color: x("editor.labels.background_color"),
 				height: x("editor.labels.height"),
 				width: x("editor.labels.width"),
@@ -1833,6 +1843,20 @@ var $ = class extends Z {
 	}
 	_updateContainerSize() {
 		return this.containerWidth = this.shadowRoot?.getElementById("container")?.clientWidth ?? 0, this.containerHeight = this.shadowRoot?.getElementById("container")?.clientHeight ?? 0, this._config.vertical ? this.containerHeight > 0 : this.containerWidth > 0;
+	}
+	_getTapFraction(e) {
+		let t = this.shadowRoot?.getElementById("container");
+		if (!t) return null;
+		let n = t.getBoundingClientRect(), r = this._config.vertical ? n.height : n.width;
+		if (!(r > 0)) return null;
+		let i = this._config.vertical ? n.bottom - e.clientY : e.clientX - n.left;
+		return Math.max(0, Math.min(1, i / r));
+	}
+	_setValueFromTap(e) {
+		let t = this._getTapFraction(e);
+		if (t === null) return !1;
+		let n = this._getRange();
+		return this.currentValue = this._usesRangeSlider() ? n.min + (n.max - n.min) * t : 100 * t, this._checklimits(), this._resetTrack(), this._updateSlider(), this._setValue(), !0;
 	}
 	_getDragValueDelta(e, t, n) {
 		return t <= 0 ? 0 : this._usesRangeSlider() ? (n.max - n.min) * e / t : 100 * e / t;

@@ -317,6 +317,10 @@ export class BigSliderCard extends LitElement {
               name: 'immediate_update',
               selector: { boolean: {} },
             },
+            {
+              name: 'tap_to_set',
+              selector: { boolean: {} },
+            },
             { name: 'tap_action', selector: { ui_action: {} } },
             { name: 'hold_action', selector: { ui_action: {} } },
           ],
@@ -335,6 +339,7 @@ export class BigSliderCard extends LitElement {
           hold_time: localize('editor.labels.hold_time'),
           settle_time: localize('editor.labels.settle_time'),
           immediate_update: localize('editor.labels.immediate_update'),
+          tap_to_set: localize('editor.labels.tap_to_set'),
           background_color: localize('editor.labels.background_color'),
           height: localize('editor.labels.height'),
           width: localize('editor.labels.width'),
@@ -541,6 +546,10 @@ export class BigSliderCard extends LitElement {
       if (this.isHold) return;
 
       if (this.isTap) {
+        if (this._config.tap_to_set && this._setValueFromTap(evt)) {
+          this._startUpdates(true);
+          return;
+        }
         this._handleTap();
         return;
       }
@@ -575,6 +584,41 @@ export class BigSliderCard extends LitElement {
     this.containerWidth = this.shadowRoot?.getElementById('container')?.clientWidth ?? 0;
     this.containerHeight = this.shadowRoot?.getElementById('container')?.clientHeight ?? 0;
     return this._config.vertical ? this.containerHeight > 0 : this.containerWidth > 0;
+  }
+
+  /// Fraction of the track the pointer sits at, 0 at the low end and 1 at the
+  /// high end. Vertical sliders fill upwards, so they measure from the bottom.
+  /// Returns null when the track has no measurable size.
+  _getTapFraction(evt: PointerEvent): number | null {
+    const container = this.shadowRoot?.getElementById('container');
+    if (!container) return null;
+
+    const rect = container.getBoundingClientRect();
+    const size = this._config.vertical ? rect.height : rect.width;
+    if (!(size > 0)) return null;
+
+    const offset = this._config.vertical ? rect.bottom - evt.clientY : evt.clientX - rect.left;
+    return Math.max(0, Math.min(1, offset / size));
+  }
+
+  /// Jump straight to the tapped position. Unlike a drag - which is relative to
+  /// where the gesture started - this maps the absolute pointer position onto
+  /// the range. Returns false when the position could not be measured, so the
+  /// caller can fall back to the configured tap_action.
+  _setValueFromTap(evt: PointerEvent): boolean {
+    const fraction = this._getTapFraction(evt);
+    if (fraction === null) return false;
+
+    const range = this._getRange();
+    this.currentValue = this._usesRangeSlider()
+      ? range.min + (range.max - range.min) * fraction
+      : 100 * fraction;
+
+    this._checklimits();
+    this._resetTrack();
+    this._updateSlider();
+    this._setValue();
+    return true;
   }
 
   _getDragValueDelta(delta: number, size: number, range: SliderRange): number {
