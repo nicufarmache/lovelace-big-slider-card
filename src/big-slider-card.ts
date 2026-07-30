@@ -3,7 +3,9 @@ import { SlideGesture, type SlideGestureEvent } from '@nicufarmache/slide-gestur
 import { HassEntity } from "home-assistant-js-websocket";
 import { HomeAssistant } from './ha-types';
 import type { BigSliderCardConfig, MousePos } from './types';
-import { DEFAULT_CONFIG, SUPPORTED_DOMAINS, TAP_THRESHOLD, TOUCH_TAP_THRESHOLD } from './const';
+import {
+  DEFAULT_CONFIG, MAX_EDGE_MARGIN, SUPPORTED_DOMAINS, TAP_THRESHOLD, TOUCH_TAP_THRESHOLD,
+} from './const';
 import { localize } from './localize/localize';
 import { state } from 'lit/decorators.js';
 import { ifDefined } from "lit/directives/if-defined.js";
@@ -321,6 +323,17 @@ export class BigSliderCard extends LitElement {
               name: 'tap_to_set',
               selector: { boolean: {} },
             },
+            {
+              name: 'edge_margin',
+              selector: {
+                number: {
+                  min: 0,
+                  max: MAX_EDGE_MARGIN,
+                  step: 1,
+                  unit_of_measurement: '%',
+                },
+              },
+            },
             { name: 'tap_action', selector: { ui_action: {} } },
             { name: 'hold_action', selector: { ui_action: {} } },
           ],
@@ -340,6 +353,7 @@ export class BigSliderCard extends LitElement {
           settle_time: localize('editor.labels.settle_time'),
           immediate_update: localize('editor.labels.immediate_update'),
           tap_to_set: localize('editor.labels.tap_to_set'),
+          edge_margin: localize('editor.labels.edge_margin'),
           background_color: localize('editor.labels.background_color'),
           height: localize('editor.labels.height'),
           width: localize('editor.labels.width'),
@@ -599,7 +613,18 @@ export class BigSliderCard extends LitElement {
     if (!(size > 0)) return null;
 
     const offset = this._config.vertical ? rect.bottom - evt.clientY : evt.clientX - rect.left;
-    return Math.max(0, Math.min(1, offset / size));
+    let fraction = offset / size;
+
+    // Without an inset, the ends are only reachable by hitting the outermost
+    // pixel. edge_margin trades a band at each end for the extremes, rescaling
+    // what is left so the mapping stays continuous - the same trick a native
+    // range input plays with its thumb radius.
+    const margin = Math.min(Math.max(this._config.edge_margin ?? 0, 0), MAX_EDGE_MARGIN) / 100;
+    if (margin > 0) {
+      fraction = (fraction - margin) / (1 - 2 * margin);
+    }
+
+    return Math.max(0, Math.min(1, fraction));
   }
 
   /// Jump straight to the tapped position. Unlike a drag - which is relative to

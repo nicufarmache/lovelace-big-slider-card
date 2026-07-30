@@ -130,6 +130,7 @@ var e = Object.defineProperty, t = (t, n) => {
 		settle_time: "Settle time",
 		immediate_update: "Update while sliding",
 		tap_to_set: "Jump to tapped position",
+		edge_margin: "Edge margin",
 		background_color: "Background color",
 		height: "Height",
 		width: "Width",
@@ -1715,6 +1716,15 @@ var $ = class extends Z {
 							selector: { boolean: {} }
 						},
 						{
+							name: "edge_margin",
+							selector: { number: {
+								min: 0,
+								max: 25,
+								step: 1,
+								unit_of_measurement: "%"
+							} }
+						},
+						{
 							name: "tap_action",
 							selector: { ui_action: {} }
 						},
@@ -1738,6 +1748,7 @@ var $ = class extends Z {
 				settle_time: x("editor.labels.settle_time"),
 				immediate_update: x("editor.labels.immediate_update"),
 				tap_to_set: x("editor.labels.tap_to_set"),
+				edge_margin: x("editor.labels.edge_margin"),
 				background_color: x("editor.labels.background_color"),
 				height: x("editor.labels.height"),
 				width: x("editor.labels.width"),
@@ -1851,8 +1862,8 @@ var $ = class extends Z {
 		if (!t) return null;
 		let n = t.getBoundingClientRect(), r = this._config.vertical ? n.height : n.width;
 		if (!(r > 0)) return null;
-		let i = this._config.vertical ? n.bottom - e.clientY : e.clientX - n.left;
-		return Math.max(0, Math.min(1, i / r));
+		let i = (this._config.vertical ? n.bottom - e.clientY : e.clientX - n.left) / r, a = Math.min(Math.max(this._config.edge_margin ?? 0, 0), 25) / 100;
+		return a > 0 && (i = (i - a) / (1 - 2 * a)), Math.max(0, Math.min(1, i));
 	}
 	_setValueFromTap(e) {
 		let t = this._getTapFraction(e);

@@ -172,6 +172,32 @@ describe('actions and lifecycle', () => {
     expect(getCurrentValue(card)).toBeCloseTo(100);
   });
 
+  it('maps the outer band to the ends when edge_margin is set', async () => {
+    const entity = createEntity('light.test', 'on', { brightness: 255 });
+    const { card } = createCard(entity, { tap_to_set: true, edge_margin: 10 });
+    await mount(card);
+    stubContainerRect(card, {});
+
+    tap(card, 20, 25);                                  // 10% across a 200px track
+    expect(getCurrentValue(card)).toBeCloseTo(0);
+
+    tap(card, 180, 25);
+    expect(getCurrentValue(card)).toBeCloseTo(100);
+
+    tap(card, 100, 25);                                 // midpoint stays put
+    expect(getCurrentValue(card)).toBeCloseTo(50);
+  });
+
+  it('leaves the mapping alone without edge_margin', async () => {
+    const entity = createEntity('light.test', 'on', { brightness: 255 });
+    const { card } = createCard(entity, { tap_to_set: true });
+    await mount(card);
+    stubContainerRect(card, {});
+
+    tap(card, 20, 25);
+    expect(getCurrentValue(card)).toBeCloseTo(10);
+  });
+
   it('keeps dispatching the tap action when tap_to_set is disabled', async () => {
     const entity = createEntity('light.test', 'on', { brightness: 255 });
     const { card, callService } = createCard(entity);

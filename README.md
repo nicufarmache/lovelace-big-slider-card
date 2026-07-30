@@ -133,6 +133,7 @@ hold_action:
 | max               | number  | **Optional** | Maximum value for slider                       | `100`               |
 | immediate_update  | boolean | **Optional** | Update value while sliding every 300ms         | false               |
 | tap_to_set        | boolean | **Optional** | Set the value to the tapped position instead of running `tap_action` | false |
+| edge_margin       | number  | **Optional** | Percentage of the track at each end that maps to the minimum/maximum, making them easier to hit with `tap_to_set` | `0` |
 | min_slide_time    | number  | **Optional** | Minimum time to prevent accidental changes (ms)| `0`                 |
 | hold_time         | number  | **Optional** | Hold gesture time (ms)                         | `600`               |
 | settle_time       | number  | **Optional** | Ignore updates after changing the value (ms)   | `3000`              |
