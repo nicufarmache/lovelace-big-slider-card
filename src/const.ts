@@ -6,6 +6,11 @@ export const SETTLE_TIME = 3000;
 export const HOLD_TIME = 600;
 export const MIN_SLIDE_TIME = 0;
 export const TAP_THRESHOLD = 5;
+// Used when a light does not report its own colour temperature capability.
+export const DEFAULT_MIN_KELVIN = 2200;
+export const DEFAULT_MAX_KELVIN = 6500;
+// Hue is a full turn of the colour wheel, in degrees.
+export const HUE_MAX = 360;
 export const MIN = 0;
 export const MAX = 100;
 export const SUPPORTED_DOMAINS = [

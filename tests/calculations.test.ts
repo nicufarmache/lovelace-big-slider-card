@@ -123,6 +123,19 @@ describe('configuration and calculations', () => {
     const light = createEntity('light.test', 'on', { color_temp_kelvin: 3000 });
     const kelvinCard = createCard(light, { attribute: 'color_temp_kelvin' }).card;
     expect(kelvinCard._getRange()).toEqual({ min: 2200, max: 6500 });
+
+    const capableLight = createEntity('light.test', 'on', {
+      color_temp_kelvin: 3000, min_color_temp_kelvin: 2000, max_color_temp_kelvin: 6535,
+    });
+    const capableCard = createCard(capableLight, { attribute: 'color_temp_kelvin' }).card;
+    expect(capableCard._getEntityRange(capableLight)).toEqual({ min: 2000, max: 6535 });
+    // Falls back to the seeded defaults when the light reports no capability
+    expect(capableCard._getEntityRange(light)).toEqual({ min: 2200, max: 6500 });
+
+    const hueCard = createCard(light, { attribute: 'hue' }).card;
+    expect(hueCard._getRange()).toEqual({ min: 0, max: 360 });
+    expect(hueCard._getEntityRange(light)).toEqual({ min: 0, max: 360 });
+
     expect(DEFAULT_CONFIG.min).toBe(0);
   });
 });

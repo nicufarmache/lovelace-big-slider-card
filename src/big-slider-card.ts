@@ -3,7 +3,9 @@ import { SlideGesture, type SlideGestureEvent } from '@nicufarmache/slide-gestur
 import { HassEntity } from "home-assistant-js-websocket";
 import { HomeAssistant } from './ha-types';
 import type { BigSliderCardConfig, MousePos } from './types';
-import { DEFAULT_CONFIG, SUPPORTED_DOMAINS, TAP_THRESHOLD } from './const';
+import {
+  DEFAULT_CONFIG, DEFAULT_MAX_KELVIN, DEFAULT_MIN_KELVIN, HUE_MAX, SUPPORTED_DOMAINS, TAP_THRESHOLD,
+} from './const';
 import { localize } from './localize/localize';
 import { state } from 'lit/decorators.js';
 import { ifDefined } from "lit/directives/if-defined.js";
@@ -386,10 +388,14 @@ export class BigSliderCard extends LitElement {
     }
   }
 
+  /// Seeds the range before any entity state arrives; _getEntityRange takes
+  /// over with the entity's own capability once it does.
   _getAttributeDefaults(attribute: string, _domain?: string): Partial<BigSliderCardConfig> {
     switch (attribute) {
       case 'color_temp_kelvin':
-        return { min: 2200, max: 6500 };
+        return { min: DEFAULT_MIN_KELVIN, max: DEFAULT_MAX_KELVIN };
+      case 'hue':
+        return { min: 0, max: HUE_MAX };
       default:
         return {};
     }
@@ -990,7 +996,16 @@ export class BigSliderCard extends LitElement {
     const attr = this._config.attribute;
 
     if (attr === 'color_temp_kelvin') {
-      return { min: 2200, max: 6500 };
+      // Lights vary widely here, and a slider that cannot reach the warm or
+      // cool end of the bulb is worse than one scaled to it.
+      return {
+        min: this._toNumber(stateObj.attributes?.min_color_temp_kelvin, DEFAULT_MIN_KELVIN),
+        max: this._toNumber(stateObj.attributes?.max_color_temp_kelvin, DEFAULT_MAX_KELVIN),
+      };
+    }
+
+    if (attr === 'hue') {
+      return { min: 0, max: HUE_MAX };
     }
 
     switch (domain) {
