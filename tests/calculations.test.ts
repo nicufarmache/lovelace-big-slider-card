@@ -97,11 +97,28 @@ describe('configuration and calculations', () => {
     expect(card._getNumericCssLength('12.5px')).toBe(12.5);
     expect(card._getNumericCssLength('2rem')).toBeUndefined();
     expect(card.getCardSize()).toBe(3);
-    expect(card.getGridOptions()).toMatchObject({ columns: 6, rows: 1 });
+    expect(card.getGridOptions()).toMatchObject({ columns: 6, rows: 2, min_rows: 2 });
+
+    card.setConfig({ height: 100 });
+    expect(card.getGridOptions()).toMatchObject({ columns: 6, rows: 2, min_rows: 2 });
+
+    card.setConfig({ height: 56 });
+    expect(card.getGridOptions()).toMatchObject({ columns: 6, rows: 1, min_rows: 1 });
+
+    card.setConfig({});
+    expect(card.getGridOptions()).toMatchObject({ columns: 6, rows: 1, min_rows: 1 });
+
+    card.setConfig({ vertical: true });
+    expect(card.getCardSize()).toBe(4);
+    expect(card.getGridOptions()).toMatchObject({ columns: 2, rows: 4, min_rows: 3 });
 
     card.setConfig({ vertical: true, height: 180 });
     expect(card.getCardSize()).toBe(4);
-    expect(card.getGridOptions()).toMatchObject({ columns: 2, rows: 4 });
+    expect(card.getGridOptions()).toMatchObject({ columns: 2, rows: 4, min_rows: 3 });
+
+    card.setConfig({ vertical: true, height: 300 });
+    expect(card.getCardSize()).toBe(6);
+    expect(card.getGridOptions()).toMatchObject({ columns: 2, rows: 5, min_rows: 5 });
   });
 
   it('uses entity and custom ranges, including Kelvin and humidity', () => {

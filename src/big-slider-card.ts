@@ -60,19 +60,29 @@ export class BigSliderCard extends LitElement {
   }
 
   public getGridOptions() {
-    if (this._config.vertical) {
+    const isVertical = this._config.vertical === true;
+    const defaultRows = isVertical ? 4 : 1;
+    const minRows = isVertical ? 3 : 1;
+    const height = this._getNumericCssLength(this._config.height);
+    const calculatedRows = height !== undefined ? Math.ceil((height + 8) / 64) : defaultRows;
+    const rows = Math.max(defaultRows, calculatedRows);
+    const effectiveMinRows = height !== undefined
+      ? Math.max(minRows, calculatedRows)
+      : minRows;
+
+    if (isVertical) {
       return {
         columns: 2,
-        rows: 4,
+        rows,
         min_columns: 1,
-        min_rows: 3,
+        min_rows: effectiveMinRows,
       };
     } else {
       return {
         columns: 6,
-        rows: 1,
+        rows,
         min_columns: 3,
-        min_rows: 1,
+        min_rows: effectiveMinRows,
       };
     }
   }
@@ -1240,7 +1250,7 @@ export class BigSliderCard extends LitElement {
 
       #container {
         width: var(--bsc-width, 100%);
-        height: var(--bsc-height, 100%);
+        height: 100%;
         min-height: var(--bsc-height, 56px);
         min-width: var(--bsc-width, 0);
         position: relative;

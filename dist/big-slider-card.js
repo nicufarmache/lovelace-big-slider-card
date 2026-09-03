@@ -1414,16 +1414,17 @@ var $ = class extends Z {
 		};
 	}
 	getGridOptions() {
-		return this._config.vertical ? {
+		let e = this._config.vertical === !0, t = e ? 4 : 1, n = e ? 3 : 1, r = this._getNumericCssLength(this._config.height), i = r === void 0 ? t : Math.ceil((r + 8) / 64), a = Math.max(t, i), o = r === void 0 ? n : Math.max(n, i);
+		return e ? {
 			columns: 2,
-			rows: 4,
+			rows: a,
 			min_columns: 1,
-			min_rows: 3
+			min_rows: o
 		} : {
 			columns: 6,
-			rows: 1,
+			rows: a,
 			min_columns: 3,
-			min_rows: 1
+			min_rows: o
 		};
 	}
 	getCardSize() {
@@ -2229,7 +2230,7 @@ var $ = class extends Z {
 
       #container {
         width: var(--bsc-width, 100%);
-        height: var(--bsc-height, 100%);
+        height: 100%;
         min-height: var(--bsc-height, 56px);
         min-width: var(--bsc-width, 0);
         position: relative;
