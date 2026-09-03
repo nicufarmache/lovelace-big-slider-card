@@ -12,6 +12,18 @@ Object.defineProperty(globalThis, 'localStorage', {
   },
 });
 
+if (!('innerText' in HTMLElement.prototype)) {
+  Object.defineProperty(HTMLElement.prototype, 'innerText', {
+    configurable: true,
+    get() {
+      return this.textContent;
+    },
+    set(value: string) {
+      this.textContent = value;
+    },
+  });
+}
+
 if (!customElements.get('big-slider-card')) {
   customElements.define('big-slider-card', BigSliderCard);
 }

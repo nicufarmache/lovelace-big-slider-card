@@ -43,6 +43,19 @@ A self-contained Home Assistant Docker environment for testing `big-slider-card`
   - **Stacks & Standard Grids:** Horizontal stacks, vertical stacks, and grid cards.
   - **Styling & Theming:** Custom borders, colors, halos, icons, and opacities.
 
+### 3. Config Matrix (YAML)
+- **URL:** [http://localhost:8123/config-matrix](http://localhost:8123/config-matrix)
+- **Mode:** `yaml` (exhaustive option testing from `ui-config-matrix.yaml`)
+- **Dedicated Test Views:**
+  - **Text & Typography:** Default, percentage, bold text, custom names, sizes (11px, 16px, 22px), custom text colors.
+  - **Icons & Halos:** Icon overrides, halo states, none, emerald/rose active/off colors, constant icon color, icon sizing (16px to 34px) & box sizing (30px to 56px).
+  - **Colors & Opacity:** Violet slider color, slate background, alternative slider color, dynamic light colorize, opacities (0.15, 0.5, 1.0).
+  - **Borders & Geometry:** Radius (pill 28px, square 0), solid, dashed, dotted, double styles, heights (40px, 80px, 120px), fixed width (320px), `no_scale`.
+  - **Timing & Actions:** Immediate update, `no_transition_animation`, explicit 0 transition, 2s transition, custom settle time (1000ms), min slide delay (150ms), custom tap/hold actions (more-info/toggle/none), hold times (250ms, 1200ms).
+  - **Ranges & Domains:** Constrained ranges (20-80), raw brightness (0-255), climate temperature, target temp low, light, fan, media player, cover.
+  - **Horizontal Combos:** Cyberpunk glow, minimalist soft pill, brutalist square, warm dashed accent, snappy instant pro, colorize + halo + constant icon.
+  - **Vertical Combos:** Default 4-row, compact 140px, tall 280px, vertical glow pill, multi-domain vertical combos (lights, fans, media players, climate).
+
 ## Workflow for Testing Code Changes
 
 1. Edit code in `src/`.

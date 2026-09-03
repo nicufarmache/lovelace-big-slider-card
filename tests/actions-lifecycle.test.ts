@@ -157,4 +157,35 @@ describe('actions and lifecycle', () => {
     expect(handleTapSpy).toHaveBeenCalledTimes(2);
     expect(spaceEvt.defaultPrevented).toBe(true);
   });
+
+  it('allows keyboard tap immediately after a completed hold gesture', () => {
+    const entity = createEntity('light.test');
+    const { card } = createCard(entity);
+    const handleTapSpy = vi.spyOn(card, '_handleTap');
+
+    card._setHold();
+    expect(Reflect.get(card, 'isHold')).toBe(true);
+
+    const upEvt = Object.assign(new Event('pointerup'), { pageX: 0, pageY: 0 }) as PointerEvent;
+    card._handlePointer(upEvt, { relativeX: 0, relativeY: 0 } as any);
+    expect(Reflect.get(card, 'isHold')).toBe(false);
+
+    const enterEvt = new KeyboardEvent('keydown', { key: 'Enter', cancelable: true });
+    card._handleKeyDown(enterEvt);
+    expect(handleTapSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('resets timer IDs to 0 when cleared or executed', () => {
+    vi.useFakeTimers();
+    const entity = createEntity('light.test');
+    const { card } = createCard(entity, { min_slide_time: 50 });
+
+    card._press();
+    expect(Reflect.get(card, 'pressTimeout')).not.toBe(0);
+    vi.advanceTimersByTime(50);
+    expect(Reflect.get(card, 'pressTimeout')).toBe(0);
+
+    card._stopUpdates();
+    expect(Reflect.get(card, 'updateTimeout')).toBe(0);
+  });
 });

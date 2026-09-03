@@ -1,9 +1,19 @@
-import { ActionConfig, LovelaceCard, LovelaceCardConfig, LovelaceCardEditor } from 'custom-card-helpers';
+import type { ActionConfig, LovelaceCard, LovelaceCardConfig } from 'custom-card-helpers';
+
+export interface CustomCardEntry {
+  type: string;
+  name: string;
+  description: string;
+  preview?: boolean;
+  getEntitySuggestion?: (hass: unknown, entityId: string) => Record<string, unknown> | null;
+}
 
 declare global {
   interface HTMLElementTagNameMap {
-    'big-slider-card-editor': LovelaceCardEditor;
     'hui-error-card': LovelaceCard;
+  }
+  interface Window {
+    customCards?: CustomCardEntry[];
   }
 }
 

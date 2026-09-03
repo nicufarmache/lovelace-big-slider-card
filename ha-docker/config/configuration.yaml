@@ -8,7 +8,7 @@ homeassistant:
 frontend:
   extra_module_url:
     - /local/cache-buster.js
-    - /local/big-slider-card.js?v=1788431483
+    - /local/big-slider-card.js?v=1788439673
 
 lovelace:
   mode: storage
@@ -19,6 +19,12 @@ lovelace:
       icon: mdi:test-tube
       show_in_sidebar: true
       filename: ui-lovelace.yaml
+    config-matrix:
+      mode: yaml
+      title: "Config Matrix"
+      icon: mdi:tune-variant
+      show_in_sidebar: true
+      filename: ui-config-matrix.yaml
 
 input_boolean:
   couch:

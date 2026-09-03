@@ -17,6 +17,8 @@
   "license": "MIT",
   "devDependencies": {
     "@vitest/coverage-v8": "^4.1.11",
+    "custom-card-helpers": "^2.0.0",
+    "home-assistant-js-websocket": "^9.6.0",
     "jsdom": "^30.0.1",
     "typescript": "~7.0.2",
     "vite": "^8.2.2",
@@ -24,8 +26,6 @@
   },
   "dependencies": {
     "@nicufarmache/slide-gesture": "^1.2.4",
-    "custom-card-helpers": "^2.0.0",
-    "home-assistant-js-websocket": "^9.6.0",
     "lit": "^3.3.3"
   },
   "scripts": {

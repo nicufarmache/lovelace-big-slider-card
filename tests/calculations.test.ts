@@ -195,4 +195,26 @@ describe('configuration and calculations', () => {
     expect(localize('common.off')).toBe('Éteint');
     localStorage.setItem('selectedLanguage', 'en');
   });
+
+  it('handles SecurityError when accessing localStorage in localize()', () => {
+    const originalGetItem = localStorage.getItem;
+    localStorage.getItem = () => {
+      throw new Error('SecurityError: The operation is insecure.');
+    };
+    expect(localize('common.off')).toBe('Off');
+    expect(localize('unknown.key.path')).toBe('unknown.key.path');
+    localStorage.getItem = originalGetItem;
+  });
+
+  it('does not mutate _config when calculating entity range', () => {
+    const climate = createEntity('climate.test', 'heat', { min_temp: 15, max_temp: 28 });
+    const { card } = createCard(climate);
+    const initialConfigMin = Reflect.get(card, '_config').min;
+    const initialConfigMax = Reflect.get(card, '_config').max;
+
+    card._getValue();
+    expect(card._getRange()).toEqual({ min: 15, max: 28 });
+    expect(Reflect.get(card, '_config').min).toBe(initialConfigMin);
+    expect(Reflect.get(card, '_config').max).toBe(initialConfigMax);
+  });
 });

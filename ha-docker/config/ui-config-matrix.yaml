@@ -1,0 +1,584 @@
+title: Config Options & Combos Matrix
+views:
+  # ---------------------------------------------------------------------------
+  # VIEW 1: TEXT, LABELS & TYPOGRAPHY OPTIONS
+  # ---------------------------------------------------------------------------
+  - title: Text & Typography
+    path: text-typography
+    type: sections
+    max_columns: 2
+    sections:
+      - title: Text Content & Percentage Display
+        cards:
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Default (No Percentage, Normal Font)"
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "With Percentage Display"
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Bold Text Only"
+            bold_text: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Bold Text + Percentage"
+            bold_text: true
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Custom Long Name With Truncation Test"
+            show_percentage: true
+
+      - title: Text Sizing & Colors
+        cards:
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Small Text (11px)"
+            text_size: 11px
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Medium Text (16px)"
+            text_size: 16px
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Large Text (22px)"
+            text_size: 22px
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Custom Amber Text Color"
+            text_color: "#f59e0b"
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Custom Cyan Text Color + Bold"
+            text_color: "#06b6d4"
+            bold_text: true
+            show_percentage: true
+
+  # ---------------------------------------------------------------------------
+  # VIEW 2: ICON OPTIONS & HALOS
+  # ---------------------------------------------------------------------------
+  - title: Icons & Halos
+    path: icons-halos
+    type: sections
+    max_columns: 2
+    sections:
+      - title: Icon Overrides & Halo States
+        cards:
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Default Entity Icon"
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Custom Icon: Sofa"
+            icon: mdi:sofa
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Custom Icon: Floor Lamp + Halo"
+            icon: mdi:floor-lamp
+            show_icon_halo: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "No Icon (icon: none)"
+            icon: none
+            show_percentage: true
+
+      - title: Icon Colors & Sizing
+        cards:
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Emerald Active / Rose Off Colors"
+            icon_color: "#10b981"
+            icon_off_color: "#f43f5e"
+            show_icon_halo: true
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Constant Icon Color (100% Brightness)"
+            constant_icon_color: true
+            icon_color: "#eab308"
+            show_icon_halo: true
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Small Icon (16px in 30px Box)"
+            icon_size: 16px
+            icon_box_size: 30px
+            show_icon_halo: true
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Large Icon (34px in 56px Box)"
+            icon_size: 34px
+            icon_box_size: 56px
+            show_icon_halo: true
+            show_percentage: true
+
+  # ---------------------------------------------------------------------------
+  # VIEW 3: COLORS, OPACITY & SLIDER THEMES
+  # ---------------------------------------------------------------------------
+  - title: Colors & Opacity
+    path: colors-opacity
+    type: sections
+    max_columns: 2
+    sections:
+      - title: Slider Fill & Background Colors
+        cards:
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Custom Violet Slider Color"
+            color: "#8b5cf6"
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Custom Slate Background Track"
+            background_color: "#1e293b"
+            color: "#38bdf8"
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Alternative Slider Color"
+            use_alternative_slider_color: true
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Dynamic Colorize (Matches Light RGB)"
+            colorize: true
+            show_icon_halo: true
+            show_percentage: true
+
+      - title: Slider Opacity Variations
+        cards:
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Low Opacity (slider_opacity: 0.15)"
+            slider_opacity: 0.15
+            color: "#ec4899"
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Medium Opacity (slider_opacity: 0.5)"
+            slider_opacity: 0.5
+            color: "#ec4899"
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Full Solid Opacity (slider_opacity: 1.0)"
+            slider_opacity: 1.0
+            color: "#ec4899"
+            show_percentage: true
+
+  # ---------------------------------------------------------------------------
+  # VIEW 4: BORDERS, GEOMETRY & SIZING
+  # ---------------------------------------------------------------------------
+  - title: Borders & Geometry
+    path: borders-geometry
+    type: sections
+    max_columns: 2
+    sections:
+      - title: Border Radius & Styles
+        cards:
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Pill Radius (border_radius: 28)"
+            border_radius: 28
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Square Zero Radius (border_radius: 0)"
+            border_radius: 0
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Solid Red Border (width: 2, radius: 12)"
+            border_color: "#ef4444"
+            border_width: 2
+            border_style: solid
+            border_radius: 12
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Dashed Amber Border (width: 3)"
+            border_color: "#f59e0b"
+            border_width: 3
+            border_style: dashed
+            border_radius: 16
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Dotted Blue Border (width: 3)"
+            border_color: "#3b82f6"
+            border_width: 3
+            border_style: dotted
+            border_radius: 16
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Double Green Border (width: 4)"
+            border_color: "#10b981"
+            border_width: 4
+            border_style: double
+            border_radius: 16
+            show_percentage: true
+
+      - title: Card Heights, Widths & Scaling
+        cards:
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Compact Height: 40px"
+            height: 40
+            text_size: 12px
+            icon_size: 18px
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Medium Height: 80px"
+            height: 80
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Tall Height: 120px"
+            height: 120
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Fixed Width: 320px"
+            width: 320px
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "No Active Scale Effect (no_scale: true)"
+            no_scale: true
+            show_percentage: true
+
+  # ---------------------------------------------------------------------------
+  # VIEW 5: BEHAVIOR, TIMING & ACTIONS
+  # ---------------------------------------------------------------------------
+  - title: Timing & Actions
+    path: timing-actions
+    type: sections
+    max_columns: 2
+    sections:
+      - title: Drag Updates & Transitions
+        cards:
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Immediate Update (Service fires on drag)"
+            immediate_update: true
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "No Transition Animation (Instant snap)"
+            no_transition_animation: true
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Explicit Zero Transition (transition: 0)"
+            transition: 0
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Slow 2s Light Transition (transition: 2)"
+            transition: 2
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Custom Settle Time: 1s (settle_time: 1000)"
+            settle_time: 1000
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Min Slide Delay: 150ms (min_slide_time: 150)"
+            min_slide_time: 150
+            show_percentage: true
+
+      - title: Tap & Hold Actions
+        cards:
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Default (Tap: Toggle, Hold: More-Info)"
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Inverted (Tap: More-Info, Hold: Toggle)"
+            tap_action:
+              action: more-info
+            hold_action:
+              action: toggle
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Short Hold Time: 250ms (hold_time: 250)"
+            hold_time: 250
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Long Hold Time: 1200ms (hold_time: 1200)"
+            hold_time: 1200
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Tap: None / Hold: None"
+            tap_action:
+              action: none
+            hold_action:
+              action: none
+            show_percentage: true
+
+  # ---------------------------------------------------------------------------
+  # VIEW 6: RANGES, ATTRIBUTES & DOMAINS
+  # ---------------------------------------------------------------------------
+  - title: Ranges & Domains
+    path: ranges-domains
+    type: sections
+    max_columns: 2
+    sections:
+      - title: Custom Min / Max Ranges
+        cards:
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Constrained Range (min: 20, max: 80)"
+            min: 20
+            max: 80
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: input_number.couch_brightness
+            name: "Raw Brightness Scale (0 to 255)"
+            min: 0
+            max: 255
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: climate.heatpump
+            name: "Climate Temperature Range (16 to 30)"
+            attribute: temperature
+            min: 16
+            max: 30
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: climate.ecobee
+            name: "Target Temp Low (attribute: target_temp_low)"
+            attribute: target_temp_low
+            min: 15
+            max: 25
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: climate.ecobee
+            name: "Target Temp High (attribute: target_temp_high)"
+            attribute: target_temp_high
+            min: 22
+            max: 32
+            show_percentage: true
+
+      - title: Supported Domains Matrix
+        cards:
+          - type: custom:big-slider-card
+            entity: light.ceiling_lights
+            name: "Domain: Light (attribute: brightness)"
+            show_percentage: true
+            show_icon_halo: true
+          - type: custom:big-slider-card
+            entity: fan.living_room_fan
+            name: "Domain: Fan (attribute: percentage)"
+            show_percentage: true
+            show_icon_halo: true
+          - type: custom:big-slider-card
+            entity: media_player.living_room
+            name: "Domain: Media Player (volume_level)"
+            attribute: volume_level
+            show_percentage: true
+            show_icon_halo: true
+          - type: custom:big-slider-card
+            entity: cover.living_room_window
+            name: "Domain: Cover (current_position)"
+            attribute: current_position
+            show_percentage: true
+            show_icon_halo: true
+
+  # ---------------------------------------------------------------------------
+  # VIEW 7: RELEVANT HORIZONTAL COMBOS
+  # ---------------------------------------------------------------------------
+  - title: Horizontal Combos
+    path: horizontal-combos
+    type: sections
+    max_columns: 2
+    sections:
+      - title: Stylized Theming Combos
+        cards:
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Cyberpunk Glow (Dark BG, Neon Border, Halo)"
+            background_color: "#090d16"
+            color: "#06b6d4"
+            text_color: "#38bdf8"
+            icon_color: "#22d3ee"
+            border_color: "#06b6d4"
+            border_width: 2
+            border_style: solid
+            border_radius: 14
+            show_icon_halo: true
+            bold_text: true
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Minimalist Soft Pill (Rounded 28, Low Opacity)"
+            height: 48
+            border_radius: 28
+            border_width: 0
+            color: "#6366f1"
+            slider_opacity: 0.2
+            constant_icon_color: true
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Brutalist Outlined (Square, Heavy Border, Bold)"
+            border_radius: 0
+            border_width: 3
+            border_style: solid
+            border_color: "#f8fafc"
+            background_color: "#18181b"
+            text_color: "#ffffff"
+            bold_text: true
+            text_size: 17px
+            icon_size: 26px
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Dashed Warm Accent + Alt Slider Color"
+            use_alternative_slider_color: true
+            border_color: "#f59e0b"
+            border_style: dashed
+            border_width: 2
+            border_radius: 18
+            text_color: "#fbbf24"
+            show_icon_halo: true
+            show_percentage: true
+
+      - title: Behavioral & Performance Combos
+        cards:
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Snappy Instant Pro (Immediate + No Animation)"
+            immediate_update: true
+            no_transition_animation: true
+            transition: 0
+            settle_time: 1000
+            bold_text: true
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Dynamic Colorize + Halo + Constant Icon"
+            colorize: true
+            show_icon_halo: true
+            constant_icon_color: true
+            bold_text: true
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: fan.living_room_fan
+            name: "Fan Pro (Emerald Fill, Halo, Bold, Alt Icon)"
+            icon: mdi:fan-chevron-up
+            color: "#10b981"
+            icon_color: "#34d399"
+            show_icon_halo: true
+            bold_text: true
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: media_player.living_room
+            name: "Speaker Master (Indigo Track, 70px Height)"
+            height: 70
+            color: "#6366f1"
+            show_icon_halo: true
+            show_percentage: true
+
+  # ---------------------------------------------------------------------------
+  # VIEW 8: RELEVANT VERTICAL COMBOS
+  # ---------------------------------------------------------------------------
+  - title: Vertical Combos
+    path: vertical-combos
+    type: sections
+    max_columns: 2
+    sections:
+      - title: Vertical Sizing & Layouts
+        cards:
+          - type: custom:big-slider-card
+            entity: light.ceiling_lights
+            name: "Default 4-Row Vertical"
+            vertical: true
+            show_percentage: true
+            grid_options:
+              columns: 3
+              rows: 4
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Compact Vertical (140px Height)"
+            vertical: true
+            height: 140
+            show_percentage: true
+            grid_options:
+              columns: 3
+              rows: 3
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Tall Vertical (280px Height)"
+            vertical: true
+            height: 280
+            show_percentage: true
+            grid_options:
+              columns: 3
+              rows: 5
+
+      - title: Vertical Styling & Multi-Domain Combos
+        cards:
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Vertical Glow Pill (Halo + Cyan)"
+            vertical: true
+            height: 200
+            color: "#06b6d4"
+            show_icon_halo: true
+            border_radius: 24
+            bold_text: true
+            show_percentage: true
+            grid_options:
+              columns: 3
+              rows: 4
+          - type: custom:big-slider-card
+            entity: fan.living_room_fan
+            name: "Vertical Fan (Emerald Theme)"
+            vertical: true
+            height: 200
+            color: "#10b981"
+            icon: mdi:fan
+            show_icon_halo: true
+            show_percentage: true
+            grid_options:
+              columns: 3
+              rows: 4
+          - type: custom:big-slider-card
+            entity: media_player.living_room
+            name: "Vertical Volume (Purple Theme)"
+            vertical: true
+            height: 200
+            color: "#a855f7"
+            show_icon_halo: true
+            show_percentage: true
+            grid_options:
+              columns: 3
+              rows: 4
+          - type: custom:big-slider-card
+            entity: climate.heatpump
+            name: "Vertical Climate (Amber Range)"
+            vertical: true
+            height: 200
+            attribute: temperature
+            min: 16
+            max: 30
+            color: "#f59e0b"
+            show_percentage: true
+            grid_options:
+              columns: 3
+              rows: 4

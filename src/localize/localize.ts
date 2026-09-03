@@ -21,23 +21,29 @@ const languages: any = {
   ro: ro,
 };
 
-export function localize(string: string, search = '', replace = ''): string {
-  const rawLang = (localStorage.getItem('selectedLanguage') || 'en').replace(/['"]+/g, '').replace('-', '_');
+function getSelectedLanguage(): string {
+  try {
+    return localStorage.getItem('selectedLanguage') || 'en';
+  } catch {
+    return 'en';
+  }
+}
+
+function resolveKey(key: string, dict: any): string | undefined {
+  try {
+    const val = key.split('.').reduce((o, i) => o?.[i], dict);
+    return typeof val === 'string' ? val : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+export function localize(string: string): string {
+  const rawLang = getSelectedLanguage().replace(/['"]+/g, '').replace('-', '_');
   const baseLang = rawLang.split('_')[0];
   const lang = languages[rawLang] ? rawLang : (languages[baseLang] ? baseLang : 'en');
 
-  let translated: string;
-
-  try {
-    translated = string.split('.').reduce((o, i) => o[i], languages[lang]);
-  } catch (e) {
-    translated = string.split('.').reduce((o, i) => o[i], languages['en']);
-  }
-
-  if (translated === undefined) translated = string.split('.').reduce((o, i) => o[i], languages['en']);
-
-  if (search !== '' && replace !== '') {
-    translated = translated.replace(search, replace);
-  }
-  return translated;
+  return resolveKey(string, languages[lang])
+    ?? resolveKey(string, languages.en)
+    ?? string;
 }

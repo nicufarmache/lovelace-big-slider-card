@@ -8,3 +8,4 @@ ha-docker/config/*
 ha-docker/config/.*
 !ha-docker/config/configuration.yaml
 !ha-docker/config/ui-lovelace.yaml
+!ha-docker/config/ui-config-matrix.yaml

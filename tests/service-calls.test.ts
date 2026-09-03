@@ -25,6 +25,8 @@ describe('Home Assistant values and service calls', () => {
     ['valve.test', 'open', { current_position: 55.5 }, 'position', 55.5],
     ['media_player.test', 'playing', { volume_level: 0.425 }, 'volume', 42.5],
     ['climate.test', 'heat', { temperature: 21.5 }, 'temperature', 21.5],
+    ['climate.test', 'heat_cool', { target_temp_low: 19.5, target_temp_high: 25.0 }, 'target_temp_low', 19.5],
+    ['climate.test', 'heat_cool', { target_temp_low: 19.5, target_temp_high: 25.0 }, 'target_temp_high', 25.0],
     ['climate.test', 'heat', { humidity: 48.5 }, 'humidity', 48.5],
     ['humidifier.test', 'on', { humidity: 52.5 }, 'humidity', 52.5],
     ['water_heater.test', 'on', { temperature: 54.5 }, 'temperature', 54.5],
@@ -132,6 +134,70 @@ describe('Home Assistant values and service calls', () => {
     mediaFixture.card._setValue();
     expect(mediaFixture.callService).toHaveBeenCalledWith('media_player', 'volume_set', {
       entity_id: 'media_player.test', volume_level: 1,
+    });
+  });
+
+  it('sends explicit transition: 0 in light turn_on payload', () => {
+    const entity = createEntity('light.test', 'on', { brightness: 128 });
+    const { card, callService } = createCard(entity, { transition: 0 });
+    setCurrentValue(card, 50);
+    card._setValue();
+    expect(callService).toHaveBeenLastCalledWith('light', 'turn_on', {
+      entity_id: 'light.test', brightness: 128, transition: 0,
+    });
+  });
+
+  it('returns 0 for off fan despite lingering percentage attribute', () => {
+    const entity = createEntity('fan.test', 'off', { percentage: 50 });
+    const { card } = createCard(entity, { attribute: 'percentage' });
+    expect(card._getEntityValue(entity, 'percentage')).toBe(0);
+  });
+
+  it('sends target_temp_low and preserves valid target_temp_high for climate', () => {
+    const entity = createEntity('climate.test', 'heat_cool', {
+      target_temp_low: 20,
+      target_temp_high: 25,
+      target_temp_step: 0.5,
+    });
+    const { card, callService } = createCard(entity, { attribute: 'target_temp_low' });
+    setCurrentValue(card, 21.2);
+    card._setValue();
+    expect(callService).toHaveBeenLastCalledWith('climate', 'set_temperature', {
+      entity_id: 'climate.test',
+      target_temp_low: 21,
+      target_temp_high: 25,
+    });
+  });
+
+  it('adjusts target_temp_high when target_temp_low exceeds it', () => {
+    const entity = createEntity('climate.test', 'heat_cool', {
+      target_temp_low: 20,
+      target_temp_high: 25,
+      target_temp_step: 0.5,
+    });
+    const { card, callService } = createCard(entity, { attribute: 'target_temp_low' });
+    setCurrentValue(card, 27);
+    card._setValue();
+    expect(callService).toHaveBeenLastCalledWith('climate', 'set_temperature', {
+      entity_id: 'climate.test',
+      target_temp_low: 27,
+      target_temp_high: 27,
+    });
+  });
+
+  it('sends target_temp_high and preserves valid target_temp_low for climate', () => {
+    const entity = createEntity('climate.test', 'heat_cool', {
+      target_temp_low: 20,
+      target_temp_high: 25,
+      target_temp_step: 0.5,
+    });
+    const { card, callService } = createCard(entity, { attribute: 'target_temp_high' });
+    setCurrentValue(card, 24);
+    card._setValue();
+    expect(callService).toHaveBeenLastCalledWith('climate', 'set_temperature', {
+      entity_id: 'climate.test',
+      target_temp_high: 24,
+      target_temp_low: 20,
     });
   });
 });

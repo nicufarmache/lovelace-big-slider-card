@@ -50,17 +50,26 @@ For entity or service behavior:
 - Test the exact domain, service name, and payload.
 - Cover range conversion, clamping, rounding, and entity-provided steps when
   applicable.
-- Check zero/off and unavailable/unknown behavior.
+- Check zero/off and unavailable/unknown behavior (e.g. `fan` and `light` when `off`).
+- Preserve explicit zero values in payloads (e.g. `transition: 0`) using numeric
+  type checks rather than truthiness.
 
 For gestures or immediate updates:
 
 - Treat timers, pointer cancellation, teardown, tap/hold separation, and
   settling as lifecycle-sensitive.
+- Reset numeric timer IDs to 0 whenever cleared or executed.
+- Ensure gesture flags (such as `isHold`) are reset when pointers are released
+  or cancelled so keyboard navigation remains responsive.
 - Verify that callbacks cannot fire after cancellation or disconnection.
 
-For rendering or styling:
+For rendering, styling, and lifecycle:
 
 - Retain Home Assistant CSS variables and user overrides.
+- Derive state before render in `willUpdate()`; avoid deriving state in `updated()`.
+- Avoid forced synchronous layout reflows (do not read `clientWidth`/`clientHeight`
+  outside active gestures, use `textContent` instead of `innerText` during drag updates).
+- Apply static config-based styles in `_applyStaticStyles()` rather than on every state tick.
 - Add a DOM regression test when structure, classes, attributes, or host state
   changes.
 - Inspect horizontal and vertical layouts in both light and dark themes when
@@ -71,6 +80,8 @@ For localization:
 - Treat English as the source language.
 - Keep the same key structure across locale files or deliberately preserve the
   established English fallback.
+- Wrap `localStorage` access defensively with fallbacks to support restricted
+  storage environments (sandboxed iframes, kiosks).
 
 ## Verify progressively
 
@@ -92,11 +103,16 @@ git status --short
 production build. The build generates `dist/big-slider-card.js`; never edit the
 bundle manually.
 
-For visible changes, run `npm run dev` and inspect:
+For visible changes, verify using both preview and the Home Assistant Docker suite:
 
-- `/preview/?theme=light`
-- `/preview/?theme=dark`
-- applicable default variants and horizontal/vertical examples
+1. **Vite Preview**: Run `npm run dev` and inspect:
+   - `/preview/?theme=light`
+   - `/preview/?theme=dark`
+   - applicable default variants and horizontal/vertical examples
+
+2. **Home Assistant Docker Environment**: Run `./ha-docker/start.sh` and inspect:
+   - `http://localhost:8123/lovelace` (interactive sandbox)
+   - `http://localhost:8123/test-suite` (permanent YAML test suites)
 
 If browser inspection is unavailable, say so rather than claiming visual QA.
 

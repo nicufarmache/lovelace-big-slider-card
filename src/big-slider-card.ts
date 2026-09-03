@@ -1,7 +1,6 @@
-
 import { SlideGesture, type SlideGestureEvent } from '@nicufarmache/slide-gesture';
-import { HassEntity } from "home-assistant-js-websocket";
-import { HomeAssistant } from './ha-types';
+import type { HassEntity } from "home-assistant-js-websocket";
+import type { HomeAssistant } from './ha-types';
 import type { BigSliderCardConfig, MousePos } from './types';
 import { DEFAULT_CONFIG, SUPPORTED_DOMAINS, TAP_THRESHOLD } from './const';
 import { localize } from './localize/localize';
@@ -10,9 +9,9 @@ import { ifDefined } from "lit/directives/if-defined.js";
 import {
   LitElement,
   html,
-  CSSResult,
-  TemplateResult,
   css,
+  type CSSResult,
+  type TemplateResult,
 } from 'lit';
 
 type SliderRange = {
@@ -46,6 +45,8 @@ export class BigSliderCard extends LitElement {
   private hasValidSlide: boolean = false;
   private customMin?: number;
   private customMax?: number;
+  private _effectiveMin: number = DEFAULT_CONFIG.min;
+  private _effectiveMax: number = DEFAULT_CONFIG.max;
 
   public static getStubConfig(
     _hass: HomeAssistant,
@@ -390,6 +391,8 @@ export class BigSliderCard extends LitElement {
     this.customMin = config.min;
     this.customMax = config.max;
     this._config = { ...DEFAULT_CONFIG, attribute, ...attributeDefaults, ...config };
+    this._effectiveMin = this.customMin ?? this._config.min;
+    this._effectiveMax = this.customMax ?? this._config.max;
     this._entity = this._config.entity;
     this._applyStaticStyles();
 
@@ -478,7 +481,7 @@ export class BigSliderCard extends LitElement {
 
   private _setupSlideGesture(): void {
     this.slideGesture?.removeListeners();
-    this.slideGesture = new SlideGesture(this, this._handlePointer.bind(this), {
+    this.slideGesture = new SlideGesture(this, this._handlePointer, {
       touchActions: this._config.vertical ? 'pan-x' : 'pan-y',
       stopScrollDirection: this._config.vertical ? 'vertical' : 'horizontal'
     });
@@ -589,7 +592,10 @@ export class BigSliderCard extends LitElement {
           return;
         }
         this.isTap = false;
-        clearTimeout(this.holdTimer);
+        if (this.holdTimer) {
+          clearTimeout(this.holdTimer);
+          this.holdTimer = 0;
+        }
         this._stopUpdates();
       }
       this._updateValue();
@@ -597,21 +603,34 @@ export class BigSliderCard extends LitElement {
     }
 
     if (evt.type === 'pointercancel') {
-      clearTimeout(this.holdTimer);
+      if (this.holdTimer) {
+        clearTimeout(this.holdTimer);
+        this.holdTimer = 0;
+      }
+      this.isHold = false;
+      this.isTap = false;
       this._clearImmediateUpdate();
       this._unpress();
       this._startUpdates();
     }
 
     if (evt.type === 'pointerup') {
-      clearTimeout(this.holdTimer);
+      if (this.holdTimer) {
+        clearTimeout(this.holdTimer);
+        this.holdTimer = 0;
+      }
       this._clearImmediateUpdate();
       this._unpress();
-      this._startUpdates();
 
-      if (this.isHold) return;
+      if (this.isHold) {
+        this.isHold = false;
+        this._startUpdates();
+        return;
+      }
 
       if (this.isTap) {
+        this.isTap = false;
+        this._startUpdates();
         this._handleTap();
         return;
       }
@@ -620,6 +639,8 @@ export class BigSliderCard extends LitElement {
       if (this.hasValidSlide && (Date.now() - this.trackingStartTime) > minSlideTime) {
         this._setValue();
         this._startUpdates(true);
+      } else {
+        this._startUpdates();
       }
     }
   }
@@ -676,6 +697,7 @@ export class BigSliderCard extends LitElement {
   }
 
   _setHold = (): void => {
+    this.holdTimer = 0;
     this.isTap = false;
     this.isHold = true;
     this._clearImmediateUpdate();
@@ -685,7 +707,10 @@ export class BigSliderCard extends LitElement {
   }
 
   _handleTap = (): void => {
-    clearTimeout(this.holdTimer);
+    if (this.holdTimer) {
+      clearTimeout(this.holdTimer);
+      this.holdTimer = 0;
+    }
     if (this._config?.tap_action) {
       if (!this.isHold) {
         this._handleAction('tap');
@@ -699,13 +724,22 @@ export class BigSliderCard extends LitElement {
   }
 
   _press(): void {
-    if (this.pressTimeout) clearTimeout(this.pressTimeout);
-    this.pressTimeout = window.setTimeout(() => this.setAttribute('pressed', ''), this._config.min_slide_time)
-    this.setAttribute('half-pressed', '')
+    if (this.pressTimeout) {
+      clearTimeout(this.pressTimeout);
+      this.pressTimeout = 0;
+    }
+    this.pressTimeout = window.setTimeout(() => {
+      this.pressTimeout = 0;
+      this.setAttribute('pressed', '');
+    }, this._config.min_slide_time);
+    this.setAttribute('half-pressed', '');
   }
 
   _unpress(): void {
-    if (this.pressTimeout) clearTimeout(this.pressTimeout);
+    if (this.pressTimeout) {
+      clearTimeout(this.pressTimeout);
+      this.pressTimeout = 0;
+    }
     this.removeAttribute('pressed');
     this.removeAttribute('half-pressed');
   }
@@ -728,10 +762,12 @@ export class BigSliderCard extends LitElement {
     const ariaValueNow = this._getAriaValueNow();
 
     this.style.setProperty('--bsc-percent', sliderPercentage + '%');
-    const percentage = this?.shadowRoot?.getElementById('percentage');
-    percentage && (percentage.innerText = label);
+    const percentage = this.shadowRoot?.getElementById('percentage');
+    if (percentage) {
+      percentage.textContent = label;
+    }
 
-    const container = this?.shadowRoot?.getElementById('container');
+    const container = this.shadowRoot?.getElementById('container');
     if (container) {
       container.setAttribute('aria-valuenow', String(ariaValueNow));
       container.setAttribute('aria-valuetext', label);
@@ -741,7 +777,9 @@ export class BigSliderCard extends LitElement {
   _getAriaValueNow(): number {
     const domain = this._getDomain(this._effectiveState.entity_id);
     const isClimateTemperature = domain === 'climate'
-      && this._config.attribute === 'temperature';
+      && (this._config.attribute === 'temperature'
+        || this._config.attribute === 'target_temp_low'
+        || this._config.attribute === 'target_temp_high');
 
     if (isClimateTemperature) {
       return Number(this._formatValue(this.currentValue, 1));
@@ -762,7 +800,9 @@ export class BigSliderCard extends LitElement {
     const unit = this._getValueUnit();
     const domain = this._getDomain(this._effectiveState.entity_id);
     const isClimateTemperature = domain === 'climate'
-      && this._config.attribute === 'temperature';
+      && (this._config.attribute === 'temperature'
+        || this._config.attribute === 'target_temp_low'
+        || this._config.attribute === 'target_temp_high');
 
     if (isClimateTemperature) {
       return `${this._formatValue(this.currentValue, 1)}${unit}`;
@@ -809,9 +849,7 @@ export class BigSliderCard extends LitElement {
   }
 
   _getRange(): SliderRange {
-    const min = this._config.min ?? 0;
-    const max = this._config.max ?? 100;
-    return { min, max };
+    return { min: this._effectiveMin, max: this._effectiveMax };
   }
 
   _getValueUnit(): string {
@@ -847,7 +885,6 @@ export class BigSliderCard extends LitElement {
 
   _updateColors(): void {
     let color = 'var(--bsc-color)';
-    let brightness = '0%';
     let brightnessUI = '50%';
     let isActive = false;
 
@@ -865,34 +902,26 @@ export class BigSliderCard extends LitElement {
         color = 'var(--bsc-active-color)';
       }
       if (stateBrightness) {
-        brightness = `${100 * stateBrightness / 255}%`
-        brightnessUI = `${100 * stateBrightness / 510 + 50}%`
+        brightnessUI = `${100 * stateBrightness / 510 + 50}%`;
       }
     } else {
       color = 'var(--bsc-off-color)';
     }
 
-    const percentage = this?.shadowRoot?.getElementById('percentage');
+    const percentage = this.shadowRoot?.getElementById('percentage');
     if (domain === 'light' && !isActive) {
       const stateText = stateObj
         ? (this._hass && typeof this._hass.formatEntityState === 'function'
             ? this._hass.formatEntityState(stateObj)
             : stateObj.state)
         : localize('common.off');
-      percentage && (percentage.innerText = stateText);
+      if (percentage) {
+        percentage.textContent = stateText;
+      }
     }
     this.style.setProperty('--bsc-entity-color', color);
-    this.style.setProperty('--bsc-brightness', brightness);
     this.style.setProperty('--bsc-brightness-ui', brightnessUI);
     this.style.setProperty('--bsc-icon-brightness', this._config.constant_icon_color === true ? '100%' : brightnessUI);
-    this.style.setProperty('--bsc-icon-background', this._config.show_icon_halo === true
-      ? 'color-mix(in srgb, var(--bsc-icon-color, var(--bsc-entity-color)) 20%, transparent)'
-      : 'transparent'
-    );
-    this.style.setProperty('--bsc-icon-off-background', this._config.show_icon_halo === true
-      ? 'color-mix(in srgb, var(--bsc-off-color) 20%, transparent)'
-      : 'transparent'
-    );
     if (isActive && this._config.icon_color) {
       this.style.setProperty('--bsc-icon-color', this._config.icon_color);
     } else if (!isActive && this._config.icon_off_color) {
@@ -910,13 +939,13 @@ export class BigSliderCard extends LitElement {
     const attr = this._config?.attribute;
 
     if (this._isUnavailable(status)) {
-      this._config.min = 0;
-      this._config.max = 0;
+      this._effectiveMin = 0;
+      this._effectiveMax = 0;
       this.style.setProperty('--bsc-opacity', '0.5');
     } else {
       const range = this._getEntityRange(stateObj);
-      this._config.min = this.customMin ?? range.min;
-      this._config.max = this.customMax ?? range.max;
+      this._effectiveMin = this.customMin ?? range.min;
+      this._effectiveMax = this.customMax ?? range.max;
       this.style.removeProperty('--bsc-opacity');
     }
 
@@ -972,11 +1001,11 @@ export class BigSliderCard extends LitElement {
 
     const params: Record<string, string | number | number[]> = {
       entity_id: this._state.entity_id,
-    }
+    };
 
     if (on) {
       params[attr] = serviceValue;
-      if (this._config.transition) {
+      if (typeof this._config.transition === 'number') {
         params.transition = this._config.transition;
       }
       this._hass!.callService('light', 'turn_on', params);
@@ -989,9 +1018,9 @@ export class BigSliderCard extends LitElement {
     const domain = this._getDomain(stateObj.entity_id);
     const status = stateObj.state;
 
-    if (this._isUnavailable(status)) return this._config.min ?? 0;
+    if (this._isUnavailable(status)) return this._effectiveMin;
 
-    if (domain === 'light' && status !== 'on') return 0;
+    if ((domain === 'light' || domain === 'fan') && status !== 'on') return 0;
 
     switch (domain) {
       case 'light':
@@ -1010,9 +1039,16 @@ export class BigSliderCard extends LitElement {
       case 'media_player':
         return 100 * this._toNumber(stateObj.attributes?.volume_level, 0);
       case 'climate':
-        return attr === 'humidity'
-          ? this._toNumber(stateObj.attributes?.humidity, this._config.min ?? 0)
-          : this._toNumber(stateObj.attributes?.temperature, this._config.min ?? 0);
+        if (attr === 'humidity') {
+          return this._toNumber(stateObj.attributes?.humidity, this._effectiveMin);
+        }
+        if (attr === 'target_temp_low') {
+          return this._toNumber(stateObj.attributes?.target_temp_low, this._effectiveMin);
+        }
+        if (attr === 'target_temp_high') {
+          return this._toNumber(stateObj.attributes?.target_temp_high, this._effectiveMin);
+        }
+        return this._toNumber(stateObj.attributes?.temperature, this._effectiveMin);
       case 'humidifier':
         return this._toNumber(stateObj.attributes?.humidity, this._config.min ?? 0);
       case 'water_heater':
@@ -1081,14 +1117,39 @@ export class BigSliderCard extends LitElement {
           volume_level: Math.max(0, Math.min(1, value / 100)),
         });
         return;
-      case 'climate':
-        this._hass!.callService('climate', attr === 'humidity' ? 'set_humidity' : 'set_temperature', {
+      case 'climate': {
+        if (attr === 'humidity') {
+          this._hass!.callService('climate', 'set_humidity', {
+            entity_id: entityId,
+            humidity: Math.round(value),
+          });
+          return;
+        }
+
+        const snapped = this._snapValueToStep(value, this._state?.attributes?.target_temp_step);
+        const params: Record<string, unknown> = {
           entity_id: entityId,
-          [attr === 'humidity' ? 'humidity' : 'temperature']: attr === 'humidity'
-            ? Math.round(value)
-            : this._snapValueToStep(value, this._state!.attributes?.target_temp_step),
-        });
+        };
+
+        if (attr === 'target_temp_low') {
+          params.target_temp_low = snapped;
+          const currentHigh = Number(this._state?.attributes?.target_temp_high);
+          if (Number.isFinite(currentHigh)) {
+            params.target_temp_high = Math.max(snapped, currentHigh);
+          }
+        } else if (attr === 'target_temp_high') {
+          params.target_temp_high = snapped;
+          const currentLow = Number(this._state?.attributes?.target_temp_low);
+          if (Number.isFinite(currentLow)) {
+            params.target_temp_low = Math.min(snapped, currentLow);
+          }
+        } else {
+          params.temperature = snapped;
+        }
+
+        this._hass!.callService('climate', 'set_temperature', params);
         return;
+      }
       case 'humidifier':
         this._hass!.callService('humidifier', 'set_humidity', {
           entity_id: entityId,
@@ -1154,9 +1215,12 @@ export class BigSliderCard extends LitElement {
   }
 
   _stopUpdates(): void {
-    if (this.updateTimeout) clearTimeout(this.updateTimeout);
+    if (this.updateTimeout) {
+      clearTimeout(this.updateTimeout);
+      this.updateTimeout = 0;
+    }
     if (!this._shouldUpdate) return;
-    this.shadowRoot?.getElementById('slider')?.classList?.remove('animate')
+    this.shadowRoot?.getElementById('slider')?.classList?.remove('animate');
     this._shouldUpdate = false;
   }
 
@@ -1181,15 +1245,14 @@ export class BigSliderCard extends LitElement {
   _startUpdates(settle = false): void {
     if (this.updateTimeout) clearTimeout(this.updateTimeout);
     this.updateTimeout = window.setTimeout(() => {
+      this.updateTimeout = 0;
       this._shouldUpdate = true;
-      this.shadowRoot?.getElementById('slider')?.classList?.add('animate')
+      this.shadowRoot?.getElementById('slider')?.classList?.add('animate');
       this.requestUpdate();
     }, settle ? this._config.settle_time : 0);
-
   }
 
   protected updated(): void {
-    this._updateContainerSize();
     this._getValue();
     this._updateColors();
     this._updateHostAttributes();
@@ -1229,10 +1292,18 @@ export class BigSliderCard extends LitElement {
     this.style.setProperty('--bsc-slider-transition', transitionAnimation ? 'right 180ms ease-in-out, background-color 180ms ease-in-out, filter 180ms ease-in-out' : 'none');
     this.style.setProperty('--bsc-vertical-slider-transition', transitionAnimation ? 'top 180ms ease-in-out, background-color 180ms ease-in-out, filter 180ms ease-in-out' : 'none');
     this.style.setProperty('--bsc-icon-transition', transitionAnimation ? 'color 180ms ease-in-out, background-color 180ms ease-in-out, filter 180ms ease-in-out' : 'none');
+    this.style.setProperty('--bsc-icon-background', this._config.show_icon_halo === true
+      ? 'color-mix(in srgb, var(--bsc-icon-color, var(--bsc-entity-color)) 20%, transparent)'
+      : 'transparent'
+    );
+    this.style.setProperty('--bsc-icon-off-background', this._config.show_icon_halo === true
+      ? 'color-mix(in srgb, var(--bsc-off-color) 20%, transparent)'
+      : 'transparent'
+    );
   }
 
   protected render(): TemplateResult | void {
-    if (this._entity && !(this._entity in (this._hass?.states ?? {}))) {
+    if (this._entity && this._hass && !(this._entity in this._hass.states)) {
       return this._showError(`${localize('common.no_entity')}: ${this._entity}`);
     }
 
@@ -1242,9 +1313,9 @@ export class BigSliderCard extends LitElement {
     const entity = this._entity || 'light.example_light';
     const domain = entity.split(".")[0];
 
-    const colorize = (this._config.colorize && true) ?? false;
-    const showPercentage = (this._config.show_percentage && true) ?? false;
-    const boldText = (this._config.bold_text && true) ?? false;
+    const colorize = Boolean(this._config.colorize);
+    const showPercentage = Boolean(this._config.show_percentage);
+    const boldText = Boolean(this._config.bold_text);
     const vertical = this._config.vertical === true;
     const range = this._getRange();
     const label = this._getSliderLabel(this._getSliderPercentage());
@@ -1332,7 +1403,6 @@ export class BigSliderCard extends LitElement {
         --bsc-slider-color: var(--bsc-default-slider-color);
         --bsc-slider-opacity: 0.3;
         --bsc-percent: 0%;
-        --bsc-brightness: 50%;
         --bsc-brightness-ui: 50%;
         --bsc-icon-brightness: var(--bsc-brightness-ui);
         --bsc-color: var(--bsc-active-color);
