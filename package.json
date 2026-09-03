@@ -1,6 +1,6 @@
 {
   "name": "big-slider-card",
-  "version": "1.2.9",
+  "version": "1.2.10",
   "description": "Lovelace big-slider-card",
   "keywords": [
     "home-assistant",
@@ -16,11 +16,11 @@
   "author": "Nicu Farmache <github@nicu.ro>",
   "license": "MIT",
   "devDependencies": {
-    "@vitest/coverage-v8": "^4.1.10",
-    "jsdom": "^29.1.1",
+    "@vitest/coverage-v8": "^4.1.11",
+    "jsdom": "^30.0.1",
     "typescript": "~7.0.2",
-    "vite": "^8.1.5",
-    "vitest": "^4.1.10"
+    "vite": "^8.2.2",
+    "vitest": "^4.1.11"
   },
   "dependencies": {
     "@nicufarmache/slide-gesture": "^1.2.4",

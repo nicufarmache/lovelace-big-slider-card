@@ -57,7 +57,7 @@ var e = Object.defineProperty, t = (t, n) => {
 			totalY: this.#a
 		}), this.#e.releasePointerCapture(e.pointerId), this.#f());
 	}
-}, r = "1.2.9", i = "brightness", a = 3e3, o = [
+}, r = "1.2.10", i = "brightness", a = 3e3, o = [
 	"light",
 	"number",
 	"input_number",
@@ -934,7 +934,7 @@ var A = class extends HTMLElement {
 	static finalizeStyles(e) {
 		let t = [];
 		if (Array.isArray(e)) {
-			let n = new Set(e.flat(Infinity).reverse());
+			let n = new Set(e.flat(1 / 0).reverse());
 			for (let e of n) t.unshift(nt(e));
 		} else e !== void 0 && t.push(nt(e));
 		return t;
@@ -1159,16 +1159,18 @@ var kt = (e, t) => {
 						i.append(e[t], I());
 					}
 				}
-			} else if (i.nodeType === 8) if (i.data === vt) c.push({
-				type: 2,
-				index: a
-			});
-			else {
-				let e = -1;
-				for (; (e = i.data.indexOf(P, e + 1)) !== -1;) c.push({
-					type: 7,
+			} else if (i.nodeType === 8) {
+				if (i.data === vt) c.push({
+					type: 2,
 					index: a
-				}), e += P.length - 1;
+				});
+				else {
+					let e = -1;
+					for (; (e = i.data.indexOf(P, e + 1)) !== -1;) c.push({
+						type: 7,
+						index: a
+					}), e += P.length - 1;
+				}
 			}
 			a++;
 		}
@@ -1359,7 +1361,7 @@ Z._$litElement$ = !0, Z.finalized = !0, X.litElementHydrateSupport?.({ LitElemen
 var Lt = X.litElementPolyfillSupport;
 Lt?.({ LitElement: Z }), (X.litElementVersions ??= []).push("4.2.2");
 //#endregion
-//#region \0@oxc-project+runtime@0.139.0/helpers/esm/decorate.js
+//#region \0@oxc-project+runtime@0.148.0/helpers/esm/decorate.js
 function Q(e, t, n, r) {
 	var i = arguments.length, a = i < 3 ? t : r === null ? r = Object.getOwnPropertyDescriptor(t, n) : r, o;
 	if (typeof Reflect == "object" && typeof Reflect.decorate == "function") a = Reflect.decorate(e, t, n, r);
@@ -1961,9 +1963,7 @@ var $ = class extends Z {
 				t === "hue" && (n[0] = e), t === "saturation" && (n[1] = e), i = n, t = "hs_color";
 				break;
 			}
-			case "color_temp_kelvin":
-				i = Math.round(e);
-				break;
+			case "color_temp_kelvin": i = Math.round(e);
 		}
 		let a = { entity_id: this._state.entity_id };
 		r ? (a[t] = i, this._config.transition && (a.transition = this._config.transition), this._hass.callService("light", "turn_on", a)) : this._hass.callService("light", "turn_off", a);
@@ -2106,7 +2106,7 @@ var $ = class extends Z {
 		this.updateTimeout && clearTimeout(this.updateTimeout), this._shouldUpdate &&= (this.shadowRoot?.getElementById("slider")?.classList?.remove("animate"), !1);
 	}
 	_scheduleImmediateUpdate() {
-		!this._config.immediate_update || this.immediateUpdateTimeout || (this.immediateUpdateTimeout = window.setTimeout(() => {
+		this._config.immediate_update && !this.immediateUpdateTimeout && (this.immediateUpdateTimeout = window.setTimeout(() => {
 			this.immediateUpdateTimeout = 0, !this.isHold && Date.now() - this.trackingStartTime > this._config.min_slide_time && this._setValue();
 		}, 300));
 	}
