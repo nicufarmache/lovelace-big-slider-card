@@ -106,4 +106,56 @@ describe('rendering and visual options', () => {
     await mount(card);
     expect(card.shadowRoot?.querySelector('hui-error-card')).not.toBeNull();
   });
+
+  it('renders inactive states for cover, valve, and media_player', async () => {
+    const cover = createEntity('cover.garage', 'closed', { current_position: 0 });
+    const { card: coverCard } = createCard(cover, { icon_off_color: '#888888' });
+    await mount(coverCard);
+    expect(coverCard.style.getPropertyValue('--bsc-entity-color')).toBe('var(--bsc-off-color)');
+    expect(coverCard.style.getPropertyValue('--bsc-icon-color')).toBe('#888888');
+
+    const valve = createEntity('valve.main', 'closed', { current_position: 0 });
+    const { card: valveCard } = createCard(valve, { icon_off_color: '#888888' });
+    await mount(valveCard);
+    expect(valveCard.style.getPropertyValue('--bsc-entity-color')).toBe('var(--bsc-off-color)');
+    expect(valveCard.style.getPropertyValue('--bsc-icon-color')).toBe('#888888');
+
+    const player = createEntity('media_player.tv', 'idle', { volume_level: 0.2 });
+    const { card: playerCard } = createCard(player, { icon_off_color: '#888888' });
+    await mount(playerCard);
+    expect(playerCard.style.getPropertyValue('--bsc-entity-color')).toBe('var(--bsc-off-color)');
+    expect(playerCard.style.getPropertyValue('--bsc-icon-color')).toBe('#888888');
+  });
+
+  it('renders ARIA slider attributes on #container', async () => {
+    const entity = createEntity('light.bedroom', 'on', {
+      friendly_name: 'Bedroom Light',
+      brightness: 204, // 80%
+    });
+    const { card } = createCard(entity, { show_percentage: true });
+    await mount(card);
+    const container = card.shadowRoot?.querySelector('#container');
+    expect(container?.getAttribute('role')).toBe('slider');
+    expect(container?.getAttribute('aria-orientation')).toBe('horizontal');
+    expect(container?.getAttribute('aria-label')).toBe('Bedroom Light');
+    expect(container?.getAttribute('aria-valuenow')).toBe('80');
+    expect(container?.getAttribute('aria-valuemin')).toBe('0');
+    expect(container?.getAttribute('aria-valuemax')).toBe('100');
+    expect(container?.getAttribute('aria-valuetext')).toBe('80%');
+
+    // Vertical orientation
+    const { card: verticalCard } = createCard(entity, { vertical: true });
+    await mount(verticalCard);
+    expect(verticalCard.shadowRoot?.querySelector('#container')?.getAttribute('aria-orientation')).toBe('vertical');
+
+    // Unrounded brightness value formatted cleanly without floating noise
+    const unroundedEntity = createEntity('light.unrounded', 'on', {
+      brightness: 128, // 50.196...%
+    });
+    const { card: unroundedCard } = createCard(unroundedEntity);
+    await mount(unroundedCard);
+    const unroundedContainer = unroundedCard.shadowRoot?.querySelector('#container');
+    expect(unroundedContainer?.getAttribute('aria-valuenow')).toBe('50');
+    expect(unroundedContainer?.getAttribute('aria-valuetext')).toBe('50%');
+  });
 });

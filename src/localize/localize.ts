@@ -22,7 +22,9 @@ const languages: any = {
 };
 
 export function localize(string: string, search = '', replace = ''): string {
-  const lang = (localStorage.getItem('selectedLanguage') || 'en').replace(/['"]+/g, '').replace('-', '_');
+  const rawLang = (localStorage.getItem('selectedLanguage') || 'en').replace(/['"]+/g, '').replace('-', '_');
+  const baseLang = rawLang.split('_')[0];
+  const lang = languages[rawLang] ? rawLang : (languages[baseLang] ? baseLang : 'en');
 
   let translated: string;
 

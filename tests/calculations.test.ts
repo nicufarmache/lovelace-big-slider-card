@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { BigSliderCard } from '../src/big-slider-card';
 import { DEFAULT_CONFIG, SUPPORTED_DOMAINS } from '../src/const';
+import { localize } from '../src/localize/localize';
 import { createCard, createEntity, getCurrentValue, setCurrentValue } from './fixtures';
 
 describe('configuration and calculations', () => {
@@ -141,5 +142,57 @@ describe('configuration and calculations', () => {
     const kelvinCard = createCard(light, { attribute: 'color_temp_kelvin' }).card;
     expect(kelvinCard._getRange()).toEqual({ min: 2200, max: 6500 });
     expect(DEFAULT_CONFIG.min).toBe(0);
+  });
+
+  it('respects humidifier min_humidity and max_humidity attributes', () => {
+    const humidifier = createEntity('humidifier.test', 'on', { min_humidity: 30, max_humidity: 80 });
+    const { card } = createCard(humidifier);
+    expect(card._getEntityRange(humidifier)).toEqual({ min: 30, max: 80 });
+
+    const defaultHumidifier = createEntity('humidifier.default', 'on', {});
+    const { card: defaultCard } = createCard(defaultHumidifier);
+    expect(defaultCard._getEntityRange(defaultHumidifier)).toEqual({ min: 0, max: 100 });
+  });
+
+  it('formats slider labels using decimal steps and preserves units on 0-100 ranges', () => {
+    const numberEntity = createEntity('number.decimal', '4.3', {
+      step: 0.1,
+      min: 0,
+      max: 10,
+      unit_of_measurement: 'V',
+    });
+    const { card } = createCard(numberEntity);
+    card.hass = createCard(numberEntity).hass;
+    card._getValue();
+    expect(card._getSliderLabel(43)).toBe('4.3V');
+
+    const powerEntity = createEntity('number.power', '50', {
+      step: 1,
+      min: 0,
+      max: 100,
+      unit_of_measurement: 'W',
+    });
+    const { card: powerCard } = createCard(powerEntity);
+    powerCard.hass = createCard(powerEntity).hass;
+    powerCard._getValue();
+    expect(powerCard._usesRangeSlider()).toBe(true);
+    expect(powerCard._getSliderLabel(50)).toBe('50W');
+
+    const lightEntity = createEntity('light.test', 'on', {
+      brightness: 128,
+    });
+    const { card: lightCard } = createCard(lightEntity);
+    lightCard.hass = createCard(lightEntity).hass;
+    lightCard._getValue();
+    expect(lightCard._usesRangeSlider()).toBe(false);
+    expect(lightCard._getSliderLabel(50)).toBe('50%');
+  });
+
+  it('falls back to base language for regional locales in localize()', () => {
+    localStorage.setItem('selectedLanguage', 'de-DE');
+    expect(localize('common.off')).toBe('Aus');
+    localStorage.setItem('selectedLanguage', 'fr-FR');
+    expect(localize('common.off')).toBe('Éteint');
+    localStorage.setItem('selectedLanguage', 'en');
   });
 });

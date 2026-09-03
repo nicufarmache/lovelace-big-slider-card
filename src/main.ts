@@ -10,24 +10,30 @@ console.info(
   'color: white; font-weight: bold; background: dimgray',
 );
 
-customElements.define("big-slider-card", BigSliderCard);
+if (!customElements.get("big-slider-card")) {
+  customElements.define("big-slider-card", BigSliderCard);
+}
 
 (window as any).customCards = (window as any).customCards ?? [];
-(window as any).customCards.push({
-  type: 'big-slider-card',
-  name: localize('card.name'),
-  description: localize('card.description'),
-  preview: true,
-  getEntitySuggestion: (_hass: any, entityId: string) => {
-    if (!SUPPORTED_DOMAINS.includes(entityId.split('.')[0])) {
-      return null;
-    }
-    return {
-      type: 'custom:big-slider-card',
-      config: {
+if (!(window as any).customCards.some((c: any) => c.type === 'big-slider-card')) {
+  (window as any).customCards.push({
+    type: 'big-slider-card',
+    name: localize('card.name'),
+    description: localize('card.description'),
+    preview: true,
+    getEntitySuggestion: (_hass: any, entityId: string) => {
+      if (!SUPPORTED_DOMAINS.includes(entityId.split('.')[0])) {
+        return null;
+      }
+      return {
         type: 'custom:big-slider-card',
-        entity: entityId,
-      },
-    };
-  },
-});
+        config: {
+          type: 'custom:big-slider-card',
+          entity: entityId,
+        },
+      };
+    },
+  });
+}
+
+window.dispatchEvent(new CustomEvent('ll-rebuild'));

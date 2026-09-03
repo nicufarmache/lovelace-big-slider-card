@@ -2,10 +2,7 @@
   "common": {
     "version": "Versione",
     "invalid_configuration": "Configurazione non valida",
-    "show_warning": "Mostra avviso",
-    "no_entity_set": "Entità non impostata",
     "no_entity": "Entità non disponibile",
-    "on": "Acceso",
     "off": "Spento"
   },
   "editor": {
@@ -57,11 +54,11 @@
       "border_color": "Colore bordo",
       "border_radius": "Raggio bordo",
       "border_style": "Stile bordo",
-      "border_width": "Spessore bordo"
+      "border_width": "Spessore bordo",
+      "color": "Colore del cursore"
     }
   },
   "errors": {
-    "light_domain_only": "Specifica un'entità del dominio light",
     "unsupported_domain": "Specifica un'entità supportata dal cursore"
   },
   "preview": {
@@ -69,6 +66,6 @@
   },
   "card": {
     "name": "Big Slider Card",
-    "description": "Scheda con cursore grande per entità luce."
+    "description": "Scheda con cursore grande per luci, ventilatori, tapparelle e altre entità controllabili."
   }
 }

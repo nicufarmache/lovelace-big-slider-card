@@ -2,10 +2,7 @@
   "common": {
     "version": "Versión",
     "invalid_configuration": "Configuración no válida",
-    "show_warning": "Mostrar advertencia",
-    "no_entity_set": "Entidad no configurada",
     "no_entity": "Entidad no disponible",
-    "on": "Encendido",
     "off": "Apagado"
   },
   "editor": {
@@ -57,11 +54,11 @@
       "border_color": "Color del borde",
       "border_radius": "Radio del borde",
       "border_style": "Estilo del borde",
-      "border_width": "Anchura del borde"
+      "border_width": "Anchura del borde",
+      "color": "Color del deslizador"
     }
   },
   "errors": {
-    "light_domain_only": "Especifica una entidad del dominio light",
     "unsupported_domain": "Especifica una entidad compatible con el control deslizante"
   },
   "preview": {
@@ -69,6 +66,6 @@
   },
   "card": {
     "name": "Big Slider Card",
-    "description": "Tarjeta deslizante grande para entidades de luz."
+    "description": "Tarjeta deslizante grande para luces, ventiladores, persianas y otras entidades controlables."
   }
 }

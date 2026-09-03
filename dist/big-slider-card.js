@@ -57,7 +57,7 @@ var e = Object.defineProperty, t = (t, n) => {
 			totalY: this.#a
 		}), this.#e.releasePointerCapture(e.pointerId), this.#f());
 	}
-}, r = "1.2.10-beta", i = "brightness", a = 3e3, o = [
+}, r = "1.2.11-beta", i = "brightness", a = 3e3, o = [
 	"light",
 	"number",
 	"input_number",
@@ -91,10 +91,7 @@ var e = Object.defineProperty, t = (t, n) => {
 }), l = {
 	version: "Version",
 	invalid_configuration: "Invalid configuration",
-	show_warning: "Show Warning",
-	no_entity_set: "Entity not set",
 	no_entity: "Entity not available",
-	on: "On",
 	off: "Off"
 }, u = {
 	sections: {
@@ -145,14 +142,12 @@ var e = Object.defineProperty, t = (t, n) => {
 		border_color: "Border color",
 		border_radius: "Border radius",
 		border_style: "Border style",
-		border_width: "Border width"
+		border_width: "Border width",
+		color: "Slider color"
 	}
-}, d = {
-	light_domain_only: "Specify an entity from within the light domain",
-	unsupported_domain: "Specify a supported slider entity"
-}, ee = { example_light: "Example Light" }, te = {
+}, d = { unsupported_domain: "Specify a supported slider entity" }, ee = { example_light: "Example Light" }, te = {
 	name: "Big Slider Card",
-	description: "Big slider card for light entities."
+	description: "Big slider card for lights, fans, covers, and other controllable entities."
 }, ne = {
 	common: l,
 	editor: u,
@@ -169,10 +164,7 @@ var e = Object.defineProperty, t = (t, n) => {
 }), ie = {
 	version: "Version",
 	invalid_configuration: "Ungültige Konfiguration",
-	show_warning: "Warnung anzeigen",
-	no_entity_set: "Entität nicht gesetzt",
 	no_entity: "Entität nicht verfügbar",
-	on: "An",
 	off: "Aus"
 }, ae = {
 	sections: {
@@ -223,14 +215,12 @@ var e = Object.defineProperty, t = (t, n) => {
 		border_color: "Rahmenfarbe",
 		border_radius: "Rahmenradius",
 		border_style: "Rahmenstil",
-		border_width: "Rahmenbreite"
+		border_width: "Rahmenbreite",
+		color: "Schiebereglerfarbe"
 	}
-}, oe = {
-	light_domain_only: "Gib eine Entität aus der light-Domain an",
-	unsupported_domain: "Gib eine unterstützte Schieberegler-Entität an"
-}, se = { example_light: "Beispiellampe" }, ce = {
+}, oe = { unsupported_domain: "Gib eine unterstützte Schieberegler-Entität an" }, se = { example_light: "Beispiellampe" }, ce = {
 	name: "Big Slider Card",
-	description: "Große Schiebereglerkarte für Lichtentitäten."
+	description: "Große Schiebereglerkarte für Lichter, Ventilatoren, Rollos und andere steuerbare Entitäten."
 }, le = {
 	common: ie,
 	editor: ae,
@@ -247,10 +237,7 @@ var e = Object.defineProperty, t = (t, n) => {
 }), de = {
 	version: "Versión",
 	invalid_configuration: "Configuración no válida",
-	show_warning: "Mostrar advertencia",
-	no_entity_set: "Entidad no configurada",
 	no_entity: "Entidad no disponible",
-	on: "Encendido",
 	off: "Apagado"
 }, fe = {
 	sections: {
@@ -301,14 +288,12 @@ var e = Object.defineProperty, t = (t, n) => {
 		border_color: "Color del borde",
 		border_radius: "Radio del borde",
 		border_style: "Estilo del borde",
-		border_width: "Anchura del borde"
+		border_width: "Anchura del borde",
+		color: "Color del deslizador"
 	}
-}, pe = {
-	light_domain_only: "Especifica una entidad del dominio light",
-	unsupported_domain: "Especifica una entidad compatible con el control deslizante"
-}, me = { example_light: "Luz de ejemplo" }, he = {
+}, pe = { unsupported_domain: "Especifica una entidad compatible con el control deslizante" }, me = { example_light: "Luz de ejemplo" }, he = {
 	name: "Big Slider Card",
-	description: "Tarjeta deslizante grande para entidades de luz."
+	description: "Tarjeta deslizante grande para luces, ventiladores, persianas y otras entidades controlables."
 }, ge = {
 	common: de,
 	editor: fe,
@@ -316,21 +301,18 @@ var e = Object.defineProperty, t = (t, n) => {
 	preview: me,
 	card: he
 }, _e = /* @__PURE__ */ t({
-	card: () => Se,
+	card: () => xe,
 	common: () => ve,
-	default: () => Ce,
-	editor: () => ye,
-	errors: () => be,
-	preview: () => xe
+	default: () => Se,
+	editor: () => f,
+	errors: () => ye,
+	preview: () => be
 }), ve = {
 	version: "Version",
 	invalid_configuration: "Configuration invalide",
-	show_warning: "Afficher l'avertissement",
-	no_entity_set: "Entité non définie",
 	no_entity: "Entité non disponible",
-	on: "Allumé",
 	off: "Éteint"
-}, ye = {
+}, f = {
 	sections: {
 		display: "Options d'affichage",
 		styling: "Style personnalisé",
@@ -379,36 +361,31 @@ var e = Object.defineProperty, t = (t, n) => {
 		border_color: "Couleur de bordure",
 		border_radius: "Rayon de bordure",
 		border_style: "Style de bordure",
-		border_width: "Largeur de bordure"
+		border_width: "Largeur de bordure",
+		color: "Couleur du curseur"
 	}
-}, be = {
-	light_domain_only: "Spécifiez une entité du domaine light",
-	unsupported_domain: "Spécifiez une entité compatible avec le curseur"
-}, xe = { example_light: "Lumière d'exemple" }, Se = {
+}, ye = { unsupported_domain: "Spécifiez une entité compatible avec le curseur" }, be = { example_light: "Lumière d'exemple" }, xe = {
 	name: "Big Slider Card",
-	description: "Grande carte de curseur pour les entités lumière."
-}, Ce = {
+	description: "Grande carte de curseur pour lumières, ventilateurs, volets et autres entités contrôlables."
+}, Se = {
 	common: ve,
-	editor: ye,
-	errors: be,
-	preview: xe,
-	card: Se
-}, we = /* @__PURE__ */ t({
-	card: () => ke,
-	common: () => Te,
-	default: () => Ae,
-	editor: () => Ee,
-	errors: () => De,
-	preview: () => Oe
-}), Te = {
+	editor: f,
+	errors: ye,
+	preview: be,
+	card: xe
+}, Ce = /* @__PURE__ */ t({
+	card: () => Oe,
+	common: () => we,
+	default: () => ke,
+	editor: () => Te,
+	errors: () => Ee,
+	preview: () => De
+}), we = {
 	version: "Versione",
 	invalid_configuration: "Configurazione non valida",
-	show_warning: "Mostra avviso",
-	no_entity_set: "Entità non impostata",
 	no_entity: "Entità non disponibile",
-	on: "Acceso",
 	off: "Spento"
-}, Ee = {
+}, Te = {
 	sections: {
 		display: "Opzioni di visualizzazione",
 		styling: "Stile personalizzato",
@@ -457,36 +434,31 @@ var e = Object.defineProperty, t = (t, n) => {
 		border_color: "Colore bordo",
 		border_radius: "Raggio bordo",
 		border_style: "Stile bordo",
-		border_width: "Spessore bordo"
+		border_width: "Spessore bordo",
+		color: "Colore del cursore"
 	}
-}, De = {
-	light_domain_only: "Specifica un'entità del dominio light",
-	unsupported_domain: "Specifica un'entità supportata dal cursore"
-}, Oe = { example_light: "Luce di esempio" }, ke = {
+}, Ee = { unsupported_domain: "Specifica un'entità supportata dal cursore" }, De = { example_light: "Luce di esempio" }, Oe = {
 	name: "Big Slider Card",
-	description: "Scheda con cursore grande per entità luce."
-}, Ae = {
-	common: Te,
-	editor: Ee,
-	errors: De,
-	preview: Oe,
-	card: ke
-}, je = /* @__PURE__ */ t({
-	card: () => Ie,
-	common: () => Me,
-	default: () => Le,
-	editor: () => Ne,
-	errors: () => Pe,
-	preview: () => Fe
-}), Me = {
+	description: "Scheda con cursore grande per luci, ventilatori, tapparelle e altre entità controllabili."
+}, ke = {
+	common: we,
+	editor: Te,
+	errors: Ee,
+	preview: De,
+	card: Oe
+}, Ae = /* @__PURE__ */ t({
+	card: () => p,
+	common: () => je,
+	default: () => Fe,
+	editor: () => Me,
+	errors: () => Ne,
+	preview: () => Pe
+}), je = {
 	version: "Versie",
 	invalid_configuration: "Ongeldige configuratie",
-	show_warning: "Waarschuwing tonen",
-	no_entity_set: "Entiteit niet ingesteld",
 	no_entity: "Entiteit niet beschikbaar",
-	on: "Aan",
 	off: "Uit"
-}, Ne = {
+}, Me = {
 	sections: {
 		display: "Weergaveopties",
 		styling: "Aangepaste stijl",
@@ -535,36 +507,31 @@ var e = Object.defineProperty, t = (t, n) => {
 		border_color: "Randkleur",
 		border_radius: "Randradius",
 		border_style: "Randstijl",
-		border_width: "Randbreedte"
+		border_width: "Randbreedte",
+		color: "Schuifregelaarkleur"
 	}
-}, Pe = {
-	light_domain_only: "Geef een entiteit uit het light-domein op",
-	unsupported_domain: "Geef een ondersteunde schuifregelaar-entiteit op"
-}, Fe = { example_light: "Voorbeeldlamp" }, Ie = {
+}, Ne = { unsupported_domain: "Geef een ondersteunde schuifregelaar-entiteit op" }, Pe = { example_light: "Voorbeeldlamp" }, p = {
 	name: "Big Slider Card",
-	description: "Grote schuifregelaar-kaart voor lichtentiteiten."
-}, Le = {
-	common: Me,
-	editor: Ne,
-	errors: Pe,
-	preview: Fe,
-	card: Ie
-}, Re = /* @__PURE__ */ t({
-	card: () => Ue,
-	common: () => ze,
-	default: () => We,
-	editor: () => Be,
-	errors: () => Ve,
-	preview: () => He
-}), ze = {
+	description: "Grote schuifregelaar-kaart voor lampen, ventilatoren, rolluiken en andere regelbare entiteiten."
+}, Fe = {
+	common: je,
+	editor: Me,
+	errors: Ne,
+	preview: Pe,
+	card: p
+}, Ie = /* @__PURE__ */ t({
+	card: () => v,
+	common: () => m,
+	default: () => Le,
+	editor: () => h,
+	errors: () => g,
+	preview: () => _
+}), m = {
 	version: "Wersja",
 	invalid_configuration: "Nieprawidłowa konfiguracja",
-	show_warning: "Pokaż ostrzeżenie",
-	no_entity_set: "Encja nie ustawiona",
 	no_entity: "Encja niedostępna",
-	on: "Włączone",
 	off: "Wyłączone"
-}, Be = {
+}, h = {
 	sections: {
 		display: "Opcje wyświetlania",
 		styling: "Niestandardowy styl",
@@ -613,36 +580,31 @@ var e = Object.defineProperty, t = (t, n) => {
 		border_color: "Kolor obramowania",
 		border_radius: "Promień obramowania",
 		border_style: "Styl obramowania",
-		border_width: "Szerokość obramowania"
+		border_width: "Szerokość obramowania",
+		color: "Kolor suwaka"
 	}
-}, Ve = {
-	light_domain_only: "Podaj encję z domeny light",
-	unsupported_domain: "Podaj obsługiwaną encję suwaka"
-}, He = { example_light: "Przykładowe światło" }, Ue = {
+}, g = { unsupported_domain: "Podaj obsługiwaną encję suwaka" }, _ = { example_light: "Przykładowe światło" }, v = {
 	name: "Big Slider Card",
-	description: "Duża karta suwaka dla encji światła."
-}, We = {
-	common: ze,
-	editor: Be,
-	errors: Ve,
-	preview: He,
-	card: Ue
-}, Ge = /* @__PURE__ */ t({
-	card: () => g,
-	common: () => f,
-	default: () => Ke,
-	editor: () => p,
-	errors: () => m,
-	preview: () => h
-}), f = {
+	description: "Duża karta suwaka dla świateł, wentylatorów, rolet i innych sterowalnych encji."
+}, Le = {
+	common: m,
+	editor: h,
+	errors: g,
+	preview: _,
+	card: v
+}, Re = /* @__PURE__ */ t({
+	card: () => Ve,
+	common: () => y,
+	default: () => He,
+	editor: () => b,
+	errors: () => ze,
+	preview: () => Be
+}), y = {
 	version: "Versão",
 	invalid_configuration: "Configuração inválida",
-	show_warning: "Mostrar aviso",
-	no_entity_set: "Entidade não definida",
 	no_entity: "Entidade não disponível",
-	on: "Ligado",
 	off: "Desligado"
-}, p = {
+}, b = {
 	sections: {
 		display: "Opções de exibição",
 		styling: "Estilo personalizado",
@@ -691,36 +653,31 @@ var e = Object.defineProperty, t = (t, n) => {
 		border_color: "Cor da borda",
 		border_radius: "Raio da borda",
 		border_style: "Estilo da borda",
-		border_width: "Largura da borda"
+		border_width: "Largura da borda",
+		color: "Cor do controle deslizante"
 	}
-}, m = {
-	light_domain_only: "Especifique uma entidade do domínio light",
-	unsupported_domain: "Especifique uma entidade compatível com o controle deslizante"
-}, h = { example_light: "Luz de exemplo" }, g = {
+}, ze = { unsupported_domain: "Especifique uma entidade compatível com o controle deslizante" }, Be = { example_light: "Luz de exemplo" }, Ve = {
 	name: "Big Slider Card",
-	description: "Cartão deslizante grande para entidades de luz."
-}, Ke = {
-	common: f,
-	editor: p,
-	errors: m,
-	preview: h,
-	card: g
-}, qe = /* @__PURE__ */ t({
-	card: () => Ye,
-	common: () => _,
-	default: () => Xe,
-	editor: () => v,
-	errors: () => y,
-	preview: () => Je
-}), _ = {
+	description: "Cartão deslizante grande para luzes, ventiladores, persianas e outras entidades controláveis."
+}, He = {
+	common: y,
+	editor: b,
+	errors: ze,
+	preview: Be,
+	card: Ve
+}, Ue = /* @__PURE__ */ t({
+	card: () => Je,
+	common: () => We,
+	default: () => Ye,
+	editor: () => Ge,
+	errors: () => Ke,
+	preview: () => qe
+}), We = {
 	version: "Versiunea",
 	invalid_configuration: "Configurație invalidă",
-	show_warning: "Show Warning",
-	no_entity_set: "Entitatea nu e setată",
 	no_entity: "Entitatea nu e disponibilă",
-	on: "Pornit",
 	off: "Oprit"
-}, v = {
+}, Ge = {
 	sections: {
 		display: "Opțiuni de afișare",
 		styling: "Stilizare personalizată",
@@ -769,73 +726,71 @@ var e = Object.defineProperty, t = (t, n) => {
 		border_color: "Culoare chenar",
 		border_radius: "Rază chenar",
 		border_style: "Stil chenar",
-		border_width: "Lățime chenar"
+		border_width: "Lățime chenar",
+		color: "Culoare glisor"
 	}
-}, y = {
-	light_domain_only: "Specifică o entitate din domeniul light",
-	unsupported_domain: "Specifică o entitate suportată de glisor"
-}, Je = { example_light: "Lumină exemplu" }, Ye = {
+}, Ke = { unsupported_domain: "Specifică o entitate suportată de glisor" }, qe = { example_light: "Lumină exemplu" }, Je = {
 	name: "Big Slider Card",
-	description: "Card cu glisor mare pentru entități de lumină."
-}, Xe = {
-	common: _,
-	editor: v,
-	errors: y,
-	preview: Je,
-	card: Ye
-}, b = {
+	description: "Card cu glisor mare pentru lumini, ventilatoare, jaluzele și alte entități controlabile."
+}, Ye = {
+	common: We,
+	editor: Ge,
+	errors: Ke,
+	preview: qe,
+	card: Je
+}, x = {
 	en: c,
 	de: re,
 	es: ue,
 	fr: _e,
-	it: we,
-	nl: je,
-	pl: Re,
-	pt: Ge,
-	ro: qe
+	it: Ce,
+	nl: Ae,
+	pl: Ie,
+	pt: Re,
+	ro: Ue
 };
-function x(e, t = "", n = "") {
-	let r = (localStorage.getItem("selectedLanguage") || "en").replace(/['"]+/g, "").replace("-", "_"), i;
+function S(e, t = "", n = "") {
+	let r = (localStorage.getItem("selectedLanguage") || "en").replace(/['"]+/g, "").replace("-", "_"), i = r.split("_")[0], a = x[r] ? r : x[i] ? i : "en", o;
 	try {
-		i = e.split(".").reduce((e, t) => e[t], b[r]);
+		o = e.split(".").reduce((e, t) => e[t], x[a]);
 	} catch {
-		i = e.split(".").reduce((e, t) => e[t], b.en);
+		o = e.split(".").reduce((e, t) => e[t], x.en);
 	}
-	return i === void 0 && (i = e.split(".").reduce((e, t) => e[t], b.en)), t !== "" && n !== "" && (i = i.replace(t, n)), i;
+	return o === void 0 && (o = e.split(".").reduce((e, t) => e[t], x.en)), t !== "" && n !== "" && (o = o.replace(t, n)), o;
 }
 //#endregion
 //#region node_modules/@lit/reactive-element/css-tag.js
-var S = globalThis, C = S.ShadowRoot && (S.ShadyCSS === void 0 || S.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, w = Symbol(), Ze = /* @__PURE__ */ new WeakMap(), Qe = class {
+var C = globalThis, w = C.ShadowRoot && (C.ShadyCSS === void 0 || C.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, T = Symbol(), Xe = /* @__PURE__ */ new WeakMap(), Ze = class {
 	constructor(e, t, n) {
-		if (this._$cssResult$ = !0, n !== w) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
+		if (this._$cssResult$ = !0, n !== T) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
 		this.cssText = e, this.t = t;
 	}
 	get styleSheet() {
 		let e = this.o, t = this.t;
-		if (C && e === void 0) {
+		if (w && e === void 0) {
 			let n = t !== void 0 && t.length === 1;
-			n && (e = Ze.get(t)), e === void 0 && ((this.o = e = new CSSStyleSheet()).replaceSync(this.cssText), n && Ze.set(t, e));
+			n && (e = Xe.get(t)), e === void 0 && ((this.o = e = new CSSStyleSheet()).replaceSync(this.cssText), n && Xe.set(t, e));
 		}
 		return e;
 	}
 	toString() {
 		return this.cssText;
 	}
-}, $e = (e) => new Qe(typeof e == "string" ? e : e + "", void 0, w), et = (e, ...t) => new Qe(e.length === 1 ? e[0] : t.reduce((t, n, r) => t + ((e) => {
+}, Qe = (e) => new Ze(typeof e == "string" ? e : e + "", void 0, T), $e = (e, ...t) => new Ze(e.length === 1 ? e[0] : t.reduce((t, n, r) => t + ((e) => {
 	if (!0 === e._$cssResult$) return e.cssText;
 	if (typeof e == "number") return e;
 	throw Error("Value passed to 'css' function must be a 'css' function result: " + e + ". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.");
-})(n) + e[r + 1], e[0]), e, w), tt = (e, t) => {
-	if (C) e.adoptedStyleSheets = t.map((e) => e instanceof CSSStyleSheet ? e : e.styleSheet);
+})(n) + e[r + 1], e[0]), e, T), et = (e, t) => {
+	if (w) e.adoptedStyleSheets = t.map((e) => e instanceof CSSStyleSheet ? e : e.styleSheet);
 	else for (let n of t) {
-		let t = document.createElement("style"), r = S.litNonce;
+		let t = document.createElement("style"), r = C.litNonce;
 		r !== void 0 && t.setAttribute("nonce", r), t.textContent = n.cssText, e.appendChild(t);
 	}
-}, nt = C ? (e) => e : (e) => e instanceof CSSStyleSheet ? ((e) => {
+}, tt = w ? (e) => e : (e) => e instanceof CSSStyleSheet ? ((e) => {
 	let t = "";
 	for (let n of e.cssRules) t += n.cssText;
-	return $e(t);
-})(e) : e, { is: rt, defineProperty: it, getOwnPropertyDescriptor: at, getOwnPropertyNames: ot, getOwnPropertySymbols: st, getPrototypeOf: ct } = Object, T = globalThis, E = T.trustedTypes, lt = E ? E.emptyScript : "", ut = T.reactiveElementPolyfillSupport, D = (e, t) => e, O = {
+	return Qe(t);
+})(e) : e, { is: nt, defineProperty: rt, getOwnPropertyDescriptor: it, getOwnPropertyNames: at, getOwnPropertySymbols: ot, getPrototypeOf: st } = Object, E = globalThis, ct = E.trustedTypes, lt = ct ? ct.emptyScript : "", ut = E.reactiveElementPolyfillSupport, D = (e, t) => e, O = {
 	toAttribute(e, t) {
 		switch (t) {
 			case Boolean:
@@ -864,7 +819,7 @@ var S = globalThis, C = S.ShadowRoot && (S.ShadyCSS === void 0 || S.ShadyCSS.nat
 		}
 		return n;
 	}
-}, k = (e, t) => !rt(e, t), dt = {
+}, k = (e, t) => !nt(e, t), dt = {
 	attribute: !0,
 	type: String,
 	converter: O,
@@ -872,7 +827,7 @@ var S = globalThis, C = S.ShadowRoot && (S.ShadyCSS === void 0 || S.ShadyCSS.nat
 	useDefault: !1,
 	hasChanged: k
 };
-Symbol.metadata ??= Symbol("metadata"), T.litPropertyMetadata ??= /* @__PURE__ */ new WeakMap();
+Symbol.metadata ??= Symbol("metadata"), E.litPropertyMetadata ??= /* @__PURE__ */ new WeakMap();
 var A = class extends HTMLElement {
 	static addInitializer(e) {
 		this._$Ei(), (this.l ??= []).push(e);
@@ -883,11 +838,11 @@ var A = class extends HTMLElement {
 	static createProperty(e, t = dt) {
 		if (t.state && (t.attribute = !1), this._$Ei(), this.prototype.hasOwnProperty(e) && ((t = Object.create(t)).wrapped = !0), this.elementProperties.set(e, t), !t.noAccessor) {
 			let n = Symbol(), r = this.getPropertyDescriptor(e, n, t);
-			r !== void 0 && it(this.prototype, e, r);
+			r !== void 0 && rt(this.prototype, e, r);
 		}
 	}
 	static getPropertyDescriptor(e, t, n) {
-		let { get: r, set: i } = at(this.prototype, e) ?? {
+		let { get: r, set: i } = it(this.prototype, e) ?? {
 			get() {
 				return this[t];
 			},
@@ -910,13 +865,13 @@ var A = class extends HTMLElement {
 	}
 	static _$Ei() {
 		if (this.hasOwnProperty(D("elementProperties"))) return;
-		let e = ct(this);
+		let e = st(this);
 		e.finalize(), e.l !== void 0 && (this.l = [...e.l]), this.elementProperties = new Map(e.elementProperties);
 	}
 	static finalize() {
 		if (this.hasOwnProperty(D("finalized"))) return;
 		if (this.finalized = !0, this._$Ei(), this.hasOwnProperty(D("properties"))) {
-			let e = this.properties, t = [...ot(e), ...st(e)];
+			let e = this.properties, t = [...at(e), ...ot(e)];
 			for (let n of t) this.createProperty(n, e[n]);
 		}
 		let e = this[Symbol.metadata];
@@ -935,8 +890,8 @@ var A = class extends HTMLElement {
 		let t = [];
 		if (Array.isArray(e)) {
 			let n = new Set(e.flat(1 / 0).reverse());
-			for (let e of n) t.unshift(nt(e));
-		} else e !== void 0 && t.push(nt(e));
+			for (let e of n) t.unshift(tt(e));
+		} else e !== void 0 && t.push(tt(e));
 		return t;
 	}
 	static _$Eu(e, t) {
@@ -962,7 +917,7 @@ var A = class extends HTMLElement {
 	}
 	createRenderRoot() {
 		let e = this.shadowRoot ?? this.attachShadow(this.constructor.shadowRootOptions);
-		return tt(e, this.constructor.elementStyles), e;
+		return et(e, this.constructor.elementStyles), e;
 	}
 	connectedCallback() {
 		this.renderRoot ??= this.createRenderRoot(), this.enableUpdating(!0), this._$EO?.forEach((e) => e.hostConnected?.());
@@ -1057,7 +1012,7 @@ var A = class extends HTMLElement {
 	updated(e) {}
 	firstUpdated(e) {}
 };
-A.elementStyles = [], A.shadowRootOptions = { mode: "open" }, A[D("elementProperties")] = /* @__PURE__ */ new Map(), A[D("finalized")] = /* @__PURE__ */ new Map(), ut?.({ ReactiveElement: A }), (T.reactiveElementVersions ??= []).push("2.1.2");
+A.elementStyles = [], A.shadowRootOptions = { mode: "open" }, A[D("elementProperties")] = /* @__PURE__ */ new Map(), A[D("finalized")] = /* @__PURE__ */ new Map(), ut?.({ ReactiveElement: A }), (E.reactiveElementVersions ??= []).push("2.1.2");
 //#endregion
 //#region node_modules/@lit/reactive-element/decorators/property.js
 var ft = {
@@ -1378,19 +1333,49 @@ var $ = class extends Z {
 		}, this.mousePos = {
 			x: 0,
 			y: 0
-		}, this.containerWidth = 0, this.containerHeight = 0, this.oldValue = 0, this.currentValue = 0, this.holdTimer = 0, this.isHold = !1, this._shouldUpdate = !0, this.updateTimeout = 0, this.pressTimeout = 0, this.immediateUpdateTimeout = 0, this.trackingStartTime = 0, this.isTap = !1, this.hasValidSlide = !1, this._handleContextMenu = (e) => (e.preventDefault && e.preventDefault(), e.stopPropagation && e.stopPropagation(), !1), this._handlePointer = (e, t) => {
+		}, this.containerWidth = 0, this.containerHeight = 0, this.oldValue = 0, this.currentValue = 0, this.holdTimer = 0, this.isHold = !1, this._shouldUpdate = !0, this.updateTimeout = 0, this.pressTimeout = 0, this.immediateUpdateTimeout = 0, this.trackingStartTime = 0, this.isTap = !1, this.hasValidSlide = !1, this._handleContextMenu = (e) => (e.preventDefault && e.preventDefault(), e.stopPropagation && e.stopPropagation(), !1), this._handleKeyDown = (e) => {
+			if (e.altKey || e.ctrlKey || e.metaKey) return;
+			let { min: t, max: n } = this._getRange(), r = this._effectiveState.attributes?.step ?? this._effectiveState.attributes?.target_temp_step, i = Number(r) > 0 ? Number(r) : 1, a = n - t, o = Math.max(i, a > 0 ? a / 10 : 10), s = this.currentValue, c = !1;
+			switch (e.key) {
+				case "ArrowRight":
+				case "ArrowUp":
+					s = Math.min(n, this.currentValue + i), c = !0;
+					break;
+				case "ArrowLeft":
+				case "ArrowDown":
+					s = Math.max(t, this.currentValue - i), c = !0;
+					break;
+				case "PageUp":
+					s = Math.min(n, this.currentValue + o), c = !0;
+					break;
+				case "PageDown":
+					s = Math.max(t, this.currentValue - o), c = !0;
+					break;
+				case "Home":
+					s = t, c = !0;
+					break;
+				case "End":
+					s = n, c = !0;
+					break;
+				case "Enter":
+				case " ":
+					e.preventDefault(), this._handleTap();
+					return;
+			}
+			c && (e.preventDefault(), this.currentValue = this._snapValueToStep(s, i), this._checklimits(), this._updateSlider(), this._stopUpdates(), this._setValue(), this._startUpdates(!0));
+		}, this._handlePointer = (e, t) => {
 			this.mousePos = {
 				x: e.pageX,
 				y: e.pageY
 			};
 			let n = this._config.min_slide_time;
-			if (e.type === "pointerdown" && (this._press(), this.isTap = !0, this.isHold = !1, this.hasValidSlide = !1, this._clearImmediateUpdate(), this.holdTimer = window.setTimeout(this._setHold, this._config.hold_time), this.trackingStartTime = Date.now(), this._updateContainerSize(), this._resetTrack()), !this.isHold && [
-				"pointerdown",
-				"pointermove",
-				"pointerup"
-			].includes(e.type) && this._updateValue(), e.type === "pointermove") {
-				if (this.isHold || this.isTap && Math.abs(t.relativeX) < 5 && Math.abs(t.relativeY) < 5) return;
-				this.isTap = !1, clearTimeout(this.holdTimer), this._stopUpdates(), this._scheduleImmediateUpdate();
+			if (e.type === "pointerdown" && (this._press(), this.isTap = !0, this.isHold = !1, this.hasValidSlide = !1, this._clearImmediateUpdate(), this.holdTimer = window.setTimeout(this._setHold, this._config.hold_time), this.trackingStartTime = Date.now(), this._updateContainerSize(), this._resetTrack()), e.type === "pointermove") {
+				if (this.isHold) return;
+				if (this.isTap) {
+					if (Math.abs(t.relativeX) < 5 && Math.abs(t.relativeY) < 5) return;
+					this.isTap = !1, clearTimeout(this.holdTimer), this._stopUpdates();
+				}
+				this._updateValue(), this._scheduleImmediateUpdate();
 			}
 			if (e.type === "pointercancel" && (clearTimeout(this.holdTimer), this._clearImmediateUpdate(), this._unpress(), this._startUpdates()), e.type === "pointerup") {
 				if (clearTimeout(this.holdTimer), this._clearImmediateUpdate(), this._unpress(), this._startUpdates(), this.isHold) return;
@@ -1398,7 +1383,7 @@ var $ = class extends Z {
 					this._handleTap();
 					return;
 				}
-				this.hasValidSlide && Date.now() - this.trackingStartTime > n && (this._setValue(), this._startUpdates(!0));
+				this._updateValue(), this.hasValidSlide && Date.now() - this.trackingStartTime > n && (this._setValue(), this._startUpdates(!0));
 			}
 		}, this._setHold = () => {
 			this.isTap = !1, this.isHold = !0, this._clearImmediateUpdate(), this._shouldUpdate = !0, this.requestUpdate(), this._handleAction("hold");
@@ -1450,7 +1435,7 @@ var $ = class extends Z {
 				{
 					type: "expandable",
 					name: "display",
-					title: x("editor.sections.display"),
+					title: S("editor.sections.display"),
 					flatten: !0,
 					schema: [
 						{
@@ -1458,59 +1443,59 @@ var $ = class extends Z {
 							selector: { select: { options: [
 								{
 									value: "brightness",
-									label: x("editor.attributes.brightness")
+									label: S("editor.attributes.brightness")
 								},
 								{
 									value: "red",
-									label: x("editor.attributes.red")
+									label: S("editor.attributes.red")
 								},
 								{
 									value: "green",
-									label: x("editor.attributes.green")
+									label: S("editor.attributes.green")
 								},
 								{
 									value: "blue",
-									label: x("editor.attributes.blue")
+									label: S("editor.attributes.blue")
 								},
 								{
 									value: "hue",
-									label: x("editor.attributes.hue")
+									label: S("editor.attributes.hue")
 								},
 								{
 									value: "saturation",
-									label: x("editor.attributes.saturation")
+									label: S("editor.attributes.saturation")
 								},
 								{
 									value: "color_temp_kelvin",
-									label: x("editor.attributes.color_temp_kelvin")
+									label: S("editor.attributes.color_temp_kelvin")
 								},
 								{
 									value: "value",
-									label: x("editor.attributes.value")
+									label: S("editor.attributes.value")
 								},
 								{
 									value: "percentage",
-									label: x("editor.attributes.percentage")
+									label: S("editor.attributes.percentage")
 								},
 								{
 									value: "position",
-									label: x("editor.attributes.position")
+									label: S("editor.attributes.position")
 								},
 								{
 									value: "tilt_position",
-									label: x("editor.attributes.tilt_position")
+									label: S("editor.attributes.tilt_position")
 								},
 								{
 									value: "temperature",
-									label: x("editor.attributes.temperature")
+									label: S("editor.attributes.temperature")
 								},
 								{
 									value: "humidity",
-									label: x("editor.attributes.humidity")
+									label: S("editor.attributes.humidity")
 								},
 								{
 									value: "volume",
-									label: x("editor.attributes.volume")
+									label: S("editor.attributes.volume")
 								}
 							] } }
 						},
@@ -1539,7 +1524,7 @@ var $ = class extends Z {
 				{
 					type: "expandable",
 					name: "styling",
-					title: x("editor.sections.styling"),
+					title: S("editor.sections.styling"),
 					flatten: !0,
 					schema: [
 						{
@@ -1661,7 +1646,7 @@ var $ = class extends Z {
 				{
 					type: "expandable",
 					name: "behavior",
-					title: x("editor.sections.behavior"),
+					title: S("editor.sections.behavior"),
 					flatten: !0,
 					schema: [
 						{
@@ -1718,47 +1703,48 @@ var $ = class extends Z {
 				}
 			],
 			computeLabel: (e, t) => ({
-				colorize: x("editor.labels.colorize"),
-				show_percentage: x("editor.labels.show_percentage"),
-				show_icon_halo: x("editor.labels.show_icon_halo"),
-				bold_text: x("editor.labels.bold_text"),
-				no_scale: x("editor.labels.no_scale"),
-				no_transition_animation: x("editor.labels.no_transition_animation"),
-				vertical: x("editor.labels.vertical"),
-				min_slide_time: x("editor.labels.min_slide_time"),
-				hold_time: x("editor.labels.hold_time"),
-				settle_time: x("editor.labels.settle_time"),
-				immediate_update: x("editor.labels.immediate_update"),
-				background_color: x("editor.labels.background_color"),
-				height: x("editor.labels.height"),
-				width: x("editor.labels.width"),
-				text_color: x("editor.labels.text_color"),
-				icon_color: x("editor.labels.icon_color"),
-				icon_off_color: x("editor.labels.icon_off_color"),
-				constant_icon_color: x("editor.labels.constant_icon_color"),
-				icon_size: x("editor.labels.icon_size"),
-				icon_box_size: x("editor.labels.icon_box_size"),
-				slider_opacity: x("editor.labels.slider_opacity"),
-				use_alternative_slider_color: x("editor.labels.use_alternative_slider_color"),
-				text_size: x("editor.labels.text_size"),
-				border_color: x("editor.labels.border_color"),
-				border_radius: x("editor.labels.border_radius"),
-				border_style: x("editor.labels.border_style"),
-				border_width: x("editor.labels.border_width")
+				colorize: S("editor.labels.colorize"),
+				show_percentage: S("editor.labels.show_percentage"),
+				show_icon_halo: S("editor.labels.show_icon_halo"),
+				bold_text: S("editor.labels.bold_text"),
+				no_scale: S("editor.labels.no_scale"),
+				no_transition_animation: S("editor.labels.no_transition_animation"),
+				vertical: S("editor.labels.vertical"),
+				min_slide_time: S("editor.labels.min_slide_time"),
+				hold_time: S("editor.labels.hold_time"),
+				settle_time: S("editor.labels.settle_time"),
+				immediate_update: S("editor.labels.immediate_update"),
+				color: S("editor.labels.color"),
+				background_color: S("editor.labels.background_color"),
+				height: S("editor.labels.height"),
+				width: S("editor.labels.width"),
+				text_color: S("editor.labels.text_color"),
+				icon_color: S("editor.labels.icon_color"),
+				icon_off_color: S("editor.labels.icon_off_color"),
+				constant_icon_color: S("editor.labels.constant_icon_color"),
+				icon_size: S("editor.labels.icon_size"),
+				icon_box_size: S("editor.labels.icon_box_size"),
+				slider_opacity: S("editor.labels.slider_opacity"),
+				use_alternative_slider_color: S("editor.labels.use_alternative_slider_color"),
+				text_size: S("editor.labels.text_size"),
+				border_color: S("editor.labels.border_color"),
+				border_radius: S("editor.labels.border_radius"),
+				border_style: S("editor.labels.border_style"),
+				border_width: S("editor.labels.border_width")
 			})[e.name] || t(`ui.panel.lovelace.editor.card.generic.${e.name}`) || e.name
 		};
 	}
 	setConfig(e) {
-		if (!e) throw Error(x("common.invalid_configuration"));
+		if (!e) throw Error(S("common.invalid_configuration"));
 		let t = this._getDomain(e.entity);
-		if (t && !o.includes(t)) throw Error(x("errors.unsupported_domain"));
+		if (t && !o.includes(t)) throw Error(S("errors.unsupported_domain"));
 		let n = e.attribute ?? this._getDefaultAttribute(t), r = this._getAttributeDefaults(n, t);
 		this.customMin = e.min, this.customMax = e.max, this._config = {
 			...s,
 			attribute: n,
 			...r,
 			...e
-		}, this._entity = this._config.entity, this.isConnected && this._setupSlideGesture();
+		}, this._entity = this._config.entity, this._applyStaticStyles(), this.isConnected && this._setupSlideGesture();
 	}
 	_getAttributeDefaults(e, t) {
 		switch (e) {
@@ -1787,7 +1773,7 @@ var $ = class extends Z {
 		}
 	}
 	set hass(e) {
-		this._hass = e, this._entity && (this._state = e.states[this._entity]);
+		this._hass = e, this._entity && e?.states && (this._state = e.states[this._entity]);
 	}
 	get _effectiveState() {
 		return this._state ? this._state : {
@@ -1812,13 +1798,13 @@ var $ = class extends Z {
 		};
 	}
 	get _effectiveName() {
-		return this._config.name ? this._config.name : this._state ? this._state.attributes?.friendly_name ?? this._entity?.split(".")[1] ?? "" : x("preview.example_light");
+		return this._config.name ? this._config.name : this._state ? this._state.attributes?.friendly_name ?? this._entity?.split(".")[1] ?? "" : S("preview.example_light");
 	}
 	get _effectiveStatus() {
 		return this._state ? this._state.state : "on";
 	}
 	connectedCallback() {
-		super.connectedCallback(), this.addEventListener("contextmenu", this._handleContextMenu), this._setupSlideGesture();
+		super.connectedCallback(), this.addEventListener("contextmenu", this._handleContextMenu), this._applyStaticStyles(), this._setupSlideGesture();
 	}
 	_setupSlideGesture() {
 		this.slideGesture?.removeListeners(), this.slideGesture = new n(this, this._handlePointer.bind(this), {
@@ -1830,9 +1816,10 @@ var $ = class extends Z {
 		this.removeEventListener("contextmenu", this._handleContextMenu), clearTimeout(this.holdTimer), clearTimeout(this.pressTimeout), clearTimeout(this.updateTimeout), this.holdTimer = 0, this.pressTimeout = 0, this.updateTimeout = 0, this._clearImmediateUpdate(), this.slideGesture?.removeListeners(), this.slideGesture = void 0, super.disconnectedCallback();
 	}
 	_updateValue() {
-		if (!this._updateContainerSize()) return;
-		let e = this._config.vertical ? this.containerHeight : this.containerWidth, t = this._config.vertical ? this.mouseStartPos.y - this.mousePos.y : this.mousePos.x - this.mouseStartPos.x, n = this._getRange(), r = this._getDragValueDelta(t, e, n);
-		Number.isFinite(r) && (this.currentValue = this.oldValue + r, this._checklimits(), this._updateSlider(), this.hasValidSlide = !0);
+		let e = this._config.vertical === !0, t = e ? this.containerHeight : this.containerWidth;
+		if (t <= 0 && (!this._updateContainerSize() || (t = e ? this.containerHeight : this.containerWidth, t <= 0))) return;
+		let n = e ? this.mouseStartPos.y - this.mousePos.y : this.mousePos.x - this.mouseStartPos.x, r = this._getRange(), i = this._getDragValueDelta(n, t, r);
+		Number.isFinite(i) && (this.currentValue = this.oldValue + i, this._checklimits(), this._updateSlider(), this.hasValidSlide = !0);
 	}
 	_updateContainerSize() {
 		return this.containerWidth = this.shadowRoot?.getElementById("container")?.clientWidth ?? 0, this.containerHeight = this.shadowRoot?.getElementById("container")?.clientHeight ?? 0, this._config.vertical ? this.containerHeight > 0 : this.containerWidth > 0;
@@ -1869,14 +1856,29 @@ var $ = class extends Z {
 		this.currentValue < e && (this.currentValue = e, this._resetTrack()), this.currentValue > t && (this.currentValue = t, this._resetTrack());
 	}
 	_updateSlider() {
-		let e = this._getSliderPercentage();
+		let e = this._getSliderPercentage(), t = this._getSliderLabel(e), n = this._getAriaValueNow();
 		this.style.setProperty("--bsc-percent", e + "%");
-		let t = this?.shadowRoot?.getElementById("percentage");
-		t && (t.innerText = this._getSliderLabel(e));
+		let r = this?.shadowRoot?.getElementById("percentage");
+		r && (r.innerText = t);
+		let i = this?.shadowRoot?.getElementById("container");
+		i && (i.setAttribute("aria-valuenow", String(n)), i.setAttribute("aria-valuetext", t));
+	}
+	_getAriaValueNow() {
+		if (this._getDomain(this._effectiveState.entity_id) === "climate" && this._config.attribute === "temperature") return Number(this._formatValue(this.currentValue, 1));
+		if (this._usesRangeSlider()) {
+			let e = this._effectiveState.attributes?.step ?? this._effectiveState.attributes?.target_temp_step, t = Number(e), n = Number.isFinite(t) && t > 0 ? this._getDecimalPlaces(t) : 0;
+			return Number(this._formatValue(this.currentValue, n));
+		}
+		return Number(this._formatValue(this._getSliderPercentage()));
 	}
 	_getSliderLabel(e) {
 		let t = this._getValueUnit();
-		return this._getDomain(this._effectiveState.entity_id) === "climate" && this._config.attribute === "temperature" ? `${this._formatValue(this.currentValue, 1)}${t}` : this._usesRangeSlider() ? `${this._formatValue(this.currentValue)}${t}` : `${this._formatValue(e)}%`;
+		if (this._getDomain(this._effectiveState.entity_id) === "climate" && this._config.attribute === "temperature") return `${this._formatValue(this.currentValue, 1)}${t}`;
+		if (this._usesRangeSlider()) {
+			let e = this._effectiveState.attributes?.step ?? this._effectiveState.attributes?.target_temp_step, n = Number(e), r = Number.isFinite(n) && n > 0 ? this._getDecimalPlaces(n) : 0;
+			return `${this._formatValue(this.currentValue, r)}${t}`;
+		}
+		return `${this._formatValue(e)}%`;
 	}
 	_getSliderPercentage() {
 		if (!this._usesRangeSlider()) return Math.max(0, Math.min(100, this.currentValue));
@@ -1886,8 +1888,8 @@ var $ = class extends Z {
 		return Number.isFinite(r) ? Math.max(0, Math.min(100, r)) : 0;
 	}
 	_usesRangeSlider() {
-		let { min: e, max: t } = this._getRange();
-		return this._config.attribute === "color_temp_kelvin" || e !== 0 || t !== 100;
+		let { min: e, max: t } = this._getRange(), n = this._getDomain(this._effectiveState.entity_id), r = this._getValueUnit(), i = r !== "" && r !== "%";
+		return this._config.attribute === "color_temp_kelvin" || n === "number" || n === "input_number" || i || e !== 0 || t !== 100;
 	}
 	_getRange() {
 		return {
@@ -1914,13 +1916,13 @@ var $ = class extends Z {
 	}
 	_updateColors() {
 		let e = "var(--bsc-color)", t = "0%", n = "50%", r = !1, i = this._effectiveState, a = this._effectiveStatus, o = this._getDomain(i.entity_id);
-		if (this._isActiveState(a)) {
+		if (this._isActiveState(a, o)) {
 			let a = o === "light" ? i.attributes?.rgb_color : void 0, s = i.attributes?.brightness ?? 255;
 			r = !0, e = a ? `rgb(${a.join(",")})` : "var(--bsc-active-color)", s && (t = `${100 * s / 255}%`, n = `${100 * s / 510 + 50}%`);
 		} else e = "var(--bsc-off-color)";
 		let s = this?.shadowRoot?.getElementById("percentage");
 		if (o === "light" && !r) {
-			let e = i ? this._hass && typeof this._hass.formatEntityState == "function" ? this._hass.formatEntityState(i) : i.state : x("common.off");
+			let e = i ? this._hass && typeof this._hass.formatEntityState == "function" ? this._hass.formatEntityState(i) : i.state : S("common.off");
 			s && (s.innerText = e);
 		}
 		this.style.setProperty("--bsc-entity-color", e), this.style.setProperty("--bsc-brightness", t), this.style.setProperty("--bsc-brightness-ui", n), this.style.setProperty("--bsc-icon-brightness", this._config.constant_icon_color === !0 ? "100%" : n), this.style.setProperty("--bsc-icon-background", this._config.show_icon_halo === !0 ? "color-mix(in srgb, var(--bsc-icon-color, var(--bsc-entity-color)) 20%, transparent)" : "transparent"), this.style.setProperty("--bsc-icon-off-background", this._config.show_icon_halo === !0 ? "color-mix(in srgb, var(--bsc-off-color) 20%, transparent)" : "transparent"), r && this._config.icon_color ? this.style.setProperty("--bsc-icon-color", this._config.icon_color) : !r && this._config.icon_off_color ? this.style.setProperty("--bsc-icon-color", this._config.icon_off_color) : this.style.removeProperty("--bsc-icon-color");
@@ -2083,6 +2085,10 @@ var $ = class extends Z {
 				min: this._toNumber(e.attributes?.min_temp, s.min),
 				max: this._toNumber(e.attributes?.max_temp, s.max)
 			};
+			case "humidifier": return {
+				min: this._toNumber(e.attributes?.min_humidity, s.min),
+				max: this._toNumber(e.attributes?.max_humidity, s.max)
+			};
 			default: return {
 				min: s.min,
 				max: s.max
@@ -2096,12 +2102,8 @@ var $ = class extends Z {
 	_isUnavailable(e) {
 		return e === "unavailable" || e === "unknown";
 	}
-	_isActiveState(e) {
-		return ![
-			"off",
-			"unavailable",
-			"unknown"
-		].includes(e);
+	_isActiveState(e, t) {
+		return !(this._isUnavailable(e) || e === "off" || (t === "cover" || t === "valve") && e === "closed" || t === "media_player" && (e === "idle" || e === "standby"));
 	}
 	_stopUpdates() {
 		this.updateTimeout && clearTimeout(this.updateTimeout), this._shouldUpdate &&= (this.shadowRoot?.getElementById("slider")?.classList?.remove("animate"), !1);
@@ -2126,16 +2128,28 @@ var $ = class extends Z {
 		let e = this._effectiveState;
 		this.dataset.domain = this._getDomain(e.entity_id), this.dataset.state = this._effectiveStatus;
 	}
+	_applyStaticStyles() {
+		let e = this._config.no_scale !== !0, t = this._config.no_transition_animation !== !0, n = this._config.use_alternative_slider_color === !0 ? "var(--paper-slider-active-color, #f9d2b0)" : "var(--bsc-active-color)";
+		this.style.setProperty("--bsc-default-slider-color", n), this._setStyleProperty("--bsc-background", this._config.background_color), this._setStyleProperty("--bsc-primary-text-color", this._config.text_color), this._setStyleProperty("--bsc-slider-color", this._config.color), this._setStyleProperty("--bsc-border-color", this._config.border_color), this._setStyleProperty("--bsc-border-radius", this._config.border_radius, this._normalizeCssLength), this._setStyleProperty("--bsc-border-style", this._config.border_style), this._setStyleProperty("--bsc-border-width", this._config.border_width, this._normalizeCssLength), this._setStyleProperty("--bsc-height", this._config.height, this._normalizeCssLength), this._setStyleProperty("--bsc-width", this._config.width, this._normalizeCssLength), this._setStyleProperty("--bsc-icon-size", this._config.icon_size, this._normalizeCssLength), this._setStyleProperty("--bsc-icon-box-size", this._config.icon_box_size, this._normalizeCssLength), this._setStyleProperty("--bsc-slider-opacity", this._config.slider_opacity), this._setStyleProperty("--bsc-text-size", this._config.text_size, this._normalizeCssLength), this.style.setProperty("--bsc-press-transition", e ? "transform 0.1s ease-out" : "none"), this.style.setProperty("--bsc-half-pressed-transform", e ? "scale(0.99)" : "none"), this.style.setProperty("--bsc-pressed-transform", e ? "scale(0.98)" : "none"), this.style.setProperty("--bsc-color-transition", t ? "background-color 180ms ease-in-out, filter 180ms ease-in-out" : "none"), this.style.setProperty("--bsc-slider-transition", t ? "right 180ms ease-in-out, background-color 180ms ease-in-out, filter 180ms ease-in-out" : "none"), this.style.setProperty("--bsc-vertical-slider-transition", t ? "top 180ms ease-in-out, background-color 180ms ease-in-out, filter 180ms ease-in-out" : "none"), this.style.setProperty("--bsc-icon-transition", t ? "color 180ms ease-in-out, background-color 180ms ease-in-out, filter 180ms ease-in-out" : "none");
+	}
 	render() {
-		if (this._entity && !(this._entity in (this._hass?.states ?? {}))) return this._showError(`${x("common.no_entity")}: ${this._entity}`);
-		let e = this._effectiveState, t = this._effectiveStatus, n = this._effectiveName, r = (this._entity || "light.example_light").split(".")[0], i = (this._config.colorize && !0) ?? !1, a = (this._config.show_percentage && !0) ?? !1, o = (this._config.bold_text && !0) ?? !1, s = this._config.no_scale !== !0, c = this._config.no_transition_animation !== !0, l = this._config.vertical === !0, u = this._config.use_alternative_slider_color === !0 ? "var(--paper-slider-active-color, #f9d2b0)" : "var(--bsc-active-color)";
-		return this.style.setProperty("--bsc-default-slider-color", u), this._setStyleProperty("--bsc-background", this._config.background_color), this._setStyleProperty("--bsc-primary-text-color", this._config.text_color), this._setStyleProperty("--bsc-slider-color", this._config.color), this._setStyleProperty("--bsc-border-color", this._config.border_color), this._setStyleProperty("--bsc-border-radius", this._config.border_radius, this._normalizeCssLength), this._setStyleProperty("--bsc-border-style", this._config.border_style), this._setStyleProperty("--bsc-border-width", this._config.border_width, this._normalizeCssLength), this._setStyleProperty("--bsc-height", this._config.height, this._normalizeCssLength), this._setStyleProperty("--bsc-width", this._config.width, this._normalizeCssLength), this._setStyleProperty("--bsc-icon-size", this._config.icon_size, this._normalizeCssLength), this._setStyleProperty("--bsc-icon-box-size", this._config.icon_box_size, this._normalizeCssLength), this._setStyleProperty("--bsc-slider-opacity", this._config.slider_opacity), this._setStyleProperty("--bsc-text-size", this._config.text_size, this._normalizeCssLength), this.style.setProperty("--bsc-press-transition", s ? "transform 0.1s ease-out" : "none"), this.style.setProperty("--bsc-half-pressed-transform", s ? "scale(0.99)" : "none"), this.style.setProperty("--bsc-pressed-transform", s ? "scale(0.98)" : "none"), this.style.setProperty("--bsc-color-transition", c ? "background-color 180ms ease-in-out, filter 180ms ease-in-out" : "none"), this.style.setProperty("--bsc-slider-transition", c ? "right 180ms ease-in-out, background-color 180ms ease-in-out, filter 180ms ease-in-out" : "none"), this.style.setProperty("--bsc-vertical-slider-transition", c ? "top 180ms ease-in-out, background-color 180ms ease-in-out, filter 180ms ease-in-out" : "none"), this.style.setProperty("--bsc-icon-transition", c ? "color 180ms ease-in-out, background-color 180ms ease-in-out, filter 180ms ease-in-out" : "none"), Et`
+		if (this._entity && !(this._entity in (this._hass?.states ?? {}))) return this._showError(`${S("common.no_entity")}: ${this._entity}`);
+		let e = this._effectiveState, t = this._effectiveStatus, n = this._effectiveName, r = (this._entity || "light.example_light").split(".")[0], i = (this._config.colorize && !0) ?? !1, a = (this._config.show_percentage && !0) ?? !1, o = (this._config.bold_text && !0) ?? !1, s = this._config.vertical === !0, c = this._getRange(), l = this._getSliderLabel(this._getSliderPercentage()), u = this._getAriaValueNow();
+		return Et`
       <ha-card
         id="container"
-        class="${l ? "vertical" : ""}"
+        class="${s ? "vertical" : ""}"
         data-domain=${Y(r)}
         data-state=${Y(t)}
         tabindex="0"
+        role="slider"
+        aria-orientation=${s ? "vertical" : "horizontal"}
+        aria-label=${n || "Slider"}
+        aria-valuenow=${u}
+        aria-valuemin=${c.min}
+        aria-valuemax=${c.max}
+        aria-valuetext=${l}
+        @keydown=${this._handleKeyDown}
         >
         <div id="slider" class="animate ${i ? "colorize" : ""}"></div>
         <ha-state-icon
@@ -2178,7 +2192,7 @@ var $ = class extends Z {
     `;
 	}
 	static get styles() {
-		return et`
+		return $e`
       :host {
         --bsc-background: var(--card-background-color);
         --bsc-active-color: var(--state-light-on-color, var(--state-light-active-color, var(--state-active-color)));
@@ -2311,6 +2325,9 @@ var $ = class extends Z {
       }
 
       #icon[data-state="off"],
+      #icon[data-state="closed"],
+      #icon[data-state="idle"],
+      #icon[data-state="standby"],
       #icon[data-state="unavailable"],
       #icon[data-state="unknown"] {
         background: var(--bsc-icon-off-background);
@@ -2380,10 +2397,10 @@ var $ = class extends Z {
     `;
 	}
 };
-Q([j()], $.prototype, "_config", void 0), Q([j()], $.prototype, "_entity", void 0), Q([j()], $.prototype, "_state", void 0), console.info(`%c  BIG-SLIDER-CARD \n%c  ${x("common.version")} ${r}    `, "color: orange; font-weight: bold; background: black", "color: white; font-weight: bold; background: dimgray"), customElements.define("big-slider-card", $), window.customCards = window.customCards ?? [], window.customCards.push({
+Q([j()], $.prototype, "_config", void 0), Q([j()], $.prototype, "_entity", void 0), Q([j()], $.prototype, "_state", void 0), console.info(`%c  BIG-SLIDER-CARD \n%c  ${S("common.version")} ${r}    `, "color: orange; font-weight: bold; background: black", "color: white; font-weight: bold; background: dimgray"), customElements.get("big-slider-card") || customElements.define("big-slider-card", $), window.customCards = window.customCards ?? [], window.customCards.some((e) => e.type === "big-slider-card") || window.customCards.push({
 	type: "big-slider-card",
-	name: x("card.name"),
-	description: x("card.description"),
+	name: S("card.name"),
+	description: S("card.description"),
 	preview: !0,
 	getEntitySuggestion: (e, t) => o.includes(t.split(".")[0]) ? {
 		type: "custom:big-slider-card",
@@ -2392,5 +2409,5 @@ Q([j()], $.prototype, "_config", void 0), Q([j()], $.prototype, "_entity", void 
 			entity: t
 		}
 	} : null
-});
+}), window.dispatchEvent(new CustomEvent("ll-rebuild"));
 //#endregion

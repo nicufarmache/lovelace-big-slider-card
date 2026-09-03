@@ -2,10 +2,7 @@
   "common": {
     "version": "Versão",
     "invalid_configuration": "Configuração inválida",
-    "show_warning": "Mostrar aviso",
-    "no_entity_set": "Entidade não definida",
     "no_entity": "Entidade não disponível",
-    "on": "Ligado",
     "off": "Desligado"
   },
   "editor": {
@@ -57,11 +54,11 @@
       "border_color": "Cor da borda",
       "border_radius": "Raio da borda",
       "border_style": "Estilo da borda",
-      "border_width": "Largura da borda"
+      "border_width": "Largura da borda",
+      "color": "Cor do controle deslizante"
     }
   },
   "errors": {
-    "light_domain_only": "Especifique uma entidade do domínio light",
     "unsupported_domain": "Especifique uma entidade compatível com o controle deslizante"
   },
   "preview": {
@@ -69,6 +66,6 @@
   },
   "card": {
     "name": "Big Slider Card",
-    "description": "Cartão deslizante grande para entidades de luz."
+    "description": "Cartão deslizante grande para luzes, ventiladores, persianas e outras entidades controláveis."
   }
 }

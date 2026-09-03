@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { createCard, createEntity, mount } from './fixtures';
+import { createCard, createEntity, getCurrentValue, mount, setCurrentValue } from './fixtures';
 
 describe('actions and lifecycle', () => {
   afterEach(() => {
@@ -77,5 +77,84 @@ describe('actions and lifecycle', () => {
     expect(card._handleContextMenu(event)).toBe(false);
     expect(event.defaultPrevented).toBe(true);
     expect(stopPropagation).toHaveBeenCalled();
+  });
+
+  it('does not mutate value or trigger slide on sub-threshold tap micro-movement', () => {
+    const entity = createEntity('light.test', 'on', { brightness: 128 });
+    const { card } = createCard(entity);
+    const setValueSpy = vi.spyOn(card, '_setValue');
+    const handleTapSpy = vi.spyOn(card, '_handleTap');
+
+    const downEvt = Object.assign(new Event('pointerdown'), { pageX: 50, pageY: 50 }) as PointerEvent;
+    card._handlePointer(downEvt, { relativeX: 0, relativeY: 0 } as any);
+    expect(Reflect.get(card, 'isTap')).toBe(true);
+    expect(Reflect.get(card, 'hasValidSlide')).toBe(false);
+
+    const initialValue = getCurrentValue(card);
+
+    // Small wobble under TAP_THRESHOLD (5px)
+    const moveEvt = Object.assign(new Event('pointermove'), { pageX: 52, pageY: 51 }) as PointerEvent;
+    card._handlePointer(moveEvt, { relativeX: 2, relativeY: 1 } as any);
+    expect(Reflect.get(card, 'isTap')).toBe(true);
+    expect(Reflect.get(card, 'hasValidSlide')).toBe(false);
+    expect(getCurrentValue(card)).toBe(initialValue);
+
+    const upEvt = Object.assign(new Event('pointerup'), { pageX: 52, pageY: 51 }) as PointerEvent;
+    card._handlePointer(upEvt, { relativeX: 2, relativeY: 1 } as any);
+    expect(handleTapSpy).toHaveBeenCalledTimes(1);
+    expect(setValueSpy).not.toHaveBeenCalled();
+  });
+
+  it('adjusts values and triggers actions with keyboard navigation', () => {
+    const entity = createEntity('light.test', 'on', { brightness: 128 });
+    const { card } = createCard(entity);
+    const setValueSpy = vi.spyOn(card, '_setValue');
+    const handleTapSpy = vi.spyOn(card, '_handleTap');
+    const stopUpdatesSpy = vi.spyOn(card, '_stopUpdates');
+
+    setCurrentValue(card, 50);
+
+    // ArrowRight increments and stops updates for settling
+    const rightEvt = new KeyboardEvent('keydown', { key: 'ArrowRight', cancelable: true });
+    card._handleKeyDown(rightEvt);
+    expect(getCurrentValue(card)).toBe(51);
+    expect(setValueSpy).toHaveBeenCalledTimes(1);
+    expect(stopUpdatesSpy).toHaveBeenCalledTimes(1);
+    expect(Reflect.get(card, '_shouldUpdate')).toBe(false);
+    expect(rightEvt.defaultPrevented).toBe(true);
+
+    // ArrowLeft decrements
+    const leftEvt = new KeyboardEvent('keydown', { key: 'ArrowLeft', cancelable: true });
+    card._handleKeyDown(leftEvt);
+    expect(getCurrentValue(card)).toBe(50);
+    expect(setValueSpy).toHaveBeenCalledTimes(2);
+
+    // Snaps floating point values cleanly to integer steps when step attribute is missing
+    setCurrentValue(card, 50.196);
+    const snapEvt = new KeyboardEvent('keydown', { key: 'ArrowRight', cancelable: true });
+    card._handleKeyDown(snapEvt);
+    expect(getCurrentValue(card)).toBe(51);
+
+    // Home jumps to min
+    const homeEvt = new KeyboardEvent('keydown', { key: 'Home', cancelable: true });
+    card._handleKeyDown(homeEvt);
+    expect(getCurrentValue(card)).toBe(0);
+
+    // End jumps to max
+    const endEvt = new KeyboardEvent('keydown', { key: 'End', cancelable: true });
+    card._handleKeyDown(endEvt);
+    expect(getCurrentValue(card)).toBe(100);
+
+    // Enter triggers tap
+    const enterEvt = new KeyboardEvent('keydown', { key: 'Enter', cancelable: true });
+    card._handleKeyDown(enterEvt);
+    expect(handleTapSpy).toHaveBeenCalledTimes(1);
+    expect(enterEvt.defaultPrevented).toBe(true);
+
+    // Space triggers tap
+    const spaceEvt = new KeyboardEvent('keydown', { key: ' ', cancelable: true });
+    card._handleKeyDown(spaceEvt);
+    expect(handleTapSpy).toHaveBeenCalledTimes(2);
+    expect(spaceEvt.defaultPrevented).toBe(true);
   });
 });

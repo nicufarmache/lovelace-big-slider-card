@@ -2,10 +2,7 @@
   "common": {
     "version": "Wersja",
     "invalid_configuration": "Nieprawidłowa konfiguracja",
-    "show_warning": "Pokaż ostrzeżenie",
-    "no_entity_set": "Encja nie ustawiona",
     "no_entity": "Encja niedostępna",
-    "on": "Włączone",
     "off": "Wyłączone"
   },
   "editor": {
@@ -57,11 +54,11 @@
       "border_color": "Kolor obramowania",
       "border_radius": "Promień obramowania",
       "border_style": "Styl obramowania",
-      "border_width": "Szerokość obramowania"
+      "border_width": "Szerokość obramowania",
+      "color": "Kolor suwaka"
     }
   },
   "errors": {
-    "light_domain_only": "Podaj encję z domeny light",
     "unsupported_domain": "Podaj obsługiwaną encję suwaka"
   },
   "preview": {
@@ -69,6 +66,6 @@
   },
   "card": {
     "name": "Big Slider Card",
-    "description": "Duża karta suwaka dla encji światła."
+    "description": "Duża karta suwaka dla świateł, wentylatorów, rolet i innych sterowalnych encji."
   }
 }

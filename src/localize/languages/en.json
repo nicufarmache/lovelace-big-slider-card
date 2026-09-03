@@ -2,10 +2,7 @@
   "common": {
     "version": "Version",
     "invalid_configuration": "Invalid configuration",
-    "show_warning": "Show Warning",
-    "no_entity_set": "Entity not set",
     "no_entity": "Entity not available",
-    "on": "On",
     "off": "Off"
   },
   "editor": {
@@ -57,11 +54,11 @@
       "border_color": "Border color",
       "border_radius": "Border radius",
       "border_style": "Border style",
-      "border_width": "Border width"
+      "border_width": "Border width",
+      "color": "Slider color"
     }
   },
   "errors": {
-    "light_domain_only": "Specify an entity from within the light domain",
     "unsupported_domain": "Specify a supported slider entity"
   },
   "preview": {
@@ -69,6 +66,6 @@
   },
   "card": {
     "name": "Big Slider Card",
-    "description": "Big slider card for light entities."
+    "description": "Big slider card for lights, fans, covers, and other controllable entities."
   }
 }

@@ -2,10 +2,7 @@
   "common": {
     "version": "Version",
     "invalid_configuration": "Configuration invalide",
-    "show_warning": "Afficher l'avertissement",
-    "no_entity_set": "Entité non définie",
     "no_entity": "Entité non disponible",
-    "on": "Allumé",
     "off": "Éteint"
   },
   "editor": {
@@ -57,11 +54,11 @@
       "border_color": "Couleur de bordure",
       "border_radius": "Rayon de bordure",
       "border_style": "Style de bordure",
-      "border_width": "Largeur de bordure"
+      "border_width": "Largeur de bordure",
+      "color": "Couleur du curseur"
     }
   },
   "errors": {
-    "light_domain_only": "Spécifiez une entité du domaine light",
     "unsupported_domain": "Spécifiez une entité compatible avec le curseur"
   },
   "preview": {
@@ -69,6 +66,6 @@
   },
   "card": {
     "name": "Big Slider Card",
-    "description": "Grande carte de curseur pour les entités lumière."
+    "description": "Grande carte de curseur pour lumières, ventilateurs, volets et autres entités contrôlables."
   }
 }

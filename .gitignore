@@ -1,5 +1,8 @@
 /node_modules/
 /coverage/
+.DS_Store
+*.log
+
 # Track only essential HA config templates, ignore all runtime data
 ha-docker/config/*
 ha-docker/config/.*

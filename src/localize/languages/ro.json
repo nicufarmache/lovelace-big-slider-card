@@ -2,10 +2,7 @@
   "common": {
     "version": "Versiunea",
     "invalid_configuration": "Configurație invalidă",
-    "show_warning": "Show Warning",
-    "no_entity_set": "Entitatea nu e setată",
     "no_entity": "Entitatea nu e disponibilă",
-    "on": "Pornit",
     "off": "Oprit"
   },
   "editor": {
@@ -57,11 +54,11 @@
       "border_color": "Culoare chenar",
       "border_radius": "Rază chenar",
       "border_style": "Stil chenar",
-      "border_width": "Lățime chenar"
+      "border_width": "Lățime chenar",
+      "color": "Culoare glisor"
     }
   },
   "errors": {
-    "light_domain_only": "Specifică o entitate din domeniul light",
     "unsupported_domain": "Specifică o entitate suportată de glisor"
   },
   "preview": {
@@ -69,6 +66,6 @@
   },
   "card": {
     "name": "Big Slider Card",
-    "description": "Card cu glisor mare pentru entități de lumină."
+    "description": "Card cu glisor mare pentru lumini, ventilatoare, jaluzele și alte entități controlabile."
   }
 }
