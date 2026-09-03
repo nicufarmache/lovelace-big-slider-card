@@ -8,15 +8,15 @@ Big slider card inspired by the google home app cards for controllable Home Assi
 Default appearance, with only `color` and `vertical` configured:
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/preview-default-dark.gif">
-  <img width="940" alt="Big Slider Card using its default appearance with custom colors and vertical layout" src="assets/preview-default-light.gif">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nicufarmache/lovelace-big-slider-card/master/assets/preview-default-dark.gif">
+  <img width="940" alt="Big Slider Card using its default appearance with custom colors and vertical layout" src="https://raw.githubusercontent.com/nicufarmache/lovelace-big-slider-card/master/assets/preview-default-light.gif">
 </picture>
 
-Custom apearance closer to the Home Assistant Tile card:
+Custom appearance closer to the Home Assistant Tile card:
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/preview-dark.gif">
-  <img width="940" alt="Big Slider Card controlling lights, fans, media players, input numbers, covers, and climate entities" src="assets/preview-light.gif">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nicufarmache/lovelace-big-slider-card/master/assets/preview-dark.gif">
+  <img width="940" alt="Big Slider Card controlling lights, fans, media players, input numbers, covers, and climate entities" src="https://raw.githubusercontent.com/nicufarmache/lovelace-big-slider-card/master/assets/preview-light.gif">
 </picture>
 
 
