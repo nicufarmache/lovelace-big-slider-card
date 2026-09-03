@@ -46,5 +46,9 @@ A self-contained Home Assistant Docker environment for testing `big-slider-card`
 ## Workflow for Testing Code Changes
 
 1. Edit code in `src/`.
-2. Run `./ha-docker/start.sh` (or `npm run build && cp dist/big-slider-card.js ha-docker/config/www/big-slider-card.js`).
-3. In your browser on Home Assistant, do a hard refresh (**Cmd+Shift+R** or **Ctrl+Shift+R**).
+2. Run `./ha-docker/start.sh`.
+   - Automatically compiles the bundle with `npm run build`.
+   - Copies it to `ha-docker/config/www/big-slider-card.js`.
+   - Automatically generates a unique cache-busting tag (`?v=<timestamp>`) in `configuration.yaml` and Lovelace resources.
+   - Restarts the Home Assistant container so the fresh bundle is loaded immediately.
+3. Refresh your browser page normally—the cache-busting tag automatically bypasses disk cache!
