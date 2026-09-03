@@ -57,7 +57,7 @@ var e = Object.defineProperty, t = (t, n) => {
 			totalY: this.#a
 		}), this.#e.releasePointerCapture(e.pointerId), this.#f());
 	}
-}, r = "1.2.10", i = "brightness", a = 3e3, o = [
+}, r = "1.2.10-beta", i = "brightness", a = 3e3, o = [
 	"light",
 	"number",
 	"input_number",
