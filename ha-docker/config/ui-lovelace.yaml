@@ -1,52 +1,238 @@
-title: Big Slider Card Test
+title: Big Slider Card Test Suite
 views:
-  - title: Sections (Issue #74)
+  - title: Sections - Bug #74 & Heights
+    path: sections-heights
     type: sections
     max_columns: 2
     sections:
-      - title: Bug 74 Reproduction
+      - title: Horizontal Heights in Sections
         cards:
           - type: custom:big-slider-card
             entity: light.couch
-            name: Couch (Default Height)
+            name: "Default Height (Auto: 1 row, 56px)"
             show_percentage: true
           - type: custom:big-slider-card
             entity: light.couch
-            name: Couch (height: 100 in 1 row)
+            name: "Height: 80px (Auto: 2 rows, 120px)"
+            height: 80
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Height: 100px (Bug 74 - Auto: 2 rows)"
             height: 100
             show_percentage: true
           - type: custom:big-slider-card
             entity: light.couch
-            name: Couch (height: 100 in 2 rows)
+            name: "Height: 120px (Auto: 2 rows, 120px)"
+            height: 120
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Height: 150px (Auto: 3 rows, 184px)"
+            height: 150
+            show_percentage: true
+      - title: Grid Overrides & Fill Behavior
+        cards:
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Height 100 in Forced 2-Row Grid"
+            height: 100
             grid_options:
               columns: 6
               rows: 2
-            height: 100
             show_percentage: true
-      - title: Other Entities & Variants
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Height 100 in Stretched 3-Row Grid"
+            height: 100
+            grid_options:
+              columns: 6
+              rows: 3
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Full Width (12 columns)"
+            grid_options:
+              columns: 12
+              rows: 1
+            show_percentage: true
+
+  - title: Sections - Vertical
+    path: sections-vertical
+    type: sections
+    max_columns: 2
+    sections:
+      - title: Vertical Cards
         cards:
           - type: custom:big-slider-card
             entity: light.ceiling_lights
-            name: Ceiling Lights (Vertical)
+            name: "Vertical Default (4 rows)"
             vertical: true
             grid_options:
               columns: 3
               rows: 4
           - type: custom:big-slider-card
+            entity: light.couch
+            name: "Vertical Height: 180 (4 rows)"
+            vertical: true
+            height: 180
+            grid_options:
+              columns: 3
+              rows: 4
+          - type: custom:big-slider-card
+            entity: light.bed_light
+            name: "Vertical Height: 300 (5 rows)"
+            vertical: true
+            height: 300
+            grid_options:
+              columns: 3
+              rows: 5
+      - title: Side-by-Side Sliders
+        cards:
+          - type: custom:big-slider-card
             entity: fan.living_room_fan
-            name: Fan Speed
+            name: "Fan (Vertical)"
+            vertical: true
+            grid_options:
+              columns: 3
+              rows: 4
+          - type: custom:big-slider-card
+            entity: media_player.living_room
+            name: "Media Player (Vertical)"
+            vertical: true
+            grid_options:
+              columns: 3
+              rows: 4
+
+  - title: Supported Domains
+    path: domains
+    type: sections
+    max_columns: 2
+    sections:
+      - title: Lighting & Climate
+        cards:
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Couch Light (Colorized)"
+            colorize: true
+            show_icon_halo: true
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.ceiling_lights
+            name: "Ceiling Lights"
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: climate.heatpump
+            name: "Heat Pump Climate"
+            show_percentage: true
+      - title: Media & Appliances
+        cards:
+          - type: custom:big-slider-card
+            entity: fan.living_room_fan
+            name: "Living Room Fan"
             show_percentage: true
           - type: custom:big-slider-card
             entity: media_player.living_room
-            name: Media Player Volume
+            name: "Living Room Speaker"
             show_percentage: true
+
   - title: Classic Masonry View
+    path: masonry
     type: masonry
     cards:
       - type: custom:big-slider-card
         entity: light.couch
-        name: Couch (Default Height)
+        name: "Masonry - Default Height"
       - type: custom:big-slider-card
         entity: light.couch
-        name: Couch (height: 100)
+        name: "Masonry - Height 80px"
+        height: 80
+      - type: custom:big-slider-card
+        entity: light.couch
+        name: "Masonry - Height 100px"
         height: 100
+      - type: custom:big-slider-card
+        entity: light.couch
+        name: "Masonry - Height 140px"
+        height: 140
+      - type: custom:big-slider-card
+        entity: light.ceiling_lights
+        name: "Masonry - Vertical 200px"
+        vertical: true
+        height: 200
+
+  - title: Stacks & Standard Grids
+    path: stacks
+    type: masonry
+    cards:
+      - type: horizontal-stack
+        cards:
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Stack Left"
+          - type: custom:big-slider-card
+            entity: light.ceiling_lights
+            name: "Stack Right"
+      - type: vertical-stack
+        cards:
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "V-Stack Top (100px)"
+            height: 100
+          - type: custom:big-slider-card
+            entity: fan.living_room_fan
+            name: "V-Stack Bottom"
+      - type: grid
+        columns: 2
+        cards:
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Grid 1"
+          - type: custom:big-slider-card
+            entity: light.bed_light
+            name: "Grid 2"
+          - type: custom:big-slider-card
+            entity: fan.living_room_fan
+            name: "Grid 3"
+          - type: custom:big-slider-card
+            entity: media_player.living_room
+            name: "Grid 4"
+
+  - title: Styling & Theming
+    path: styling
+    type: sections
+    max_columns: 2
+    sections:
+      - title: Borders & Colors
+        cards:
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Dashed Red Border & Rounded"
+            border_color: "#e74c3c"
+            border_width: 2
+            border_style: dashed
+            border_radius: 20
+            color: "#e74c3c"
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Dark Card & Custom Opacity"
+            background_color: "#1a1a2e"
+            text_color: "#e94560"
+            color: "#0f3460"
+            slider_opacity: 0.7
+            show_percentage: true
+      - title: Halo & Icons
+        cards:
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: "Icon Halo Active"
+            show_icon_halo: true
+            icon: mdi:sofa
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: fan.living_room_fan
+            name: "Bold Text & Halo"
+            bold_text: true
+            show_icon_halo: true
+            show_percentage: true
