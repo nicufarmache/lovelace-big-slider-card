@@ -3,7 +3,10 @@ import { SlideGesture, type SlideGestureEvent } from '@nicufarmache/slide-gestur
 import { HassEntity } from "home-assistant-js-websocket";
 import { HomeAssistant } from './ha-types';
 import type { BigSliderCardConfig, MousePos } from './types';
-import { DEFAULT_CONFIG, SUPPORTED_DOMAINS, TAP_THRESHOLD } from './const';
+import {
+  DEFAULT_CONFIG, EDGE_FLUSH_EPSILON, MAX_EDGE_MARGIN, SUPPORTED_DOMAINS, TAP_THRESHOLD,
+  TOUCH_TAP_THRESHOLD,
+} from './const';
 import { localize } from './localize/localize';
 import { state } from 'lit/decorators.js';
 import { ifDefined } from "lit/directives/if-defined.js";
@@ -327,6 +330,21 @@ export class BigSliderCard extends LitElement {
               name: 'immediate_update',
               selector: { boolean: {} },
             },
+            {
+              name: 'tap_to_set',
+              selector: { boolean: {} },
+            },
+            {
+              name: 'edge_margin',
+              selector: {
+                number: {
+                  min: 0,
+                  max: MAX_EDGE_MARGIN,
+                  step: 1,
+                  unit_of_measurement: '%',
+                },
+              },
+            },
             { name: 'tap_action', selector: { ui_action: {} } },
             { name: 'hold_action', selector: { ui_action: {} } },
           ],
@@ -345,6 +363,8 @@ export class BigSliderCard extends LitElement {
           hold_time: localize('editor.labels.hold_time'),
           settle_time: localize('editor.labels.settle_time'),
           immediate_update: localize('editor.labels.immediate_update'),
+          tap_to_set: localize('editor.labels.tap_to_set'),
+          edge_margin: localize('editor.labels.edge_margin'),
           background_color: localize('editor.labels.background_color'),
           height: localize('editor.labels.height'),
           width: localize('editor.labels.width'),
@@ -527,7 +547,8 @@ export class BigSliderCard extends LitElement {
 
     if (evt.type === 'pointermove') {
       if (this.isHold) return;
-      if (this.isTap && (Math.abs(extra.relativeX) < TAP_THRESHOLD && Math.abs(extra.relativeY) < TAP_THRESHOLD))
+      const tapThreshold = evt.pointerType === 'mouse' ? TAP_THRESHOLD : TOUCH_TAP_THRESHOLD;
+      if (this.isTap && (Math.abs(extra.relativeX) < tapThreshold && Math.abs(extra.relativeY) < tapThreshold))
         return;
       this.isTap = false;
       clearTimeout(this.holdTimer);
@@ -551,6 +572,10 @@ export class BigSliderCard extends LitElement {
       if (this.isHold) return;
 
       if (this.isTap) {
+        if (this._config.tap_to_set && this._setValueFromTap(evt)) {
+          this._startUpdates(true);
+          return;
+        }
         this._handleTap();
         return;
       }
@@ -585,6 +610,52 @@ export class BigSliderCard extends LitElement {
     this.containerWidth = this.shadowRoot?.getElementById('container')?.clientWidth ?? 0;
     this.containerHeight = this.shadowRoot?.getElementById('container')?.clientHeight ?? 0;
     return this._config.vertical ? this.containerHeight > 0 : this.containerWidth > 0;
+  }
+
+  /// Fraction of the track the pointer sits at, 0 at the low end and 1 at the
+  /// high end. Vertical sliders fill upwards, so they measure from the bottom.
+  /// Returns null when the track has no measurable size.
+  _getTapFraction(evt: PointerEvent): number | null {
+    const container = this.shadowRoot?.getElementById('container');
+    if (!container) return null;
+
+    const rect = container.getBoundingClientRect();
+    const size = this._config.vertical ? rect.height : rect.width;
+    if (!(size > 0)) return null;
+
+    const offset = this._config.vertical ? rect.bottom - evt.clientY : evt.clientX - rect.left;
+    let fraction = offset / size;
+
+    // Without an inset, the ends are only reachable by hitting the outermost
+    // pixel. edge_margin trades a band at each end for the extremes, rescaling
+    // what is left so the mapping stays continuous - the same trick a native
+    // range input plays with its thumb radius.
+    const margin = this._getEdgeMargin();
+    if (margin > 0) {
+      fraction = (fraction - margin) / (1 - 2 * margin);
+    }
+
+    return Math.max(0, Math.min(1, fraction));
+  }
+
+  /// Jump straight to the tapped position. Unlike a drag - which is relative to
+  /// where the gesture started - this maps the absolute pointer position onto
+  /// the range. Returns false when the position could not be measured, so the
+  /// caller can fall back to the configured tap_action.
+  _setValueFromTap(evt: PointerEvent): boolean {
+    const fraction = this._getTapFraction(evt);
+    if (fraction === null) return false;
+
+    const range = this._getRange();
+    this.currentValue = this._usesRangeSlider()
+      ? range.min + (range.max - range.min) * fraction
+      : 100 * fraction;
+
+    this._checklimits();
+    this._resetTrack();
+    this._updateSlider();
+    this._setValue();
+    return true;
   }
 
   _getDragValueDelta(delta: number, size: number, range: SliderRange): number {
@@ -658,9 +729,33 @@ export class BigSliderCard extends LitElement {
   _updateSlider(): void {
     const sliderPercentage = this._getSliderPercentage();
 
-    this.style.setProperty('--bsc-percent', sliderPercentage + '%');
+    // The fill is drawn where a tap for this value would land, so the two agree.
+    // The label keeps reporting the real value rather than the track position.
+    this.style.setProperty('--bsc-percent', this._getTrackPercentage(sliderPercentage) + '%');
     const percentage = this?.shadowRoot?.getElementById('percentage');
     percentage && (percentage.innerText = this._getSliderLabel(sliderPercentage));
+  }
+
+  /// Inverse of the edge_margin mapping in _getTapFraction: turns a value
+  /// percentage into the position along the track that represents it, so the
+  /// fill lines up with where a tap for that value lands.
+  ///
+  /// The extremes stay flush with the ends - an empty slider should look empty
+  /// and a full one full - so the fill jumps by the margin between the minimum
+  /// and the first step above it.
+  _getTrackPercentage(sliderPercentage: number): number {
+    const margin = this._getEdgeMargin();
+    if (margin <= 0) return sliderPercentage;
+    if (sliderPercentage <= EDGE_FLUSH_EPSILON) return 0;
+    if (sliderPercentage >= 100 - EDGE_FLUSH_EPSILON) return 100;
+
+    const position = 100 * (margin + (sliderPercentage / 100) * (1 - 2 * margin));
+    return Math.round(position * 1000) / 1000;
+  }
+
+  /// edge_margin as a 0-0.25 fraction of the track, taken off each end.
+  _getEdgeMargin(): number {
+    return Math.min(Math.max(this._config.edge_margin ?? 0, 0), MAX_EDGE_MARGIN) / 100;
   }
 
   _getSliderLabel(sliderPercentage: number): string {

@@ -1,5 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { createCard, createEntity, mount } from './fixtures';
+import type { SlideGestureEvent } from '@nicufarmache/slide-gesture';
+import type { BigSliderCard } from '../src/big-slider-card';
+import { createCard, createEntity, getCurrentValue, mount } from './fixtures';
 
 describe('actions and lifecycle', () => {
   afterEach(() => {
@@ -68,6 +70,148 @@ describe('actions and lifecycle', () => {
 
     card.remove();
     expect(vi.getTimerCount()).toBe(0);
+  });
+
+  const stubContainerRect = (card: BigSliderCard, rect: Partial<DOMRect>): void => {
+    const container = card.shadowRoot!.getElementById('container')!;
+    container.getBoundingClientRect = () => ({
+      left: 0, top: 0, right: 200, bottom: 50, width: 200, height: 50, x: 0, y: 0,
+      toJSON: () => ({}), ...rect,
+    }) as DOMRect;
+  };
+
+  const tap = (card: BigSliderCard, clientX: number, clientY: number): void => {
+    const extra = { relativeX: 0, relativeY: 0 } as SlideGestureEvent;
+    card._handlePointer(new PointerEvent('pointerdown', { clientX, clientY }), extra);
+    card._handlePointer(new PointerEvent('pointerup', { clientX, clientY }), extra);
+  };
+
+  const wobblyTap = (card: BigSliderCard, pointerType: string, wobble: number): void => {
+    const at = (dx: number) => ({ relativeX: dx, relativeY: 0 }) as SlideGestureEvent;
+    card._handlePointer(new PointerEvent('pointerdown', { clientX: 100, clientY: 25, pointerType }), at(0));
+    card._handlePointer(new PointerEvent('pointermove', {
+      clientX: 100 + wobble, clientY: 25, pointerType,
+    }), at(wobble));
+    card._handlePointer(new PointerEvent('pointerup', {
+      clientX: 100 + wobble, clientY: 25, pointerType,
+    }), at(wobble));
+  };
+
+  it('keeps a wobbly touch gesture a tap', async () => {
+    const entity = createEntity('light.test', 'on', { brightness: 255 });
+    const { card } = createCard(entity, { tap_to_set: true });
+    await mount(card);
+    stubContainerRect(card, {});
+
+    // 8px of finger wobble: past the mouse threshold, inside the touch one
+    wobblyTap(card, 'touch', 8);
+
+    expect(getCurrentValue(card)).toBeCloseTo(54);
+  });
+
+  it('treats the same movement from a mouse as a drag', async () => {
+    const entity = createEntity('light.test', 'on', { brightness: 255 });
+    const { card } = createCard(entity, { tap_to_set: true });
+    await mount(card);
+    stubContainerRect(card, {});
+
+    wobblyTap(card, 'mouse', 8);
+
+    // Relative drag from 100%, so it stays pinned at the top rather than
+    // jumping to the pointer position.
+    expect(getCurrentValue(card)).toBeCloseTo(100);
+  });
+
+  it('sets the value from the tap position when tap_to_set is enabled', async () => {
+    const entity = createEntity('light.test', 'on', { brightness: 255 });
+    const { card, callService } = createCard(entity, { tap_to_set: true });
+    await mount(card);
+    stubContainerRect(card, {});
+
+    tap(card, 150, 25);
+
+    expect(getCurrentValue(card)).toBeCloseTo(75);
+    expect(callService).toHaveBeenCalledWith('light', 'turn_on', expect.objectContaining({
+      entity_id: 'light.test', brightness: Math.round(75 / 100 * 255),
+    }));
+  });
+
+  it('measures the tap position from the bottom when vertical', async () => {
+    const entity = createEntity('light.test', 'on', { brightness: 255 });
+    const { card } = createCard(entity, { tap_to_set: true, vertical: true });
+    await mount(card);
+    stubContainerRect(card, {});
+
+    tap(card, 30, 40);
+
+    // 10px above the bottom of a 50px tall slider
+    expect(getCurrentValue(card)).toBeCloseTo(20);
+  });
+
+  it('maps the tap position into the entity range', async () => {
+    const entity = createEntity('number.test', '5', { min: 10, max: 20, step: 1 });
+    const { card } = createCard(entity, { tap_to_set: true });
+    await mount(card);
+    stubContainerRect(card, {});
+
+    tap(card, 50, 25);
+
+    expect(getCurrentValue(card)).toBeCloseTo(12.5);
+  });
+
+  it('clamps taps outside the slider bounds', async () => {
+    const entity = createEntity('light.test', 'on', { brightness: 255 });
+    const { card } = createCard(entity, { tap_to_set: true });
+    await mount(card);
+    stubContainerRect(card, {});
+
+    tap(card, -40, 25);
+    expect(getCurrentValue(card)).toBeCloseTo(0);
+
+    tap(card, 320, 25);
+    expect(getCurrentValue(card)).toBeCloseTo(100);
+  });
+
+  it('maps the outer band to the ends when edge_margin is set', async () => {
+    const entity = createEntity('light.test', 'on', { brightness: 255 });
+    const { card } = createCard(entity, { tap_to_set: true, edge_margin: 10 });
+    await mount(card);
+    stubContainerRect(card, {});
+
+    tap(card, 20, 25);                                  // 10% across a 200px track
+    expect(getCurrentValue(card)).toBeCloseTo(0);
+
+    tap(card, 180, 25);
+    expect(getCurrentValue(card)).toBeCloseTo(100);
+
+    tap(card, 100, 25);                                 // midpoint stays put
+    expect(getCurrentValue(card)).toBeCloseTo(50);
+  });
+
+  it('leaves the mapping alone without edge_margin', async () => {
+    const entity = createEntity('light.test', 'on', { brightness: 255 });
+    const { card } = createCard(entity, { tap_to_set: true });
+    await mount(card);
+    stubContainerRect(card, {});
+
+    tap(card, 20, 25);
+    expect(getCurrentValue(card)).toBeCloseTo(10);
+  });
+
+  it('keeps dispatching the tap action when tap_to_set is disabled', async () => {
+    const entity = createEntity('light.test', 'on', { brightness: 255 });
+    const { card, callService } = createCard(entity);
+    await mount(card);
+    stubContainerRect(card, {});
+    const actions: string[] = [];
+    card.addEventListener('hass-action', event => {
+      actions.push((event as CustomEvent).detail.action);
+    });
+
+    tap(card, 150, 25);
+
+    expect(actions).toEqual(['tap']);
+    expect(callService).not.toHaveBeenCalled();
   });
 
   it('blocks the context menu', () => {

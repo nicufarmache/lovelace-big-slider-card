@@ -41,6 +41,8 @@
       "hold_time": "Hold time",
       "settle_time": "Settle time",
       "immediate_update": "Update while sliding",
+      "tap_to_set": "Jump to tapped position",
+      "edge_margin": "Edge margin",
       "background_color": "Background color",
       "height": "Height",
       "width": "Width",
