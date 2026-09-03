@@ -1,2 +1,9 @@
 /node_modules/
 /coverage/
+ha-docker/config/.storage/
+ha-docker/config/.cloud/
+ha-docker/config/home-assistant*
+ha-docker/config/*.db*
+ha-docker/config/*.log*
+ha-docker/config/.HA_RESTORE_STATE
+ha-docker/config/www/big-slider-card.js
