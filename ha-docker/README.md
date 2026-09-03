@@ -1,6 +1,6 @@
 # Home Assistant Test Environment
 
-A minimal, self-contained Home Assistant Docker environment for testing `big-slider-card` under real-world conditions across multiple layouts and settings.
+A self-contained Home Assistant Docker environment for testing `big-slider-card` under real-world conditions with both **interactive UI editing** and **permanent YAML test suites**.
 
 ## Quick Start
 
@@ -19,41 +19,32 @@ A minimal, self-contained Home Assistant Docker environment for testing `big-sli
    ./ha-docker/stop.sh
    ```
 
-## Workflow for Testing Card Changes
+## Dashboards Available in the Sidebar
 
-When making changes to `src/`:
-1. Build and sync the bundle:
-   ```sh
-   ./ha-docker/start.sh
-   ```
-   (or run `npm run build && cp dist/big-slider-card.js ha-docker/config/www/big-slider-card.js`)
-2. In your browser on Home Assistant, do a hard refresh (**Cmd+Shift+R** or **Ctrl+Shift+R**) to reload the frontend resource.
+### 1. Overview / Interactive Sandbox (UI Editable)
+- **URL:** [http://localhost:8123/lovelace](http://localhost:8123/lovelace)
+- **Mode:** `storage` (full visual editing enabled)
+- **How to edit:**
+  1. Click the **three dots** in the top-right corner $\rightarrow$ **Edit Dashboard**.
+  2. Click the **pencil icon** on any card to edit its visual schema form or switch to the **Layout** tab to test row and column sliders.
+  3. Click **+ Add Card** to add new `custom:big-slider-card` instances directly from the visual card picker.
+- **Pre-populated Views:**
+  - **Sections Playground:** Editable sample cards (default, `height: 100`, `height: 150`, and vertical).
+  - **Masonry Playground:** Editable masonry cards.
 
-## Permanent Test Dashboard Pages
+### 2. Test Suite (YAML)
+- **URL:** [http://localhost:8123/test-suite](http://localhost:8123/test-suite)
+- **Mode:** `yaml` (permanent automated test fixtures from `ui-lovelace.yaml`)
+- **Dedicated Test Views:**
+  - **Sections - Bug #74 & Heights:** `56px`, `80px`, `100px`, `120px`, `150px`, plus forced 2-row and stretched 3-row grids.
+  - **Sections - Vertical Sliders:** Default 4 rows, `180px`, `300px`, and side-by-side sliders.
+  - **Supported Domains:** Lights (colorize/halo), Climate, Fans, Media Players.
+  - **Classic Masonry View:** Verification for standard views without regressions.
+  - **Stacks & Standard Grids:** Horizontal stacks, vertical stacks, and grid cards.
+  - **Styling & Theming:** Custom borders, colors, halos, icons, and opacities.
 
-The dashboard provides 6 dedicated test views accessible via top tabs or direct URLs:
+## Workflow for Testing Code Changes
 
-1. **Sections - Bug #74 & Heights:** [`/lovelace/sections-heights`](http://localhost:8123/lovelace/sections-heights)
-   - Default height (`56px`, 1 row)
-   - Incremental heights: `80px` (2 rows), `100px` (Bug #74 - 2 rows), `120px` (2 rows), `150px` (3 rows)
-   - User grid overrides: forced 2 rows, stretched 3 rows, full-width (12 columns)
-2. **Sections - Vertical Cards:** [`/lovelace/sections-vertical`](http://localhost:8123/lovelace/sections-vertical)
-   - Default vertical slider (4 rows)
-   - Custom heights: `180px` (4 rows), `300px` (5 rows)
-   - Multi-entity side-by-side vertical sliders (fan, media player)
-3. **Supported Domains:** [`/lovelace/domains`](http://localhost:8123/lovelace/domains)
-   - Interactive lights (brightness & colorized)
-   - Climate entity (`climate.heatpump` with target temperature)
-   - Fan entity (`fan.living_room_fan` with speed percentage)
-   - Media Player (`media_player.living_room` with volume)
-4. **Classic Masonry View:** [`/lovelace/masonry`](http://localhost:8123/lovelace/masonry)
-   - Default cards and custom height cards (`80px`, `100px`, `140px`, vertical `200px`)
-   - Verifies zero regressions in Home Assistant's classic view
-5. **Stacks & Standard Grids:** [`/lovelace/stacks`](http://localhost:8123/lovelace/stacks)
-   - Horizontal stack
-   - Vertical stack with custom height
-   - Native 2-column Grid card
-6. **Styling & Theming:** [`/lovelace/styling`](http://localhost:8123/lovelace/styling)
-   - Custom borders: color, dashed style, width, border radius
-   - Custom card colors, backgrounds, and slider fill opacity
-   - Custom icons and icon halo
+1. Edit code in `src/`.
+2. Run `./ha-docker/start.sh` (or `npm run build && cp dist/big-slider-card.js ha-docker/config/www/big-slider-card.js`).
+3. In your browser on Home Assistant, do a hard refresh (**Cmd+Shift+R** or **Ctrl+Shift+R**).

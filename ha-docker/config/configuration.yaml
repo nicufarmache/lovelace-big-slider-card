@@ -10,10 +10,14 @@ frontend:
     - /local/big-slider-card.js
 
 lovelace:
-  mode: yaml
-  resources:
-    - url: /local/big-slider-card.js
-      type: module
+  mode: storage
+  dashboards:
+    test-suite:
+      mode: yaml
+      title: "Test Suite (YAML)"
+      icon: mdi:test-tube
+      show_in_sidebar: true
+      filename: ui-lovelace.yaml
 
 input_boolean:
   couch:
