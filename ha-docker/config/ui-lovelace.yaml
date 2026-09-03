@@ -1,0 +1,52 @@
+title: Big Slider Card Test
+views:
+  - title: Sections (Issue #74)
+    type: sections
+    max_columns: 2
+    sections:
+      - title: Bug 74 Reproduction
+        cards:
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: Couch (Default Height)
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: Couch (height: 100 in 1 row)
+            height: 100
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: light.couch
+            name: Couch (height: 100 in 2 rows)
+            grid_options:
+              columns: 6
+              rows: 2
+            height: 100
+            show_percentage: true
+      - title: Other Entities & Variants
+        cards:
+          - type: custom:big-slider-card
+            entity: light.ceiling_lights
+            name: Ceiling Lights (Vertical)
+            vertical: true
+            grid_options:
+              columns: 3
+              rows: 4
+          - type: custom:big-slider-card
+            entity: fan.living_room_fan
+            name: Fan Speed
+            show_percentage: true
+          - type: custom:big-slider-card
+            entity: media_player.living_room
+            name: Media Player Volume
+            show_percentage: true
+  - title: Classic Masonry View
+    type: masonry
+    cards:
+      - type: custom:big-slider-card
+        entity: light.couch
+        name: Couch (Default Height)
+      - type: custom:big-slider-card
+        entity: light.couch
+        name: Couch (height: 100)
+        height: 100

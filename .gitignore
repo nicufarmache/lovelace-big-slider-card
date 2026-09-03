@@ -1,9 +1,7 @@
 /node_modules/
 /coverage/
-ha-docker/config/.storage/
-ha-docker/config/.cloud/
-ha-docker/config/home-assistant*
-ha-docker/config/*.db*
-ha-docker/config/*.log*
-ha-docker/config/.HA_RESTORE_STATE
-ha-docker/config/www/big-slider-card.js
+# Track only essential HA config templates, ignore all runtime data
+ha-docker/config/*
+ha-docker/config/.*
+!ha-docker/config/configuration.yaml
+!ha-docker/config/ui-lovelace.yaml

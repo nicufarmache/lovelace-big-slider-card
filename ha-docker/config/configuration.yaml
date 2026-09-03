@@ -1,0 +1,54 @@
+default_config:
+
+homeassistant:
+  name: Test Home Assistant
+  unit_system: metric
+  time_zone: UTC
+
+frontend:
+  extra_module_url:
+    - /local/big-slider-card.js
+
+lovelace:
+  mode: yaml
+  resources:
+    - url: /local/big-slider-card.js
+      type: module
+
+input_boolean:
+  couch:
+    name: Couch State
+    initial: on
+
+input_number:
+  couch_brightness:
+    name: Couch Brightness
+    min: 0
+    max: 255
+    initial: 255
+
+template:
+  - light:
+      - name: Couch
+        unique_id: couch_light
+        state: "{{ is_state('input_boolean.couch', 'on') }}"
+        level: "{{ states('input_number.couch_brightness') | int }}"
+        turn_on:
+          - action: input_boolean.turn_on
+            target:
+              entity_id: input_boolean.couch
+        turn_off:
+          - action: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.couch
+        set_level:
+          - action: input_number.set_value
+            target:
+              entity_id: input_number.couch_brightness
+            data:
+              value: "{{ brightness }}"
+          - action: input_boolean.turn_on
+            target:
+              entity_id: input_boolean.couch
+
+demo:
